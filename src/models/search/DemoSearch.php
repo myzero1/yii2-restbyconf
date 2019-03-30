@@ -2,6 +2,7 @@
 
 namespace myzero1\restbyconf\models\search;
 
+use myzero1\restbyconf\components\rest\Helper;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -107,13 +108,14 @@ class DemoSearch extends DemoModel implements SearchProcessing
             'created_at' => 'created_at',
             'updated_at' =>  'updated_at',
         ];
-        $sort = $this->getSort($outFieldNames);
-        $query ->orderBy([$sort['field'] => $sort['order']]);
+        $sort = $this->getSort($this->sort, $fields, '+id');
+//        $sortInfo = SearchHelper::getSort($this->sort, $fields, '+id');
+        $query ->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
         $query->select(array_values($outFieldNames));
 
-        $tiems = $query->all();
-        $result['items'] = $this->mappingDb2output($tiems);
+        $items = $query->all();
+        $result['items'] = $this->mappingDb2output($items);
 
         return  $result;
     }
@@ -126,18 +128,36 @@ class DemoSearch extends DemoModel implements SearchProcessing
         ];
     }
 
-    public function getSort($validatedInput){
+    public function getSort($validatedInput, $fields, $defafult){
+        if (isset($validatedInput['sort'])) {
+            $sortInfo = Helper::getSort($validatedInput['sort'], $fields, $defafult);
+        } else {
+            $sortInfo = Helper::getSort('+myzeroqtest', $fields, $defafult);
+        }
 
-        return  $input;
+        return  $sortInfo;
     }
 
     public function getPagination($validatedInput){
+        $pagination = [];
+        if (isset($validatedInput['page'])) {
+            $validatedInput['page'] = $validatedInput['page'];
+        } else {
+            $pagination['page'] = 1;
+        }
+        if (isset($validatedInput['page_size'])) {
+            $pagination['page_size'] = $validatedInput['page_size'];
+        } else {
+            $pagination['page_size'] = 30;
+        }
 
-        return  $input;
+        return  $pagination;
     }
 
     public function mappingDb2output($resultData){
-        return  $input;
+        foreach ($resultData as $k => $v) {
+            $resultData[$k]['created_at'] = Helper::time2string($v['created_at']);
+            $resultData[$k]['updated_at'] = Helper::time2string($v['updated_at']);
+        }
     }
-
 }

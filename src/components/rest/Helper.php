@@ -141,4 +141,78 @@ class Helper
             return false;
         }
     }
+
+
+    /**
+     * @param string $sort +id,-id
+     * @param string $defaultSort +id
+     * @param array $sortFiledArray ['id','name']
+     * @return mixed false | ['sort'=>SORT_ASC, 'sortFile'=>'id]
+     */
+    public static function getSort($sort, $sortFiledArray, $defaultSort)
+    {
+        $checkedSort = self::checkSortInput($sort);
+
+        if ($checkedSort !== false) {
+            if (!in_array($checkedSort['sortFiled'], $sortFiledArray)) {
+                return false;
+            } else {
+                return self::decodeSort($checkedSort);
+            }
+        } else {
+            $checkedSortDefault = self::checkSortInput($defaultSort);
+            if ($checkedSortDefault !== false) {
+                if (!in_array($checkedSortDefault['sortFiled'], $sortFiledArray)) {
+                    return false;
+                } else {
+                    return self::decodeSort($checkedSortDefault);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param array ['sort'=>'+', 'sortFiled'=>'id']
+     * @return array
+     */
+    public static function decodeSort($sort)
+    {
+        $sortSetting = [
+            '+' => SORT_ASC,
+            '-' => SORT_DESC,
+        ];
+
+        return [
+            'sort' => $sortSetting[$sort['sort']],
+            'sortFiled' => $sort['sortFiled'],
+        ];
+    }
+
+    /**
+     * @param string $sort +id,+ id
+     * @return mixed false | +id
+     */
+    public static function checkSortInput($sort)
+    {
+        $trimSort = trim($sort);
+        $pre = substr($trimSort, 0, 1);
+        $sortFiled = substr($trimSort, 1);
+        $sortFiled = trim($sortFiled);
+
+        if (!empty($pre) && !empty($sortFiled)) {
+            if (in_array($pre, ['+', '-'])) {
+                return [
+                    'sort' => $pre,
+                    'sortFiled' => $sortFiled,
+                ];
+            } else {
+                return [
+                    'sort' => '+',
+                    'sortFiled' => $trimSort,
+                ];
+            }
+        } else {
+            return false;
+        }
+    }
 }
