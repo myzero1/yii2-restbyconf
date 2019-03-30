@@ -54,14 +54,14 @@ class BasicController extends ActiveController
             ],
         ];
 
-        $behaviors['authenticator'] = [
-            'class' => HttpBearerAuth::className(),
-            'optional' => [
-                'login',  //认证排除登录接口
-                'join', //认证排除注册用户
-            ],
-            'except' => ['options'], //认证排除OPTIONS请求
-        ];
+        // $behaviors['authenticator'] = [
+        //     'class' => HttpBearerAuth::className(),
+        //     'optional' => [
+        //         'login',  //认证排除登录接口
+        //         'join', //认证排除注册用户
+        //     ],
+        //     'except' => ['options'], //认证排除OPTIONS请求
+        // ];
 
         # rate limit部分，速度的设置是在
         #   app\models\User::getRateLimit($request, $action)
