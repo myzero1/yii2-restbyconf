@@ -45,7 +45,7 @@ interface UpdateProcessing
      * @param  array $completedData completed data
      * @return array
      */
-    public function save($completedData);
+    public function save($id, $completedData);
 
     /**
      * @param  array $savedData saved data

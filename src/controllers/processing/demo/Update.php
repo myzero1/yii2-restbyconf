@@ -40,7 +40,7 @@ class Update implements UpdateProcessing
         } else {
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
-            $savedData = $this->save($completedData);
+            $savedData = $this->save($id, $completedData);
             $db2outData = $this->mappingDb2output($savedData);
             $result = $this->completeResult($db2outData);
             return $result;
@@ -98,7 +98,6 @@ class Update implements UpdateProcessing
     public function completeData($in2dbData)
     {
         $time = time();
-        $in2dbData['created_at'] = $time;
         $in2dbData['updated_at'] = $time;
 
         return $in2dbData;
@@ -109,9 +108,9 @@ class Update implements UpdateProcessing
      * @return array
      * @throws ServerErrorHttpException
      */
-    public function save($completedData)
+    public function save($id, $completedData)
     {
-        $model = new Model();
+        $model = $this->findModel($id);
         $model->load($completedData, '');
         if ($model->save()) {
             $savedData = $model->attributes;
@@ -154,5 +153,19 @@ class Update implements UpdateProcessing
         ];
 
         return $result;
+    }
+
+    /**
+     * @param integer $id
+     * @return model the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function findModel($id)
+    {
+        if (($model = Model::find()->where(['id' => $id])->one()) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 }

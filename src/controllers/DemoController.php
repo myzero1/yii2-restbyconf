@@ -23,7 +23,7 @@ class DemoController extends BasicController
             'update' => [
                 'class' => 'myzero1\restbyconf\components\rest\UpdateAction',
                 'modelClass' => $this->modelClass,
-                'processingClass' => 'myzero1\restbyconf\controllers\processing\DemoProcessing',
+                'processingClass' => 'myzero1\restbyconf\controllers\processing\demo\Update',
             ],
             'view' => [
                 'class' => 'myzero1\restbyconf\components\rest\ViewAction',
