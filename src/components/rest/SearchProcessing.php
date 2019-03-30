@@ -52,18 +52,11 @@ interface SearchProcessing
      * @param  array $validatedInput
      * @return array
      */
-    public function getSort($validatedInput);
+    public function getSort($validatedInput, $fields, $defafult);
 
     /**
      * @param  array $validatedInput
      * @return array
      */
     public function getPagination($validatedInput);
-
-    /**
-     * @param  array $validatedInput
-     * @return string
-     */
-    public function getQuery($validatedInput);
-
 }

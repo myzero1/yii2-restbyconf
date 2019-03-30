@@ -7,6 +7,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\data\SqlDataProvider;
+use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\SearchHelper;
 use myzero1\restbyconf\components\rest\CodeMsg;
 use myzero1\restbyconf\components\rest\SearchProcessing;
@@ -41,7 +42,7 @@ class DemoSearch extends DemoModel implements SearchProcessing
         return [
             [['demo_name', 'demo_description', 'sort', 'page', 'page_size'], 'trim'],
 
-            [['demo_name', 'demo_description'], 'required'],
+//            [['demo_name', 'demo_description'], 'required'],
 
             [['sort', 'page', 'page_siz'], 'safe'],
             [['page', 'page_size'], 'integer'],
@@ -59,6 +60,7 @@ class DemoSearch extends DemoModel implements SearchProcessing
 
 
     public function processing(){
+        $input = Yii::$app->request->queryParams;
         $validatedInput = $this->inputValidate($input);
         $db2outData = $this->getResult($validatedInput);
         $result = $this->completeResult($db2outData);
@@ -75,6 +77,7 @@ class DemoSearch extends DemoModel implements SearchProcessing
 
             return $input;
         } else {
+//            var_dump($this->errors);exit;
             throw new ServerErrorHttpException('Failed to search items for validation reason.');
         }
     }
@@ -108,8 +111,8 @@ class DemoSearch extends DemoModel implements SearchProcessing
             'created_at' => 'created_at',
             'updated_at' =>  'updated_at',
         ];
-        $sort = $this->getSort($this->sort, $fields, '+id');
-//        $sortInfo = SearchHelper::getSort($this->sort, $fields, '+id');
+
+        $sort = $this->getSort($validatedInput, array_keys($outFieldNames), '+id');
         $query ->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
         $query->select(array_values($outFieldNames));
