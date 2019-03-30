@@ -68,7 +68,7 @@ class DemoSearch extends DemoModel implements SearchProcessing
     }
 
     public function inputValidate($input){
-        $this->load($input);
+        $this->load($input, '');
 
         if ($this->validate()) {
             foreach ($input as $k => $y) {
@@ -117,6 +117,7 @@ class DemoSearch extends DemoModel implements SearchProcessing
 
         $query->select(array_values($outFieldNames));
 
+        // var_dump($query->createCommand()->getRawSql());exit;
         $items = $query->all();
         $result['items'] = $this->mappingDb2output($items);
 
@@ -129,6 +130,8 @@ class DemoSearch extends DemoModel implements SearchProcessing
             'msg' => CodeMsg::SUCCESS_MSG,
             'data' => $db2outData,
         ];
+
+        return $result;
     }
 
     public function getSort($validatedInput, $fields, $defafult){
@@ -162,5 +165,7 @@ class DemoSearch extends DemoModel implements SearchProcessing
             $resultData[$k]['created_at'] = Helper::time2string($v['created_at']);
             $resultData[$k]['updated_at'] = Helper::time2string($v['updated_at']);
         }
+
+        return $resultData;
     }
 }

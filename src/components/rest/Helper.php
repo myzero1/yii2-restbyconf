@@ -6,6 +6,7 @@
  */
 
 namespace myzero1\restbyconf\components\rest;
+use yii\web\ServerErrorHttpException;
 
 /**
  * Some Helpful function
@@ -154,19 +155,30 @@ class Helper
         $checkedSort = self::checkSortInput($sort);
 
         if ($checkedSort !== false) {
-            if (!in_array($checkedSort['sortFiled'], $sortFiledArray)) {
-                return false;
-            } else {
+            if (in_array($checkedSort['sortFiled'], $sortFiledArray)) {
                 return self::decodeSort($checkedSort);
+            } else {
+                $checkedSortDefault = self::checkSortInput($defaultSort);
+                if ($checkedSortDefault !== false) {
+                    if (in_array($checkedSortDefault['sortFiled'], $sortFiledArray)) {
+                        return self::decodeSort($checkedSortDefault);
+                    } else {
+                        throw new ServerErrorHttpException('Failed to get sort for checkedSortDefault reason.');
+                    }
+                } else {
+                    throw new ServerErrorHttpException('Failed to get sort for checkedSortDefault reason.');
+                }
             }
         } else {
             $checkedSortDefault = self::checkSortInput($defaultSort);
             if ($checkedSortDefault !== false) {
-                if (!in_array($checkedSortDefault['sortFiled'], $sortFiledArray)) {
-                    return false;
-                } else {
+                if (in_array($checkedSortDefault['sortFiled'], $sortFiledArray)) {
                     return self::decodeSort($checkedSortDefault);
+                } else {
+                    throw new ServerErrorHttpException('Failed to get sort for not a sort field reason.');
                 }
+            } else {
+                throw new ServerErrorHttpException('Failed to get sort for checkedSortDefault reason.');
             }
         }
     }
