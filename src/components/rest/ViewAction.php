@@ -1,26 +1,23 @@
 <?php
 /**
- * @link http://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @link https://github.com/myzero1
+ * @copyright Copyright (c) 2019- My zero one
+ * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
 namespace myzero1\restbyconf\components\rest;
 
-use Yii;
 use yii\base\Model;
 use yii\base\InvalidConfigException;
-use yii\web\ServerErrorHttpException;
 use yii\rest\Action;
-use myzero1\restbyconf\components\rest\Helper;
 
 /**
- * CreateAction implements the API endpoint for creating a new model from the given data.
+ * ViewAction extends Action.
  *
- * For more details and usage information on CreateAction, see the [guide article on rest controllers](guide:rest-controllers).
+ * For more details and usage information on CreateAction, see the [guide article](https://github.com/myzero1/yii2-restbyconf).
  *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @since 2.0
+ * @author Myzero1 <myzero1@sina.com>
+ * @since 0.0
  */
 class ViewAction extends Action
 {
@@ -35,13 +32,9 @@ class ViewAction extends Action
      * @var string the scenario to be assigned to the new model before it is validated and saved.
      */
     public $scenario = Model::SCENARIO_DEFAULT;
-    /**
-     * @var string the name of the view action. This property is needed to create the URL when the model is successfully created.
-     */
-    public $viewAction = 'view';
 
     /**
-     * {@inheritdoc}
+     * @throws \yii\base\InvalidConfigException
      */
     public function init()
     {
@@ -52,10 +45,9 @@ class ViewAction extends Action
     }
 
     /**
-     * Updates an existing model.
-     * @param string $id the primary key of the model.
-     * @return \yii\db\ActiveRecordInterface the model being updated
-     * @throws ServerErrorHttpException if there is any error when updating the model
+     * Update a new model.
+     * @param mixed $id
+     * @return \yii\db\ActiveRecordInterface the model newly created
      */
     public function run($id)
     {
@@ -64,8 +56,6 @@ class ViewAction extends Action
         }
 
         $processing = new $this->processingClass();
-        $output = $processing->view($id);
-
-        Helper::response($output);
+        return $processing->processing($id);
     }
 }

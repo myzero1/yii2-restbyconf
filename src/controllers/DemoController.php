@@ -28,12 +28,12 @@ class DemoController extends BasicController
             'view' => [
                 'class' => 'myzero1\restbyconf\components\rest\ViewAction',
                 'modelClass' => $this->modelClass,
-                'processingClass' => 'myzero1\restbyconf\controllers\processing\DemoProcessing',
+                'processingClass' => 'myzero1\restbyconf\controllers\processing\demo\View',
             ],
             'delete' => [
                 'class' => 'myzero1\restbyconf\components\rest\DeleteAction',
                 'modelClass' => $this->modelClass,
-                'processingClass' => 'myzero1\restbyconf\controllers\processing\DemoProcessing',
+                'processingClass' => 'myzero1\restbyconf\controllers\processing\demo\Delete',
             ],
             'index' => [
                 'class' => 'myzero1\restbyconf\components\rest\IndexAction',
