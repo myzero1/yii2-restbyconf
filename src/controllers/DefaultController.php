@@ -23,8 +23,8 @@ class DefaultController extends Controller
      * @return string
      */
     public function actionSwagger()
-    {
-        return $this->render('swagger');
+    { 
+        return $this->renderAjax('swagger');
     }
 
     /**

@@ -6,14 +6,16 @@ use yii\web\AssetBundle;
  */
 class SwaggerAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/myzero1/yii2-restbyconf/src/components/swagger/swagger-ui-3.22.0-dist';
+    public $sourcePath = '@vendor/myzero1/yii2-restbyconf/src/components/swagger/asset';
     //public $baseUrl = '@web';
     public $css = [
-        'swagger-ui.css',
+        'swagger-ui-3.22.0-dist/swagger-ui.css',
+        'custom.css',
     ];
     public $js = [
-        'swagger-ui-bundle.js',
-        'swagger-ui-standalone-preset.js',
+        'swagger-ui-3.22.0-dist/swagger-ui-bundle.js',
+        'swagger-ui-3.22.0-dist/swagger-ui-standalone-preset.js',
+        'custom.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
