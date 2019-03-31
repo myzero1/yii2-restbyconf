@@ -54,24 +54,26 @@
                     "schema": {
                         "type": "object",
                         "properties": {
-                            "id": {
-                                "type": "integer",
-                                "format": "int64"
-                            },
                             "username": {
-                                "type": "string"
+                                "type": "string",
+                                "example": "myzero1",
+                                "description": "It will be used to login"
                             },
                             "firstName": {
-                                "type": "string"
+                                "type": "string",
+                                "example": "myzero1"
                             },
                             "lastName": {
-                                "type": "string"
+                                "type": "string",
+                                "example": "Qin"
                             },
                             "email": {
-                                "type": "string"
+                                "type": "string",
+                                "example": "myzero1@sina.com"
                             },
                             "password": {
-                                "type": "string"
+                                "type": "string",
+                                "example": "123456"
                             }
                         }
                     },
