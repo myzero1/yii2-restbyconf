@@ -149,7 +149,7 @@ $unEditablePath = getUnEditablePath($json);
 $json = json_encode(json_decode($json,true));
 $schema = json_encode(json_decode($schema,true));
 $js = <<<js
-    function onEditable(node) {
+    var onEditable = function(node) {
         var unEditable = $unEditablePath;
         // console.log(unEditable);
         if (Array.isArray(node.path)) {
@@ -167,9 +167,9 @@ $js = <<<js
         }
     }
 
-    function onChangeJSON(json) {
+    var onChangeJSON = function onChangeJSON(json) {
         var conf = document.getElementById('generator-conf');
-        conf.value(json);
+            conf.setAttribute('value', JSON.stringify(json));
     }
 
     var schema = $schema;
@@ -180,11 +180,8 @@ $js = <<<js
         schemaRefs: {"job": schema['job']},
         mode: 'tree',
         modes: ['view', 'tree'],
-        // onEditable: onEditable(node),
-        onChangeJSON: function(json){
-            var conf = document.getElementById('generator-conf');
-            conf.setAttribute('value', JSON.stringify(json));
-        }
+        onEditable: onEditable,
+        onChangeJSON: onChangeJSON
     };
 
     // create the editor
