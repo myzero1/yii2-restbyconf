@@ -18,98 +18,13 @@ $asset = myzero1\restbyconf\assets\php\JsonEditorAsset::register($this);
 
 <?php
 
-$json = <<<'json'
-{
-    "firstName": "John",
-    "lastName": "Doe",
-    "gender": "null",
-    "age": "28",
-    "availableToHire": true,
-    "job": {
-      "company": "freelance",
-      "role": "developer",
-      "salary": 100
-    }
-}
-json;
-// $json = json_encode(json_decode($json,true));
+$confPath = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf');
+$schemaFile = sprintf('%s/schema.json', $confPath);
+$jsonFile = sprintf('%s/json.json', $confPath);
 
-$schema = <<<'json'
-{
-    "schema": {
-        "title": "Example Schema",
-        "type": "object",
-        "properties": {
-          "firstName": {
-            "title": "First Name",
-            "description": "The given name.",
-            "examples": [
-              "John"
-            ],
-            "type": "string"
-          },
-          "lastName": {
-            "title": "Last Name",
-            "description": "The family name.",
-            "examples": [
-              "Smith"
-            ],
-            "type": "string"
-          },
-          "gender": {
-            "title": "Gender",
-            "enum": ["male", "female"]
-          },
-          "availableToHire": {
-            "type": "boolean",
-            "default": false
-          },
-          "age": {
-            "description": "Age in years",
-            "type": "integer",
-            "minimum": 0,
-            "examples": [28, 32]
-          },
-          "job": {
-            "$ref": "job"
-          }
-        },
-        "required": ["firstName", "lastName"]
-    },
-    "job": {
-        "title": "Job description",
-        "type": "object",
-        "required": ["address"],
-        "properties": {
-          "company": {
-            "type": "string",
-            "examples": [
-              "ACME",
-              "Dexter Industries"
-            ]
-          },
-          "role": {
-            "description": "Job title.",
-            "type": "string",
-            "examples": [
-              "Human Resources Coordinator",
-              "Software Developer"
-            ],
-            "default": "Software Developer"
-          },
-          "address": {
-            "type": "string"
-          },
-          "salary": {
-            "type": "number",
-            "minimum": 120,
-            "examples": [100, 110, 120]
-          }
-        }
-    }
-}
-json;
-// $schema = json_encode(json_decode($schema,true));
+$json = file_get_contents($jsonFile);
+$schema = file_get_contents($schemaFile);
+
 function getUnEditablePath($json){
     $unEditable = [
         'swagger',

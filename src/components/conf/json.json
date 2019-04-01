@@ -1,0 +1,12 @@
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "gender": "null",
+    "age": "28",
+    "availableToHire": true,
+    "job": {
+      "company": "freelance",
+      "role": "developer",
+      "salary": 100
+    }
+}
