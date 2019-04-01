@@ -167,13 +167,24 @@ $js = <<<js
         }
     }
 
+    function onChangeJSON(json) {
+        var conf = document.getElementById('generator-conf');
+        conf.value(json);
+    }
+
     var schema = $schema;
 
     var options = {
+        name: "Restfull api configuration",
         schema: schema['schema'],
         schemaRefs: {"job": schema['job']},
         mode: 'tree',
-        modes: ['view', 'tree']
+        modes: ['view', 'tree'],
+        // onEditable: onEditable(node),
+        onChangeJSON: function(json){
+            var conf = document.getElementById('generator-conf');
+            conf.setAttribute('value', JSON.stringify(json));
+        }
     };
 
     // create the editor
