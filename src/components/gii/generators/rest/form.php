@@ -65,17 +65,19 @@ $json = json_encode(json_decode($json,true));
 $schema = json_encode(json_decode($schema,true));
 $js = <<<js
     var onEditable = function(node) {
-        var unEditable = $unEditablePath;
+        var unEditable = [
+            'swagger',
+        ];
         // console.log(unEditable);
         if (Array.isArray(node.path)) {
             var path = node.path.join('-');
             if (unEditable.indexOf(path) > -1) {
+                return false;
+            } else {
                 return {
                   field: false,
                   value: true
                 };
-            } else {
-                return true;
             }
         } else {
             return true;
@@ -92,7 +94,7 @@ $js = <<<js
     var options = {
         name: "Restfull api configuration",
         schema: schema['schema'],
-        schemaRefs: {"job": schema['job']},
+        schemaRefs: schema,
         mode: 'tree',
         modes: ['view', 'tree'],
         onEditable: onEditable,

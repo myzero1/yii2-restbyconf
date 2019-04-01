@@ -1,16 +1,25 @@
 {
     "schema": {
-        "title": "Example Schema",
+        "title": "Restfull api configuration",
         "type": "object",
+        "required": ["swagger", "info"],
         "properties": {
-          "firstName": {
-            "title": "First Name",
-            "description": "The given name.",
-            "examples": [
-              "John"
-            ],
-            "type": "string"
+          "swagger": {
+              "title": "swagger version",
+              "description": "It can not edit.",
+              "type": "string",
+              "examples": [
+                "2.0"
+              ]
           },
+          "info": {
+            "$ref": "info"
+          },
+
+
+
+
+
           "lastName": {
             "title": "Last Name",
             "description": "The family name.",
@@ -36,9 +45,103 @@
           "job": {
             "$ref": "job"
           }
-        },
-        "required": ["firstName", "lastName"]
+        }
     },
+    "info": {
+        "title": "Info description",
+        "type": "object",
+        "required": [
+            "description",
+            "version",
+            "title",
+            "termsOfService",
+            "contact",
+            "license"
+        ],
+        "properties": {
+            "description": {
+                "type": "string",
+                "examples": [
+                  "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters."
+                ]
+            },
+            "version": {
+                "title": "Api version",
+                "type": "string",
+                "examples": [
+                  "1.0.0",
+                  "1.0.1"
+                ]
+            },
+            "title": {
+                "title": "Api title",
+                "type": "string",
+                "examples": [
+                  "Create restfull api by conf.",
+                  "Swagger Petstore"
+                ]
+            },
+            "termsOfService": {
+                "title": "The terms of service",
+                "type": "string",
+                "examples": [
+                  "https://github.com/myzero1/yii2-restbyconf",
+                  "http://swagger.io/terms/"
+                ]
+            },
+            "contact": {
+                "$ref": "contact"
+            },
+            "license": {
+                "$ref": "license"
+            }
+        }
+    },
+    "contact": {
+        "title": "contact description",
+        "type": "object",
+        "required": [
+            "email"
+        ],
+        "properties": {
+            "email": {
+                "title": "email",
+                "description": "The contact email",
+                "type": "string",
+                "examples": [
+                  "myzero1@sina.com",
+                  "apiteam@swagger.io"
+                ]
+            }
+        }
+    },
+    "license": {
+        "title": "contact description",
+        "type": "object",
+        "required": [
+            "name",
+            "url"
+        ],
+        "properties": {
+            "name": {
+                "type": "string",
+                "examples": [
+                    "Apache 2.0"
+                ]
+            },
+            "url": {
+                "type": "string",
+                "examples": [
+                    "http://www.apache.org/licenses/LICENSE-2.0.html"
+                ]
+            }
+        }
+    },
+
+
+
+
+
     "job": {
         "title": "Job description",
         "type": "object",
