@@ -152,6 +152,86 @@ $jsonStr = <<<'json'
 }
 json;
 
+$generator->conf = json_encode(json_decode($jsonStr));
+//-------------------
+$schemaStr = <<<'json'
+{
+    "title": "Api Schema",
+    "type": "object",
+    "properties": {
+          "swagger": {
+                "title": "First",
+                "description": "The",
+                "examples": [
+                  "John"
+                ],
+                "type": "string"
+          }
+          "info": {
+                "title": "First",
+                "description": "The",
+                "examples": [
+                  "John"
+                ],
+                "type": "string"
+          }
+          "host": {
+                "title": "First",
+                "description": "The",
+                "examples": [
+                  "John"
+                ],
+                "type": "string"
+          }
+          "basePath": {
+                "title": "First",
+                "description": "The",
+                "examples": [
+                  "John"
+                ],
+                "type": "string"
+          },
+          "externalDocs": {
+                "title": "First",
+                "description": "The",
+                "examples": [
+                  "John"
+                ],
+                "type": "string"
+          },
+          "schemes": {
+                "title": "First",
+                "description": "The",
+                "examples": [
+                  "John"
+                ],
+                "type": "string"
+          },
+          "securityDefinitions": {
+                "title": "First",
+                "description": "The",
+                "examples": [
+                  "John"
+                ],
+                "type": "string"
+          },
+          "paths": {
+                "title": "First",
+                "description": "The",
+                "examples": [
+                  "John"
+                ],
+                "type": "string"
+          },
+    },
+    "required": ["title", "info"]
+  };
+json;
+
+//-------------------
+//-------------------
+//-------------------
+//-------------------
 $unEditable = [
     'swagger',
     'info',
@@ -181,7 +261,6 @@ foreach ($json as $k => $v) {
 $unEditablePath[] = 'paths';
 $unEditablePath = json_encode($unEditablePath);
 //var_dump($unEditablePath);exit;
-$generator->conf = json_encode(json_decode($jsonStr));
 
 $onEditable = <<<js
 function onEditable(node) {
@@ -235,6 +314,7 @@ js;
             'clientOptions' => [
                 'modes' => ['tree', 'view'],
                 'onEditable' => $onEditable,
+                'schema' => json_encode(json_decode($schemaStr)),
             ],
         ]
     );
