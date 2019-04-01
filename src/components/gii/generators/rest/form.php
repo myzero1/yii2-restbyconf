@@ -3,9 +3,16 @@
 /* @var $form yii\widgets\ActiveForm */
 /* @var $generator yii\gii\generators\module\Generator */
 
+use kdn\yii2\JsonEditor;
+
 ?>
-<div class="module-form">
+<div class="rest-form">
 <?php
-    echo $form->field($generator, 'conf')->textArea();
+    echo $form->field($generator, 'conf')->widget(
+        '\kdn\yii2\JsonEditor',
+        [
+            'clientOptions' => ['modes' => ['code', 'tree']],
+        ]
+    );
 ?>
 </div>
