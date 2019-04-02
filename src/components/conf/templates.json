@@ -1,5 +1,80 @@
 [
     {
+        "name": "user",
+        "description": "Operations about user",
+        "externalDocs": 
+        {
+            "description": "Find out more about our store",
+            "url": "http://swagger.io"
+        },
+        "actions": {
+            "index": {},
+            "create": {},
+            "update": {},
+            "view": {},
+            "delete": {},
+            "/user": {
+                "get": {
+                    "summary": "Create user",
+                    "description": "This can only be done by the logged in user.",
+                    "operationId": "createUser",
+                    "produces": ["application/xml", "application/json"],
+                    "parameters": [{
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created user object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string",
+                                    "example": "myzero1",
+                                    "description": "It will be used to login"
+                                },
+                                "firstName": {
+                                    "type": "string",
+                                    "example": "myzero1"
+                                },
+                                "lastName": {
+                                    "type": "string",
+                                    "example": "Qin"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "myzero1@sina.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "123456"
+                                }
+                            }
+                        }
+                    }],
+                    "responses": {
+                        "default": {
+                            "description": "successful operation"
+                        }
+                    },
+                    "security": [{
+                        "api_key": []
+                    }]
+                }
+            }
+        }
+    },
+    {
+        "text": "Tag",
+        "title": "Insert a Tag Node",
+        "className": "jsoneditor-type-object",
+        "field": "TagTemplate",
+        "value": {
+            "firstName": "John",
+            "lastName": "Do",
+            "age": 282
+        }
+    },
+    {
         "text": "Tag",
         "title": "Insert a Tag Node",
         "className": "jsoneditor-type-object",
