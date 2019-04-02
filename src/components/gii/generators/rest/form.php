@@ -83,6 +83,8 @@ $js = <<<js
         adjustBackground();
         var unEditable = [
             'swagger',
+            'securityDefinitions-api_key-type',
+            'securityDefinitions-api_key-in'
         ];
         // console.log(unEditable);
         if (Array.isArray(node.path)) {

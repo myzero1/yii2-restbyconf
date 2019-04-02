@@ -158,70 +158,55 @@
                   }
               }
           },
-
-
-
-
-
-          "lastName": {
-            "title": "Last Name",
-            "description": "The family name.",
-            "examples": [
-              "Smith"
-            ],
-            "type": "string"
+          "schemes": {
+              "title": "schemes",
+              "enum": [
+                  "https",
+                  "http"
+              ]
           },
-          "gender": {
-            "title": "Gender",
-            "enum": ["{male:1}", "{female:2}"]
-          },
-          "availableToHire": {
-            "type": "boolean",
-            "default": false
-          },
-          "age": {
-            "description": "Age in years",
-            "type": "integer",
-            "minimum": 0,
-            "examples": [28, 32]
-          },
-          "job": {
-            "$ref": "job"
-          }
-        }
-    },
-
-
-
-
-    "job": {
-        "title": "Job description",
-        "type": "object",
-        "required": ["address"],
-        "properties": {
-          "company": {
-            "type": "string",
-            "examples": [
-              "ACME",
-              "Dexter Industries"
-            ]
-          },
-          "role": {
-            "description": "Job title.",
-            "type": "string",
-            "examples": [
-              "Human Resources Coordinator",
-              "Software Developer"
-            ],
-            "default": "Software Developer"
-          },
-          "address": {
-            "type": "string"
-          },
-          "salary": {
-            "type": "number",
-            "minimum": 120,
-            "examples": [100, 110, 120]
+          "securityDefinitions": {
+              "title": "securityDefinitions description",
+              "type": "object",
+              "required": [
+                  "api_key"
+              ],
+              "properties": {
+                  "api_key": {
+                      "title": "api_key description",
+                      "type": "object",
+                      "required": [
+                          "type",
+                          "name"
+                      ],
+                      "properties": {
+                          "type": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 32,
+                              "examples": [
+                                "apiKey"
+                              ]
+                          },
+                          "in": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 32,
+                              "examples": [
+                                "header"
+                              ]
+                          },
+                          "name": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 32,
+                              "examples": [
+                                "api_key"
+                              ]
+                          }
+                      }
+                  }
+              }
           }
         }
     }

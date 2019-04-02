@@ -19,16 +19,12 @@
         "description": "11Find out more about Swagger",
         "url": "http://swagger.io"
     },
-
-
-    
-    "lastName": "Doe",
-    "gender": "{male:1}",
-    "age": "28",
-    "availableToHire": true,
-    "job": {
-      "company": "freelance",
-      "role": "developer",
-      "salary": 100
+    "schemes": "http",
+    "securityDefinitions": {
+        "api_key": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "api_key"
+        }
     }
 }
