@@ -104,6 +104,14 @@ $js = <<<js
         var conf = document.getElementById('generator-conf');
             conf.setAttribute('value', JSON.stringify(json));
     }
+    
+    var onCreateMenu = function onCreateMenu(items, path) {
+        // console.log(items);
+        // console.log(path);
+        
+        // return items;
+        return [];
+    }
 
     var schema = $schema;
 
@@ -114,7 +122,8 @@ $js = <<<js
         mode: 'tree',
         modes: ['view', 'tree'],
         onEditable: onEditable,
-        onChangeJSON: onChangeJSON
+        onChangeJSON: onChangeJSON,
+        onCreateMenu: onCreateMenu
     };
 
     // create the editor
