@@ -105,9 +105,10 @@ $js = <<<js
 
             if(node.path.length == 2 && node.path[0] == 'tags'){
                 console.log(node);
+                console.log(this.schema);
 
                 var schema = this.schema;
-                schema['properties'][node.field] = {
+                schema['properties']['tags'][node.field] = {
                   "\$ref": "tag"
                 };
 
