@@ -18,7 +18,7 @@
 
     
     "lastName": "Doe",
-    "gender": "null",
+    "gender": "{male:1}",
     "age": "28",
     "availableToHire": true,
     "job": {

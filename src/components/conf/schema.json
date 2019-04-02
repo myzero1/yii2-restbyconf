@@ -30,7 +30,7 @@
           },
           "gender": {
             "title": "Gender",
-            "enum": ["male", "female"]
+            "enum": ["{male:1}", "{female:2}"]
           },
           "availableToHire": {
             "type": "boolean",
@@ -66,8 +66,11 @@
                 ]
             },
             "version": {
-                "title": "Api version",
+                "title": "The api version",
                 "type": "string",
+                "minLength": 1,
+                "maxLength": 12,
+                "pattern": "^[0-9][0-9.]{0,}[0-9]$",
                 "examples": [
                   "1.0.0",
                   "1.0.1"
@@ -108,6 +111,7 @@
                 "title": "email",
                 "description": "The contact email",
                 "type": "string",
+                "format": "email",
                 "examples": [
                   "myzero1@sina.com",
                   "apiteam@swagger.io"
