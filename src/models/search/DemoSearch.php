@@ -5,8 +5,6 @@ namespace myzero1\restbyconf\models\search;
 use myzero1\restbyconf\components\rest\Helper;
 use Yii;
 use yii\base\Model;
-use yii\data\ActiveDataProvider;
-use yii\data\SqlDataProvider;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\SearchHelper;
 use myzero1\restbyconf\components\rest\CodeMsg;
@@ -59,15 +57,21 @@ class DemoSearch extends DemoModel implements SearchProcessing
     }
 
 
-    public function processing(){
+    public function processing()
+    {
         $input = Yii::$app->request->queryParams;
         $validatedInput = $this->inputValidate($input);
-        $db2outData = $this->getResult($validatedInput);
-        $result = $this->completeResult($db2outData);
-        return $result;
+        if (Helper::isReturning($validatedInput)) {
+            return $validatedInput;
+        } else {
+            $db2outData = $this->getResult($validatedInput);
+            $result = $this->completeResult($db2outData);
+            return $result;
+        }
     }
 
-    public function inputValidate($input){
+    public function inputValidate($input)
+    {
         $this->load($input, '');
 
         if ($this->validate()) {
@@ -77,12 +81,18 @@ class DemoSearch extends DemoModel implements SearchProcessing
 
             return $input;
         } else {
-//            var_dump($this->errors);exit;
-            throw new ServerErrorHttpException('Failed to search items for validation reason.');
+//            throw new ServerErrorHttpException('Failed to search items for validation reason.');
+            $errors = $this->errors;
+            return [
+                'code' => CodeMsg::CLIENT_ERROR,
+                'msg' => Helper::getErrorMsg($errors),
+                'data' => $errors,
+            ];
         }
     }
 
-    public function getResult($validatedInput){
+    public function getResult($validatedInput)
+    {
         $result = [];
         $query = (new yii\db\Query())
             ->from($this->tableName());
@@ -109,11 +119,11 @@ class DemoSearch extends DemoModel implements SearchProcessing
             'demo_name' => 'name as demo_name',
             'demo_description' => 'description as demo_description',
             'created_at' => 'created_at',
-            'updated_at' =>  'updated_at',
+            'updated_at' => 'updated_at',
         ];
 
         $sort = $this->getSort($validatedInput, array_keys($outFieldNames), '+id');
-        $query ->orderBy([$sort['sortFiled'] => $sort['sort']]);
+        $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
         $query->select(array_values($outFieldNames));
 
@@ -121,10 +131,11 @@ class DemoSearch extends DemoModel implements SearchProcessing
         $items = $query->all();
         $result['items'] = $this->mappingDb2output($items);
 
-        return  $result;
+        return $result;
     }
 
-    public function completeResult($db2outData){
+    public function completeResult($db2outData)
+    {
         $result = [
             'code' => CodeMsg::SUCCESS,
             'msg' => CodeMsg::SUCCESS_MSG,
@@ -134,17 +145,19 @@ class DemoSearch extends DemoModel implements SearchProcessing
         return $result;
     }
 
-    public function getSort($validatedInput, $fields, $defafult){
+    public function getSort($validatedInput, $fields, $defafult)
+    {
         if (isset($validatedInput['sort'])) {
             $sortInfo = Helper::getSort($validatedInput['sort'], $fields, $defafult);
         } else {
             $sortInfo = Helper::getSort('+myzeroqtest', $fields, $defafult);
         }
 
-        return  $sortInfo;
+        return $sortInfo;
     }
 
-    public function getPagination($validatedInput){
+    public function getPagination($validatedInput)
+    {
         $pagination = [];
         if (isset($validatedInput['page'])) {
             $validatedInput['page'] = $validatedInput['page'];
@@ -157,10 +170,11 @@ class DemoSearch extends DemoModel implements SearchProcessing
             $pagination['page_size'] = 30;
         }
 
-        return  $pagination;
+        return $pagination;
     }
 
-    public function mappingDb2output($resultData){
+    public function mappingDb2output($resultData)
+    {
         foreach ($resultData as $k => $v) {
             $resultData[$k]['created_at'] = Helper::time2string($v['created_at']);
             $resultData[$k]['updated_at'] = Helper::time2string($v['updated_at']);
