@@ -67,15 +67,27 @@ $js = <<<js
         $('.jsoneditor-values').each(function() {
             var style = $(this).attr('style');
             if (style.indexOf('margin-left: 24px') > -1)  {
-                $(this).css({'background':'#eee'});
+                $(this).css({'background':'rgba(245, 245, 245, 0.8)'});
             } else if(style.indexOf('margin-left: 48px') > -1){
-                 $(this).css({'background':'#ddd'});
+                $(this).css({'background':'rgba(235, 235, 235, 0.8)'});
             } else if(style.indexOf('margin-left: 72px') > -1){
-                 $(this).css({'background':'#ccc'});
+                 $(this).css({'background':'rgba(225, 225, 225, 0.8)'});
             } else if(style.indexOf('margin-left: 96px') > -1){
-                 $(this).css({'background':'#bbb'});
+                 $(this).css({'background':'rgba(215, 215, 215, 0.8)'});
             } else if(style.indexOf('margin-left: 120px') > -1){
-                 $(this).css({'background':'#aaa'});
+                $(this).css({'background':'rgba(205, 205, 205, 0.8)'});
+            } else if(style.indexOf('margin-left: 144px') > -1){
+                $(this).css({'background':'rgba(195, 195, 195, 0.8)'});
+            } else if(style.indexOf('margin-left: 168px') > -1){
+                $(this).css({'background':'rgba(185, 185, 185, 0.8)'});
+            } else if(style.indexOf('margin-left: 192px') > -1){
+                $(this).css({'background':'rgba(175, 175, 175, 0.8)'});
+            } else if(style.indexOf('margin-left: 216px') > -1){
+                $(this).css({'background':'rgba(165, 165, 165, 0.8)'});
+            } else if(style.indexOf('margin-left: 240px') > -1){
+                $(this).css({'background':'rgba(155, 155, 155, 0.8)'});
+            } else if(style.indexOf('margin-left: 264px') > -1){
+                $(this).css({'background':'rgba(145, 145, 145, 0.8)'});
             }
         });
     }

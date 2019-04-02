@@ -26,5 +26,191 @@
             "in": "header",
             "name": "api_key"
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "user",
+            "description": "Operations about user",
+            "externalDocs": 
+            {
+                "description": "Find out more about our store",
+                "url": "http://swagger.io"
+            },
+            "paths": {
+                "/user": {
+                    "get": {
+                        "summary": "Create user",
+                        "description": "This can only be done by the logged in user.",
+                        "operationId": "createUser",
+                        "produces": ["application/xml", "application/json"],
+                        "parameters": [{
+                            "in": "body",
+                            "name": "body",
+                            "description": "Created user object",
+                            "required": true,
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "myzero1",
+                                        "description": "It will be used to login"
+                                    },
+                                    "firstName": {
+                                        "type": "string",
+                                        "example": "myzero1"
+                                    },
+                                    "lastName": {
+                                        "type": "string",
+                                        "example": "Qin"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "myzero1@sina.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                }
+                            }
+                        }],
+                        "responses": {
+                            "default": {
+                                "description": "successful operation"
+                            }
+                        },
+                        "security": [{
+                            "api_key": []
+                        }]
+                    },
+                    "post": {
+                        "summary": "Create user",
+                        "description": "This can only be done by the logged in user.",
+                        "operationId": "createUser",
+                        "produces": ["application/xml", "application/json"],
+                        "parameters": [{
+                            "in": "body",
+                            "name": "body",
+                            "description": "Created user object",
+                            "required": true,
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "myzero1",
+                                        "description": "It will be used to login"
+                                    },
+                                    "firstName": {
+                                        "type": "string",
+                                        "example": "myzero1"
+                                    },
+                                    "lastName": {
+                                        "type": "string",
+                                        "example": "Qin"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "myzero1@sina.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                }
+                            }
+                        }],
+                        "responses": {
+                            "default": {
+                                "description": "successful operation"
+                            }
+                        },
+                        "security": [{
+                            "api_key": []
+                        }]
+                    }
+                },
+                "/user/{id}": {
+                    "get": {
+                        "summary": "Get user by user name",
+                        "description": "",
+                        "operationId": "getUserByName",
+                        "produces": ["application/xml", "application/json"],
+                        "parameters": [{
+                            "name": "username",
+                            "in": "path",
+                            "description": "The name that needs to be fetched. Use user1 for testing. ",
+                            "required": true,
+                            "type": "string"
+                        }],
+                        "responses": {
+                            "200": {
+                                "description": "successful operation",
+                                "schema": {
+                                    "$ref": "#/definitions/User"
+                                }
+                            },
+                            "400": {
+                                "description": "Invalid username supplied"
+                            },
+                            "404": {
+                                "description": "User not found"
+                            }
+                        }
+                    },
+                    "put": {
+                        "summary": "Updated user",
+                        "description": "This can only be done by the logged in user.",
+                        "operationId": "updateUser",
+                        "produces": ["application/xml", "application/json"],
+                        "parameters": [{
+                            "name": "username",
+                            "in": "path",
+                            "description": "name that need to be updated",
+                            "required": true,
+                            "type": "string"
+                        }, {
+                            "in": "body",
+                            "name": "body",
+                            "description": "Updated user object",
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }],
+                        "responses": {
+                            "400": {
+                                "description": "Invalid user supplied"
+                            },
+                            "404": {
+                                "description": "User not found"
+                            }
+                        }
+                    },
+                    "delete": {
+                        "summary": "Delete user",
+                        "description": "This can only be done by the logged in user.",
+                        "operationId": "deleteUser",
+                        "produces": ["application/xml", "application/json"],
+                        "parameters": [{
+                            "name": "username",
+                            "in": "path",
+                            "description": "The name that needs to be deleted",
+                            "required": true,
+                            "type": "string"
+                        }],
+                        "responses": {
+                            "400": {
+                                "description": "Invalid username supplied"
+                            },
+                            "404": {
+                                "description": "User not found"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
 }
