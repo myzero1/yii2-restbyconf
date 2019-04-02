@@ -20,9 +20,11 @@ $asset = myzero1\restbyconf\assets\php\JsonEditorAsset::register($this);
 $confPath = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf');
 $schemaFile = sprintf('%s/schema.json', $confPath);
 $jsonFile = sprintf('%s/json.json', $confPath);
+$templatesFile = sprintf('%s/templates.json', $confPath);
 
 $json = file_get_contents($jsonFile);
 $schema = file_get_contents($schemaFile);
+$templates = file_get_contents($templatesFile);
 
 function getUnEditablePath($json){
     $unEditable = [
@@ -62,6 +64,7 @@ $unEditablePath = getUnEditablePath($json);
 
 $json = json_encode(json_decode($json,true));
 $schema = json_encode(json_decode($schema,true));
+$templates = json_encode(json_decode($templates,true));
 $js = <<<js
     var adjustBackground = function() {
         $('.jsoneditor-values').each(function() {
@@ -121,9 +124,9 @@ $js = <<<js
     
     var onCreateMenu = function onCreateMenu(items, path) {
         // console.log(items);
-        // console.log(path);
+        console.log(path);
         
-        // return items;
+        return items;
         return [];
     }
 
@@ -133,6 +136,7 @@ $js = <<<js
         name: "Restfull api configuration",
         schema: schema['schema'],
         schemaRefs: schema,
+        templates: $templates,
         mode: 'tree',
         modes: ['view', 'tree'],
         onEditable: onEditable,

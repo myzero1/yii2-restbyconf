@@ -1,0 +1,68 @@
+[
+    {
+        "text": "Tag",
+        "title": "Insert a Tag Node",
+        "className": "jsoneditor-type-object",
+        "field": "TagTemplate",
+        "value": {
+            "firstName": "John",
+            "lastName": "Do",
+            "age": 282
+        }
+    },
+    {
+        "text": "Index(get)",
+        "title": "Insert a Index Node",
+        "className": "jsoneditor-type-object",
+        "field": "IndexTemplate",
+        "value": {
+            "firstName": "John",
+            "lastName": "Do",
+            "age": 282
+        }
+    },
+    {
+        "text": "Create(post)",
+        "title": "Insert a Create Node",
+        "className": "jsoneditor-type-object",
+        "field": "CreateTemplate",
+        "value": {
+            "firstName": "John",
+            "lastName": "Do",
+            "age": 282
+        }
+    },
+    {
+        "text": "Update(put)",
+        "title": "Insert a Update Node",
+        "className": "jsoneditor-type-object",
+        "field": "UpdateTemplate",
+        "value": {
+            "firstName": "John",
+            "lastName": "Do",
+            "age": 282
+        }
+    },
+    {
+        "text": "View(get)",
+        "title": "Insert a View Node",
+        "className": "jsoneditor-type-object",
+        "field": "ViewTemplate",
+        "value": {
+            "firstName": "John",
+            "lastName": "Do",
+            "age": 282
+        }
+    },
+    {
+        "text": "Delete(get)",
+        "title": "Insert a Delete Node",
+        "className": "jsoneditor-type-object",
+        "field": "DeleteTemplate",
+        "value": {
+            "firstName": "John",
+            "lastName": "Do",
+            "age": 282
+        }
+    }
+]

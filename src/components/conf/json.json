@@ -27,8 +27,8 @@
             "name": "api_key"
         }
     },
-    "tags": [
-        {
+    "tags": {
+        "user": {
             "name": "user",
             "description": "Operations about user",
             "externalDocs": 
@@ -212,5 +212,5 @@
                 }
             }
         }
-    ]
+    }
 }
