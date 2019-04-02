@@ -209,5 +209,105 @@
               }
           }
         }
+    },
+    "tag": {
+        "title": "tag configuration",
+        "type": "object",
+        "required": ["name", "paths"],
+        "properties": {
+            "name": {
+                "name": "string",
+                "minLength": 2,
+                "maxLength": 32,
+                "examples": [
+                  "user"
+                ]
+            },
+            "paths": {
+                "title": "paths configuration",
+                "type": "object",
+                "required": ["index"],
+                "properties": {
+                    "index": {
+                        "$ref": "index"
+                    }
+                }
+            }
+        }
+    },
+    "index": {
+        "title": "index configuration",
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+            "name": {
+                "name": "string",
+                "minLength": 2,
+                "maxLength": 32,
+                "examples": [
+                  "index"
+                ]
+            }
+        }
+    },
+    "create": {
+        "title": "index configuration",
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+            "name": {
+                "name": "string",
+                "minLength": 2,
+                "maxLength": 32,
+                "examples": [
+                  "create"
+                ]
+            }
+        }
+    },
+    "update": {
+        "title": "index configuration",
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+            "name": {
+                "name": "string",
+                "minLength": 2,
+                "maxLength": 32,
+                "examples": [
+                  "update"
+                ]
+            }
+        }
+    },
+    "view": {
+        "title": "index configuration",
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+            "name": {
+                "name": "string",
+                "minLength": 2,
+                "maxLength": 32,
+                "examples": [
+                  "view"
+                ]
+            }
+        }
+    },
+    "delete": {
+        "title": "index configuration",
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+            "name": {
+                "name": "string",
+                "minLength": 2,
+                "maxLength": 32,
+                "examples": [
+                  "delete"
+                ]
+            }
+        }
     }
 }
