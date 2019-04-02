@@ -15,7 +15,6 @@ $asset = myzero1\restbyconf\assets\php\JsonEditorAsset::register($this);
     <div id="jsoneditor"></div>
 </div>
 
-
 <?php
 
 $confPath = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf');
@@ -64,7 +63,24 @@ $unEditablePath = getUnEditablePath($json);
 $json = json_encode(json_decode($json,true));
 $schema = json_encode(json_decode($schema,true));
 $js = <<<js
+    var adjustBackground = function() {
+        $('.jsoneditor-values').each(function() {
+            var style = $(this).attr('style');
+            if (style.indexOf('margin-left: 24px') > -1)  {
+                $(this).css({'background':'#eee'});
+            } else if(style.indexOf('margin-left: 48px') > -1){
+                 $(this).css({'background':'#ddd'});
+            } else if(style.indexOf('margin-left: 72px') > -1){
+                 $(this).css({'background':'#ccc'});
+            } else if(style.indexOf('margin-left: 96px') > -1){
+                 $(this).css({'background':'#bbb'});
+            } else if(style.indexOf('margin-left: 120px') > -1){
+                 $(this).css({'background':'#aaa'});
+            }
+        });
+    }
     var onEditable = function(node) {
+        adjustBackground();
         var unEditable = [
             'swagger',
         ];
@@ -104,6 +120,7 @@ $js = <<<js
     // create the editor
     var container = document.getElementById('jsoneditor');
     var editor = new JSONEditor(container, options, $json);
+    adjustBackground();
 js;
 $this->registerJS($js);
 
