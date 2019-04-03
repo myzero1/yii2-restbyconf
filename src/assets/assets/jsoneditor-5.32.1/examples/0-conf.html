@@ -282,6 +282,25 @@
             }
         });
     }
+
+    var isTagLay = function(path) {
+        if (path.length == 2 && path[0] == 'tags') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    var isPathLay = function(path) {
+        if (path.length == 4 && path[0] == 'tags' && path[2] == 'paths') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
     var onEditable = function(node) {
         adjustBackground();
         var unEditable = [
@@ -308,6 +327,9 @@
         }
     }
 
+
+
+
     var onChangeJSON = function onChangeJSON(json) {
         // var conf = document.getElementById('generator-conf');
             // conf.setAttribute('value', JSON.stringify(json));
@@ -319,7 +341,7 @@
         // console.log(node.path.length == 2 && node.path[0] == 'tags');
         // console.log(Array.isArray(path));
         
-        return items;
+        // return items;
         // return [];
         function inArray(value, array){
             for (var i = array.length - 1; i >= 0; i--) {
@@ -332,7 +354,7 @@
         }
 
 
-        if(node.path.length == 2 && node.path[0] == 'tags'){
+        if(isTagLay(node.path)){
             var itemsTmp  = new Array();
             var actionList = new Array('追加', '插入', '复制', '移除');
 
@@ -356,7 +378,7 @@
             }
 
             return itemsTmp;
-        } else if(node.path.length == 4 && node.path[0] == 'tags' && node.path[2] == 'paths'){
+        } else if(isPathLay(node.path)){
             var itemsTmp  = new Array();
             var actionList = new Array('追加', '插入', '复制', '移除');
             var actionList2 = new Array('index', 'create', 'update', 'view', 'delete');
@@ -413,7 +435,7 @@
         mode: 'tree',
         modes: ['code', 'text', 'tree'],
         templates: templates,
-        // onEditable: onEditable,
+        onEditable: onEditable,
         onChangeJSON: onChangeJSON,
         onCreateMenu: onCreateMenu,
         onEvent: onEvent
