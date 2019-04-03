@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <title>JSONEditor | JSON schema validation</title>
+  <title>00-conf.html</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
   <link href="../dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
   <script src="../dist/jsoneditor.min.js"></script>
@@ -34,6 +34,49 @@
 <div id="jsoneditor"></div>
 
 <script>
+  var json = {
+    "firstName": 'John',
+    "PersonTemplate": {
+        'age': '28a'
+    },
+    "tags": {
+      "path": {
+          'name': 'name'
+      }
+    }
+  };
+
+  var templates = [
+        {
+            text: 'Person',
+            title: 'Insert a Person Node',
+            className: 'jsoneditor-type-object',
+            field: 'PersonTemplate',
+            value: {
+                'age': '28a'
+            }
+        },
+        {
+            text: 'Path',
+            title: 'Insert a Person Node',
+            className: 'jsoneditor-type-object',
+            field: 'PathTemplate',
+            value: {
+                'name': 'name'
+            }
+        },
+        {
+            text: 'Address',
+            title: 'Insert a Address Node',
+            field: 'AddressTemplate',
+            value: {
+                'street': '',
+                'city': '',
+                'state': '',
+                'ZIP code': ''
+            }
+        }
+    ];
 
   var schemas = {
     "schema": {
@@ -50,9 +93,25 @@
         },
         "PersonTemplate": {
           "$ref": "PersonTemplate"
+        },
+        "tags": {
+          "$ref": "tags"
+        },
+        "PathTemplate": {
+          "$ref": "PathTemplate"
         }
       },
       "required": ["firstName", "lastName"]
+    },
+    "tags": {
+      "title": "Tags description",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "path": {
+          "$ref": "PathTemplate"
+        }
+      }
     },
     "PersonTemplate": {
       "title": "Job description",
@@ -67,77 +126,46 @@
           ]
         }
       }
+    },
+    "PathTemplate": {
+      "title": "Path description",
+      "type": "object",
+      "required": [],
+      "properties": {
+        "name": {
+          "type": "string",
+          "examples": [
+            "name"
+          ]
+        }
+      }
+    },
+    "path": {
+        "title": "Paths description",
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+            "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32,
+                "examples": [
+                    "create",
+                    "update"
+                ],
+            },
+        }
     }
   }
 
-  var schema = {
-    "title": "Example Schema",
-    "type": "object",
-    "properties": {
-      "firstName": {
-        "title": "First Name",
-        "description": "The given name.",
-        "examples": [
-          "John"
-        ],
-        "type": "string"
-      },
-      "PersonTemplate": {
-        "$ref": "PersonTemplate"
-      }
-    },
-    "required": ["firstName", "lastName"]
-  };
-
-  var PersonTemplate = {
-    "title": "Job description",
-    "type": "object",
-    "required": ["age"],
-    "properties": {
-      "age": {
-        "type": "string",
-        "examples": [
-          "ACME",
-          "Dexter Industries"
-        ]
-      }
-    }
-  };
 // JSONEditor.setSchema(schema [,schemaRefs])
-  var json = {
-    firstName: 'John',
-    PersonTemplate: {
-        'age': '28a'
-    }
-  };
 
   var options = {
     schema: schemas['schema'],
     schemaRefs: schemas,
     mode: 'tree',
     modes: ['code', 'text', 'tree'],
-    templates: [
-        {
-            text: 'Person',
-            title: 'Insert a Person Node',
-            className: 'jsoneditor-type-object',
-            field: 'PersonTemplate',
-            value: {
-                'age': '28a'
-            }
-        },
-        {
-            text: 'Address',
-            title: 'Insert a Address Node',
-            field: 'AddressTemplate',
-            value: {
-                'street': '',
-                'city': '',
-                'state': '',
-                'ZIP code': ''
-            }
-        }
-    ],
+    templates: templates,
     onChangeJSON: function(json,a){
       // console.log(json);
       // console.log(a);
@@ -150,12 +178,27 @@
     },
     onEvent:function (node, event) {
       if (event.type == 'mouseout') {
-        var schema = this.schema;
-        schema['properties'][node.field] = {
-          "$ref": "PersonTemplate"
-        };
+        if (node.path.length==2 && node.path[0]=='tags') {
+          var schema = this.schema;
+          console.log(schema);
+          schema['properties']['tags'][node.field] = {
+            "$ref": "PathTemplate"
+          };
 
-        editor.setSchema(schema,this.schemaRefs);
+          console.log(schema);
+
+        console.log(node);
+          editor.setSchema(schema,this.schemaRefs);
+        }
+
+
+
+        // var schema = this.schema;
+        // schema['properties'][node.field] = {
+        //   "$ref": "PathTemplate"
+        // };
+
+        // editor.setSchema(schema,this.schemaRefs);
       }
     }
   };

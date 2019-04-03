@@ -162,27 +162,14 @@
     };
 
     var onEvent = function(node, event){
-        if (event.type == 'mouseout') {
+        if (event.type == 'blur') {
             if (node.path.length==2 && node.path[0] == 'tags') {
-                var schema = this.schema;
-                console.log(schema);
-                schema['properties']['tags'][node.field] = {
+                var schemaRefs = this.schemaRefs;
+                schemaRefs['tags']['properties'][node.field] = {
                   "$ref": "tag"
                 };
-                console.log(schema);
-                editor.setSchema(schema,this.schemaRefs);
-
-
+                editor.setSchema(this.schema,schemaRefs);
             }
-
-
-            // var schema = this.schema;
-            // schema['properties'][node.field] = {
-            //   "$ref": "PersonTemplate"
-            // };
-            // console.log(node);
-            // console.log(schema);
-            // // editor.setSchema(schema,this.schemaRefs);
         }
     };
 
