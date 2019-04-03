@@ -4,6 +4,7 @@
   <title>0-conf.html</title>
 <meta charset="UTF-8">
   <link href="../dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
+  <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="../dist/jsoneditor.min.js"></script>
 
   <style type="text/css">
@@ -40,7 +41,7 @@
             "TagTemplate": {
                 "name": "userName",
                 "paths": {
-                    "IndexPathTemplate": {
+                    "index": {
                         "name": "index"
                     }
                 }
@@ -50,7 +51,7 @@
 
     var templates = [
             {
-                text: 'Tag',
+                text: 'tag',
                 title: 'Insert a Tag Node',
                 className: 'jsoneditor-type-object',
                 field: 'TagTemplate',
@@ -64,7 +65,7 @@
                 }
             },
             {
-                text: 'indexPath',
+                text: 'index',
                 title: 'Insert a IndexPath Node',
                 className: 'jsoneditor-type-object',
                 field: 'index',
@@ -73,7 +74,7 @@
                 }
             },
             {
-                text: 'CreatePath',
+                text: 'create',
                 title: 'Insert a CreatePath Node',
                 className: 'jsoneditor-type-object',
                 field: 'create',
@@ -82,7 +83,7 @@
                 }
             },
             {
-                text: 'updatePath',
+                text: 'update',
                 title: 'Insert a CreatePath Node',
                 className: 'jsoneditor-type-object',
                 field: 'update',
@@ -91,7 +92,7 @@
                 }
             },
             {
-                text: 'viewPath',
+                text: 'view',
                 title: 'Insert a CreatePath Node',
                 className: 'jsoneditor-type-object',
                 field: 'view',
@@ -100,7 +101,7 @@
                 }
             },
             {
-                text: 'deletePath',
+                text: 'delete',
                 title: 'Insert a CreatePath Node',
                 className: 'jsoneditor-type-object',
                 field: 'delete',
@@ -165,7 +166,7 @@
             "type": "object",
             "required": [],
             "properties": {
-                "IndexPathTemplate": {
+                "index": {
                     "$ref": "index"
                 }
             }
@@ -252,6 +253,145 @@
         }
     };
 
+
+    var adjustBackground = function() {
+        $('.jsoneditor-values').each(function() {
+            var style = $(this).attr('style');
+            if (style.indexOf('margin-left: 24px') > -1)  {
+                $(this).css({'background':'rgba(245, 245, 245, 0.8)'});
+            } else if(style.indexOf('margin-left: 48px') > -1){
+                $(this).css({'background':'rgba(235, 235, 235, 0.8)'});
+            } else if(style.indexOf('margin-left: 72px') > -1){
+                 $(this).css({'background':'rgba(225, 225, 225, 0.8)'});
+            } else if(style.indexOf('margin-left: 96px') > -1){
+                 $(this).css({'background':'rgba(215, 215, 215, 0.8)'});
+            } else if(style.indexOf('margin-left: 120px') > -1){
+                $(this).css({'background':'rgba(205, 205, 205, 0.8)'});
+            } else if(style.indexOf('margin-left: 144px') > -1){
+                $(this).css({'background':'rgba(195, 195, 195, 0.8)'});
+            } else if(style.indexOf('margin-left: 168px') > -1){
+                $(this).css({'background':'rgba(185, 185, 185, 0.8)'});
+            } else if(style.indexOf('margin-left: 192px') > -1){
+                $(this).css({'background':'rgba(175, 175, 175, 0.8)'});
+            } else if(style.indexOf('margin-left: 216px') > -1){
+                $(this).css({'background':'rgba(165, 165, 165, 0.8)'});
+            } else if(style.indexOf('margin-left: 240px') > -1){
+                $(this).css({'background':'rgba(155, 155, 155, 0.8)'});
+            } else if(style.indexOf('margin-left: 264px') > -1){
+                $(this).css({'background':'rgba(145, 145, 145, 0.8)'});
+            }
+        });
+    }
+    var onEditable = function(node) {
+        adjustBackground();
+        var unEditable = [
+            'swagger',
+            'tags'
+        ];
+        // console.log(unEditable);
+        if (Array.isArray(node.path)) {
+            var path = node.path.join('-');
+            if (unEditable.indexOf(path) > -1) {
+                return false;
+            } else {
+                if(node.path.length == 2 && node.path[0] == 'tags'){
+                    return true;
+                } else {
+                    return {
+                      field: false,
+                      value: true
+                    };
+                }
+            }
+        } else {
+            return true;
+        }
+    }
+
+    var onChangeJSON = function onChangeJSON(json) {
+        // var conf = document.getElementById('generator-conf');
+            // conf.setAttribute('value', JSON.stringify(json));
+    }
+    
+    var onCreateMenu = function onCreateMenu(items, node) {
+        // console.log(items);
+
+        // console.log(node.path.length == 2 && node.path[0] == 'tags');
+        // console.log(Array.isArray(path));
+        
+        return items;
+        // return [];
+        function inArray(value, array){
+            for (var i = array.length - 1; i >= 0; i--) {
+                if (array[i] == value) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+        if(node.path.length == 2 && node.path[0] == 'tags'){
+            var itemsTmp  = new Array();
+            var actionList = new Array('追加', '插入', '复制', '移除');
+
+            for (var i = 0;  i < items.length; i++) {
+                var text = items[i]['text'];
+                if (inArray(text, actionList)) {
+
+                    if (text=='追加' || text=='插入') {
+                        // console.log(items[i]['submenu']);
+                        for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
+                            if (items[i]['submenu'][j]['text'] != 'tag') {
+                                delete(items[i]['submenu'][j]);
+                            }
+                        }
+
+                    }
+
+                    itemsTmp.push(items[i]);
+                }
+                
+            }
+
+            return itemsTmp;
+        } else if(node.path.length == 4 && node.path[0] == 'tags' && node.path[2] == 'paths'){
+            var itemsTmp  = new Array();
+            var actionList = new Array('追加', '插入', '复制', '移除');
+            var actionList2 = new Array('index', 'create', 'update', 'view', 'delete');
+
+            for (var i = 0;  i < items.length; i++) {
+                var text = items[i]['text'];
+                if (inArray(text, actionList)) {
+
+                    if (text=='追加' || text=='插入') {
+                        for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
+                            if (!inArray(items[i]['submenu'][j]['text'], actionList2)) {
+                                delete(items[i]['submenu'][j]);
+                            }
+                        }
+
+                    }
+
+                    itemsTmp.push(items[i]);
+                }
+                
+            }
+
+            return itemsTmp;
+        } else {
+            return [];
+        }
+
+
+
+
+
+    }
+
+
+
     var onEvent = function(node, event){
         if (event.type == 'blur') {
             if (node.path.length==2 && node.path[0] == 'tags') {
@@ -278,6 +418,9 @@
         mode: 'tree',
         modes: ['code', 'text', 'tree'],
         templates: templates,
+        onEditable: onEditable,
+        onChangeJSON: onChangeJSON,
+        onCreateMenu: onCreateMenu,
         onEvent: onEvent
 
     };
