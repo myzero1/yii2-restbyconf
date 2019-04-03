@@ -34,6 +34,55 @@
 <div id="jsoneditor"></div>
 
 <script>
+    var json = {
+        "swagger": "2.0",
+        "tags": {
+            "TagTemplate": {
+                "name": "userName",
+                "paths": {
+                    "IndexPathTemplate": {
+                        "name": "index"
+                    }
+                }
+            }
+        }
+    };
+
+    var templates = [
+            {
+                text: 'Tag',
+                title: 'Insert a Tag Node',
+                className: 'jsoneditor-type-object',
+                field: 'TagTemplate',
+                value: {
+                    "name": "tagName",
+                    "paths": {
+                        "create": {
+                            "name": "create"
+                        }
+                    }
+                }
+            },
+            {
+                text: 'IndexPath',
+                title: 'Insert a IndexPath Node',
+                className: 'jsoneditor-type-object',
+                field: 'IndexPathTemplate',
+                value: {
+                    "name": "index"
+                }
+            },
+            {
+                text: 'CreatePath',
+                title: 'Insert a CreatePath Node',
+                className: 'jsoneditor-type-object',
+                field: 'CreatePathTemplate',
+                value: {
+                    "name": "create"
+                }
+            }
+        ];
+
     var schemas = {
         "schema": {
             "title": "The configuration of restful api",
@@ -58,9 +107,9 @@
         "tags": {
             "title": "Tags description",
             "type": "object",
-            "required": ["tag"],
+            "required": ["TagTemplate"],
             "properties": {
-                "tag": {
+                "TagTemplate": {
                     "$ref": "tag"
                 }
             }
@@ -89,7 +138,7 @@
             "type": "object",
             "required": [],
             "properties": {
-                "path": {
+                "IndexPathTemplate": {
                     "$ref": "path"
                 }
             }
@@ -112,25 +161,12 @@
         }
     };
 
-    var json = {
-        "swagger": "2.0",
-        "tags": {
-            "tag": {
-                "name": "user name",
-                "paths": {
-                    "create": {
-                        "name": "create"
-                    }
-                }
-            }
-        }
-    };
-
   var options = {
     schema: schemas['schema'],
     schemaRefs: schemas,
     mode: 'tree',
-    modes: ['code', 'text', 'tree']
+    modes: ['code', 'text', 'tree'],
+    templates: templates
   };
 
   // create the editor
