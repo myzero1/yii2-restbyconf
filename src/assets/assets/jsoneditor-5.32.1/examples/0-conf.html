@@ -107,7 +107,7 @@
         "tags": {
             "title": "Tags description",
             "type": "object",
-            "required": ["TagTemplate"],
+            "required": [],
             "properties": {
                 "TagTemplate": {
                     "$ref": "tag"
@@ -161,17 +161,44 @@
         }
     };
 
-  var options = {
-    schema: schemas['schema'],
-    schemaRefs: schemas,
-    mode: 'tree',
-    modes: ['code', 'text', 'tree'],
-    templates: templates
-  };
+    var onEvent = function(node, event){
+        if (event.type == 'mouseout') {
+            if (node.path.length==2 && node.path[0] == 'tags') {
+                var schema = this.schema;
+                console.log(schema);
+                schema['properties']['tags'][node.field] = {
+                  "$ref": "tag"
+                };
+                console.log(schema);
+                editor.setSchema(schema,this.schemaRefs);
 
-  // create the editor
-  var container = document.getElementById('jsoneditor');
-  var editor = new JSONEditor(container, options, json);
+
+            }
+
+
+            // var schema = this.schema;
+            // schema['properties'][node.field] = {
+            //   "$ref": "PersonTemplate"
+            // };
+            // console.log(node);
+            // console.log(schema);
+            // // editor.setSchema(schema,this.schemaRefs);
+        }
+    };
+
+    var options = {
+        schema: schemas['schema'],
+        schemaRefs: schemas,
+        mode: 'tree',
+        modes: ['code', 'text', 'tree'],
+        templates: templates,
+        onEvent: onEvent
+
+    };
+
+    // create the editor
+    var container = document.getElementById('jsoneditor');
+    var editor = new JSONEditor(container, options, json);
 </script>
 </body>
 </html>
