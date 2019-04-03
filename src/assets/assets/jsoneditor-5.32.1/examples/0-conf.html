@@ -382,6 +382,8 @@
             var itemsTmp  = new Array();
             var actionList = new Array('追加', '插入', '复制', '移除');
             var actionList2 = new Array('index', 'create', 'update', 'view', 'delete');
+            var jsonData = editor.get();
+            var path = node.path;
 
             for (var i = 0;  i < items.length; i++) {
                 var text = items[i]['text'];
@@ -391,7 +393,10 @@
                         for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
                             if (inArray(items[i]['submenu'][j]['text'], actionList2)) {
                                 // delete(items[i]['submenu'][j]);
-                                itemsTmp.push(items[i]['submenu'][j]);
+                                // jsonData[path[0]][path[1]][path[2]][path[3]]
+                                if (!(items[i]['submenu'][j]['text'] in jsonData[path[0]][path[1]][path[2]])) {
+                                    itemsTmp.push(items[i]['submenu'][j]);
+                                }
                             }
                         }
                         // console.log(items[i]);
