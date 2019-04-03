@@ -34,6 +34,42 @@
 <div id="jsoneditor"></div>
 
 <script>
+
+  var schemas = {
+    "schema": {
+      "title": "Example Schema",
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "title": "First Name",
+          "description": "The given name.",
+          "examples": [
+            "John"
+          ],
+          "type": "string"
+        },
+        "PersonTemplate": {
+          "$ref": "PersonTemplate"
+        }
+      },
+      "required": ["firstName", "lastName"]
+    },
+    "PersonTemplate": {
+      "title": "Job description",
+      "type": "object",
+      "required": ["age"],
+      "properties": {
+        "age": {
+          "type": "string",
+          "examples": [
+            "ACME",
+            "Dexter Industries"
+          ]
+        }
+      }
+    }
+  }
+
   var schema = {
     "title": "Example Schema",
     "type": "object",
@@ -46,31 +82,6 @@
         ],
         "type": "string"
       },
-      "lastName": {
-        "title": "Last Name",
-        "description": "The family name.",
-        "examples": [
-          "Smith"
-        ],
-        "type": "string"
-      },
-      "gender": {
-        "title": "Gender",
-        "enum": ["male", "female"]
-      },
-      "availableToHire": {
-        "type": "boolean",
-        "default": false
-      },
-      "age": {
-        "description": "Age in years",
-        "type": "integer",
-        "minimum": 0,
-        "examples": [28, 32]
-      },
-      "job": {
-        "$ref": "job"
-      },
       "PersonTemplate": {
         "$ref": "PersonTemplate"
       }
@@ -78,37 +89,6 @@
     "required": ["firstName", "lastName"]
   };
 
-  var job = {
-    "title": "Job description",
-    "type": "object",
-    "required": ["address"],
-    "properties": {
-      "company": {
-        "type": "string",
-        "examples": [
-          "ACME",
-          "Dexter Industries"
-        ]
-      },
-      "role": {
-        "description": "Job title.",
-        "type": "string",
-        "examples": [
-          "Human Resources Coordinator",
-          "Software Developer"
-        ],
-        "default": "Software Developer"
-      },
-      "address": {
-        "type": "string"
-      },
-      "salary": {
-        "type": "number",
-        "minimum": 120,
-        "examples": [100, 110, 120]
-      }
-    }
-  };
   var PersonTemplate = {
     "title": "Job description",
     "type": "object",
@@ -126,20 +106,14 @@
 // JSONEditor.setSchema(schema [,schemaRefs])
   var json = {
     firstName: 'John',
-    lastName: 'Doe',
-    gender: null,
-    age: "28",
-    availableToHire: true,
-    job: {
-      company: 'freelance',
-      role: 'developer',
-      salary: 100
+    PersonTemplate: {
+        'age': '28a'
     }
   };
 
   var options = {
-    schema: schema,
-    schemaRefs: {"job": job, "PersonTemplate": PersonTemplate},
+    schema: schemas['schema'],
+    schemaRefs: schemas,
     mode: 'tree',
     modes: ['code', 'text', 'tree'],
     templates: [
