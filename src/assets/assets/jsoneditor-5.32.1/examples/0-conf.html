@@ -53,7 +53,7 @@
             {
                 text: 'tag',
                 title: 'Insert a Tag Node',
-                className: 'jsoneditor-type-object',
+                className: 'jsoneditor-append jsoneditor-default',
                 field: 'TagTemplate',
                 value: {
                     "name": "tagName",
@@ -166,8 +166,8 @@
             "type": "object",
             "required": [],
             "properties": {
-                "index": {
-                    "$ref": "index"
+                "create": {
+                    "$ref": "create"
                 }
             }
         },
@@ -356,23 +356,25 @@
 
         if(isTagLay(node.path)){
             var itemsTmp  = new Array();
-            var actionList = new Array('追加', '插入', '复制', '移除');
+            var actionList = new Array('追加', '复制', '移除');
 
             for (var i = 0;  i < items.length; i++) {
                 var text = items[i]['text'];
                 if (inArray(text, actionList)) {
 
-                    if (text=='追加' || text=='插入') {
+                    if (text=='追加') {
                         // console.log(items[i]['submenu']);
                         for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
-                            if (items[i]['submenu'][j]['text'] != 'tag') {
-                                delete(items[i]['submenu'][j]);
+                            if (items[i]['submenu'][j]['text'] == 'tag') {
+                                // delete(items[i]['submenu'][j]);
+                                itemsTmp.push(items[i]['submenu'][j]);
                             }
                         }
 
+                    } else {
+                        itemsTmp.push(items[i]);
                     }
 
-                    itemsTmp.push(items[i]);
                 }
                 
             }
