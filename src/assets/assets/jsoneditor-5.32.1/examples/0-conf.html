@@ -21,6 +21,9 @@
     .jsoneditor-is-not-default {
       font-weight: bold;
     }
+    div.jsoneditor-tree button.jsoneditor-dragarea{
+        display: none;
+    }
   </style>
 </head>
 <body>
@@ -331,6 +334,7 @@
 
 
     var onChangeJSON = function onChangeJSON(json) {
+        // console.log(this);
         // var conf = document.getElementById('generator-conf');
             // conf.setAttribute('value', JSON.stringify(json));
     }
