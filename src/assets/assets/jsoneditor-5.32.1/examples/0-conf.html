@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>0-conf.html</title>
+<meta charset="UTF-8">
+  <link href="../dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
+  <script src="../dist/jsoneditor.min.js"></script>
+
+  <style type="text/css">
+    body {
+      width: 600px;
+      font: 11pt sans-serif;
+    }
+    #jsoneditor {
+      width: 100%;
+      height: 500px;
+    }
+
+    /* custom bold styling for non-default JSON schema values */
+    .jsoneditor-is-not-default {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<h1>JSON schema validation</h1>
+<p>
+  This example demonstrates JSON schema validation. The JSON object in this example must contain properties like <code>firstName</code> and <code>lastName</code>, can can optionally have a property <code>age</code> which must be a positive integer.
+</p>
+<p>
+  See <a href="http://json-schema.org/" target="_blank">http://json-schema.org/</a> for more information.
+</p>
+
+<div id="jsoneditor"></div>
+
+<script>
+    var schemas = {
+        "schema": {
+            "title": "The configuration of restful api",
+            "type": "object",
+            "required": ["swagger", "tags"],
+            "properties": {
+                "swagger": {
+                    "title": "swagger version",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32,
+                    "examples": [
+                        "2.0",
+                        "2.1"
+                    ]
+                },
+                "tags": {
+                    "$ref": "tags"
+                }
+            }
+        },
+        "tags": {
+            "title": "Tags description",
+            "type": "object",
+            "required": ["tag"],
+            "properties": {
+                "tag": {
+                    "$ref": "tag"
+                }
+            }
+        },
+        "tag": {
+            "title": "Tag description",
+            "type": "object",
+            "required": ["name", "paths"],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32,
+                    "examples": [
+                        "user",
+                        "log"
+                    ],
+                },
+                "paths": {
+                    "$ref": "paths"
+                }
+            }
+        },
+        "paths": {
+            "title": "Paths description",
+            "type": "object",
+            "required": [],
+            "properties": {
+                "path": {
+                    "$ref": "path"
+                }
+            }
+        },
+        "path": {
+            "title": "Paths description",
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32,
+                    "examples": [
+                        "create",
+                        "update"
+                    ],
+                },
+            }
+        }
+    };
+
+    var json = {
+        "swagger": "2.0",
+        "tags": {
+            "tag": {
+                "name": "user name",
+                "paths": {
+                    "create": {
+                        "name": "create"
+                    }
+                }
+            }
+        }
+    };
+
+  var options = {
+    schema: schemas['schema'],
+    schemaRefs: schemas,
+    mode: 'tree',
+    modes: ['code', 'text', 'tree']
+  };
+
+  // create the editor
+  var container = document.getElementById('jsoneditor');
+  var editor = new JSONEditor(container, options, json);
+</script>
+</body>
+</html>
