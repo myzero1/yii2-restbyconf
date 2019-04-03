@@ -1,143 +1,61 @@
 [
     {
-        "name": "user",
-        "description": "Operations about user",
-        "externalDocs": 
-        {
-            "description": "Find out more about our store",
-            "url": "http://swagger.io"
-        },
-        "actions": {
-            "index": {},
-            "create": {},
-            "update": {},
-            "view": {},
-            "delete": {},
-            "/user": {
-                "get": {
-                    "summary": "Create user",
-                    "description": "This can only be done by the logged in user.",
-                    "operationId": "createUser",
-                    "produces": ["application/xml", "application/json"],
-                    "parameters": [{
-                        "in": "body",
-                        "name": "body",
-                        "description": "Created user object",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "username": {
-                                    "type": "string",
-                                    "example": "myzero1",
-                                    "description": "It will be used to login"
-                                },
-                                "firstName": {
-                                    "type": "string",
-                                    "example": "myzero1"
-                                },
-                                "lastName": {
-                                    "type": "string",
-                                    "example": "Qin"
-                                },
-                                "email": {
-                                    "type": "string",
-                                    "example": "myzero1@sina.com"
-                                },
-                                "password": {
-                                    "type": "string",
-                                    "example": "123456"
-                                }
-                            }
-                        }
-                    }],
-                    "responses": {
-                        "default": {
-                            "description": "successful operation"
-                        }
-                    },
-                    "security": [{
-                        "api_key": []
-                    }]
+        "text": "tag",
+        "title": "Insert a Tag Node",
+        "className": "jsoneditor-type-object",
+        "field": "tag",
+        "value": {
+            "name": "user",
+            "paths": {
+                "index": {
+                    "name": "index"
                 }
             }
         }
     },
     {
-        "text": "Tag",
-        "title": "Insert a Tag Node",
-        "className": "jsoneditor-type-object",
-        "field": "TagTemplate",
-        "value": {
-            "firstName": "John",
-            "lastName": "Do",
-            "age": 282
-        }
-    },
-    {
-        "text": "Tag",
-        "title": "Insert a Tag Node",
-        "className": "jsoneditor-type-object",
-        "field": "TagTemplate",
-        "value": {
-            "firstName": "John",
-            "lastName": "Do",
-            "age": 282
-        }
-    },
-    {
-        "text": "Index(get)",
+        "text": "index",
         "title": "Insert a Index Node",
         "className": "jsoneditor-type-object",
-        "field": "IndexTemplate",
+        "field": "index",
         "value": {
-            "firstName": "John",
-            "lastName": "Do",
-            "age": 282
+            "name": "index"
         }
     },
     {
-        "text": "Create(post)",
+        "text": "create",
         "title": "Insert a Create Node",
         "className": "jsoneditor-type-object",
-        "field": "CreateTemplate",
+        "field": "create",
         "value": {
-            "firstName": "John",
-            "lastName": "Do",
-            "age": 282
+            "name": "create"
         }
     },
     {
-        "text": "Update(put)",
+        "text": "update",
         "title": "Insert a Update Node",
         "className": "jsoneditor-type-object",
-        "field": "UpdateTemplate",
+        "field": "update",
         "value": {
-            "firstName": "John",
-            "lastName": "Do",
-            "age": 282
+            "name": "update"
         }
     },
     {
-        "text": "View(get)",
+        "text": "view",
         "title": "Insert a View Node",
         "className": "jsoneditor-type-object",
-        "field": "ViewTemplate",
+        "field": "view",
         "value": {
-            "firstName": "John",
-            "lastName": "Do",
-            "age": 282
+            "name": "view"
         }
     },
     {
-        "text": "Delete(get)",
+        "text": "delete",
         "title": "Insert a Delete Node",
         "className": "jsoneditor-type-object",
-        "field": "DeleteTemplate",
+        "field": "delete",
         "value": {
-            "firstName": "John",
-            "lastName": "Do",
-            "age": 282
+            "name": "delete"
         }
     }
 ]

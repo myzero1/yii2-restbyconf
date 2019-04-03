@@ -30,6 +30,19 @@
     "tags": {
         "user": {
             "name": "user",
+            "paths": {
+                "index": {
+                    "name": "index"
+                }
+            }
+        }
+    },
+
+
+
+    "tags-old": {
+        "user": {
+            "name": "user",
             "description": "Operations about user",
             "externalDocs": 
             {

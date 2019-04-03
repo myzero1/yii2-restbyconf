@@ -26,42 +26,6 @@ $json = file_get_contents($jsonFile);
 $schema = file_get_contents($schemaFile);
 $templates = file_get_contents($templatesFile);
 
-function getUnEditablePath($json){
-    $unEditable = [
-        'swagger',
-        'info',
-        'host',
-        'basePath',
-        'externalDocs',
-        'schemes',
-        'securityDefinitions',
-    ];
-    $json = json_decode($json, true);
-    // var_dump($json);exit;
-    $unEditablePath = [];
-    foreach ($json as $k => $v) {
-        if (in_array($k, $unEditable)) {
-            $unEditablePath[] = $k;
-            if (is_array($v)) {
-                foreach ($v as $k1 => $v1) {
-                    $unEditablePath[] = $k . '-' . $k1;
-                    if (is_array($v1)) {
-                        foreach ($v1 as $k2 => $v2) {
-                            $unEditablePath[] = $k . '-' . $k1 . '-' . $k2;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    $unEditablePath[] = 'paths';
-    $unEditablePath = json_encode($unEditablePath);
-
-    return $unEditablePath;
-}
-// var_dump($json);exit;
-$unEditablePath = getUnEditablePath($json);
-
 $json = json_encode(json_decode($json,true));
 $schema = json_encode(json_decode($schema,true));
 $templates = json_encode(json_decode($templates,true));
@@ -107,10 +71,16 @@ $js = <<<js
             if (unEditable.indexOf(path) > -1) {
                 return false;
             } else {
-                return {
-                  field: false,
-                  value: true
-                };
+                if(node.path.length == 2 && node.path[0] == 'tags'){
+                    return true;
+                } else if(node.path.length == 4 && node.path[0] == 'tags' && node.path[2] == 'paths'){
+                    return true;
+                } else {
+                    return {
+                      field: false,
+                      value: true
+                    };
+                }
             }
         } else {
             return true;
@@ -130,6 +100,25 @@ $js = <<<js
         return [];
     }
 
+    var onEvent = function onEvent(node, event) {
+        if (event.type == 'mouseout') {
+
+            if(node.path.length == 2 && node.path[0] == 'tags'){
+                console.log(node);
+                console.log(this.schema);
+
+                var schema = this.schema;
+                schema['properties']['tags'][node.field] = {
+                  "\$ref": "tag"
+                };
+
+                editor.setSchema(schema,this.schemaRefs);
+
+            }
+            // console.log(node);
+        }
+    }
+
     var schema = $schema;
 
     var options = {
@@ -141,7 +130,8 @@ $js = <<<js
         modes: ['view', 'tree'],
         onEditable: onEditable,
         onChangeJSON: onChangeJSON,
-        onCreateMenu: onCreateMenu
+        onCreateMenu: onCreateMenu,
+        onEvent: onEvent
     };
 
     // create the editor
