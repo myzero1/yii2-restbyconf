@@ -170,6 +170,14 @@
                 };
                 editor.setSchema(this.schema,schemaRefs);
             }
+
+            if (node.path.length==4 && node.path[0] == 'tags' && node.path[2] == 'paths') {
+                var schemaRefs = this.schemaRefs;
+                schemaRefs['paths']['properties'][node.field] = {
+                  "$ref": "path"
+                };
+                editor.setSchema(this.schema,schemaRefs);
+            }
         }
     };
 
