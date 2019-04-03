@@ -64,10 +64,10 @@
                 }
             },
             {
-                text: 'IndexPath',
+                text: 'indexPath',
                 title: 'Insert a IndexPath Node',
                 className: 'jsoneditor-type-object',
-                field: 'IndexPathTemplate',
+                field: 'index',
                 value: {
                     "name": "index"
                 }
@@ -76,9 +76,36 @@
                 text: 'CreatePath',
                 title: 'Insert a CreatePath Node',
                 className: 'jsoneditor-type-object',
-                field: 'CreatePathTemplate',
+                field: 'create',
                 value: {
                     "name": "create"
+                }
+            },
+            {
+                text: 'updatePath',
+                title: 'Insert a CreatePath Node',
+                className: 'jsoneditor-type-object',
+                field: 'update',
+                value: {
+                    "name": "update"
+                }
+            },
+            {
+                text: 'viewPath',
+                title: 'Insert a CreatePath Node',
+                className: 'jsoneditor-type-object',
+                field: 'view',
+                value: {
+                    "name": "view"
+                }
+            },
+            {
+                text: 'deletePath',
+                title: 'Insert a CreatePath Node',
+                className: 'jsoneditor-type-object',
+                field: 'delete',
+                value: {
+                    "name": "delete"
                 }
             }
         ];
@@ -139,11 +166,75 @@
             "required": [],
             "properties": {
                 "IndexPathTemplate": {
-                    "$ref": "path"
+                    "$ref": "index"
                 }
             }
         },
-        "path": {
+        "index": {
+            "title": "Paths description",
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32,
+                    "examples": [
+                        "create",
+                        "update"
+                    ],
+                },
+            }
+        },
+        "create": {
+            "title": "Paths description",
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32,
+                    "examples": [
+                        "create",
+                        "update"
+                    ],
+                },
+            }
+        },
+        "update": {
+            "title": "Paths description",
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32,
+                    "examples": [
+                        "create",
+                        "update"
+                    ],
+                },
+            }
+        },
+        "view": {
+            "title": "Paths description",
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32,
+                    "examples": [
+                        "create",
+                        "update"
+                    ],
+                },
+            }
+        },
+        "delete": {
             "title": "Paths description",
             "type": "object",
             "required": ["name"],
@@ -174,7 +265,7 @@
             if (node.path.length==4 && node.path[0] == 'tags' && node.path[2] == 'paths') {
                 var schemaRefs = this.schemaRefs;
                 schemaRefs['paths']['properties'][node.field] = {
-                  "$ref": "path"
+                  "$ref": node.field
                 };
                 editor.setSchema(this.schema,schemaRefs);
             }
