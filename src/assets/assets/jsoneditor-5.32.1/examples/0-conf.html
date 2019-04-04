@@ -72,7 +72,7 @@
             },
             {
                 text: 'index',
-                title: 'Insert a IndexPath Node',
+                title: 'restbyconf-obj-path',
                 className: 'jsoneditor-append jsoneditor-default',
                 field: 'index',
                 value: {
@@ -467,6 +467,7 @@
                     } else {
                         delete(jsonData[path[0]][path[1]][path[2]][path[3]]);
                         editor.update(jsonData);
+                        editor.setSchema(editor.schema,editor.schemaRefs);
                     }
                 } // the function to call when the menu item is clicked
             } );
