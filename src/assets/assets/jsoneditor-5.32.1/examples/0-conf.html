@@ -295,16 +295,16 @@
         // for tag
         $(".jsoneditor-field[title=restbyconf-obj-tag]").each(function(){
 
-            var style = $(this).parent().parent().parent().parent('.jsoneditor-values').attr('style');
+            // var style = $(this).parent().parent().parent().parent('.jsoneditor-values').attr('style');
+            var title = $(this).parents('.jsoneditor-expandable').prev().find('.jsoneditor-field').attr('title');
 
-            if (style.indexOf('margin-left: 48px') > -1)  {
+            if (title=='restbyconf-obj-tags' || title=='restbyconf-obj-tag')  {
 
             } else {
                 window.isJumped = true;
             }
         });
 
-        // console.log(window.isJumped);
         return window.isJumped;
     }
 
