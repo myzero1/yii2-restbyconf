@@ -90,7 +90,7 @@
                 className: 'jsoneditor-append jsoneditor-default',
                 field: 'in_str',
                 value: {
-                    "name": "myzro1"
+                    "des": "myzro1"
                 }
             },
             {
@@ -629,7 +629,7 @@
     }
 
     var onEvent = function(node, event){
-        console.log(node);
+        // console.log(node);
         if (event.type == 'focus') {
             if (isTagLay(node.path)) {
                 window.jsonEditorData = editor.get();
@@ -643,6 +643,15 @@
                 var schemaRefs = this.schemaRefs;
                 schemaRefs['tags']['properties'][node.field] = {
                   "$ref": "tag"
+                };
+                editor.setSchema(this.schema,schemaRefs);
+            }
+            // update the validation of input
+            if (isInputLay(node.path)) {
+                console.log(1);
+                var schemaRefs = this.schemaRefs;
+                schemaRefs['inputs']['properties'][node.field] = {
+                  "$ref": "input_str"
                 };
                 editor.setSchema(this.schema,schemaRefs);
             }
