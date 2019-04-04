@@ -507,23 +507,6 @@
                 };
                 editor.setSchema(this.schema,schemaRefs);
             }
-
-            // update the validation of path
-            if (isPathLay(node.path)) {
-                var schemaRefs = this.schemaRefs;
-                schemaRefs['paths']['properties'][node.field] = {
-                  "$ref": node.field
-                };
-                editor.setSchema(this.schema,schemaRefs);
-
-
-                // 
-                tmpJsonData = editor.get();
-                if (node.path.length != window.jsonEditorPath.length) {
-                    editor.update(window.jsonEditorData);
-                }
-
-            }
         }
     };
 
