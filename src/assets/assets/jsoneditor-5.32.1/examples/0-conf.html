@@ -48,7 +48,12 @@
                 "name": "userName",
                 "paths": {
                     "create": {
-                        "name": "create"
+                        "name": "create",
+                        "inputs": {
+                            "input_str": {
+                                "des": "myzero1"
+                            }
+                        }
                     }
                 }
             }
@@ -177,7 +182,7 @@
                 }
             }
         },
-        "index": {
+        "create": {
             "title": "restbyconf-obj-path",
             "type": "object",
             "required": ["name"],
@@ -191,9 +196,37 @@
                         "update"
                     ],
                 },
+                "inputs": {
+                    "$ref": "inputs"
+                }
             }
         },
-        "create": {
+        "inputs": {
+            "title": "Paths description",
+            "type": "object",
+            "required": [],
+            "properties": {
+                "input_str": {
+                    "$ref": "input_str"
+                }
+            }
+        },
+        "input_str": {
+            "title": "restbyconf-obj-input",
+            "type": "object",
+            "required": ["des"],
+            "properties": {
+                "des": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32,
+                    "examples": [
+                        "user name"
+                    ],
+                }
+            }
+        },
+        "index": {
             "title": "restbyconf-obj-path",
             "type": "object",
             "required": ["name"],
