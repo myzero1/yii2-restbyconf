@@ -47,8 +47,8 @@
             "TagTemplate": {
                 "name": "userName",
                 "paths": {
-                    "index": {
-                        "name": "index"
+                    "create": {
+                        "name": "create"
                     }
                 }
             }
@@ -309,7 +309,6 @@
     }
 
     var showContextmenu = function() {
-        $(".jsoneditor-button.jsoneditor-contextmenu").hide();
         // for tag
         $(".jsoneditor-field[title=restbyconf-obj-tag]").each(function(){
             $(this).parent().parent().parent().parent('.jsoneditor-values').parent().parent(".jsoneditor-expandable").children().children('.jsoneditor-contextmenu').show();
@@ -368,8 +367,9 @@
 
     var onChangeJSON = function onChangeJSON(json) {
         if (isJumpedLay()) {
-            console.log(window.jsoneditorJsonData);
             editor.update(window.jsoneditorJsonData);
+        } else {
+            window.jsoneditorJsonData = editor.get();// for sort
         }
         
         // console.log(editor);
@@ -480,8 +480,6 @@
 
     var onEvent = function(node, event){
         if (event.type == 'focus') {
-            window.jsoneditorJsonData = editor.get();// for sort
-
             if (isTagLay(node.path)) {
                 window.jsonEditorData = editor.get();
                 window.jsonEditorPath = node.path;
@@ -489,8 +487,6 @@
         }
 
         if (event.type == 'blur') {
-            window.jsoneditorJsonData = editor.get();// for sort
-
             // update the validation of tag
             if (isTagLay(node.path)) {
                 var schemaRefs = this.schemaRefs;
@@ -519,6 +515,11 @@
         }
     };
 
+    var onNodeName = function(node){
+        // console.log(node);
+        // console.log(1);
+    }
+
     var options = {
         schema: schemas['schema'],
         schemaRefs: schemas,
@@ -528,13 +529,15 @@
         onEditable: onEditable,
         onChangeJSON: onChangeJSON,
         onCreateMenu: onCreateMenu,
-        onEvent: onEvent
+        onEvent: onEvent,
+        onNodeName: onNodeName
 
     };
 
     // create the editor
     var container = document.getElementById('jsoneditor');
     var editor = new JSONEditor(container, options, json);
+    window.jsoneditorJsonData = editor.get();// for sort
 </script>
 </body>
 </html>
