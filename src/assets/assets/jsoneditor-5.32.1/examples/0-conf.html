@@ -60,7 +60,7 @@
                 text: 'tag',
                 title: 'Insert a Tag Node',
                 className: 'jsoneditor-append jsoneditor-default',
-                field: 'TagTemplate',
+                field: '',
                 value: {
                     "name": "tagName",
                     "paths": {
@@ -411,7 +411,7 @@
 
         if(isTagLay(node.path)){
             var itemsTmp  = new Array();
-            var actionList = new Array('追加', '复制', '移除');
+            var actionList = new Array('追加', '移除');
 
             for (var i = 0;  i < items.length; i++) {
                 var text = items[i]['text'];
@@ -472,7 +472,6 @@
                     var jsonData = editor.get();
                     var path = node.path;
                     var tmp = jsonData[path[0]][path[1]][path[2]];
-                    delete(tmp[path[3]]);
                     if (JSON.stringify(tmp) == "{}") {
                         alert('必须保留一个path');
                     } else {
@@ -511,6 +510,7 @@
     };
 
     var onNodeName = function(node){
+        showContextmenu();
         // console.log(node);
         // console.log(1);
     }
