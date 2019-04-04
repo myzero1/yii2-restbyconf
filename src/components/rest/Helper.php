@@ -53,14 +53,14 @@ class Helper
         if (count($inputFieldMap) === 0) {
             return $input;
         } else {
-            $outPut = [];
             foreach ($input as $k => $v) {
                 if (isset($inputFieldMap[$k])) {
-                    $outPut[$inputFieldMap[$k]] = $v;
+                    $input[$inputFieldMap[$k]] = $v;
+                    unset($input[$k]);
                 }
             }
 
-            return $outPut;
+            return $input;
         }
     }
 
@@ -74,14 +74,14 @@ class Helper
         if (count($outputFieldMap)) {
             return $db;
         } else {
-            $outPut = [];
             foreach ($db as $k => $v) {
                 if (isset($outputFieldMap[$k])) {
-                    $outPut[$outputFieldMap[$k]] = $v;
+                    $db[$outputFieldMap[$k]] = $v;
+                    unset($db[$k]);
                 }
             }
 
-            return $outPut;
+            return $db;
         }
     }
 
