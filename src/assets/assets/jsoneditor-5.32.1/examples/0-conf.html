@@ -21,7 +21,10 @@
     .jsoneditor-is-not-default {
       font-weight: bold;
     }
-    div.jsoneditor-tree button.jsoneditor-dragarea{
+/*    div.jsoneditor-tree button.jsoneditor-dragarea{
+        display: none;
+    }*/
+    .jsoneditor-button.jsoneditor-contextmenu{
         display: none;
     }
   </style>
@@ -136,7 +139,7 @@
             }
         },
         "tags": {
-            "title": "Tags description",
+            "title": "restbyconf-obj-tags",
             "type": "object",
             "required": [],
             "properties": {
@@ -146,7 +149,7 @@
             }
         },
         "tag": {
-            "title": "Tag description",
+            "title": "restbyconf-obj-tag",
             "type": "object",
             "required": ["name", "paths"],
             "properties": {
@@ -175,7 +178,7 @@
             }
         },
         "index": {
-            "title": "Paths description",
+            "title": "restbyconf-obj-path",
             "type": "object",
             "required": ["name"],
             "properties": {
@@ -191,7 +194,7 @@
             }
         },
         "create": {
-            "title": "Paths description",
+            "title": "restbyconf-obj-path",
             "type": "object",
             "required": ["name"],
             "properties": {
@@ -207,7 +210,7 @@
             }
         },
         "update": {
-            "title": "Paths description",
+            "title": "restbyconf-obj-path",
             "type": "object",
             "required": ["name"],
             "properties": {
@@ -223,7 +226,7 @@
             }
         },
         "view": {
-            "title": "Paths description",
+            "title": "restbyconf-obj-path",
             "type": "object",
             "required": ["name"],
             "properties": {
@@ -239,7 +242,7 @@
             }
         },
         "delete": {
-            "title": "Paths description",
+            "title": "restbyconf-obj-path",
             "type": "object",
             "required": ["name"],
             "properties": {
@@ -286,6 +289,38 @@
         });
     }
 
+    var isJumpedLay = function() {
+        window.isJumped = false;
+
+        // for tag
+        $(".jsoneditor-field[title=restbyconf-obj-tag]").each(function(){
+
+            var style = $(this).parent().parent().parent().parent('.jsoneditor-values').attr('style');
+
+            if (style.indexOf('margin-left: 48px') > -1)  {
+
+            } else {
+                window.isJumped = true;
+            }
+        });
+
+        // console.log(window.isJumped);
+        return window.isJumped;
+    }
+
+    var showContextmenu = function() {
+        $(".jsoneditor-button.jsoneditor-contextmenu").hide();
+        // for tag
+        $(".jsoneditor-field[title=restbyconf-obj-tag]").each(function(){
+            $(this).parent().parent().parent().parent('.jsoneditor-values').parent().parent(".jsoneditor-expandable").children().children('.jsoneditor-contextmenu').show();
+        });
+
+        // for path
+        $(".jsoneditor-field[title=restbyconf-obj-path]").each(function(){
+            $(this).parent().parent().parent().parent('.jsoneditor-values').parent().parent(".jsoneditor-expandable").children().children('.jsoneditor-contextmenu').show();
+        });
+    }
+
     var isTagLay = function(path) {
         if (path.length == 2 && path[0] == 'tags') {
             return true;
@@ -305,6 +340,7 @@
 
 
     var onEditable = function(node) {
+        showContextmenu();
         adjustBackground();
         var unEditable = [
             'swagger',
@@ -330,10 +366,14 @@
         }
     }
 
-
-
-
     var onChangeJSON = function onChangeJSON(json) {
+        if (isJumpedLay()) {
+            console.log(window.jsoneditorJsonData);
+            editor.update(window.jsoneditorJsonData);
+        }
+        
+        // console.log(editor);
+
         // console.log(this);
         // var conf = document.getElementById('generator-conf');
             // conf.setAttribute('value', JSON.stringify(json));
@@ -438,18 +478,19 @@
         }
     }
 
-
-
     var onEvent = function(node, event){
         if (event.type == 'focus') {
+            window.jsoneditorJsonData = editor.get();// for sort
+
             if (isTagLay(node.path)) {
                 window.jsonEditorData = editor.get();
                 window.jsonEditorPath = node.path;
-                console.log(node.path);
             }
         }
 
         if (event.type == 'blur') {
+            window.jsoneditorJsonData = editor.get();// for sort
+
             // update the validation of tag
             if (isTagLay(node.path)) {
                 var schemaRefs = this.schemaRefs;
