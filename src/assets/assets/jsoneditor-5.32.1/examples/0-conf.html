@@ -339,6 +339,17 @@
 
 
     var onEditable = function(node) {
+        // update the validation of path
+        if (Array.isArray(node.path)) {
+            if (isPathLay(node.path)) {
+                var schemaRefs = this.schemaRefs;
+                schemaRefs['paths']['properties'][node.field] = {
+                  "$ref": node.field
+                };
+                editor.setSchema(this.schema,schemaRefs);
+            }
+        }
+
         showContextmenu();
         adjustBackground();
         var unEditable = [
