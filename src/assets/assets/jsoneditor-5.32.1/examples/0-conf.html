@@ -76,21 +76,30 @@
                 }
             },
             {
-                text: 'index',
-                title: 'restbyconf-obj-path',
-                className: 'jsoneditor-append jsoneditor-default',
-                field: 'index',
-                value: {
-                    "name": "index"
-                }
-            },
-            {
                 text: 'create',
                 title: 'Insert a CreatePath Node',
                 className: 'jsoneditor-append jsoneditor-default',
                 field: 'create',
                 value: {
                     "name": "create"
+                }
+            },
+            {
+                text: 'in_str',
+                title: 'Insert a CreatePath Node',
+                className: 'jsoneditor-append jsoneditor-default',
+                field: 'in_str',
+                value: {
+                    "name": "myzro1"
+                }
+            },
+            {
+                text: 'index',
+                title: 'restbyconf-obj-path',
+                className: 'jsoneditor-append jsoneditor-default',
+                field: 'index',
+                value: {
+                    "name": "index"
                 }
             },
             {
@@ -351,6 +360,11 @@
         $(".jsoneditor-field[title=restbyconf-obj-path]").each(function(){
             $(this).parent().parent().parent().parent('.jsoneditor-values').parent().parent(".jsoneditor-expandable").children().children('.jsoneditor-contextmenu').show();
         });
+
+        // for input
+        $(".jsoneditor-field[title=restbyconf-obj-input]").each(function(){
+            $(this).parent().parent().parent().parent('.jsoneditor-values').parent().parent(".jsoneditor-expandable").children().children('.jsoneditor-contextmenu').show();
+        });
     }
 
     var isTagLay = function(path) {
@@ -369,7 +383,13 @@
         }
     }
 
-
+    var isInputLay = function(path) {
+        if (path.length == 6 && path[0] == 'tags' && path[2] == 'paths' && path[4] == 'inputs') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     var onEditable = function(node) {
         // update the validation of path
@@ -395,7 +415,9 @@
             if (unEditable.indexOf(path) > -1) {
                 return false;
             } else {
-                if(node.path.length == 2 && node.path[0] == 'tags'){
+                if(isTagLay(node.path)){
+                    return true;
+                } else if(isInputLay(node.path)){
                     return true;
                 } else {
                     return {
@@ -542,6 +564,7 @@
     }
 
     var onEvent = function(node, event){
+        console.log(node);
         if (event.type == 'focus') {
             if (isTagLay(node.path)) {
                 window.jsonEditorData = editor.get();
