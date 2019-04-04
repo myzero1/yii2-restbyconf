@@ -408,10 +408,9 @@
             return false;
         }
 
-
         if(isTagLay(node.path)){
             var itemsTmp  = new Array();
-            var actionList = new Array('追加', '移除');
+            var actionList = new Array('追加');
 
             for (var i = 0;  i < items.length; i++) {
                 var text = items[i]['text'];
@@ -433,6 +432,25 @@
                 }
                 
             }
+
+            itemsTmp.push( {
+                text : '删除', // the text for the menu item
+                title : 'jsoneditor-remove', // the HTML title attribute
+                className : 'jsoneditor-remove', // the css class name(s) for the menu item
+                click : function(){
+                    var jsonData = editor.get();
+                    var path = node.path;
+                    var tmp = jsonData[path[0]];
+                    delete(tmp[path[1]]);
+                    if (JSON.stringify(tmp) == "{}") {
+                        alert('必须保留一个tag');
+                    } else {
+                        delete(jsonData[path[0]][path[1]]);
+                        editor.update(jsonData);
+                        editor.setSchema(editor.schema,editor.schemaRefs);
+                    }
+                } // the function to call when the menu item is clicked
+            } );
 
             return itemsTmp;
         } else if(isPathLay(node.path)){
@@ -472,6 +490,7 @@
                     var jsonData = editor.get();
                     var path = node.path;
                     var tmp = jsonData[path[0]][path[1]][path[2]];
+                    delete(tmp[path[3]]);
                     if (JSON.stringify(tmp) == "{}") {
                         alert('必须保留一个path');
                     } else {
@@ -511,8 +530,10 @@
 
     var onNodeName = function(node){
         showContextmenu();
-        // console.log(node);
-        // console.log(1);
+    }
+
+    var onError = function(error){
+        alert(error);
     }
 
     var options = {
@@ -527,7 +548,8 @@
         onChangeJSON: onChangeJSON,
         onCreateMenu: onCreateMenu,
         onEvent: onEvent,
-        onNodeName: onNodeName
+        onNodeName: onNodeName,
+        onError: onError
 
     };
 
