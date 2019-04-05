@@ -447,10 +447,9 @@
     }
 
     var onChangeJSON = function onChangeJSON(json) {
+        // for sort
         if (isJumpedLay()) {
             editor.update(window.jsoneditorJsonData);
-        } else {
-            window.jsoneditorJsonData = editor.get();// for sort
         }
         
         // console.log(editor);
@@ -662,10 +661,6 @@
         showContextmenu();
     }
 
-    var onError = function(error){
-        alert(error);
-    }
-
     var options = {
         schema: schemas['schema'],
         schemaRefs: schemas,
@@ -678,15 +673,29 @@
         onChangeJSON: onChangeJSON,
         onCreateMenu: onCreateMenu,
         onEvent: onEvent,
-        onNodeName: onNodeName,
-        onError: onError
+        onNodeName: onNodeName
 
     };
 
     // create the editor
     var container = document.getElementById('jsoneditor');
     var editor = new JSONEditor(container, options, json);
-    window.jsoneditorJsonData = editor.get();// for sort
+    // window.jsoneditorJsonData = editor.get();// for sort
+
+    
+    $(document).on("mousedown",".jsoneditor-dragarea",function(){
+            console.log("mousedown");
+            if (!isJumpedLay()) {
+                window.jsoneditorJsonData = editor.get();// for sort
+
+
+            }
+        }
+    )
+    
+
+
+
 </script>
 </body>
 </html>
