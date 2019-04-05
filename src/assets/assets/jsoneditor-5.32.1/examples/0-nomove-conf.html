@@ -72,7 +72,12 @@
                     "name": "tagName",
                     "paths": {
                         "create": {
-                            "name": "create"
+                            "name": "create",
+                            "inputs": {
+                                "in_str": {
+                                    "des": "myzero1"
+                                }
+                            }
                         }
                     }
                 }
@@ -83,7 +88,12 @@
                 className: 'jsoneditor-append jsoneditor-default',
                 field: 'create',
                 value: {
-                    "name": "create"
+                    "name": "create",
+                    "inputs": {
+                        "in_str": {
+                            "des": "myzero1"
+                        }
+                    }
                 }
             },
             {
@@ -101,7 +111,12 @@
                 className: 'jsoneditor-append jsoneditor-default',
                 field: 'index',
                 value: {
-                    "name": "index"
+                    "name": "index",
+                    "inputs": {
+                        "in_str": {
+                            "des": "myzero1"
+                        }
+                    }
                 }
             },
             {
@@ -110,7 +125,12 @@
                 className: 'jsoneditor-append jsoneditor-default',
                 field: 'update',
                 value: {
-                    "name": "update"
+                    "name": "update",
+                    "inputs": {
+                        "in_str": {
+                            "des": "myzero1"
+                        }
+                    }
                 }
             },
             {
@@ -119,7 +139,12 @@
                 className: 'jsoneditor-append jsoneditor-default',
                 field: 'view',
                 value: {
-                    "name": "view"
+                    "name": "view",
+                    "inputs": {
+                        "in_str": {
+                            "des": "myzero1"
+                        }
+                    }
                 }
             },
             {
@@ -128,7 +153,12 @@
                 className: 'jsoneditor-append jsoneditor-default',
                 field: 'delete',
                 value: {
-                    "name": "delete"
+                    "name": "delete",
+                    "inputs": {
+                        "in_str": {
+                            "des": "myzero1"
+                        }
+                    }
                 }
             }
         ];
@@ -251,6 +281,9 @@
                         "update"
                     ],
                 },
+                "inputs": {
+                    "$ref": "inputs"
+                }
             }
         },
         "update": {
@@ -267,6 +300,9 @@
                         "update"
                     ],
                 },
+                "inputs": {
+                    "$ref": "inputs"
+                }
             }
         },
         "view": {
@@ -283,6 +319,9 @@
                         "update"
                     ],
                 },
+                "inputs": {
+                    "$ref": "inputs"
+                }
             }
         },
         "delete": {
@@ -299,6 +338,9 @@
                         "update"
                     ],
                 },
+                "inputs": {
+                    "$ref": "inputs"
+                }
             }
         }
     };
@@ -397,6 +439,9 @@
                 // console.log(schemaRefs);
                 editor.setSchema(this.schema,schemaRefs);
             }
+
+            showContextmenu();
+            adjustBackground();
         }
     };
 
