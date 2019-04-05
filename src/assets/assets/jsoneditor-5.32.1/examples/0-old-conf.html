@@ -39,12 +39,8 @@
 <div id="jsoneditor"></div>
 
 <script>
-    window.jsoneditorOldJson = {
+    var json = {
         "swagger": "2.0",
-        'contact': {
-            "name": "name",
-            "url": "url"
-        },
         "tags": {
             "TagTemplate": {
                 "name": "userName",
@@ -418,7 +414,6 @@
     }
 
     var onEditable = function(node) {
-        console.log('onEditable');
         // update the validation of path
         if (Array.isArray(node.path)) {
             if (isPathLay(node.path)) {
@@ -431,7 +426,7 @@
         }
 
         showContextmenu();
-        adjustBackground();
+        // adjustBackground();
         var unEditable = [
             'swagger',
             'tags'
@@ -459,14 +454,10 @@
     }
 
     var onChangeJSON = function onChangeJSON(json) {
-        console.log('onChangeJSON');
         // for sort
-        // if (isJumpedLay()) {
-        //     editor.update(window.jsoneditorJsonData);
-        // }
-        // if (window.jsoneditorMustUpdateJson) {
-        //     editor.update(window.jsoneditorOldJson);
-        // }
+        if (isJumpedLay()) {
+            editor.update(window.jsoneditorJsonData);
+        }
         
         // console.log(editor);
 
@@ -677,71 +668,8 @@
         }
     };
 
-    function mustUpdateJsonInNodeName(path, oldJson){
-        if (path.length == 1) {
-            if (!(path[0] in oldJson)) {
-                return true;
-            }
-        } else if (path.length == 2) {
-            if (!(path[1] in oldJson[path[0]])) {
-                return true;
-            }
-        } else if (path.length == 3) {
-            if (path[1] == '') {
-                return false; // 新加节点
-            } else {
-                if (!(path[2] in oldJson[path[0]][path[1]])) {
-                    return true;
-                }
-            }
-        } else if (path.length == 4) {
-            if (path[1] == '') {
-                return false; // 新加节点
-            } else {
-                if (!(path[3] in oldJson[path[0]][path[1]][path[2]])) {
-                    return true;
-                }
-            }
-        } else if (path.length == 5) {
-            if (path[1] == '') {
-                return false; // 新加节点
-            } else {
-                if (!(path[4] in oldJson[path[0]][path[1]][path[2]][path[3]])) {
-                    return true;
-                }
-            }
-        } else if (path.length == 6) {
-            if (path[1] == '') {
-                return false; // 新加节点
-            } else {
-                if (!(path[5] in oldJson[path[0]][path[1]][path[2]][path[3]][path[4]])) {
-                    return true;
-                }
-            }
-        } else {
-            return false;
-        }
-    }    
-
     var onNodeName = function(node){
-        console.log('onNodeName');
         showContextmenu();
-        adjustBackground();
-        console.log(node);
-
-        window.jsoneditorMustUpdateJson = mustUpdateJsonInNodeName(node.path, window.jsoneditorOldJson);
-
-    }
-
-    var onValidate = function(json){
-        if (window.jsoneditorMustUpdateJson) {
-            window.jsoneditorOldJson = json;
-            console.log(json);
-        }
-
-
-        // window.jsoneditorMustUpdateJson = mustUpdateJsonInNodeName(node.path, window.jsoneditorOldJson);
-
     }
 
     var options = {
@@ -753,17 +681,16 @@
         enableTransform: false,
         templates: templates,
         onEditable: onEditable,
-        onNodeName: onNodeName,
+        onChangeJSON: onChangeJSON,
         onCreateMenu: onCreateMenu,
-        onValidate: onValidate,
         onEvent: onEvent,
-        onChangeJSON: onChangeJSON
+        onNodeName: onNodeName
 
     };
 
     // create the editor
     var container = document.getElementById('jsoneditor');
-    var editor = new JSONEditor(container, options, window.jsoneditorOldJson);
+    var editor = new JSONEditor(container, options, json);
     // window.jsoneditorJsonData = editor.get();// for sort
 
     // for srot
@@ -783,13 +710,13 @@
     `;
     // $("body").append(style);
 
-    // showContextmenu();
-    // adjustBackground();
+    showContextmenu();
+    adjustBackground();
 
-    // $(document).on("click",".jsoneditor-expand-all",function(){
-    //     showContextmenu();
-    //     adjustBackground();
-    // });
+    $(document).on("click",".jsoneditor-expand-all",function(){
+        showContextmenu();
+        adjustBackground();
+    });
 
     
 
