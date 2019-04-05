@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>JSONEditor | Custom editable fields</title>
+<meta charset="UTF-8">
+  <link href="../dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
+  <script src="../dist/jsoneditor.min.js"></script>
+
+  <style type="text/css">
+    #jsoneditor {
+      width: 500px;
+    }
+  </style>
+</head>
+<body>
+  <p>
+    In this example:
+  </p>
+  <ul>
+    <li>the field <code>_id</code> and its value are read-only</li>
+    <li>the field <code>name</code> is read-only but has an editable value</li>
+    <li>the field <code>age</code> and its value are editable</li>
+  </ul>
+
+  <div id="jsoneditor"></div>
+
+  <script>
+    var container = document.getElementById('jsoneditor');
+
+    var options = {
+      onEditable: function (node) {
+        console.log('onEditable');
+
+        return true;
+      },
+      onChangeText: function (jsonString) {
+        console.log('onChangeText');
+      },
+      onClassName: function (node) {
+        console.log('onClassName');
+      },
+      onError: function (error) {
+        console.log('onError');
+      },
+      onModeChange: function (newMode, oldMode) {
+        console.log('onModeChange');
+      },
+      onNodeName: function (node) {
+        console.log('onNodeName');
+      },
+      onValidate: function (json) {
+        console.log('onValidate');
+      },
+      onCreateMenu: function (items,path) {
+        console.log('onCreateMenu');
+        return items;
+      }
+    };
+
+    var json = {
+      _id: 123456,
+      name: 'John',
+      age: 32
+    };
+
+    var editor = new JSONEditor(container, options, json);
+  </script>
+</body>
+</html>
