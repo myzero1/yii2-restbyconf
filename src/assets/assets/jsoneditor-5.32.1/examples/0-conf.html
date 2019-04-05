@@ -86,7 +86,7 @@
                 text: 'in_str',
                 title: 'Insert a CreatePath Node',
                 className: 'jsoneditor-append jsoneditor-default',
-                field: 'in_str',
+                field: '',
                 value: {
                     "des": "myzro1"
                 }
@@ -213,12 +213,12 @@
             "type": "object",
             "required": [],
             "properties": {
-                "input_str": {
-                    "$ref": "input_str"
+                "in_str": {
+                    "$ref": "in_str"
                 }
             }
         },
-        "input_str": {
+        "in_str": {
             "title": "restbyconf-obj-input",
             "type": "object",
             "required": ["des"],
@@ -337,7 +337,7 @@
 
             // var style = $(this).parent().parent().parent().parent('.jsoneditor-values').attr('style');
             // for tag
-            var title = $(this).parents('.jsoneditor-expandable').prev().find('.jsoneditor-field').attr('title');
+            var title = $(this).parents('.jsoneditor-expandable').prevAll('.jsoneditor-expandable').first().find('.jsoneditor-field').attr('title');
 
             if (title=='restbyconf-obj-tags' || title=='restbyconf-obj-tag')  {
 
@@ -346,12 +346,12 @@
             }
         });
 
-        // for tag
+        // for input
         $(".jsoneditor-field[title=restbyconf-obj-input]").each(function(){
 
             // var style = $(this).parent().parent().parent().parent('.jsoneditor-values').attr('style');
             // for tag
-            var title = $(this).parents('.jsoneditor-expandable').prev().find('.jsoneditor-field').attr('title');
+            var title = $(this).parents('.jsoneditor-expandable').prevAll('.jsoneditor-expandable').first().find('.jsoneditor-field').attr('title');
 
             if (title=='restbyconf-obj-inputs' || title=='restbyconf-obj-input')  {
 
@@ -426,7 +426,7 @@
         }
 
         showContextmenu();
-        adjustBackground();
+        // adjustBackground();
         var unEditable = [
             'swagger',
             'tags'
@@ -654,13 +654,17 @@
             }
             // update the validation of input
             if (isInputLay(node.path)) {
-                console.log(1);
+                console.log(0);
                 var schemaRefs = this.schemaRefs;
+                // console.log(schemaRefs);
                 schemaRefs['inputs']['properties'][node.field] = {
-                  "$ref": "input_str"
+                  "$ref": "in_str"
                 };
+                // console.log(schemaRefs);
                 editor.setSchema(this.schema,schemaRefs);
             }
+
+            window.jsoneditorJsonData = editor.get();// for sort
         }
     };
 
@@ -691,14 +695,10 @@
 
     // for srot
     $(document).on("mousedown",".jsoneditor-dragarea",function(){
-            console.log("mousedown");
-            if (!isJumpedLay()) {
-                window.jsoneditorJsonData = editor.get();// for sort
-
-
-            }
+        if (!isJumpedLay()) {
+            window.jsoneditorJsonData = editor.get();// for sort
         }
-    )
+    });
 
     // for contextmenu
     var style = `
@@ -709,8 +709,16 @@
     </style>
     `;
     // $("body").append(style);
-    
+
     showContextmenu();
+    adjustBackground();
+
+    $(document).on("click",".jsoneditor-expand-all",function(){
+        showContextmenu();
+        adjustBackground();
+    });
+
+    
 
 
 
