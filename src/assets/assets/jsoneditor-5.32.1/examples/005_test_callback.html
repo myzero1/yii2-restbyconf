@@ -36,6 +36,9 @@
       onChangeText: function (jsonString) {
         console.log('onChangeText');
       },
+      onChange: function (jsonString) {
+        console.log('onChange');
+      },
       onClassName: function (node) {
         console.log('onClassName');
       },
@@ -47,6 +50,11 @@
       },
       onNodeName: function (node) {
         console.log('onNodeName');
+        if (editor!=null) {
+          console.log(editor.get());
+        }
+
+        return 'info（'+node.size+'）';
       },
       onValidate: function (json) {
         console.log('onValidate');
@@ -60,7 +68,13 @@
     var json = {
       _id: 123456,
       name: 'John',
-      age: 32
+      inf: {
+        "name": "name"
+      },
+
+      info: {
+        "name": "name"
+      }
     };
 
     var editor = new JSONEditor(container, options, json);
