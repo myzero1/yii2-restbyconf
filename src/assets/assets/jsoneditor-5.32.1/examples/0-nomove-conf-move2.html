@@ -495,26 +495,49 @@
                 }
             }
 
-            if (path.length > 0) {
-                console.log(path);
+            // if (path.length > 0) {
+            //     console.log(path);
 
-                if (path.length == 1) {
-                    if ('node_id' in json[path[0]]) {
-                        window.jsoneditorCanUpdateOldJson = false;
-                    }
-                } else if (path.length == 2) {
-                    if ('node_id' in json[path[0]][path[1]]) {
-                        var nodeId = json[path[0]][path[1]]['node_id'];
-                        var nodeIdArray = nodeId.split('-');
+            //     if (path.length == 1) {
+            //         if ('node_id' in json[path[0]]) {
+            //             window.jsoneditorCanUpdateOldJson = false;
+            //         }
+            //     } else if (path.length == 2) {
+            //         if ('node_id' in json[path[0]][path[1]]) {
+            //             var nodeId = json[path[0]][path[1]]['node_id'];
+            //             var nodeIdArray = nodeId.split('-');
 
-                        if (nodeIdArray.length != 2) {
-                            window.jsoneditorCanUpdateOldJson = false;
-                        }
-                    }
-                }
+            //             if (nodeIdArray.length != 2) {
+            //                 window.jsoneditorCanUpdateOldJson = false;
+            //             }
+            //         }
+            //     } else if (path.length == 3) {
+            //         if ('node_id' in json[path[0]][path[1]][path[2]]) {
+            //             window.jsoneditorCanUpdateOldJson = false;
+            //         }
+            //     } else if (path.length == 4) {
+            //         var nodeId = json[path[0]][path[1]][path[2]][path[3]]['node_id'];
+            //         var nodeIdArray = nodeId.split('-');
+            //         var tagNodeId = json[path[0]][path[1]]['node_id'];
+            //         if (tagNodeId==nodeIdArray[0]+'-' && nodeIdArray.length == 3) {
 
-            }
-            
+            //         } else {
+            //             window.jsoneditorCanUpdateOldJson = false;
+            //         }
+            //     } 
+
+            //     // else if (path.length == 5) {
+            //     //     if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]]) {
+            //     //         window.jsoneditorCanUpdateOldJson = false;
+            //     //     }
+            //     // } else if (path.length == 6) {
+            //     //     // if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]]) {
+            //     //     //     window.jsoneditorCanUpdateOldJson = false;
+            //     //     // }
+            //     // }
+
+            // }
+
 
         }
     }
