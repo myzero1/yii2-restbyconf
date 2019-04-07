@@ -1,61 +1,181 @@
 [
-    {
-        "text": "tag",
-        "title": "Insert a Tag Node",
-        "className": "jsoneditor-type-object",
-        "field": "tag",
-        "value": {
-            "name": "user",
-            "paths": {
-                "index": {
-                    "name": "index"
+            {
+                "text": "tag",
+                "title": "Insert a Tag Node",
+                "className": "jsoneditor-append jsoneditor-default",
+                "field": "",
+                "value": {
+                    "name": "tagName",
+                    "paths": {
+                        "create": {
+                            "name": "create",
+                            "inputs": {
+                                "in_str": {
+                                    "des": "user name",
+                                    "required": false,
+                                    "type": "body",
+                                    "eg": "myzero1",
+                                    "rules": "^\w{1,32}$",
+                                    "error_msg": "You should input a-z,A-Z,0-9"
+                                }
+                            },
+                            "outputs": {
+                                "out_str": {
+                                    "des": "user name",
+                                    "eg": "myzero1"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "text": "create",
+                "title": "Insert a CreatePath Node",
+                "className": "jsoneditor-append jsoneditor-default",
+                "field": "create",
+                "value": {
+                    "name": "create",
+                    "inputs": {
+                        "in_str": {
+                            "des": "user name",
+                            "required": false,
+                            "type": "body",
+                            "eg": "myzero1",
+                            "rules": "^\w{1,32}$",
+                            "error_msg": "You should input a-z,A-Z,0-9"
+                        }
+                    },
+                    "outputs": {
+                        "out_str": {
+                            "des": "user name",
+                            "eg": "myzero1"
+                        }
+                    }
+                }
+            },
+            {
+                "text": "in_str",
+                "title": "Insert a CreatePath Node",
+                "className": "jsoneditor-append jsoneditor-default",
+                "field": "",
+                "value": {
+                    "des": "user name",
+                    "required": false,
+                    "type": "body",
+                    "eg": "myzero1",
+                    "rules": "^\w{1,32}$",
+                    "error_msg": "You should input a-z,A-Z,0-9"
+                }
+            },
+            {
+                "text": "out_str",
+                "title": "Insert a CreatePath Node",
+                "className": "jsoneditor-append jsoneditor-default",
+                "field": "",
+                "value": {
+                    "des": "user name",
+                    "eg": "myzero1"
+                }
+            },
+            {
+                "text": "index",
+                "title": "restbyconf-obj-path",
+                "className": "jsoneditor-append jsoneditor-default",
+                "field": "index",
+                "value": {
+                    "name": "index",
+                    "inputs": {
+                        "in_str": {
+                            "des": "user name",
+                            "required": false,
+                            "type": "body",
+                            "eg": "myzero1",
+                            "rules": "^\w{1,32}$",
+                            "error_msg": "You should input a-z,A-Z,0-9"
+                        }
+                    },
+                    "outputs": {
+                        "out_str": {
+                            "des": "user name",
+                            "eg": "myzero1"
+                        }
+                    }
+                }
+            },
+            {
+                "text": "update",
+                "title": "Insert a CreatePath Node",
+                "className": "jsoneditor-append jsoneditor-default",
+                "field": "update",
+                "value": {
+                    "name": "update",
+                    "inputs": {
+                        "in_str": {
+                            "des": "user name",
+                            "required": false,
+                            "type": "body",
+                            "eg": "myzero1",
+                            "rules": "^\w{1,32}$",
+                            "error_msg": "You should input a-z,A-Z,0-9"
+                        }
+                    },
+                    "outputs": {
+                        "out_str": {
+                            "des": "user name",
+                            "eg": "myzero1"
+                        }
+                    }
+                }
+            },
+            {
+                "text": "view",
+                "title": "Insert a CreatePath Node",
+                "className": "jsoneditor-append jsoneditor-default",
+                "field": "view",
+                "value": {
+                    "name": "view",
+                    "inputs": {
+                        "in_str": {
+                            "des": "user name",
+                            "required": false,
+                            "type": "body",
+                            "eg": "myzero1",
+                            "rules": "^\w{1,32}$",
+                            "error_msg": "You should input a-z,A-Z,0-9"
+                        }
+                    },
+                    "outputs": {
+                        "out_str": {
+                            "des": "user name",
+                            "eg": "myzero1"
+                        }
+                    }
+                }
+            },
+            {
+                "text": "delete",
+                "title": "Insert a CreatePath Node",
+                "className": "jsoneditor-append jsoneditor-default",
+                "field": "delete",
+                "value": {
+                    "name": "delete",
+                    "inputs": {
+                        "in_str": {
+                            "des": "user name",
+                            "required": false,
+                            "type": "body",
+                            "eg": "myzero1",
+                            "rules": "^\w{1,32}$",
+                            "error_msg": "You should input a-z,A-Z,0-9"
+                        }
+                    },
+                    "outputs": {
+                        "out_str": {
+                            "des": "user name",
+                            "eg": "myzero1"
+                        }
+                    }
                 }
             }
-        }
-    },
-    {
-        "text": "index",
-        "title": "Insert a Index Node",
-        "className": "jsoneditor-type-object",
-        "field": "index",
-        "value": {
-            "name": "index"
-        }
-    },
-    {
-        "text": "create",
-        "title": "Insert a Create Node",
-        "className": "jsoneditor-type-object",
-        "field": "create",
-        "value": {
-            "name": "create"
-        }
-    },
-    {
-        "text": "update",
-        "title": "Insert a Update Node",
-        "className": "jsoneditor-type-object",
-        "field": "update",
-        "value": {
-            "name": "update"
-        }
-    },
-    {
-        "text": "view",
-        "title": "Insert a View Node",
-        "className": "jsoneditor-type-object",
-        "field": "view",
-        "value": {
-            "name": "view"
-        }
-    },
-    {
-        "text": "delete",
-        "title": "Insert a Delete Node",
-        "className": "jsoneditor-type-object",
-        "field": "delete",
-        "value": {
-            "name": "delete"
-        }
-    }
-]
+        ]

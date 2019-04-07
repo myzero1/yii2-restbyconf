@@ -6,14 +6,19 @@ use yii\web\AssetBundle;
  */
 class JsonEditorAsset extends AssetBundle
 {
-    public $sourcePath = '@vendor/myzero1/yii2-restbyconf/src/assets/assets/jsoneditor-5.32.1';
+    public $sourcePath = '@vendor/myzero1/yii2-restbyconf/src/assets/assets';
     //public $baseUrl = '@web';
     public $css = [
-        'dist/jsoneditor.min.css',
+        'jsoneditor-5.32.1/dist/jsoneditor.min.css',
         // 'custom.css',
     ];
     public $js = [
-        'dist/jsoneditor.min.js',
+        'jsoneditor-5.32.1/dist/jsoneditor.min.js',
+        'restbyconf.js',
         // 'custom.js',
+    ];
+    public $depends = [
+        'yii\web\YiiAsset',
+        'yii\bootstrap\BootstrapAsset',
     ];
 }
