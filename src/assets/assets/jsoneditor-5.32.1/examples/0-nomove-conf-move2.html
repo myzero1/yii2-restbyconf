@@ -436,31 +436,44 @@
                 if (gettype.call(json[i]) == '[object Object]') {
                     if ('node_id' in json[i]) {
                         return true;
-                    } else {
-                        for(var j in json[i]) {//第二层只有tag会用带node_id的节点
-                            if (gettype.call(json[i][j]) == '[object Object]') {
-                                if ('node_id' in json[i][j]) {
-                                    if (i!='tags') {
-                                        return true
-                                    }
-                                } else {
-                                    for(var k in json[i][j]) {//第三层不会用带node_id的节点
-                                        if (gettype.call(json[i][j][k]) == '[object Object]') {
-                                            if ('node_id' in json[i][j][k]) {
-                                                return true
-                                            } else {
-                                                
-                                            }
-                                        }
-                                    }
-                                }
+                    }
+                }
+
+                for(var j in json[i]) {//第二层只有tag会用带node_id的节点
+                    if (gettype.call(json[i][j]) == '[object Object]') {
+                        if ('node_id' in json[i][j]) {
+                            if (i!='tags') {
+                                return true
                             }
                         }
                     }
+
+                    for(var k in json[i][j]) {//第三层不会用带node_id的节点
+                        if (gettype.call(json[i][j][k]) == '[object Object]') {
+                            if ('node_id' in json[i][j][k]) {
+                                return true
+                            } else {
+                                
+                            }
+                        }
+
+                        for(var m in json[i][j][k]) {//第四层带node_id的节点，要判断node_id
+                            if (gettype.call(json[i][j][k][m]) == '[object Object]') {
+                                if ('node_id' in json[i][j][k][m]) {
+                                    return true
+                                } else {
+                                    
+                                }
+                            }
+
+
+                            
+                        }
+
+
+                    }
                 }
             }
-
-
             return false;
         }
 
