@@ -473,7 +473,6 @@
                                                         if (gettype.call(json[i1][i2][i3][i4][i5][i6]) == '[object Object]') {
                                                             if ('node_id' in json[i1][i2][i3][i4][i5][i6]) {
                                                                 var nodeIdArray = json[i1][i2][i3][i4][i5][i6]['node_id'].split('-');
-                                                                console.log(nodeIdArray);
                                                                 if (nodeIdArray.length == 4) {
                                                                     var tmpNodeId = json[i1][i2][i3][i4]['node_id'] + nodeIdArray[2] + '-';
                                                                     if (tmpNodeId == json[i1][i2][i3][i4][i5][i6]['node_id']) {
@@ -487,7 +486,10 @@
                                                             }
 
                                                             for(var i7 in json[i1][i2][i3][i4][i5][i6]) {//第七层正常情况是不存在的
-                                                                return true;
+                                                                var type = gettype.call(json[i1][i2][i3][i4][i5][i6][i7])
+                                                                if (type == '[object Object]' || type == '[object Array]') {
+                                                                    return true;
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -501,11 +503,9 @@
 
                     }
                 }
-
             }
             return false;
         }
-
 
         if (isJumpLay(json)) {
             editor.update(window.jsoneditorOldJson);
