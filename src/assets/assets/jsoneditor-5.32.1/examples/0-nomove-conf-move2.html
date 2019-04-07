@@ -414,6 +414,11 @@
 //------callback------
 
     var onChangeJSON = function onChangeJSON(json) {
+        if (window.jsoneditorCanUpdateOldJson) {
+            window.jsoneditorOldJson = json;
+        } else {
+            editor.update(window.jsoneditorOldJson);
+        }
         // console.log(json);
         // dd
     }
@@ -450,6 +455,9 @@
         adjustBackground();
 
         if (editor!=null) {
+            var path = node.path;
+            var json = editor.get();
+
             if (isTagLay(node.path)) {
                 // console.log(node);
                 var json = editor.get();
@@ -459,10 +467,9 @@
                 } else {
                     json[path[0]][path[1]]['node_id'] = new Date().getTime()+'-';
                     editor.update(json);
+                    window.jsoneditorOldJson = json;
                 }
-            }
-            
-            if (isPathLay(node.path)) {
+            }else if (isPathLay(node.path)) {
                 // console.log(node);
                 var json = editor.get();
                 var path = node.path;
@@ -472,10 +479,9 @@
                     var tagNodeId = json[path[0]][path[1]]['node_id'];
                     json[path[0]][path[1]][path[2]][path[3]]['node_id'] = tagNodeId + new Date().getTime()+'-';
                     editor.update(json);
+                    window.jsoneditorOldJson = json;
                 }
-            }
-            
-            if (isInputLay(node.path)) {
+            }else if (isInputLay(node.path)) {
                 // console.log(node);
                 var json = editor.get();
                 var path = node.path;
@@ -485,8 +491,31 @@
                     var pathNodeId = json[path[0]][path[1]][path[2]][path[3]]['node_id'];
                     json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] = pathNodeId +new Date().getTime()+'-';
                     editor.update(json);
+                    window.jsoneditorOldJson = json;
                 }
             }
+
+            if (path.length > 0) {
+                console.log(path);
+
+                if (path.length == 1) {
+                    if ('node_id' in json[path[0]]) {
+                        window.jsoneditorCanUpdateOldJson = false;
+                    }
+                } else if (path.length == 2) {
+                    if ('node_id' in json[path[0]][path[1]]) {
+                        var nodeId = json[path[0]][path[1]]['node_id'];
+                        var nodeIdArray = nodeId.split('-');
+
+                        if (nodeIdArray.length != 2) {
+                            window.jsoneditorCanUpdateOldJson = false;
+                        }
+                    }
+                }
+
+            }
+            
+
         }
     }
 
@@ -668,6 +697,11 @@
         }
     }
 
+    var onModeChange = function(newMode, oldMode) {
+        window.jsoneditorOldJson = editor.get();
+        console.log(window.jsoneditorOldJson);
+    }
+
 
 //-----------editor init------------------
 
@@ -679,6 +713,7 @@
         enableSort: true,
         enableTransform: false,
         templates: templates,
+        // onModeChange: onModeChange,
         onEditable: onEditable,
         onCreateMenu: onCreateMenu,
         onNodeName: onNodeName,
@@ -689,14 +724,15 @@
 
     // create the editor
     var container = document.getElementById('jsoneditor');
+    window.jsoneditorCanUpdateOldJson = true;
     var editor = new JSONEditor(container, options, window.jsoneditorOldJson);
 
     // for style
     var style = `
     <style>
-        .jsoneditor-dragarea{
-            display:none;
-        }
+        // .jsoneditor-dragarea{
+        //     display:none;
+        // }
         .jsoneditor-button.jsoneditor-contextmenu{
             display:none;
         }
