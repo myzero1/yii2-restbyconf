@@ -55,6 +55,7 @@
                         "inputs": {
                             "in_str": {
                                 "des": "user name",
+                                "required": false,
                                 "type": "body",
                                 "eg": "myzero1",
                                 "rules": "^\w{1,32}$",
@@ -86,7 +87,18 @@
                             "name": "create",
                             "inputs": {
                                 "in_str": {
-                                    "des": "myzero1"
+                                    "des": "user name",
+                                    "required": false,
+                                    "type": "body",
+                                    "eg": "myzero1",
+                                    "rules": "^\w{1,32}$",
+                                    'error_msg': "You should input a-z,A-Z,0-9"
+                                }
+                            },
+                            "outputs": {
+                                "out_str": {
+                                    "des": "user name",
+                                    "eg": "myzero1"
                                 }
                             }
                         }
@@ -102,7 +114,18 @@
                     "name": "create",
                     "inputs": {
                         "in_str": {
-                            "des": "myzero1"
+                            "des": "user name",
+                            "required": false,
+                            "type": "body",
+                            "eg": "myzero1",
+                            "rules": "^\w{1,32}$",
+                            'error_msg': "You should input a-z,A-Z,0-9"
+                        }
+                    },
+                    "outputs": {
+                        "out_str": {
+                            "des": "user name",
+                            "eg": "myzero1"
                         }
                     }
                 }
@@ -114,6 +137,7 @@
                 field: '',
                 value: {
                     "des": "user name",
+                    "required": false,
                     "type": "body",
                     "eg": "myzero1",
                     "rules": "^\w{1,32}$",
@@ -139,7 +163,18 @@
                     "name": "index",
                     "inputs": {
                         "in_str": {
-                            "des": "myzero1"
+                            "des": "user name",
+                            "required": false,
+                            "type": "body",
+                            "eg": "myzero1",
+                            "rules": "^\w{1,32}$",
+                            'error_msg': "You should input a-z,A-Z,0-9"
+                        }
+                    },
+                    "outputs": {
+                        "out_str": {
+                            "des": "user name",
+                            "eg": "myzero1"
                         }
                     }
                 }
@@ -153,7 +188,18 @@
                     "name": "update",
                     "inputs": {
                         "in_str": {
-                            "des": "myzero1"
+                            "des": "user name",
+                            "required": false,
+                            "type": "body",
+                            "eg": "myzero1",
+                            "rules": "^\w{1,32}$",
+                            'error_msg': "You should input a-z,A-Z,0-9"
+                        }
+                    },
+                    "outputs": {
+                        "out_str": {
+                            "des": "user name",
+                            "eg": "myzero1"
                         }
                     }
                 }
@@ -167,7 +213,18 @@
                     "name": "view",
                     "inputs": {
                         "in_str": {
-                            "des": "myzero1"
+                            "des": "user name",
+                            "required": false,
+                            "type": "body",
+                            "eg": "myzero1",
+                            "rules": "^\w{1,32}$",
+                            'error_msg': "You should input a-z,A-Z,0-9"
+                        }
+                    },
+                    "outputs": {
+                        "out_str": {
+                            "des": "user name",
+                            "eg": "myzero1"
                         }
                     }
                 }
@@ -181,7 +238,18 @@
                     "name": "delete",
                     "inputs": {
                         "in_str": {
-                            "des": "myzero1"
+                            "des": "user name",
+                            "required": false,
+                            "type": "body",
+                            "eg": "myzero1",
+                            "rules": "^\w{1,32}$",
+                            'error_msg': "You should input a-z,A-Z,0-9"
+                        }
+                    },
+                    "outputs": {
+                        "out_str": {
+                            "des": "user name",
+                            "eg": "myzero1"
                         }
                     }
                 }
@@ -324,6 +392,10 @@
                     "examples": [
                         "user name"
                     ],
+                },
+                "required": {
+                    "type": "boolean",
+                    "default": false
                 },
                 "type": {
                     "enum": [
