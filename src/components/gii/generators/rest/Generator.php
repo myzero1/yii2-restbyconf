@@ -48,11 +48,8 @@ class Generator extends \yii\gii\Generator
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['moduleID', 'moduleClass'], 'filter', 'filter' => 'trim'],
-            [['moduleID', 'moduleClass'], 'required'],
-            [['moduleID'], 'match', 'pattern' => '/^[\w\\-]+$/', 'message' => 'Only word characters and dashes are allowed.'],
-            [['moduleClass'], 'match', 'pattern' => '/^[\w\\\\]*$/', 'message' => 'Only word characters and backslashes are allowed.'],
-            [['moduleClass'], 'validateModuleClass'],
+            [['conf'], 'filter', 'filter' => 'trim'],
+            [['conf'], 'required'],
         ]);
     }
 
@@ -81,28 +78,7 @@ class Generator extends \yii\gii\Generator
      */
     public function successMessage()
     {
-        if (Yii::$app->hasModule($this->moduleID)) {
-            $link = Html::a('try it now', Yii::$app->getUrlManager()->createUrl($this->moduleID), ['target' => '_blank']);
-
-            return "The module has been generated successfully. You may $link.";
-        }
-
-        $output = <<<EOD
-<p>The module has been generated successfully.</p>
-<p>To access the module, you need to add this to your application configuration:</p>
-EOD;
-        $code = <<<EOD
-<?php
-    ......
-    'modules' => [
-        '{$this->moduleID}' => [
-            'class' => '{$this->moduleClass}',
-        ],
-    ],
-    ......
-EOD;
-
-        return $output . '<pre>' . highlight_string($code, true) . '</pre>';
+        return 'The module has been generated successfully';
     }
 
     /**
@@ -118,20 +94,24 @@ EOD;
      */
     public function generate()
     {
+
+
+
+
         $files = [];
-        $modulePath = $this->getModulePath();
+        // $modulePath = $this->getModulePath();
         $files[] = new CodeFile(
-            $modulePath . '/' . StringHelper::basename($this->moduleClass) . '.php',
-            $this->render("module.php")
+            Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/conf.json'),
+            $this->conf
         );
-        $files[] = new CodeFile(
-            $modulePath . '/controllers/DefaultController.php',
-            $this->render("controller.php")
-        );
-        $files[] = new CodeFile(
-            $modulePath . '/views/default/index.php',
-            $this->render("view.php")
-        );
+        // $files[] = new CodeFile(
+        //     $modulePath . '/controllers/DefaultController.php',
+        //     $this->render("controller.php")
+        // );
+        // $files[] = new CodeFile(
+        //     $modulePath . '/views/default/index.php',
+        //     $this->render("view.php")
+        // );
 
         return $files;
     }

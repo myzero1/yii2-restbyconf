@@ -11,7 +11,6 @@ $confData = file_get_contents($confDataPath);
 
 <div class="rest-form">
     <?php
-        $generator->conf = $confData;
         echo $form->field($generator, 'conf')->label('Api配置');
     ?>
 
