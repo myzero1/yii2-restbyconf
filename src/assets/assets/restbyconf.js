@@ -632,7 +632,13 @@
         } else {
             window.jsoneditorOldJson = json;
 
-            document.getElementById("generator-conf").value = JSON.stringify(json);
+            // document.getElementById("generator-conf").value = JSON.stringify(json);
+            var restbyconfschamas = {};
+            restbyconfschamas.schema = this.schema;
+            restbyconfschamas.schemaRefs = this.schemaRefs;
+            // console.log(this);
+            // console.log(restbyconfschamas);
+            document.getElementById("generator-conf").value = JSON.stringify(restbyconfschamas);// the options
         }
     }
 
@@ -961,7 +967,7 @@
 //-----------editor init------------------
 
     // create the editor
-    var options = {
+    var defaultOptions = {
         schema: schemas['schema'],
         schemaRefs: schemas,
         mode: 'tree',
@@ -977,9 +983,19 @@
         onChangeJSON: onChangeJSON
 
     };
+
+    var restbyconfOptionsStr = $("#restbyconfoptions").text();
+    restbyconfOptions = JSON.parse(restbyconfOptionsStr);
+// console.log(restbyconfOptions);
+    if (restbyconfOptionsStr != '') {
+    	var options = restbyconfOptions;
+    } else {
+    	var options = defaultOptions;
+    }
+
     var container = document.getElementById('jsoneditor');
     window.jsoneditorCanUpdateOldJson = true;
-    var editor = new JSONEditor(container, options, window.jsoneditorOldJson);
+    var editor = new JSONEditor(container, defaultOptions, window.jsoneditorOldJson);
 
     // for style
     var style = `
