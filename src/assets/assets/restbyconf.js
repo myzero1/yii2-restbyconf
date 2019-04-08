@@ -623,6 +623,21 @@
         return false;
     }
 
+    var getChangeData = function(){
+    	var json = editor.get();
+
+        if (isJumpLay(json)) {
+            editor.update(window.jsoneditorOldJson);
+        } else {
+            window.jsoneditorOldJson = json;
+
+            var restbyconfData = {};
+            restbyconfData.json = json;
+            restbyconfData.schemaRefs = editor.options.schemaRefs;
+            document.getElementById("generator-conf").value = JSON.stringify(restbyconfData);// the options
+        }
+    }
+
 //------callback------
 
     var onChangeJSON = function onChangeJSON(json) {
@@ -677,6 +692,7 @@
 
             showContextmenu();
             adjustBackground();
+            getChangeData();
         }
     };
 
@@ -966,10 +982,21 @@
 
 //-----------editor init------------------
 
+    var restbyconfOptionsStr = $("#restbyconfoptions").text();
+    restbyconfOptionsStr = restbyconfOptionsStr.replace(/^\s\s*/, '').replace(/\s\s*$/, '');;
+
+    if (restbyconfOptionsStr != '') {
+    	restbyconfOptions = JSON.parse(restbyconfOptionsStr);
+    	var schemaRefs = restbyconfOptions['schemaRefs'];
+    	window.jsoneditorOldJson = restbyconfOptions['json'];
+    } else {
+    	var schemaRefs = schemas;
+    }
+
     // create the editor
     var defaultOptions = {
         schema: schemas['schema'],
-        schemaRefs: schemas,
+        schemaRefs: schemaRefs,
         mode: 'tree',
         modes: ['view', 'tree'],
         enableSort: true,
@@ -979,19 +1006,10 @@
         onCreateMenu: onCreateMenu,
         onNodeName: onNodeName,
         onClassName: onClassName,
-        onEvent: onEvent,
-        onChangeJSON: onChangeJSON
+        // onChangeJSON: onChangeJSON,
+        onEvent: onEvent
 
     };
-
-    var restbyconfOptionsStr = $("#restbyconfoptions").text();
-    restbyconfOptions = JSON.parse(restbyconfOptionsStr);
-// console.log(restbyconfOptions);
-    if (restbyconfOptionsStr != '') {
-    	var options = restbyconfOptions;
-    } else {
-    	var options = defaultOptions;
-    }
 
     var container = document.getElementById('jsoneditor');
     window.jsoneditorCanUpdateOldJson = true;
