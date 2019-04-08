@@ -49,7 +49,7 @@ class Generator extends \yii\gii\Generator
     {
         return array_merge(parent::rules(), [
             [['conf'], 'filter', 'filter' => 'trim'],
-            [['conf'], 'required'],
+            [['conf'], 'required', 'message' => 'You should change the conf.'],
         ]);
     }
 
@@ -99,19 +99,20 @@ class Generator extends \yii\gii\Generator
 
 
         $files = [];
-        // $modulePath = $this->getModulePath();
+
+        // for rest api
+        $this->generateRest($this->conf);
+
+        // for swagger
+
+
+        // for md
+
+        // save conf to file
         $files[] = new CodeFile(
             Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/conf.json'),
             $this->conf
         );
-        // $files[] = new CodeFile(
-        //     $modulePath . '/controllers/DefaultController.php',
-        //     $this->render("controller.php")
-        // );
-        // $files[] = new CodeFile(
-        //     $modulePath . '/views/default/index.php',
-        //     $this->render("view.php")
-        // );
 
         return $files;
     }
@@ -119,14 +120,18 @@ class Generator extends \yii\gii\Generator
     /**
      * Validates [[moduleClass]] to make sure it is a fully qualified class name.
      */
-    public function validateModuleClass()
+    public function generateRest($confStr)
     {
-        if (strpos($this->moduleClass, '\\') === false || Yii::getAlias('@' . str_replace('\\', '/', $this->moduleClass), false) === false) {
-            $this->addError('moduleClass', 'Module class must be properly namespaced.');
-        }
-        if (empty($this->moduleClass) || substr_compare($this->moduleClass, '\\', -1, 1) === 0) {
-            $this->addError('moduleClass', 'Module class name must not be empty. Please enter a fully qualified class name. e.g. "app\\modules\\admin\\Module".');
-        }
+        $files = [];
+        $conf = json_decode($confStr, true);
+        var_dump($conf['json']['tags']);exit;
+
+        // $files[] = new CodeFile(
+        //     $modulePath . '/controllers/DefaultController.php',
+        //     $this->render("controller.php")
+        // );
+
+        return $files;
     }
 
     /**

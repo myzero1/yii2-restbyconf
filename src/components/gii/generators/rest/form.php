@@ -11,7 +11,7 @@ $confData = file_get_contents($confDataPath);
 
 <div class="rest-form">
     <?php
-        echo $form->field($generator, 'conf')->label('Api配置');
+        echo $form->field($generator, 'conf')->label('Api configuration')->hiddenInput();
     ?>
 
     <div id="jsoneditor"></div>
