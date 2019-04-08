@@ -17,8 +17,6 @@ $confData = file_get_contents($confDataPath);
 
     <div id="jsoneditor"></div>
 
-
-
     <div id="restbyconfoptions" style="display: none;">
         <?= $confData ?>
     </div>
