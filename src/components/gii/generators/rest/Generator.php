@@ -24,6 +24,9 @@ use yii\helpers\StringHelper;
 class Generator extends \yii\gii\Generator
 {
     public $conf;
+    public $confAarray;
+    public $moduleClass;
+    public $moduleID;
 
 
     /**
@@ -94,14 +97,13 @@ class Generator extends \yii\gii\Generator
      */
     public function generate()
     {
-
-
-
-
+        $this->confAarray = json_decode($this->conf, true);
+        $this->moduleID = trim($this->confAarray['json']['basePath'], '/');
+        $this->moduleClass = sprintf('app\modules\%s\%s', $this->moduleID, 'Module');
         $files = [];
 
         // for rest api
-        $this->generateRest($this->conf);
+        $files = array_merge($files, $this->generateRest());
 
         // for swagger
 
@@ -120,16 +122,36 @@ class Generator extends \yii\gii\Generator
     /**
      * Validates [[moduleClass]] to make sure it is a fully qualified class name.
      */
-    public function generateRest($confStr)
+    public function generateRest()
     {
         $files = [];
-        $conf = json_decode($confStr, true);
-        var_dump($conf['json']['tags']);exit;
+        $modulePath = $this->getModulePath();
+        $files[] = new CodeFile(
+            $modulePath . '/' . StringHelper::basename($this->moduleClass) . '.php',
+            $this->render("module.php")
+        );
+        $files[] = new CodeFile(
+            $modulePath . '/controllers/DefaultController.php',
+            $this->render("controller.php")
+        );
+        $files[] = new CodeFile(
+            $modulePath . '/views/default/index.php',
+            $this->render("view.php")
+        );
+
+//        foreach ($conf['json']['tags'] as $tag => $tagV) {
+//             $files[] = new CodeFile(
+//                 $modulePath . '/controllers/DefaultController.php',
+//                 $this->render('controller.php')
+//             );
+//        }
+//        var_dump($conf['json']['tags']);exit;
 
         // $files[] = new CodeFile(
         //     $modulePath . '/controllers/DefaultController.php',
         //     $this->render("controller.php")
         // );
+
 
         return $files;
     }
