@@ -1,9 +1,32 @@
 //---------ready--------
     window.jsoneditorOldJson = {
         "swagger": "2.0",
-        'contact': {
-            "name": "name",
-            "url": "url"
+        "info": {
+            "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
+            "version": "1.0.0",
+            "title": "Swagger Petstore",
+            "termsOfService": "http://swagger.io/terms/",
+            "contact": {
+                "email": "apiteam@swagger.io"
+            },
+            "license": {
+                "name": "Apache 2.0",
+                "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+            }
+        },
+        "host": "petstore.swagger.io",
+        "basePath": "/v2",
+        "externalDocs": {
+            "description": "11Find out more about Swagger",
+            "url": "http://swagger.io"
+        },
+        "schemes": "http",
+        "securityDefinitions": {
+            "api_key": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "api_key"
+            }
         },
         "tags": {
             "TagTemplate": {
@@ -217,19 +240,213 @@
 
     var schemas = {
         "schema": {
-            "title": "The configuration of restful api",
+            "title": "Restfull api configuration",
             "type": "object",
-            "required": ["swagger", "tags"],
+            "required": ["swagger", "info"],
             "properties": {
                 "swagger": {
                     "title": "swagger version",
+                    "description": "It can not edit.",
                     "type": "string",
-                    "minLength": 1,
-                    "maxLength": 32,
                     "examples": [
-                        "2.0",
-                        "2.1"
+                        "2.0"
                     ]
+                },
+                "info": {
+                    "title": "Info description",
+                    "type": "object",
+                    "required": [
+                        "description",
+                        "version",
+                        "title",
+                        "termsOfService",
+                        "contact",
+                        "license"
+                    ],
+                    "properties": {
+                        "description": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 512,
+                            "examples": [
+                                "This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters."
+                            ]
+                        },
+                        "version": {
+                            "title": "The api version",
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 32,
+                            "pattern": "^[0-9][0-9.]{0,}[0-9]$",
+                            "examples": [
+                                "1.0.0",
+                                "1.0.1"
+                            ]
+                        },
+                        "title": {
+                          "title": "Api title",
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 32,
+                          "examples": [
+                            "Create restfull api by conf.",
+                            "Swagger Petstore"
+                          ]
+                        },
+                        "termsOfService": {
+                          "title": "The terms of service",
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 128,
+                          "examples": [
+                            "https://github.com/myzero1/yii2-restbyconf",
+                            "http://swagger.io/terms/"
+                          ]
+                        },
+                        "contact": {
+                          "title": "contact description",
+                          "type": "object",
+                          "required": [
+                              "email"
+                          ],
+                          "properties": {
+                              "email": {
+                                  "title": "email",
+                                  "description": "The contact email",
+                                  "type": "string",
+                                  "format": "email",
+                                  "examples": [
+                                    "myzero1@sina.com",
+                                    "apiteam@swagger.io"
+                                  ]
+                              }
+                          }
+                        },
+                        "license": {
+                          "title": "contact description",
+                          "type": "object",
+                          "required": [
+                              "name",
+                              "url"
+                          ],
+                          "properties": {
+                              "name": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 32,
+                                  "examples": [
+                                      "Apache 2.0"
+                                  ]
+                              },
+                              "url": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 64,
+                                  "pattern": "[a-zA-z]+://[^\\s]*",
+                                  "examples": [
+                                      "http://www.apache.org/licenses/LICENSE-2.0.html"
+                                  ]
+                                }
+                            }
+                        }
+                    }
+                },
+              "host": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32,
+                  "format": "hostname",
+                  "examples": [
+                    "petstore.swagger.io",
+                    "github.com"
+                  ]
+              },
+              "basePath": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32,
+                  "pattern": "^/",
+                  "examples": [
+                    "/v1",
+                    "/v2"
+                  ]
+              },
+              "externalDocs": {
+                  "title": "externalDocs description",
+                  "type": "object",
+                  "required": [
+                      "description",
+                      "url"
+                  ],
+                  "properties": {
+                      "description": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 32,
+                          "examples": [
+                            "e about Swagger"
+                          ]
+                      },
+                      "url": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64,
+                          "pattern": "[a-zA-z]+://[^\\s]*",
+                          "examples": [
+                              "http://www.apache.org/licenses/LICENSE-2.0.html"
+                          ]
+                      }
+                  }
+              },
+              "schemes": {
+                  "title": "schemes",
+                  "enum": [
+                      "https",
+                      "http"
+                  ]
+              },
+                "securityDefinitions": {
+                  "title": "securityDefinitions description",
+                  "type": "object",
+                  "required": [
+                      "api_key"
+                  ],
+                  "properties": {
+                      "api_key": {
+                          "title": "api_key description",
+                          "type": "object",
+                          "required": [
+                              "type",
+                              "name"
+                          ],
+                          "properties": {
+                              "type": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 32,
+                                  "examples": [
+                                    "apiKey"
+                                  ]
+                              },
+                              "in": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 32,
+                                    "examples": [
+                                        "header"
+                                    ]
+                              },
+                              "name": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 32,
+                                    "examples": [
+                                    "api_key"
+                                  ]
+                              }
+                          }
+                      }
+                  }
                 },
                 "tags": {
                     "$ref": "tags"
