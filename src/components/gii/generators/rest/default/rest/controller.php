@@ -16,6 +16,11 @@ $searchClass = sprintf('\%s\models\search\%sSearch', dirname($moduleClass), $tag
 
 echo "<?php\n";
 ?>
+/**
+ * @link https://github.com/myzero1
+ * @copyright Copyright (c) 2019- My zero one
+ * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
+ */
 namespace <?=$controlerClass?>;
 
 use \myzero1\restbyconf\components\rest\BasicController;

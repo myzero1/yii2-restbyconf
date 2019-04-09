@@ -148,6 +148,37 @@ class Generator extends \yii\gii\Generator
                 sprintf('%s/controllers/%sController.php', $modulePath, ucwords($tag)),
                 $this->render('rest/controller.php')
             );
+            $actions = array_keys($tagV['paths']);
+            if (in_array('create', $actions)) {
+                $files[] = new CodeFile(
+                    sprintf('%s/controllers/processing/%s/Create.php', $modulePath, ucwords($tag)),
+                    $this->render('rest/CreateProcessing.php')
+                );
+            }
+            if (in_array('update', $actions)) {
+                $files[] = new CodeFile(
+                    sprintf('%s/controllers/processing/%s/Update.php', $modulePath, ucwords($tag)),
+                    $this->render('rest/UpdateProcessing.php')
+                );
+            }
+            if (in_array('view', $actions)) {
+                $files[] = new CodeFile(
+                    sprintf('%s/controllers/processing/%s/View.php', $modulePath, ucwords($tag)),
+                    $this->render('rest/ViewProcessing.php')
+                );
+            }
+            if (in_array('delete', $actions)) {
+                $files[] = new CodeFile(
+                    sprintf('%s/controllers/processing/%s/Delete.php', $modulePath, ucwords($tag)),
+                    $this->render('rest/DeleteProcessing.php')
+                );
+            }
+            if (in_array('index', $actions)) {
+                $files[] = new CodeFile(
+                    sprintf('%s/models/search/%sSearch.php', $modulePath, ucwords($tag)),
+                    $this->render('rest/IndexProcessing.php')
+                );
+            }
        }
 //        var_dump($conf['json']['tags']);exit;
 
