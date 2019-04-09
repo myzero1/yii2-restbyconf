@@ -27,6 +27,8 @@ class Generator extends \yii\gii\Generator
     public $confAarray;
     public $moduleClass;
     public $moduleID;
+    public $tag;
+    public $tagV;
 
 
     /**
@@ -139,12 +141,14 @@ class Generator extends \yii\gii\Generator
             $this->render("view.php")
         );
 
-//        foreach ($conf['json']['tags'] as $tag => $tagV) {
-//             $files[] = new CodeFile(
-//                 $modulePath . '/controllers/DefaultController.php',
-//                 $this->render('controller.php')
-//             );
-//        }
+       foreach ($this->confAarray['json']['tags'] as $tag => $tagV) {
+            $this->tag = $tag;
+            $this->tagV = $tagV;
+            $files[] = new CodeFile(
+                sprintf('%s/controllers/%sController.php', $modulePath, ucwords($tag)),
+                $this->render('rest/controller.php')
+            );
+       }
 //        var_dump($conf['json']['tags']);exit;
 
         // $files[] = new CodeFile(
