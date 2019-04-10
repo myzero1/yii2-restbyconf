@@ -13,7 +13,7 @@ $moduleClass = $generator->moduleClass;
 $controlerClass = sprintf('%s\controllers', dirname($moduleClass));
 $processingClassNs = sprintf('%s\processing\%s', $controlerClass, $tag);
 $searchClass = sprintf('\%s\models\search\%sSearch', dirname($moduleClass), $tag);
-$searchNs = sprintf('\%s\models\search', dirname($moduleClass));
+$searchNs = sprintf('%s\models\search', dirname($moduleClass));
 
 
 
@@ -244,10 +244,17 @@ class <?=ucwords($tag)?>Search extends DemoModel implements SearchProcessing
      */
     public function egOutputData()
     {
-        return [
+        $result = [
 <?php foreach ($egOutputData as $key => $value) { ?>
             <?=$value."\n"?>
 <?php } ?>
+        ];
+
+        return [
+            'total' => 1,
+            'page' => 1,
+            'page_size' => 30,
+            'items' => $result
         ];
     }
 }

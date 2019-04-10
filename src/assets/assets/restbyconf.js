@@ -662,7 +662,7 @@
                     "minLength": 1,
                     "maxLength": 32,
                     "examples": [
-                        "^w{1,32}$"
+                        "^\\w{1,32}$"
                     ],
                 },
                 "error_msg": {
