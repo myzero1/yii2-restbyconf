@@ -14,6 +14,29 @@ $controlerClass = sprintf('%s\controllers', dirname($moduleClass));
 $processingClassNs = sprintf('%s\processing\%s', $controlerClass, $tag);
 $searchClass = sprintf('\%s\models\search\%sSearch', dirname($moduleClass), $tag);
 
+
+
+
+$inputs = $tagV['paths']['update']['inputs'];
+$inputsKeys = array_keys($tagV['paths']['update']['inputs']);
+
+$inputRules = [];
+$inputRules[] = sprintf("\$model->addRule(['%s'], 'trim');", implode("','", $inputsKeys));
+
+foreach ($inputs as $key => $value) {
+    if ($value['required']) {
+        $inputRules[] = sprintf("\$model->addRule(['%s'], 'required');", $key);
+    }
+    $inputRules[] = sprintf("\$model->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '%s']);", $key, $value['rules'], $value['error_msg']);
+}
+
+$egOutputData = [];
+foreach ($tagV['paths']['update']['outputs'] as $key => $value) {
+    $egOutputData[] = sprintf("'%s' => '%s',", $key, $value['eg']);
+}
+
+$outputs = $tagV['paths']['update']['outputs'];
+
 echo "<?php\n";
 ?>
 /**
@@ -57,8 +80,9 @@ class Update implements UpdateProcessing
         } else {
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
-            $savedData = $this->save($id, $completedData);
-            $db2outData = $this->mappingDb2output($savedData);
+            // $savedData = $this->save($id, $completedData);
+            // $db2outData = $this->mappingDb2output($savedData);
+            $db2outData = $this->egOutputData();// for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -71,13 +95,15 @@ class Update implements UpdateProcessing
     public function inputValidate($input)
     {
         $model = new DynamicModel([
-            'demo_name',
-            'demo_description',
+<?php foreach ($inputsKeys as $key => $value) { ?>
+            '<?=$value?>',
+<?php } ?>
         ]);
-        $model->addRule(['demo_name'], 'required');
-        $model->addRule(['demo_name'], 'string', ['min' => 3, 'max' => 12]);
-        $model->addRule(['demo_description'], 'required');
-        $model->addRule(['demo_description'], 'string', ['min' => 3, 'max' => 48]);
+
+<?php foreach ($inputRules as $key => $value) { ?>
+        <?=$value."\n"?>
+<?php } ?>
+
 
         $model->load($input, '');
 
@@ -159,14 +185,16 @@ class Update implements UpdateProcessing
 
     /**
      * @param  array $db2outData completed data form database
+     * @param  array $extra
      * @return array
      */
-    public function completeResult($db2outData)
+    public function completeResult($db2outData, $extra = [])
     {
         $result = [
             'code' => CodeMsg::SUCCESS,
             'msg' => CodeMsg::SUCCESS_MSG,
             'data' => $db2outData,
+            'extra' => $extra,
         ];
 
         return $result;
@@ -184,5 +212,17 @@ class Update implements UpdateProcessing
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function egOutputData()
+    {
+        return [
+<?php foreach ($egOutputData as $key => $value) { ?>
+            <?=$value."\n"?>
+<?php } ?>
+        ];
     }
 }

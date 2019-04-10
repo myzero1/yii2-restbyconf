@@ -184,12 +184,18 @@ class <?=ucwords($tag)?>Search extends DemoModel implements SearchProcessing
         return $result;
     }
 
-    public function completeResult($db2outData)
+    /**
+     * @param  array $db2outData completed data form database
+     * @param  array $extra
+     * @return array
+     */
+    public function completeResult($db2outData, $extra = [])
     {
         $result = [
             'code' => CodeMsg::SUCCESS,
             'msg' => CodeMsg::SUCCESS_MSG,
             'data' => $db2outData,
+            'extra' => $extra,
         ];
 
         return $result;
