@@ -9,6 +9,12 @@ $confData = file_get_contents($confDataPath);
 
 ?>
 
+<style type="text/css">
+    .modal.fade.show{
+        opacity:1;
+    }
+</style>
+
 <div class="rest-form">
     <?php
         echo $form->field($generator, 'conf')->label('Api configuration')->hiddenInput();
