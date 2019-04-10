@@ -78,12 +78,37 @@ class Generator extends \yii\gii\Generator
         ];
     }
 
+
     /**
      * {@inheritdoc}
      */
     public function successMessage()
     {
-        return 'The module has been generated successfully';
+        if (Yii::$app->hasModule($this->moduleID)) {
+            $link = Html::a('try it now', Yii::$app->getUrlManager()->createUrl($this->moduleID), ['target' => '_blank']);
+
+            return "The module has been generated successfully. You may $link.";
+        }
+
+        $output = <<<EOD
+<p>The module has been generated successfully.</p>
+<p>To access the module, you need to add this to your application configuration:</p>
+EOD;
+        $code = <<<EOD
+<?php
+    ......
+    'modules' => [
+        '{$this->moduleID}' => [
+            'class' => '{$this->moduleClass}',
+        ],
+    ],
+    ......
+EOD;
+        $rest = <<<EOD
+<p>The code has been generated successfully.</p>
+EOD;
+
+        return $output . '<pre>' . highlight_string($code, true) . '</pre>' . $rest;
     }
 
     /**
