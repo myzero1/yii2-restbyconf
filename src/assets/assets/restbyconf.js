@@ -29,7 +29,7 @@
             }
         },
         "tags": {
-            "TagTemplate": {
+            "Demo": {
                 "name": "userName",
                 "paths": {
                     "create": {
@@ -67,6 +67,13 @@
                     "paths": {
                         "create": {
                             "name": "create",
+                            "item_id_in_path": {
+                                "des": "This is the demo of id",
+                                "required": true,
+                                "type": "path",
+                                "eg": "myzero1",
+                                "rules": "\w+"
+                            },
                             "inputs": {
                                 "in_str": {
                                     "des": "user name",
@@ -168,6 +175,13 @@
                 field: 'update',
                 value: {
                     "name": "update",
+                    "item_id_in_path": {
+                        "des": "This is the demo of id",
+                        "required": true,
+                        "type": "path",
+                        "eg": "myzero1",
+                        "rules": "\w+"
+                    },
                     "inputs": {
                         "in_str": {
                             "des": "user name",
@@ -193,6 +207,13 @@
                 field: 'view',
                 value: {
                     "name": "view",
+                    "item_id_in_path": {
+                        "des": "This is the demo of id",
+                        "required": true,
+                        "type": "path",
+                        "eg": "myzero1",
+                        "rules": "\w+"
+                    },
                     "inputs": {
                         "in_str": {
                             "des": "user name",
@@ -218,6 +239,13 @@
                 field: 'delete',
                 value: {
                     "name": "delete",
+                    "item_id_in_path": {
+                        "des": "This is the demo of id",
+                        "required": true,
+                        "type": "path",
+                        "eg": "myzero1",
+                        "rules": "\w+"
+                    },
                     "inputs": {
                         "in_str": {
                             "des": "user name",
@@ -458,7 +486,7 @@
             "type": "object",
             "required": [],
             "properties": {
-                "TagTemplate": {
+                "Demo": {
                     "$ref": "tag"
                 }
             }
@@ -556,6 +584,47 @@
                 }
             }
         },
+        "input_id_in_path": {
+            "title": "restbyconf-obj-in-id",
+            "type": "object",
+            "required": ["des"],
+            "properties": {
+                "des": {
+                    "type": ["string", "number"],
+                    "minLength": 1,
+                    "maxLength": 32,
+                    "examples": [
+                        "user name"
+                    ],
+                },
+                "required": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "type": {
+                    "enum": [
+                        "path",
+                        "query",
+                        "body"
+                    ],
+                },
+                "eg": {
+                    "type": ["string", "number"],
+                    "minLength": 1,
+                    "maxLength": 32,
+                    "examples": [
+                        "myzero1",
+                        "735735",
+                    ],
+                },
+                "rules": {
+                    "enum": [
+                        "\w+",
+                        "\d+"
+                    ],
+                }
+            }
+        },
         "in_str": {
             "title": "restbyconf-obj-input",
             "type": "object",
@@ -639,6 +708,9 @@
                         "update"
                     ],
                 },
+                "item_id_in_path":{
+                    "$ref": "input_id_in_path"
+                },
                 "inputs": {
                     "$ref": "inputs"
                 }
@@ -658,6 +730,9 @@
                         "update"
                     ],
                 },
+                "item_id_in_path":{
+                    "$ref": "input_id_in_path"
+                },
                 "inputs": {
                     "$ref": "inputs"
                 }
@@ -676,6 +751,9 @@
                         "create",
                         "update"
                     ],
+                },
+                "item_id_in_path":{
+                    "$ref": "input_id_in_path"
                 },
                 "inputs": {
                     "$ref": "inputs"
@@ -1146,6 +1224,7 @@
     var onEditable = function(node) {
         // console.log(node);
         // update the validation of path
+        var path = node.path;
         if (Array.isArray(node.path)) {
             if (isPathLay(node.path)) {
                 var schemaRefs = this.schemaRefs;
@@ -1153,6 +1232,10 @@
                   "$ref": node.field
                 };
                 editor.setSchema(this.schema,schemaRefs);
+            }
+
+            if (path[4] == "item_id_in_path" && (node.field == 'type' || node.field == 'required')) {
+                return false
             }
         }
 
