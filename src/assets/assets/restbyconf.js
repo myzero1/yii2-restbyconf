@@ -40,7 +40,7 @@
                                 "required": false,
                                 "type": "body",
                                 "eg": "myzero1",
-                                "rules": "^\w{1,32}$",
+                                "rules": "^\\w{1,32}$",
                                 'error_msg': "You should input a-z,A-Z,0-9"
                             }
                         },
@@ -72,7 +72,7 @@
                                 "required": true,
                                 "type": "path",
                                 "eg": "myzero1",
-                                "rules": "\w+"
+                                "rules": "\\w+"
                             },
                             "inputs": {
                                 "in_str": {
@@ -80,7 +80,7 @@
                                     "required": false,
                                     "type": "body",
                                     "eg": "myzero1",
-                                    "rules": "^\w{1,32}$",
+                                    "rules": "^\\w{1,32}$",
                                     'error_msg': "You should input a-z,A-Z,0-9"
                                 }
                             },
@@ -107,7 +107,7 @@
                             "required": false,
                             "type": "body",
                             "eg": "myzero1",
-                            "rules": "^\w{1,32}$",
+                            "rules": "^\\w{1,32}$",
                             'error_msg': "You should input a-z,A-Z,0-9"
                         }
                     },
@@ -129,7 +129,7 @@
                     "required": false,
                     "type": "body",
                     "eg": "myzero1",
-                    "rules": "^\w{1,32}$",
+                    "rules": "^\\w{1,32}$",
                     'error_msg': "You should input a-z,A-Z,0-9"
                 }
             },
@@ -156,7 +156,7 @@
                             "required": false,
                             "type": "body",
                             "eg": "myzero1",
-                            "rules": "^\w{1,32}$",
+                            "rules": "^\\w{1,32}$",
                             'error_msg': "You should input a-z,A-Z,0-9"
                         }
                     },
@@ -180,7 +180,7 @@
                         "required": true,
                         "type": "path",
                         "eg": "myzero1",
-                        "rules": "\w+"
+                        "rules": "\\w+"
                     },
                     "inputs": {
                         "in_str": {
@@ -188,7 +188,7 @@
                             "required": false,
                             "type": "body",
                             "eg": "myzero1",
-                            "rules": "^\w{1,32}$",
+                            "rules": "^\\w{1,32}$",
                             'error_msg': "You should input a-z,A-Z,0-9"
                         }
                     },
@@ -212,7 +212,7 @@
                         "required": true,
                         "type": "path",
                         "eg": "myzero1",
-                        "rules": "\w+"
+                        "rules": "\\w+"
                     },
                     "inputs": {
                         "in_str": {
@@ -220,7 +220,7 @@
                             "required": false,
                             "type": "body",
                             "eg": "myzero1",
-                            "rules": "^\w{1,32}$",
+                            "rules": "^\\w{1,32}$",
                             'error_msg': "You should input a-z,A-Z,0-9"
                         }
                     },
@@ -244,7 +244,7 @@
                         "required": true,
                         "type": "path",
                         "eg": "myzero1",
-                        "rules": "\w+"
+                        "rules": "\\w+"
                     },
                     "inputs": {
                         "in_str": {
@@ -252,7 +252,7 @@
                             "required": false,
                             "type": "body",
                             "eg": "myzero1",
-                            "rules": "^\w{1,32}$",
+                            "rules": "^\\w{1,32}$",
                             'error_msg': "You should input a-z,A-Z,0-9"
                         }
                     },
@@ -619,8 +619,8 @@
                 },
                 "rules": {
                     "enum": [
-                        "\w+",
-                        "\d+"
+                        "\\w+",
+                        "\\d+"
                     ],
                 }
             }
