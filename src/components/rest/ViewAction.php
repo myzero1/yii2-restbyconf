@@ -25,7 +25,7 @@ class ViewAction extends Action
      * @param mixed $id
      * @return \yii\db\ActiveRecordInterface the model newly created
      */
-    public function run($id)
+    public function run($id=0)
     {
         if ($this->checkAccess) {
             call_user_func($this->checkAccess, $this->id);

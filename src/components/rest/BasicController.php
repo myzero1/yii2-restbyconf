@@ -11,12 +11,6 @@ use myzero1\restbyconf\components\Helper;
 
 class BasicController extends ActiveController
 {
-    /**
-     * @var string class name of the model which will be handled by this action.
-     * The model class must implement [[ActiveRecordInterface]].
-     * This property must be set.
-     */
-    public $modelClass = 'DemoModel';
 
     public function init()
     {

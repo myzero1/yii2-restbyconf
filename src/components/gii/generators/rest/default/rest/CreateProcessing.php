@@ -67,7 +67,7 @@ class Create implements CreateProcessing
      * @throws ServerErrorHttpException
      * @throws \yii\base\InvalidConfigException
      */
-    public function processing()
+    public function processing($id)
     {
         $input = Yii::$app->getRequest()->getBodyParams();
         $validatedInput = $this->inputValidate($input);

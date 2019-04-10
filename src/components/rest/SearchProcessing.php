@@ -20,7 +20,7 @@ interface SearchProcessing
     /**
      * @return array date will return to create action.
      */
-    public function processing();
+    public function processing($id);
 
     /**
      * @param  array $input from the request body

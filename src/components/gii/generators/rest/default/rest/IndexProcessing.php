@@ -106,7 +106,7 @@ class <?=ucwords($tag)?>Search extends DemoModel implements SearchProcessing
     }
 
 
-    public function processing()
+    public function processing($id)
     {
         $input = Yii::$app->request->queryParams;
         $validatedInput = $this->inputValidate($input);

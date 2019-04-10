@@ -38,36 +38,31 @@ class <?=$tag?>Controller extends BasicController
         return [
 <?php if (in_array('create', $actions)): ?>
             'create' => [
-                'class' => '\myzero1\restbyconf\components\rest\CreateAction',
-                'modelClass' => $this->modelClass,
+                'class' => '\myzero1\restbyconf\components\rest\ActiveAction',
                 'processingClass' => '\<?=$processingClassNs?>\Create',
             ],
 <?php endif; ?>
 <?php if (in_array('update', $actions)): ?>
             'update' => [
-                'class' => '\myzero1\restbyconf\components\rest\UpdateAction',
-                'modelClass' => $this->modelClass,
+                'class' => '\myzero1\restbyconf\components\rest\ActiveAction',
                 'processingClass' => '\<?=$processingClassNs?>\Update',
             ],
 <?php endif; ?>
 <?php if (in_array('view', $actions)): ?>
             'view' => [
-                'class' => '\myzero1\restbyconf\components\rest\ViewAction',
-                'modelClass' => $this->modelClass,
+                'class' => '\myzero1\restbyconf\components\rest\ActiveAction',
                 'processingClass' => '\<?=$processingClassNs?>\View',
             ],
 <?php endif; ?>
 <?php if (in_array('delete', $actions)): ?>
             'delete' => [
-                'class' => '\myzero1\restbyconf\components\rest\DeleteAction',
-                'modelClass' => $this->modelClass,
+                'class' => '\myzero1\restbyconf\components\rest\ActiveAction',
                 'processingClass' => '\<?=$processingClassNs?>\Delete',
             ],
 <?php endif; ?>
 <?php if (in_array('index', $actions)): ?>
             'index' => [
-                'class' => '\myzero1\restbyconf\components\rest\IndexAction',
-                'modelClass' => $this->modelClass,
+                'class' => '\myzero1\restbyconf\components\rest\ActiveAction',
                 'processingClass' => '<?=$searchClass?>',
             ],
 <?php endif; ?>

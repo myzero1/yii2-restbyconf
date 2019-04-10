@@ -17,27 +17,27 @@ class DemoController extends BasicController
         return [
             'create' => [
                 'class' => 'myzero1\restbyconf\components\rest\CreateAction',
-                'modelClass' => $this->modelClass,
+                // 'modelClass' => $this->modelClass,
                 'processingClass' => 'myzero1\restbyconf\controllers\processing\demo\Create',
             ],
             'update' => [
                 'class' => 'myzero1\restbyconf\components\rest\UpdateAction',
-                'modelClass' => $this->modelClass,
+                // 'modelClass' => $this->modelClass,
                 'processingClass' => 'myzero1\restbyconf\controllers\processing\demo\Update',
             ],
             'view' => [
                 'class' => 'myzero1\restbyconf\components\rest\ViewAction',
-                'modelClass' => $this->modelClass,
+                // 'modelClass' => $this->modelClass,
                 'processingClass' => 'myzero1\restbyconf\controllers\processing\demo\View',
             ],
             'delete' => [
                 'class' => 'myzero1\restbyconf\components\rest\DeleteAction',
-                'modelClass' => $this->modelClass,
+                // 'modelClass' => $this->modelClass,
                 'processingClass' => 'myzero1\restbyconf\controllers\processing\demo\Delete',
             ],
             'index' => [
                 'class' => 'myzero1\restbyconf\components\rest\IndexAction',
-                'modelClass' => $this->modelClass,
+                // 'modelClass' => $this->modelClass,
                 'processingClass' => 'myzero1\restbyconf\models\search\DemoSearch',
             ],
         ];

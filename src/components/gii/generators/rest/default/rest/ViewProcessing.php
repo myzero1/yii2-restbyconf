@@ -14,6 +14,29 @@ $controlerClass = sprintf('%s\controllers', dirname($moduleClass));
 $processingClassNs = sprintf('%s\processing\%s', $controlerClass, $tag);
 $searchClass = sprintf('\%s\models\search\%sSearch', dirname($moduleClass), $tag);
 
+
+
+$inputs = $tagV['paths']['view']['inputs'];
+$inputsKeys = array_keys($tagV['paths']['view']['inputs']);
+
+$inputRules = [];
+$inputRules[] = sprintf("\$model->addRule(['%s'], 'trim');", implode("','", $inputsKeys));
+
+foreach ($inputs as $key => $value) {
+    if ($value['required']) {
+        $inputRules[] = sprintf("\$model->addRule(['%s'], 'required');", $key);
+    }
+    $inputRules[] = sprintf("\$model->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '%s']);", $key, $value['rules'], $value['error_msg']);
+}
+
+$egOutputData = [];
+foreach ($tagV['paths']['view']['outputs'] as $key => $value) {
+    $egOutputData[] = sprintf("'%s' => '%s',", $key, $value['eg']);
+}
+
+$outputs = $tagV['paths']['view']['outputs'];
+
+
 echo "<?php\n";
 ?>
 /**
@@ -50,9 +73,11 @@ class View implements ViewProcessing
      */
     public function processing($id)
     {
-        $model = $this->findModel($id);
-        $savedData = $model->attributes;
-        $db2outData = $this->mappingDb2output($savedData);
+
+        // $model = $this->findModel($id);
+        // $savedData = $model->attributes;
+        // $db2outData = $this->mappingDb2output($savedData);
+        $db2outData = $this->egOutputData();
         $result = $this->completeResult($db2outData);
         return $result;
     }
@@ -104,5 +129,18 @@ class View implements ViewProcessing
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+
+    /**
+     * @return array
+     */
+    public function egOutputData()
+    {
+        return [
+<?php foreach ($egOutputData as $key => $value) { ?>
+            <?=$value."\n"?>
+<?php } ?>
+        ];
     }
 }

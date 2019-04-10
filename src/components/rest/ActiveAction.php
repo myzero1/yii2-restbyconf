@@ -18,7 +18,7 @@ use yii\base\InvalidConfigException;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class IndexAction extends Action
+class ActiveAction extends Action
 {
     /**
      * Creates a new model.
@@ -31,6 +31,6 @@ class IndexAction extends Action
         }
 
         $processing = new $this->processingClass();
-        return $processing->processing();
+        return $processing->processing($id);
     }
 }

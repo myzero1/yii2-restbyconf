@@ -10,6 +10,7 @@ namespace myzero1\restbyconf\components\rest;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
 use yii\web\ForbiddenHttpException;
+use yii\rest\Controller;
 
 /**
  * ActiveController implements a common set of actions for supporting RESTful access to ActiveRecord.
