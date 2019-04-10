@@ -3,7 +3,6 @@
 namespace myzero1\restbyconf\components\rest;
 
 use yii\web\Response;
-use yii\rest\ActiveController;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\RateLimiter;
 use yii\filters\Cors;
@@ -95,7 +94,7 @@ class BasicController extends ActiveController
         ];
 
         // 禁用""index,delete" 和 "create" 操作
-        unset($actions['index'], $actions['delete'], $actions['create'], $actions['view'], $actions['update']);
+        // unset($actions['index'], $actions['delete'], $actions['create'], $actions['view'], $actions['update']);
 
         return $actions;
     }

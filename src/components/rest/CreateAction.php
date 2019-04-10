@@ -9,7 +9,6 @@ namespace myzero1\restbyconf\components\rest;
 
 use yii\base\Model;
 use yii\base\InvalidConfigException;
-use yii\rest\Action;
 
 /**
  * CreateAction extends Action.
@@ -21,29 +20,6 @@ use yii\rest\Action;
  */
 class CreateAction extends Action
 {
-    /**
-     * @var string class name of the model which will be handled by this action.
-     * The model class must implement [[ActiveRecordInterface]].
-     * This property must be set.
-     */
-    public $processingClass;
-
-    /**
-     * @var string the scenario to be assigned to the new model before it is validated and saved.
-     */
-    public $scenario = Model::SCENARIO_DEFAULT;
-
-    /**
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function init()
-    {
-        parent::init();
-        if ($this->processingClass === null) {
-            throw new InvalidConfigException('The "processingClass" property must be set.');
-        }
-    }
-
     /**
      * Creates a new model.
      * @return \yii\db\ActiveRecordInterface the model newly created
