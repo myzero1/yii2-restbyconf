@@ -530,14 +530,14 @@
             "required": ["eg"],
             "properties": {
                 "des": {
-                    "type": "string",
+                    "type": ["string", "number"],
                     "maxLength": 32,
                     "examples": [
                         "user name"
                     ],
                 },
                 "eg": {
-                    "type": "string",
+                    "type": ["string", "number"],
                     "minLength": 1,
                     "maxLength": 64,
                     "examples": [
@@ -562,7 +562,7 @@
             "required": ["des"],
             "properties": {
                 "des": {
-                    "type": "string",
+                    "type": ["string", "number"],
                     "minLength": 1,
                     "maxLength": 32,
                     "examples": [
@@ -581,7 +581,7 @@
                     ],
                 },
                 "eg": {
-                    "type": "string",
+                    "type": ["string", "number"],
                     "minLength": 1,
                     "maxLength": 32,
                     "examples": [
