@@ -52,11 +52,11 @@ class Delete implements DeleteProcessing
     {
         $model = $this->findModel($id);
         $model->is_del = 1;
-
+        /*
         if ($model->save() === false) {
             throw new ServerErrorHttpException('Failed to delete the object for unknown reason.');
         }
-
+        */
         $result = $this->completeResult();
         return $result;
     }
@@ -66,7 +66,7 @@ class Delete implements DeleteProcessing
      * @param  array $extra
      * @return array
      */
-    public function completeResult($db2outData, $extra = [])
+    public function completeResult($db2outData=[], $extra = [])
     {
         $result = [
             'code' => CodeMsg::SUCCESS,

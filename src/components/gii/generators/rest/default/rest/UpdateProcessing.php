@@ -188,7 +188,7 @@ class Update implements UpdateProcessing
      * @param  array $extra
      * @return array
      */
-    public function completeResult($db2outData, $extra = [])
+    public function completeResult($db2outData=[], $extra = [])
     {
         $result = [
             'code' => CodeMsg::SUCCESS,
