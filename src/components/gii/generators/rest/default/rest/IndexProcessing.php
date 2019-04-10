@@ -15,6 +15,31 @@ $processingClassNs = sprintf('%s\processing\%s', $controlerClass, $tag);
 $searchClass = sprintf('\%s\models\search\%sSearch', dirname($moduleClass), $tag);
 $searchNs = sprintf('\%s\models\search', dirname($moduleClass));
 
+
+
+$inputs = $tagV['paths']['index']['inputs'];
+$inputsKeys = array_keys($tagV['paths']['index']['inputs']);
+
+$inputRules = [];
+// [['demo_name', 'demo_description', 'sort', 'page', 'page_size'], 'trim'],
+$inputRules[] = sprintf("[['%s'], 'trim'],", implode("','", $inputsKeys));
+
+foreach ($inputs as $key => $value) {
+    if ($value['required']) {
+        $inputRules[] = sprintf("[['%s'], 'required'],", $key);
+    }
+    $inputRules[] = sprintf("[['%s'], 'match', 'pattern' => '/%s/i', 'message' => '%s'],", $key, $value['rules'], $value['error_msg']);
+}
+
+$egOutputData = [];
+foreach ($tagV['paths']['index']['outputs'] as $key => $value) {
+    $egOutputData[] = sprintf("'%s' => '%s',", $key, $value['eg']);
+}
+
+$outputs = $tagV['paths']['index']['outputs'];
+
+
+
 echo "<?php\n";
 ?>
 /**
@@ -43,8 +68,9 @@ use myzero1\restbyconf\models\Demo as DemoModel;
  */
 class <?=ucwords($tag)?>Search extends DemoModel implements SearchProcessing
 {
-    public $demo_name;
-    public $demo_description;
+<?php foreach ($inputsKeys as $key => $value) { ?>
+    public $<?=$value?>;
+<?php } ?>
 
     public $sort;
     public $page;
@@ -61,11 +87,11 @@ class <?=ucwords($tag)?>Search extends DemoModel implements SearchProcessing
     public function rules()
     {
         return [
-            [['demo_name', 'demo_description', 'sort', 'page', 'page_size'], 'trim'],
+<?php foreach ($inputRules as $key => $value) { ?>
+            <?=$value."\n"?>
+<?php } ?>
 
-//            [['demo_name', 'demo_description'], 'required'],
-
-            [['sort', 'page', 'page_siz'], 'safe'],
+            [['sort', 'page', 'page_size'], 'trim'],
             [['page', 'page_size'], 'integer'],
         ];
     }
@@ -87,7 +113,8 @@ class <?=ucwords($tag)?>Search extends DemoModel implements SearchProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            $db2outData = $this->getResult($validatedInput);
+            // $db2outData = $this->getResult($validatedInput);
+            $db2outData = $this->egOutputData();
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -204,5 +231,17 @@ class <?=ucwords($tag)?>Search extends DemoModel implements SearchProcessing
         }
 
         return $resultData;
+    }
+
+    /**
+     * @return array
+     */
+    public function egOutputData()
+    {
+        return [
+<?php foreach ($egOutputData as $key => $value) { ?>
+            <?=$value."\n"?>
+<?php } ?>
+        ];
     }
 }
