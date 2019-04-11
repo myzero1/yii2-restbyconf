@@ -4,6 +4,7 @@
  */
 namespace myzero1\restbyconf\components\rest;
 
+use yii\web\Response;
 use yii\rest\ActiveController;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\RateLimiter;
@@ -26,9 +27,19 @@ class ApiController extends ActiveController
         // 'options' //默认支持OPTIONS请求
     ];
 
+    public function init()
+    {
+        \Yii::$app->request->parsers = [
+            'application/json' => '\yii\web\JsonParser',
+            'text/json' => '\yii\web\JsonParser',
+        ];
+        \Yii::$app->response->format = \Yii\web\Response::FORMAT_JSON;
+    }
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
+        $behaviors['contentNegotiator']['formats']['text/html'] = Response::FORMAT_JSON;
 
         unset($behaviors['authenticator']);
 
@@ -38,7 +49,7 @@ class ApiController extends ActiveController
                 'Origin' => ['*'],
                 'Access-Control-Request-Method' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
                 'Access-Control-Request-Headers' => ['*'],
-                'Access-Control-Allow-Credentials' => true,
+                'Access-Control-Allow-Credentials' => false,
             ],
         ];
         /*

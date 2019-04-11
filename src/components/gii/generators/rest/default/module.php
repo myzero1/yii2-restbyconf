@@ -40,14 +40,18 @@ class <?= $className ?> extends BaseModule implements BootstrapInterface
         $rulesData = file_get_contents($rulesPath);
         $rules = json_decode($rulesData, true);
         foreach ($rules['tags'] as $key => $value) {
-            $controller[] = sprintf('%s/%s', trim($rules['basePath'], '/'), strtolower($value));
+            $controller[] = sprintf('%s/%s', trim($rules['basePath'], '/'), $value);
         }
 
         if ($app instanceof \yii\web\Application) {
             $app->getUrlManager()->addRules([
                 [
-                    'class' => '\myzero1\restbyconf\components\rest\UrlRule', 
+                    'class' => '\yii\rest\UrlRule', 
                     'controller' => $controller,
+                    'pluralize' => false,
+                    'tokens' => [
+                        '{id}' => '<id:\\w[\\w,]*>',
+                    ],
                 ],
             ], false);
         }
