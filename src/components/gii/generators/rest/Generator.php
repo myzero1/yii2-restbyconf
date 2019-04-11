@@ -11,6 +11,7 @@ use yii\gii\CodeFile;
 use yii\helpers\Html;
 use Yii;
 use yii\helpers\StringHelper;
+use myzero1\restbyconf\components\rest\Helper;
 
 /**
  * This generator will generate the skeleton code needed by a module.
@@ -144,7 +145,12 @@ EOD;
         );
 
         $confAarray = $this->confAarray;
-        $rules['tags'] = array_keys( $confAarray['json']['tags']);
+        // $rules['tags'] = array_keys( $confAarray['json']['tags']);
+        $tags = [];
+        foreach ($confAarray['json']['tags'] as $key => $value) {
+            $tags[] = Helper::uncamelize($key,$separator='-');
+        }
+        $rules['tags'] = $tags;
         $rules['basePath'] = $confAarray['json']['basePath'];
         $files[] = new CodeFile(
             Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/rules.json'),

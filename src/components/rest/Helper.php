@@ -227,4 +227,25 @@ class Helper
             return false;
         }
     }
+
+    /**
+     * @param string $uncamelized_words
+     * @param string $separator
+     * @return string
+     */
+    public static function camelize($uncamelized_words,$separator='_')
+    {
+        $uncamelized_words = $separator. str_replace($separator, " ", strtolower($uncamelized_words));
+        return ltrim(str_replace(" ", "", ucwords($uncamelized_words)), $separator );
+    }
+
+    /**
+     * @param string $camelCaps
+     * @param string $separator
+     * @return string
+     */
+    public static function uncamelize($camelCaps,$separator='_')
+    {
+        return strtolower(preg_replace('/([a-z])([A-Z])/', "$1" . $separator . "$2", $camelCaps));
+    }
 }
