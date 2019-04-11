@@ -14,6 +14,30 @@ $controlerClass = sprintf('%s\controllers', dirname($moduleClass));
 $processingClassNs = sprintf('%s\processing\%s', $controlerClass, $tag);
 $searchClass = sprintf('\%s\models\search\%sSearch', dirname($moduleClass), $tag);
 
+
+$inputs = $tagV['paths']['delete']['inputs'];
+$inputsKeys = array_keys($tagV['paths']['delete']['inputs']);
+
+$inputRules = [];
+// [['demo_name', 'demo_description', 'sort', 'page', 'page_size'], 'trim'],
+$inputRules[] = sprintf("[['%s'], 'trim'],", implode("','", $inputsKeys));
+
+foreach ($inputs as $key => $value) {
+    if ($value['required']) {
+        $inputRules[] = sprintf("[['%s'], 'required'],", $key);
+    }
+    $inputRules[] = sprintf("[['%s'], 'match', 'pattern' => '/%s/i', 'message' => '%s'],", $key, $value['rules'], $value['error_msg']);
+}
+
+$egOutputData = [];
+foreach ($tagV['paths']['delete']['outputs'] as $key => $value) {
+    $egOutputData[] = sprintf("'%s' => '%s',", $key, $value['eg']);
+}
+
+$outputs = $tagV['paths']['delete']['outputs'];
+
+
+
 echo "<?php\n";
 ?>
 /**
@@ -50,14 +74,15 @@ class Delete implements DeleteProcessing
      */
     public function processing($id)
     {
+        /*
         $model = $this->findModel($id);
         $model->is_del = 1;
-        /*
         if ($model->save() === false) {
             throw new ServerErrorHttpException('Failed to delete the object for unknown reason.');
         }
         */
-        $result = $this->completeResult();
+        $db2outData = $this->egOutputData();
+        $result = $this->completeResult($db2outData);
         return $result;
     }
 
@@ -90,5 +115,18 @@ class Delete implements DeleteProcessing
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+
+    /**
+     * @return array
+     */
+    public function egOutputData()
+    {
+        $result = [
+<?php foreach ($egOutputData as $key => $value) { ?>
+            <?=$value."\n"?>
+<?php } ?>
+        ];
     }
 }
