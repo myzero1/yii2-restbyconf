@@ -143,6 +143,14 @@ EOD;
             $this->conf
         );
 
+        $confAarray = $this->confAarray;
+        $rules['tags'] = array_keys( $confAarray['json']['tags']);
+        $rules['basePath'] = $confAarray['json']['basePath'];
+        $files[] = new CodeFile(
+            Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/rules.json'),
+            json_encode($rules)
+        );
+
         return $files;
     }
 

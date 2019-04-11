@@ -29,6 +29,29 @@ class <?= $className ?> extends \yii\base\Module
     /**
      * {@inheritdoc}
      */
+    public function bootstrap($app)
+    {
+        $controller = [];
+        $rulesPath = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/rules.json');
+        $rulesData = file_get_contents($rulesPath);
+        $rules = json_decode($rulesData, true);
+        foreach ($rules['tags'] as $key => $value) {
+            $controller[] = sprintf('%s/%s', $rules['basePath'], $key);
+        }
+
+        if ($app instanceof \yii\web\Application) {
+            $app->getUrlManager()->addRules([
+                [
+                    'class' => '\myzero1\restbyconf\components\rest\UrlRule', 
+                    'controller' => $controller,
+                ],
+            ], false);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function init()
     {
         parent::init();
