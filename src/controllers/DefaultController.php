@@ -3,6 +3,7 @@
 namespace myzero1\restbyconf\controllers;
 
 use yii\web\Controller;
+use Yii;
 
 /**
  * Default controller for the `test` module
@@ -25,6 +26,18 @@ class DefaultController extends Controller
     public function actionSwagger()
     { 
         return $this->renderAjax('swagger');
+    }
+
+    /**
+     * Renders the index view for the module
+     * @return string
+     */
+    public function actionSwaggerJson()
+    {
+        $swaggerPath = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/swagger.json');
+        $swaggerData = file_get_contents($swaggerPath);
+
+        return $swaggerData;
     }
 
     /**
