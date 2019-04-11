@@ -16,10 +16,14 @@ echo "<?php\n";
 
 namespace <?= $ns ?>;
 
+use Yii;
+use yii\base\Module as BaseModule;
+use yii\base\BootstrapInterface;
+
 /**
  * <?= $generator->moduleID ?> module definition class
  */
-class <?= $className ?> extends \yii\base\Module
+class <?= $className ?> extends BaseModule implements BootstrapInterface
 {
     /**
      * {@inheritdoc}
@@ -36,7 +40,7 @@ class <?= $className ?> extends \yii\base\Module
         $rulesData = file_get_contents($rulesPath);
         $rules = json_decode($rulesData, true);
         foreach ($rules['tags'] as $key => $value) {
-            $controller[] = sprintf('%s/%s', $rules['basePath'], $key);
+            $controller[] = sprintf('%s/%s', $rules['basePath'], strtolower($value));
         }
 
         if ($app instanceof \yii\web\Application) {
