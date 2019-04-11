@@ -30,10 +30,10 @@
         },
         "tags": {
             "Demo": {
-                "description": "userName",
+                "name": "userName",
                 "paths": {
                     "create": {
-                        "description": "create",
+                        "name": "create",
                         "inputs": {
                             "in_str": {
                                 "des": "user name",
@@ -63,10 +63,10 @@
                 className: 'jsoneditor-append jsoneditor-default',
                 field: '',
                 value: {
-                    "description": "tagName",
+                    "name": "tagName",
                     "paths": {
                         "create": {
-                            "description": "create",
+                            "name": "create",
                             "item_id_in_path": {
                                 "des": "This is the demo of id",
                                 "required": true,
@@ -100,7 +100,7 @@
                 className: 'jsoneditor-append jsoneditor-default',
                 field: 'create',
                 value: {
-                    "description": "create",
+                    "name": "create",
                     "inputs": {
                         "in_str": {
                             "des": "user name",
@@ -149,7 +149,7 @@
                 className: 'jsoneditor-append jsoneditor-default',
                 field: 'index',
                 value: {
-                    "description": "index",
+                    "name": "index",
                     "inputs": {
                         "in_str": {
                             "des": "user name",
@@ -174,7 +174,7 @@
                 className: 'jsoneditor-append jsoneditor-default',
                 field: 'update',
                 value: {
-                    "description": "update",
+                    "name": "update",
                     "item_id_in_path": {
                         "des": "This is the demo of id",
                         "required": true,
@@ -206,7 +206,7 @@
                 className: 'jsoneditor-append jsoneditor-default',
                 field: 'view',
                 value: {
-                    "description": "view",
+                    "name": "view",
                     "item_id_in_path": {
                         "des": "This is the demo of id",
                         "required": true,
@@ -238,7 +238,7 @@
                 className: 'jsoneditor-append jsoneditor-default',
                 field: 'delete',
                 value: {
-                    "description": "delete",
+                    "name": "delete",
                     "item_id_in_path": {
                         "des": "This is the demo of id",
                         "required": true,
@@ -494,9 +494,9 @@
         "tag": {
             "title": "restbyconf-obj-tag",
             "type": "object",
-            "required": ["description", "paths"],
+            "required": ["name", "paths"],
             "properties": {
-                "description": {
+                "name": {
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 32,
@@ -523,9 +523,9 @@
         "create": {
             "title": "restbyconf-obj-path",
             "type": "object",
-            "required": ["description"],
+            "required": ["name"],
             "properties": {
-                "description": {
+                "name": {
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 32,
@@ -678,9 +678,9 @@
         "index": {
             "title": "restbyconf-obj-path",
             "type": "object",
-            "required": ["description"],
+            "required": ["name"],
             "properties": {
-                "description": {
+                "name": {
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 32,
@@ -697,9 +697,9 @@
         "update": {
             "title": "restbyconf-obj-path",
             "type": "object",
-            "required": ["description"],
+            "required": ["name"],
             "properties": {
-                "description": {
+                "name": {
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 32,
@@ -719,9 +719,9 @@
         "view": {
             "title": "restbyconf-obj-path",
             "type": "object",
-            "required": ["description"],
+            "required": ["name"],
             "properties": {
-                "description": {
+                "name": {
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 32,
@@ -741,9 +741,9 @@
         "delete": {
             "title": "restbyconf-obj-path",
             "type": "object",
-            "required": ["description"],
+            "required": ["name"],
             "properties": {
-                "description": {
+                "name": {
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 32,

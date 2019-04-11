@@ -66,52 +66,63 @@ class DefaultController extends Controller
                 $inputParams[$k1] = $param;
             }
 
-            $path = [];
+            $paths = [];
             $pathData = [];
             $pathOneData = [];
             $pathPre = sprintf('/%s/', Helper::uncamelize($k,$separator='-'));
             $pathOnePre = sprintf('%s/{id}/', $pathPre);
-            $pathData[$pathPre]['get'] = [
-                'tags' => $k,
-                'description' => $v['description'],
-                'operationId' => sprintf('%sController.Get All', $k),
-                'parameters' => $inputParams['index'],
-            ];
-            $pathData[$pathPre]['post'] = [
-                'tags' => $k,
-                'description' => $v['description'],
-                'operationId' => sprintf('%sController.Post', $k),
-                'parameters' => $inputParams['create'],
-            ];
-            $pathOneData[$pathOnePre]['get'] = [
-                'tags' => $k,
-                'description' => $v['description'],
-                'operationId' => sprintf('%sController.Get One', $k),
-                'parameters' => $inputParams['view'],
-            ];
-            $pathOneData[$pathOnePre]['put'] = [
-                'tags' => $k,
-                'description' => $v['description'],
-                'operationId' => sprintf('%sController.Put', $k),
-                'parameters' => $inputParams['update'],
-            ];
-            $pathOneData[$pathOnePre]['delete'] = [
-                'tags' => $k,
-                'description' => $v['description'],
-                'operationId' => sprintf('%sController.Delete', $k),
-                'parameters' => $inputParams['delete'],
-            ];
-
-            $paths['pathPre'] = $pathData[$pathPre];
-            $paths['pathOnePre'] = $pathData[$pathOnePre];
+            
+            $pathsKey = array_keys($v['paths']);
+            if (in_array('index', $pathsKey)) {
+                $paths[$pathPre]['get'] = [
+                    'tags' => $k,
+                    'description' => $v['description'],
+                    'operationId' => sprintf('%sController.Get All', $k),
+                    'parameters' => $inputParams['index'],
+                ];
+            }
+            if (in_array('create', $pathsKey)) {
+                $paths[$pathPre]['post'] = [
+                    'tags' => $k,
+                    'description' => $v['description'],
+                    'operationId' => sprintf('%sController.Post', $k),
+                    'parameters' => $inputParams['create'],
+                ];
+            }
+            if (in_array('view', $pathsKey)) {
+                $paths[$pathOnePre]['get'] = [
+                    'tags' => $k,
+                    'description' => $v['description'],
+                    'operationId' => sprintf('%sController.Get One', $k),
+                    'parameters' => $inputParams['view'],
+                ];
+            }
+            if (in_array('update', $pathsKey)) {
+                $paths[$pathOnePre]['put'] = [
+                    'tags' => $k,
+                    'description' => $v['description'],
+                    'operationId' => sprintf('%sController.Put', $k),
+                    'parameters' => $inputParams['update'],
+                ];
+            }
+            if (in_array('delete', $pathsKey)) {
+                $paths[$pathOnePre]['delete'] = [
+                    'tags' => $k,
+                    'description' => $v['description'],
+                    'operationId' => sprintf('%sController.Delete', $k),
+                    'parameters' => $inputParams['delete'],
+                ];
+            }
         }
 
 
         unset($json['tags']);
         $json['tags'] = $tags;
         $json['paths'] = $paths;
-        var_dump($json);exit;
 
+        // var_dump($json);exit;
+
+        return json_encode($json);
         return $swaggerData;
     }
 
