@@ -40,7 +40,7 @@ class <?= $className ?> extends BaseModule implements BootstrapInterface
         $rulesData = file_get_contents($rulesPath);
         $rules = json_decode($rulesData, true);
         foreach ($rules['tags'] as $key => $value) {
-            $controller[] = sprintf('%s/%s', $rules['basePath'], strtolower($value));
+            $controller[] = sprintf('%s/%s', trim($rules['basePath'], '/'), strtolower($value));
         }
 
         if ($app instanceof \yii\web\Application) {
