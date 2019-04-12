@@ -803,7 +803,7 @@
     }
 
     var isInputLay = function(path) {
-        if (path.length == 7 && path[0] == 'tags' && path[2] == 'paths' && path[4] == 'inputs') {
+        if (path.length == 6 && path[0] == 'tags' && path[2] == 'paths' && path[4] == 'inputs') {
             return true;
         } else {
             return false;
@@ -812,14 +812,6 @@
 
     var isOutputLay = function(path) {
         if (path.length == 6 && path[0] == 'tags' && path[2] == 'paths' && path[4] == 'outputs') {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    var isParamLay = function(path) {
-        if (path.length == 6 && path[0] == 'tags' && path[2] == 'paths' && path[4] == 'inputs') {
             return true;
         } else {
             return false;
@@ -906,7 +898,7 @@
     }
 
     var getChangeData = function(){
-      var json = editor.get();
+    	var json = editor.get();
 
         if (isJumpLay(json)) {
             editor.update(window.jsoneditorOldJson);
@@ -1010,30 +1002,6 @@
                     window.jsoneditorOldJson = json;
                 }
             }else if (isInputLay(node.path)) {
-                // console.log(node);
-                var json = editor.get();
-                var path = node.path;
-                if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]]) {
-
-                } else {
-                    var pathNodeId = json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'];
-                    json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]]['node_id'] = pathNodeId +new Date().getTime()+'-';
-                    editor.update(json);
-                    window.jsoneditorOldJson = json;
-                }
-            }else if (isOutputLay(node.path)) {
-                // console.log(node);
-                var json = editor.get();
-                var path = node.path;
-                if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]) {
-
-                } else {
-                    var pathNodeId = json[path[0]][path[1]][path[2]][path[3]]['node_id'];
-                    json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] = pathNodeId +new Date().getTime()+'-';
-                    editor.update(json);
-                    window.jsoneditorOldJson = json;
-                }
-            }else if (isParamLay(node.path)) {
                 // console.log(node);
                 var json = editor.get();
                 var path = node.path;
@@ -1297,11 +1265,11 @@
     restbyconfOptionsStr = restbyconfOptionsStr.replace(/^\s\s*/, '').replace(/\s\s*$/, '');;
 
     if (restbyconfOptionsStr != '') {
-      restbyconfOptions = JSON.parse(restbyconfOptionsStr);
-      var schemaRefs = restbyconfOptions['schemaRefs'];
-      window.jsoneditorOldJson = restbyconfOptions['json'];
+    	restbyconfOptions = JSON.parse(restbyconfOptionsStr);
+    	var schemaRefs = restbyconfOptions['schemaRefs'];
+    	window.jsoneditorOldJson = restbyconfOptions['json'];
     } else {
-      var schemaRefs = schemas;
+    	var schemaRefs = schemas;
     }
 
     // create the editor
@@ -1335,9 +1303,9 @@
         .jsoneditor-button.jsoneditor-contextmenu{
             display:none;
         }
-        // .restbyconf-hide-node-id{
-        //     display:none;
-        // }
+        .restbyconf-hide-node-id{
+            display:none;
+        }
     </style>
     `;
     $("body").append(style);

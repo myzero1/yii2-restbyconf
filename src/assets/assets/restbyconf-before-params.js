@@ -818,14 +818,6 @@
         }
     }
 
-    var isParamLay = function(path) {
-        if (path.length == 6 && path[0] == 'tags' && path[2] == 'paths' && path[4] == 'inputs') {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     var isJumpLay = function(json) {
         // console.log(json);
         var gettype=Object.prototype.toString
@@ -867,26 +859,43 @@
                                                     return true;
                                                 }
 
-                                                for(var i6 in json[i1][i2][i3][i4][i5]) {//第六层带node_id的节点，要判断node_id
+                                                for(var i6 in json[i1][i2][i3][i4][i5]) {//第六层不带node_id
                                                     if (gettype.call(json[i1][i2][i3][i4][i5][i6]) == '[object Object]') {
                                                         if ('node_id' in json[i1][i2][i3][i4][i5][i6]) {
-                                                            var nodeIdArray = json[i1][i2][i3][i4][i5][i6]['node_id'].split('-');
-                                                            if (nodeIdArray.length == 4) {
-                                                                var tmpNodeId = json[i1][i2][i3][i4]['node_id'] + nodeIdArray[2] + '-';
-                                                                if (tmpNodeId == json[i1][i2][i3][i4][i5][i6]['node_id']) {
-                                                                    
-                                                                } else {
-                                                                    return true;
-                                                                }
-                                                            } else {
-                                                                return true;
-                                                            }
+                                                           return true;
                                                         }
 
-                                                        for(var i7 in json[i1][i2][i3][i4][i5][i6]) {//第七层正常情况是不存在的
-                                                            var type = gettype.call(json[i1][i2][i3][i4][i5][i6][i7])
-                                                            if (type == '[object Object]' || type == '[object Array]') {
-                                                                return true;
+                                                        for(var i6 in json[i1][i2][i3][i4][i5]) {//第六层不带node_id
+                                                            if (gettype.call(json[i1][i2][i3][i4][i5][i6]) == '[object Object]') {
+                                                                if ('node_id' in json[i1][i2][i3][i4][i5][i6]) {
+                                                                   return true;
+                                                                }
+
+                                                                for(var i7 in json[i1][i2][i3][i4][i5][i6]) {//第七层带node_id的节点，要判断node_id
+                                                                    if (gettype.call(json[i1][i2][i3][i4][i5][i6][i7]) == '[object Object]') {
+                                                                        if ('node_id' in json[i1][i2][i3][i4][i5][i6][i7]) {
+                                                                            var nodeIdArray = json[i1][i2][i3][i4][i5][i6][i7]['node_id'].split('-');
+                                                                            if (nodeIdArray.length == 4) {
+                                                                              
+                                                                                var tmpNodeId = json[i1][i2][i3][i4]['node_id'] + nodeIdArray[2] + '-';
+                                                                                if (tmpNodeId == json[i1][i2][i3][i4][i5][i7]['node_id']) {
+                                                                                    
+                                                                                } else {
+                                                                                    return true;
+                                                                                }
+                                                                            } else {
+                                                                                return true;
+                                                                            }
+                                                                        }
+
+                                                                        for(var i8 in json[i1][i2][i3][i4][i5][i6][i7]) {//第八层正常情况是不存在的
+                                                                            var type = gettype.call(json[i1][i2][i3][i4][i5][i6][i7][i8])
+                                                                            if (type == '[object Object]' || type == '[object Array]') {
+                                                                                return true;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -906,7 +915,7 @@
     }
 
     var getChangeData = function(){
-      var json = editor.get();
+    	var json = editor.get();
 
         if (isJumpLay(json)) {
             editor.update(window.jsoneditorOldJson);
@@ -1016,32 +1025,8 @@
                 if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]]) {
 
                 } else {
-                    var pathNodeId = json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'];
+                    var pathNodeId = json[path[0]][path[1]][path[2]][path[3]]['node_id'];
                     json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]]['node_id'] = pathNodeId +new Date().getTime()+'-';
-                    editor.update(json);
-                    window.jsoneditorOldJson = json;
-                }
-            }else if (isOutputLay(node.path)) {
-                // console.log(node);
-                var json = editor.get();
-                var path = node.path;
-                if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]) {
-
-                } else {
-                    var pathNodeId = json[path[0]][path[1]][path[2]][path[3]]['node_id'];
-                    json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] = pathNodeId +new Date().getTime()+'-';
-                    editor.update(json);
-                    window.jsoneditorOldJson = json;
-                }
-            }else if (isParamLay(node.path)) {
-                // console.log(node);
-                var json = editor.get();
-                var path = node.path;
-                if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]) {
-
-                } else {
-                    var pathNodeId = json[path[0]][path[1]][path[2]][path[3]]['node_id'];
-                    json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] = pathNodeId +new Date().getTime()+'-';
                     editor.update(json);
                     window.jsoneditorOldJson = json;
                 }
@@ -1297,11 +1282,11 @@
     restbyconfOptionsStr = restbyconfOptionsStr.replace(/^\s\s*/, '').replace(/\s\s*$/, '');;
 
     if (restbyconfOptionsStr != '') {
-      restbyconfOptions = JSON.parse(restbyconfOptionsStr);
-      var schemaRefs = restbyconfOptions['schemaRefs'];
-      window.jsoneditorOldJson = restbyconfOptions['json'];
+    	restbyconfOptions = JSON.parse(restbyconfOptionsStr);
+    	var schemaRefs = restbyconfOptions['schemaRefs'];
+    	window.jsoneditorOldJson = restbyconfOptions['json'];
     } else {
-      var schemaRefs = schemas;
+    	var schemaRefs = schemas;
     }
 
     // create the editor
