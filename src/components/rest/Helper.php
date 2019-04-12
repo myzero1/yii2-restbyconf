@@ -274,7 +274,7 @@ class Helper
         foreach ($apiRuleConfigs as $key => $value) {
             $apiRuleConfigsDealed[] = self::addOptionsAction($value);
         }
-var_dump($apiRuleConfigsDealed);exit;
+// var_dump($apiRuleConfigsDealed);exit;
         return $apiRuleConfigsDealed;
     }
 
