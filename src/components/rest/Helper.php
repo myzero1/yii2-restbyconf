@@ -248,4 +248,115 @@ class Helper
     {
         return strtolower(preg_replace('/([a-z])([A-Z])/', "$1" . $separator . "$2", $camelCaps));
     }
+
+    /**
+     * @param string $camelCaps
+     * @param string $separator
+     * @return string
+     */
+    public static function optimizeRestUrlRules($urlRules)
+    {
+        // var_dump($urlRules);exit;
+        $apiRuleConfigs = [];
+        foreach ($urlRules as $k => $v) {
+            if (isset($v['class']) && $v['class'] == '\yii\rest\UrlRule') {
+                $tmp = [];
+                $tmp['controller'] = $v['controller'];
+                if (isset($v['extraPatterns'])) {
+                    $tmp['extraPatterns'] = $v['extraPatterns'];
+                }
+
+                $apiRuleConfigs[] = $tmp;
+            }
+        }
+
+        $apiRuleConfigsDealed = [];
+        foreach ($apiRuleConfigs as $key => $value) {
+            $apiRuleConfigsDealed[] = self::addOptionsAction($value);
+        }
+var_dump($apiRuleConfigsDealed);exit;
+        return $apiRuleConfigsDealed;
+    }
+
+    /**
+     * @param string $camelCaps
+     * @param string $separator
+     * @return string
+     */
+    public static function addOptionsAction($urlRule)
+    {
+        $unit = $urlRule;
+
+        if ($urlRule['controller'][0] == 'restbyconf_custom_rules') {
+            foreach ($urlRule['extraPatterns'] as $key => $val)
+            {
+                if(!is_numeric(strpos($key, 'OPTIONS'))){
+                    //判断是否有空格符
+                    if(is_numeric(strpos($key, ' '))){
+                        //存在
+                        $tmp = explode(' ', $key);
+                        $k = str_replace($tmp[0], 'OPTIONS', $key);
+                        $urlRule['extraPatterns'][$k] = 'options';
+                    } else {
+                        //不存在
+                        $urlRule['extraPatterns']['OPTIONS'] = 'options';
+                    }
+                }
+            }
+
+            return $urlRule['extraPatterns'];
+        } else {
+            //防止默认options控制器被屏蔽
+            if(isset($unit['only'])&&!empty($unit['only'])&&!in_array('options', $unit['only'])){
+                $urlRule['only'][] = 'options';
+            }
+            if(isset($unit['except'])&&!empty($unit['except'])&&in_array('options', $unit['except'])){
+                $urlRule['except'] = array_merge(array_diff($unit['except'], ['options']));
+            }
+            //由于ajax设置请求头后,会有一次options请求,默认为所有路由添加支持options请求
+            if(isset($unit['extraPatterns'])&&!empty($unit['extraPatterns'])){
+                foreach ($unit['extraPatterns'] as $key => $val)
+                {
+                    if(!is_numeric(strpos($key, 'OPTIONS'))){
+                        //判断是否有空格符
+                        if(is_numeric(strpos($key, ' '))){
+                            //存在
+                            $tmp = explode(' ', $key);
+                            $k = str_replace($tmp[0], 'OPTIONS', $key);
+                            $urlRule['extraPatterns'][$k] = 'options';
+                        } else {
+                            //不存在
+                            $urlRule['extraPatterns']['OPTIONS'] = 'options';
+                        }
+                    }
+                }
+            }
+            if(isset($unit['patterns'])&&!empty($unit['patterns'])) {
+                foreach ($unit['patterns'] as $key => $val) {
+                    if (!is_numeric(strpos($key, 'OPTIONS'))) {
+                        //判断是否有空格符
+                        if (is_numeric(strpos($key, ' '))) {
+                            //存在
+                            $tmp = explode(' ', $key);
+                            $k = str_replace($tmp[0], 'OPTIONS', $key);
+                            $urlRule['patterns'][$k] = 'options';
+                        } else {
+                            //不存在
+                            $urlRule['patterns']['OPTIONS'] = 'options';
+                        }
+                    }
+                }
+            }
+
+            $config = [
+                'class' => '\yii\rest\UrlRule',  
+                'pluralize' => false,
+                'tokens' => [
+                    '{id}' => '<id:\\w[\\w,]*>',
+                ],
+            ];
+
+            return array_merge($config, $urlRule);
+        }
+    }
 }

@@ -23,19 +23,21 @@ echo "<?php\n";
  */
 namespace <?=$controlerClass?>;
 
-use \myzero1\restbyconf\components\rest\BasicController;
+use \myzero1\restbyconf\components\rest\ApiController;
 
 /**
  * <?=$tag?>Controller implements the CRUDI actions for the module.
  */
-class <?=$tag?>Controller extends BasicController
+class <?=$tag?>Controller extends ApiController
 {
     /**
      * {@inheritdoc}
      */
     public function actions()
     {
-        return [
+        $parentActions = parent::actions();
+
+        $overwriteActions = [
 <?php if (in_array('create', $actions)): ?>
             'create' => [
                 'class' => '\myzero1\restbyconf\components\rest\ActiveAction',
@@ -67,5 +69,9 @@ class <?=$tag?>Controller extends BasicController
             ],
 <?php endif; ?>
         ];
+
+        $actions = array_merge($parentActions, $overwriteActions);
+
+        return $actions;
     }
 }
