@@ -35,13 +35,15 @@
                     "create": {
                         "description": "create",
                         "inputs": {
-                            "in_str": {
-                                "des": "user name",
-                                "required": false,
-                                "type": "body",
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                'error_msg': "You should input a-z,A-Z,0-9"
+                            "body_params": {
+                              "in_str": {
+                                  "des": "user name",
+                                  "required": false,
+                                  "eg": "myzero1",
+                                  "rules": "^\\w{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9",
+                                  "enable": true,
+                              }
                             }
                         },
                         "outputs": {
@@ -75,13 +77,15 @@
                                 "rules": "\\w+"
                             },
                             "inputs": {
-                                "in_str": {
-                                    "des": "user name",
-                                    "required": false,
-                                    "type": "body",
-                                    "eg": "myzero1",
-                                    "rules": "^\\w{1,32}$",
-                                    'error_msg': "You should input a-z,A-Z,0-9"
+                                "body_params":{
+                                    "in_str": {
+                                        "des": "user name",
+                                        "required": false,
+                                        "eg": "myzero1",
+                                        "rules": "^\\w{1,32}$",
+                                        "error_msg": "You should input a-z,A-Z,0-9",
+                                        "enable": true,
+                                    }
                                 }
                             },
                             "outputs": {
@@ -102,13 +106,15 @@
                 value: {
                     "description": "create",
                     "inputs": {
-                        "in_str": {
-                            "des": "user name",
-                            "required": false,
-                            "type": "body",
-                            "eg": "myzero1",
-                            "rules": "^\\w{1,32}$",
-                            'error_msg': "You should input a-z,A-Z,0-9"
+                        "body_params":{
+                            "in_str": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9",
+                                "enable": true,
+                            }
                         }
                     },
                     "outputs": {
@@ -127,10 +133,10 @@
                 value: {
                     "des": "user name",
                     "required": false,
-                    "type": "body",
                     "eg": "myzero1",
                     "rules": "^\\w{1,32}$",
-                    'error_msg': "You should input a-z,A-Z,0-9"
+                    "error_msg": "You should input a-z,A-Z,0-9",
+                    "enable": true,
                 }
             },
             {
@@ -151,13 +157,15 @@
                 value: {
                     "description": "index",
                     "inputs": {
-                        "in_str": {
-                            "des": "user name",
-                            "required": false,
-                            "type": "body",
-                            "eg": "myzero1",
-                            "rules": "^\\w{1,32}$",
-                            'error_msg': "You should input a-z,A-Z,0-9"
+                        "query_params":{
+                            "in_str": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9",
+                                "enable": true,
+                            }
                         }
                     },
                     "outputs": {
@@ -175,21 +183,16 @@
                 field: 'update',
                 value: {
                     "description": "update",
-                    "item_id_in_path": {
-                        "des": "This is the demo of id",
-                        "required": true,
-                        "type": "path",
-                        "eg": "myzero1",
-                        "rules": "\\w+"
-                    },
                     "inputs": {
-                        "in_str": {
-                            "des": "user name",
-                            "required": false,
-                            "type": "body",
-                            "eg": "myzero1",
-                            "rules": "^\\w{1,32}$",
-                            'error_msg': "You should input a-z,A-Z,0-9"
+                        "body_params":{
+                            "in_str": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9",
+                                "enable": true,
+                            }
                         }
                     },
                     "outputs": {
@@ -207,23 +210,6 @@
                 field: 'view',
                 value: {
                     "description": "view",
-                    "item_id_in_path": {
-                        "des": "This is the demo of id",
-                        "required": true,
-                        "type": "path",
-                        "eg": "myzero1",
-                        "rules": "\\w+"
-                    },
-                    "inputs": {
-                        "in_str": {
-                            "des": "user name",
-                            "required": false,
-                            "type": "body",
-                            "eg": "myzero1",
-                            "rules": "^\\w{1,32}$",
-                            'error_msg': "You should input a-z,A-Z,0-9"
-                        }
-                    },
                     "outputs": {
                         "out_str": {
                             "des": "user name",
@@ -239,23 +225,6 @@
                 field: 'delete',
                 value: {
                     "description": "delete",
-                    "item_id_in_path": {
-                        "des": "This is the demo of id",
-                        "required": true,
-                        "type": "path",
-                        "eg": "myzero1",
-                        "rules": "\\w+"
-                    },
-                    "inputs": {
-                        "in_str": {
-                            "des": "user name",
-                            "required": false,
-                            "type": "body",
-                            "eg": "myzero1",
-                            "rules": "^\\w{1,32}$",
-                            'error_msg': "You should input a-z,A-Z,0-9"
-                        }
-                    },
                     "outputs": {
                         "out_str": {
                             "des": "user name",
@@ -576,6 +545,16 @@
         },
         "inputs": {
             "title": "restbyconf-obj-inputs",
+            "type": "object",
+            "required": [],
+            "properties": {
+                "body_params": {
+                    "$ref": "body_params"
+                }
+            }
+        },
+        "body_params": {
+            "title": "restbyconf-obj-inputs-body",
             "type": "object",
             "required": [],
             "properties": {
