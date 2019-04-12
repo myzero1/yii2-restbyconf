@@ -9,6 +9,7 @@ use yii\rest\ActiveController;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\RateLimiter;
 use yii\filters\Cors;
+use yii\filters\VerbFilter;
 
 class ApiController extends ActiveController
 {
@@ -40,6 +41,19 @@ class ApiController extends ActiveController
     {
         $behaviors = parent::behaviors();
         $behaviors['contentNegotiator']['formats']['text/html'] = Response::FORMAT_JSON;
+
+        // ajax will send a options,after settting request header.
+        $behaviors['verbFilter'] = [
+            'class' => VerbFilter::className(),
+            'actions' => [
+                'index' => ['GET', 'HEAD', 'OPTIONS'],
+                'view' => ['GET', 'HEAD', 'OPTIONS'],
+                'create' => ['POST', 'OPTIONS'],
+                'update' => ['PUT', 'OPTIONS'],
+                'delete' => ['DELETE', 'OPTIONS'],
+                'patch' => ['PATCH', 'OPTIONS'],
+            ],
+        ];
 
         unset($behaviors['authenticator']);
 
@@ -81,14 +95,14 @@ class ApiController extends ActiveController
     public function actions()
     {
         $actions =  parent::actions();
-        //判断是否需要重写的控制器
+        //unset rewrite actions
         if(!empty($this->rewriteActions)){
             foreach ($this->rewriteActions as $actionKey)
             {
                 if(isset($actions[$actionKey])&&$actionKey!='options') unset($actions[$actionKey]);
             }
         }
-        //设置固定options控制器
+        //fix options action
         $actions['options'] = [
             'class' => 'yii\rest\OptionsAction',
             // optional:
