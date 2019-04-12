@@ -868,6 +868,7 @@
                                                 }
 
                                                 for(var i6 in json[i1][i2][i3][i4][i5]) {//第六层带node_id的节点，要判断node_id
+                                                  console.log(6);
                                                     if (gettype.call(json[i1][i2][i3][i4][i5][i6]) == '[object Object]') {
                                                         if ('node_id' in json[i1][i2][i3][i4][i5][i6]) {
                                                             var nodeIdArray = json[i1][i2][i3][i4][i5][i6]['node_id'].split('-');
@@ -883,12 +884,31 @@
                                                             }
                                                         }
 
-                                                        for(var i7 in json[i1][i2][i3][i4][i5][i6]) {//第七层正常情况是不存在的
-                                                            var type = gettype.call(json[i1][i2][i3][i4][i5][i6][i7])
-                                                            if (type == '[object Object]' || type == '[object Array]') {
-                                                                return true;
-                                                            }
-                                                        }
+                                                        // for(var i7 in json[i1][i2][i3][i4][i5][i6]) {//第七层带node_id的节点，要判断node_id
+                                                        //     if (gettype.call(json[i1][i2][i3][i4][i5][i6][i7]) == '[object Object]') {
+                                                        //         if ('node_id' in json[i1][i2][i3][i4][i5][i6][i7]) {
+                                                        //             var nodeIdArray = json[i1][i2][i3][i4][i5][i6][i7]['node_id'].split('-');
+                                                        //             if (nodeIdArray.length == 5) {
+                                                        //                 var tmpNodeId = json[i1][i2][i3][i4][i5][i6]['node_id'] + nodeIdArray[3] + '-';
+                                                        //                 if (tmpNodeId == json[i1][i2][i3][i4][i5][i6][i7]['node_id']) {
+                                                                            
+                                                        //                 } else {
+                                                        //                     return true;
+                                                        //                 }
+                                                        //             } else {
+                                                        //                 return true;
+                                                        //             }
+                                                        //         }
+
+                                                        //         for(var i8 in json[i1][i2][i3][i4][i5][i6][i7]) {//第八层正常情况是不存在的
+                                                        //             console.log(8);
+                                                        //             var type = gettype.call(json[i1][i2][i3][i4][i5][i6][i7][i8])
+                                                        //             if (type == '[object Object]' || type == '[object Array]') {
+                                                        //                 return true;
+                                                        //             }
+                                                        //         }
+                                                        //     }
+                                                        // }
                                                     }
                                                 }
                                             }
