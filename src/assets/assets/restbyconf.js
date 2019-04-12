@@ -826,6 +826,14 @@
         }
     }
 
+    var isInTag = function(path) {
+        if (path.length > 0 && path[0] == 'tags') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     var isJumpLay = function(json) {
         // console.log(json);
         var gettype=Object.prototype.toString
@@ -884,31 +892,31 @@
                                                             }
                                                         }
 
-                                                        // for(var i7 in json[i1][i2][i3][i4][i5][i6]) {//第七层带node_id的节点，要判断node_id
-                                                        //     if (gettype.call(json[i1][i2][i3][i4][i5][i6][i7]) == '[object Object]') {
-                                                        //         if ('node_id' in json[i1][i2][i3][i4][i5][i6][i7]) {
-                                                        //             var nodeIdArray = json[i1][i2][i3][i4][i5][i6][i7]['node_id'].split('-');
-                                                        //             if (nodeIdArray.length == 5) {
-                                                        //                 var tmpNodeId = json[i1][i2][i3][i4][i5][i6]['node_id'] + nodeIdArray[3] + '-';
-                                                        //                 if (tmpNodeId == json[i1][i2][i3][i4][i5][i6][i7]['node_id']) {
+                                                        for(var i7 in json[i1][i2][i3][i4][i5][i6]) {//第七层带node_id的节点，要判断node_id
+                                                            if (gettype.call(json[i1][i2][i3][i4][i5][i6][i7]) == '[object Object]') {
+                                                                if ('node_id' in json[i1][i2][i3][i4][i5][i6][i7]) {
+                                                                    var nodeIdArray = json[i1][i2][i3][i4][i5][i6][i7]['node_id'].split('-');
+                                                                    if (nodeIdArray.length == 5) {
+                                                                        var tmpNodeId = json[i1][i2][i3][i4][i5][i6]['node_id'] + nodeIdArray[3] + '-';
+                                                                        if (tmpNodeId == json[i1][i2][i3][i4][i5][i6][i7]['node_id']) {
                                                                             
-                                                        //                 } else {
-                                                        //                     return true;
-                                                        //                 }
-                                                        //             } else {
-                                                        //                 return true;
-                                                        //             }
-                                                        //         }
+                                                                        } else {
+                                                                            return true;
+                                                                        }
+                                                                    } else {
+                                                                        return true;
+                                                                    }
+                                                                }
 
-                                                        //         for(var i8 in json[i1][i2][i3][i4][i5][i6][i7]) {//第八层正常情况是不存在的
-                                                        //             console.log(8);
-                                                        //             var type = gettype.call(json[i1][i2][i3][i4][i5][i6][i7][i8])
-                                                        //             if (type == '[object Object]' || type == '[object Array]') {
-                                                        //                 return true;
-                                                        //             }
-                                                        //         }
-                                                        //     }
-                                                        // }
+                                                                for(var i8 in json[i1][i2][i3][i4][i5][i6][i7]) {//第八层正常情况是不存在的
+                                                                    console.log(8);
+                                                                    var type = gettype.call(json[i1][i2][i3][i4][i5][i6][i7][i8])
+                                                                    if (type == '[object Object]' || type == '[object Array]') {
+                                                                        return true;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }
@@ -1005,7 +1013,76 @@
         if (editor!=null) {
             var path = node.path;
             var json = editor.get();
+            var path = node.path;
+            var length = path.length;
+            if (isInTag(path)) {
+                var json = editor.get();
+                var path = node.path;
+                if (length == 1) {
+                    if (!('node_id' in json[path[0]])) {
+                        json[path[0]]['node_id'] = new Date().getTime()+'-';
+                        editor.update(json);
+                        window.jsoneditorOldJson = json;
+                    }
+                } else if (length == 2) {
+                    if (!('node_id' in json[path[0]][path[1]])) {
+                        json[path[0]][path[1]]['node_id'] = new Date().getTime()+'-';
+                        editor.update(json);
+                        window.jsoneditorOldJson = json;
+                    }
+                } else if (length == 3) {
+                    if (!('node_id' in json[path[0]][path[1]][path[2]])) {
+                        json[path[0]][path[1]][path[2]]['node_id'] = new Date().getTime()+'-';
+                        editor.update(json);
+                        window.jsoneditorOldJson = json;
+                    }
+                } else if (length == 4) {
+                    if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]])) {
+                        json[path[0]][path[1]][path[2]][path[3]]['node_id'] = new Date().getTime()+'-';
+                        editor.update(json);
+                        window.jsoneditorOldJson = json;
+                    }
+                } else if (length == 5) {
+                    if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]])) {
+                        json[path[0]][path[1]][path[2]][path[3]][path[4]]['node_id'] = new Date().getTime()+'-';
+                        editor.update(json);
+                        window.jsoneditorOldJson = json;
+                    }
+                } else if (length == 6) {
+                    if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]])) {
+                        json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] = new Date().getTime()+'-';
+                        editor.update(json);
+                        window.jsoneditorOldJson = json;
+                    }
+                } else if (length == 7) {
+                    if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]])) {
+                        json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]]['node_id'] = new Date().getTime()+'-';
+                        editor.update(json);
+                        window.jsoneditorOldJson = json;
+                    }
+                } else if (length == 8) {
+                    if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]][path[7]])) {
+                        json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]][path[7]]['node_id'] = new Date().getTime()+'-';
+                        editor.update(json);
+                        window.jsoneditorOldJson = json;
+                    }
+                } else  if (length == 9) {
+                    if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]][path[7]][path[8]])) {
+                        json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]][path[7]][path[8]]['node_id'] = new Date().getTime()+'-';
+                        editor.update(json);
+                        window.jsoneditorOldJson = json;
+                    }
+                } else  if (length == 10) {
+                    if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]][path[7]][path[8]][path[9]])) {
+                        json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]][path[7]][path[8]][path[9]]['node_id'] = new Date().getTime()+'-';
+                        editor.update(json);
+                        window.jsoneditorOldJson = json;
+                    }
+                }
+            }
 
+
+/*console.log(path);
             if (isTagLay(node.path)) {
                 // console.log(node);
                 var json = editor.get();
@@ -1065,7 +1142,7 @@
                     editor.update(json);
                     window.jsoneditorOldJson = json;
                 }
-            }
+            }*/
         }
     }
 
@@ -1257,7 +1334,7 @@
         // update the validation of path
         var path = node.path;
         if (Array.isArray(node.path)) {
-            if (isPathLay(node.path)) {
+            if (isPathLay(node.path) && node.field != 'node_id') {
                 var schemaRefs = this.schemaRefs;
                 schemaRefs['paths']['properties'][node.field] = {
                   "$ref": node.field
