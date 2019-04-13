@@ -166,7 +166,6 @@ var onCreateMenu = function onCreateMenu(items, node) {
         return false;
     }
 
-    // placeholder
     var length = node.path.length;
     var field = node.path[length-1];
 
@@ -198,7 +197,6 @@ var onCreateMenu = function onCreateMenu(items, node) {
                 } else {
                     delete(jsonData[path[0]][path[1]]);
                     editor.update(jsonData);
-                    editor.setSchema(editor.schema,editor.schemaRefs);
                 }
             }
         } );
@@ -279,7 +277,6 @@ var onCreateMenu = function onCreateMenu(items, node) {
                 } else {
                     delete(jsonData[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]);
                     editor.update(jsonData);
-                    editor.setSchema(editor.schema,editor.schemaRefs);
                 }
             } // the function to call when the menu item is clicked
         } );
@@ -321,7 +318,6 @@ var onCreateMenu = function onCreateMenu(items, node) {
                 } else {
                     delete(jsonData[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]);
                     editor.update(jsonData);
-                    editor.setSchema(editor.schema,editor.schemaRefs);
                 }
             } // the function to call when the menu item is clicked
         } );
@@ -339,7 +335,7 @@ var onEditable = function(node) {
     // update the validation of path
     var path = node.path;
     if (Array.isArray(node.path)) {
-        if (isPathLay(node.path) && node.field != 'node_id') {
+        if (isPathLay(node.path) && node.field != 'node_id' && node.field != 'add_item_click_before_icon') {
             var schemaRefs = this.schemaRefs;
             schemaRefs['paths']['properties'][node.field] = {
               "$ref": node.field

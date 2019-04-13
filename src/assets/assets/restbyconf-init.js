@@ -42,12 +42,12 @@ var style = `
     .jsoneditor-button.jsoneditor-contextmenu{
         display:none;
     }
-    .restbyconf-hide-node-id{
-        display:none;
-    }
-    .restbyconf-hide-add_item_click_before_icon{
-        display:none;
-    }
+    // .restbyconf-hide-node-id{
+    //     display:none;
+    // }
+    // .restbyconf-hide-add_item_click_before_icon{
+    //     display:none;
+    // }
 </style>
 `;
 $("body").append(style);
