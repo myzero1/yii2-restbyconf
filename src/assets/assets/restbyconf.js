@@ -29,7 +29,7 @@
             }
         },
         "tags": {
-            "Demo": {
+            "placeholder": {
                 "description": "userName",
                 "paths": {
                     "create": {
@@ -455,7 +455,7 @@
             "type": "object",
             "required": [],
             "properties": {
-                "Demo": {
+                "placeholder": {
                     "$ref": "tag"
                 }
             }
@@ -956,7 +956,21 @@
           if (now.getTime() > exitTime)
               return true;
       }
-  }
+    }
+
+    var placeholderChildren = function(node) {
+        //if(arr.indexOf(某元素) > -1){//则包含该元素}
+        var path = node.path
+        if (path.indexOf('placeholder') > -1) {
+            if (node.field == 'placeholder') {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 
 //------callback------
 
@@ -1022,7 +1036,7 @@
 
             showContextmenu();
             adjustBackground();
-            getChangeData();
+            // getChangeData();
         }
     };
 
@@ -1042,6 +1056,23 @@
                 var path = node.path;
                 if (length == 1) {
                     if (!('node_id' in json[path[0]])) {
+                        
+                        // var keys= Object.keys(json[path[0]][path[1]]);
+                        // var tmpObj = {};
+                        // tmpObj['node_id'] = tagNodeId;
+
+                        // var keys= Object.keys(json[path[0]]);
+                        // var keysLen = keys.length;
+                        // var lastKey = keys[keysLen-1];
+                        // var lastVal = json[path[0]][lastKey];
+
+                        // delete(json[path[0]][lastKey]);
+
+                        // json[path[0]]['node_id'] = new Date().getTime()+'-';
+                        // json[path[0]][lastKey] = lastVal;
+
+
+
                         json[path[0]]['node_id'] = new Date().getTime()+'-';
                         editor.update(json);
                         window.jsoneditorOldJson = json;
@@ -1050,8 +1081,26 @@
                     if (length == 2) {
                         if ('node_id' in json[path[0]]) {
                             if (!('node_id' in json[path[0]][path[1]])) {
+
+
+
+
+
+                        var keys= Object.keys(json[path[0]][path[1]]);
+                        var keysLen = keys.length;
+                        var lastKey = keys[keysLen-1];
+                        var lastVal = json[path[0]][path[1]][lastKey];
+
+                        // delete(json[path[0]][path[1]][lastKey]);
+
+
+
+
+
                                 var tagNodeId = json[path[0]]['node_id'] + new Date().getTime()+'-';
                                 json[path[0]][path[1]]['node_id'] = tagNodeId;
+
+                                // json[path[0]][path[1]][lastKey] = lastVal;
 
                                 editor.update(json);
                                 window.jsoneditorOldJson = json;
@@ -1179,6 +1228,10 @@
         if (node.field == 'node_id') {
             return 'restbyconf-hide-node-id';
         }
+
+        if(placeholderChildren(node)){
+            return 'restbyconf-hide-placeholder';
+        }
     }
 
     var onCreateMenu = function onCreateMenu(items, node) {
@@ -1192,12 +1245,15 @@
             return false;
         }
 
+        // placeholder
+        var length = node.path.length;
+        var field = node.path[length-1];
+
         if(isTagLay(node.path)){
             var itemsTmp  = new Array();
-
             for (var i = 0;  i < items.length; i++) {
                 var text = items[i]['text'];
-                if (text=='追加') {
+                if (text=='插入' && field=='placeholder') {
                     // console.log(items[i]['submenu']);
                     for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
                         if (items[i]['submenu'][j]['text'] == 'tag') {
@@ -1216,16 +1272,14 @@
                 click : function(){
                     var jsonData = editor.get();
                     var path = node.path;
-                    var tmp = jsonData[path[0]];
-                    delete(tmp[path[1]]);
-                    if (JSON.stringify(tmp) == "{}") {
-                        alert('必须保留一个tag');
+                    if (field=='placeholder') {
+                        alert('placeholder不能被删除');
                     } else {
                         delete(jsonData[path[0]][path[1]]);
                         editor.update(jsonData);
                         editor.setSchema(editor.schema,editor.schemaRefs);
                     }
-                } // the function to call when the menu item is clicked
+                }
             } );
             return itemsTmp;
         } else if(isPathLay(node.path)){
@@ -1380,7 +1434,7 @@
         showContextmenu();
         adjustBackground();
 
-        if (node.field == 'node_id') {
+        if (node.field == 'node_id' || node.field == 'placeholder') {
             return false;
         }
 
@@ -1453,8 +1507,8 @@
     var container = document.getElementById('jsoneditor');
     window.jsoneditorCanUpdateOldJson = true;
     var editor = new JSONEditor(container, defaultOptions, window.jsoneditorOldJson);
-    // editor.setSelection({path: ["tags"]}); // order to set node id is ok.
-    editor.setSelection({path: ["tags","Demo"]}); // order to set node id is ok.
+    editor.setSelection({path: ["tags"]}); // order to set node id is ok.
+    // editor.setSelection({path: ["tags","Demo"]}); // order to set node id is ok.
     // for style
     var style = `
     <style>
@@ -1467,6 +1521,9 @@
         // .restbyconf-hide-node-id{
         //     display:none;
         // }
+        .restbyconf-hide-placeholder{
+            display:none;
+        }
     </style>
     `;
     $("body").append(style);
@@ -1479,5 +1536,7 @@
         showContextmenu();
         adjustBackground();
     });
+
+
 
 
