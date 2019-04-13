@@ -1002,6 +1002,7 @@
     }
 
     var onEvent = function(node, event){
+      // console.log(node);
         if (event.type == 'blur') {
             // update the validation of tag
             if (isTagLay(node.path)) {
@@ -1045,7 +1046,6 @@
         adjustBackground();
 
         if (editor!=null) {
-          // console.log(node);
             var path = node.path;
             var json = editor.get();
             var path = node.path;
@@ -1056,171 +1056,68 @@
                 var path = node.path;
                 if (length == 1) {
                     if (!('node_id' in json[path[0]])) {
-                        
-                        // var keys= Object.keys(json[path[0]][path[1]]);
-                        // var tmpObj = {};
-                        // tmpObj['node_id'] = tagNodeId;
-
-                        // var keys= Object.keys(json[path[0]]);
-                        // var keysLen = keys.length;
-                        // var lastKey = keys[keysLen-1];
-                        // var lastVal = json[path[0]][lastKey];
-
-                        // delete(json[path[0]][lastKey]);
-
-                        // json[path[0]]['node_id'] = new Date().getTime()+'-';
-                        // json[path[0]][lastKey] = lastVal;
-
-
-
                         json[path[0]]['node_id'] = new Date().getTime()+'-';
                         editor.update(json);
                         window.jsoneditorOldJson = json;
                     }
-                } else if (node.size > 1) {
+                } else if (node.size >= 1) {
                     if (length == 2) {
                         if ('node_id' in json[path[0]]) {
                             if (!('node_id' in json[path[0]][path[1]])) {
-
-
-
-
-
-                        var keys= Object.keys(json[path[0]][path[1]]);
-                        var keysLen = keys.length;
-                        var lastKey = keys[keysLen-1];
-                        var lastVal = json[path[0]][path[1]][lastKey];
-
-                        // delete(json[path[0]][path[1]][lastKey]);
-
-
-
-
-
                                 var tagNodeId = json[path[0]]['node_id'] + new Date().getTime()+'-';
                                 json[path[0]][path[1]]['node_id'] = tagNodeId;
-
-                                // json[path[0]][path[1]][lastKey] = lastVal;
-
                                 editor.update(json);
                                 window.jsoneditorOldJson = json;
                             }
                         }
                     } else if (length == 3) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]])) {
-                            json[path[0]][path[1]][path[2]]['node_id'] = new Date().getTime()+'-';
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
+                        if ('node_id' in json[path[0]][path[1]]) {
+                            if (!('node_id' in json[path[0]][path[1]][path[2]])) {
+                                var tagNodeId = json[path[0]][path[1]]['node_id'] + new Date().getTime()+'-';
+                                json[path[0]][path[1]][path[2]]['node_id'] = tagNodeId;
+                                editor.update(json);
+                                window.jsoneditorOldJson = json;
+                            }
                         }
                     } else if (length == 4) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]])) {
-                            json[path[0]][path[1]][path[2]][path[3]]['node_id'] = new Date().getTime()+'-';
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
+                        if ('node_id' in json[path[0]][path[1]][path[2]]) {
+                            if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]])) {
+                                var tagNodeId = json[path[0]][path[1]][path[2]]['node_id'] + new Date().getTime()+'-';
+                                json[path[0]][path[1]][path[2]][path[3]]['node_id'] = tagNodeId;
+                                editor.update(json);
+                                window.jsoneditorOldJson = json;
+                            }
                         }
                     } else if (length == 5) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]])) {
-                            json[path[0]][path[1]][path[2]][path[3]][path[4]]['node_id'] = new Date().getTime()+'-';
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
+                        if ('node_id' in json[path[0]][path[1]][path[2]][path[3]]) {
+                            if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]])) {
+                                var tagNodeId = json[path[0]][path[1]][path[2]][path[3]]['node_id'] + new Date().getTime()+'-';
+                                json[path[0]][path[1]][path[2]][path[3]][path[4]]['node_id'] = tagNodeId;
+                                editor.update(json);
+                                window.jsoneditorOldJson = json;
+                            }
                         }
                     } else if (length == 6) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]])) {
-                            json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] = new Date().getTime()+'-';
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
+                        if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]]) {
+                            if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]])) {
+                                var tagNodeId = json[path[0]][path[1]]['node_id'] + new Date().getTime()+'-';
+                                json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] = tagNodeId;
+                                editor.update(json);
+                                window.jsoneditorOldJson = json;
+                            }
                         }
                     } else if (length == 7) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]])) {
-                            json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]]['node_id'] = new Date().getTime()+'-';
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    } else if (length == 8) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]][path[7]])) {
-                            json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]][path[7]]['node_id'] = new Date().getTime()+'-';
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    } else  if (length == 9) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]][path[7]][path[8]])) {
-                            json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]][path[7]][path[8]]['node_id'] = new Date().getTime()+'-';
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    } else  if (length == 10) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]][path[7]][path[8]][path[9]])) {
-                            json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]][path[7]][path[8]][path[9]]['node_id'] = new Date().getTime()+'-';
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
+                        if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]) {
+                            if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]])) {
+                                var tagNodeId = json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] + new Date().getTime()+'-';
+                                json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]]['node_id'] = tagNodeId;
+                                editor.update(json);
+                                window.jsoneditorOldJson = json;
+                            }
                         }
                     }
-
                 }
             }
-
-          /*
-            console.log(path);
-            if (isTagLay(node.path)) {
-                // console.log(node);
-                var json = editor.get();
-                var path = node.path;
-                if ('node_id' in json[path[0]][path[1]]) {
-
-                } else {
-                    json[path[0]][path[1]]['node_id'] = new Date().getTime()+'-';
-                    editor.update(json);
-                    window.jsoneditorOldJson = json;
-                }
-            }else if (isPathLay(node.path)) {
-                // console.log(node);
-                var json = editor.get();
-                var path = node.path;
-                if ('node_id' in json[path[0]][path[1]][path[2]][path[3]]) {
-
-                } else {
-                    var tagNodeId = json[path[0]][path[1]]['node_id'];
-                    json[path[0]][path[1]][path[2]][path[3]]['node_id'] = tagNodeId + new Date().getTime()+'-';
-                    editor.update(json);
-                    window.jsoneditorOldJson = json;
-                }
-            }else if (isInputLay(node.path)) {
-                // console.log(node);
-                var json = editor.get();
-                var path = node.path;
-                if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]]) {
-
-                } else {
-                    var pathNodeId = json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'];
-                    json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]]['node_id'] = pathNodeId +new Date().getTime()+'-';
-                    editor.update(json);
-                    window.jsoneditorOldJson = json;
-                }
-            }else if (isOutputLay(node.path)) {
-                // console.log(node);
-                var json = editor.get();
-                var path = node.path;
-                if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]) {
-
-                } else {
-                    var pathNodeId = json[path[0]][path[1]][path[2]][path[3]]['node_id'];
-                    json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] = pathNodeId +new Date().getTime()+'-';
-                    editor.update(json);
-                    window.jsoneditorOldJson = json;
-                }
-            }else if (isParamLay(node.path)) {
-                // console.log(node);
-                var json = editor.get();
-                var path = node.path;
-                if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]) {
-
-                } else {
-                    var pathNodeId = json[path[0]][path[1]][path[2]][path[3]]['node_id'];
-                    json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] = pathNodeId +new Date().getTime()+'-';
-                    editor.update(json);
-                    window.jsoneditorOldJson = json;
-                }
-            }*/
         }
     }
 
@@ -1518,9 +1415,9 @@
         .jsoneditor-button.jsoneditor-contextmenu{
             display:none;
         }
-        // .restbyconf-hide-node-id{
-        //     display:none;
-        // }
+        .restbyconf-hide-node-id{
+            display:none;
+        }
         .restbyconf-hide-placeholder{
             display:none;
         }
