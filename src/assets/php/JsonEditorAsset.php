@@ -14,8 +14,10 @@ class JsonEditorAsset extends AssetBundle
     ];
     public $js = [
         'jsoneditor-5.32.1/dist/jsoneditor.min.js',
-        'restbyconf.js',
-        // 'custom.js',
+        'restbyconf-ready.js',
+        'restbyconf-utils.js',
+        'restbyconf-callback.js',
+        'restbyconf-init.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
