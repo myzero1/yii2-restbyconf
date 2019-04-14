@@ -90,9 +90,155 @@ var isInTag = function(path) {
     }
 }
 
+var isChild = function(parent, child) {
+    var childArray = child.split('-');
+    var childArrayLen = childArray.length;
+    var childStr = parent + childArray[childArrayLen-2] + '-';
+    if (childStr == child) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 var isJumpLay = function(json) {
     // console.log(json);
     var gettype=Object.prototype.toString
+
+    for(var i1 in json) {//第一层带node_id的节点只有tags
+        if (gettype.call(json[i1]) == '[object Object]') {
+            if ('node_id' in json[i1]) {
+                if (i1 == 'tags') {
+
+                } else {
+                    console.log(1);
+                    return true;
+                }
+            }
+            
+            var parent = json[i1];
+            for(var i2 in parent) {//第二层带node_id那么上一层也要带node_id而且有父子关系
+                var child = parent[i2];
+                if (gettype.call(child) == '[object Object]') {
+                    if ('node_id' in child) {
+                        if ('node_id' in parent) {
+                            if (isChild(parent['node_id'], child['node_id'])) {
+
+                            } else {
+                                console.log(child);
+                                return true;
+                            }
+                        }
+                    }
+
+                    var parent = json[i1][i2];
+                    for(var i3 in parent) {//第3层带node_id那么上一层也要带node_id而且有父子关系
+                        var child = parent[i3];
+                        if (gettype.call(child) == '[object Object]') {
+                            if ('node_id' in child) {
+                                if ('node_id' in parent) {
+                                    if (isChild(parent['node_id'], child['node_id'])) {
+
+                                    } else {
+                                        console.log(child);
+                                        return true;
+                                    }
+                                }
+                            }
+
+                            var parent = json[i1][i2][i3];
+                            for(var i4 in parent) {//第4层带node_id那么上一层也要带node_id而且有父子关系
+                                var child = parent[i4];
+                                if (gettype.call(child) == '[object Object]') {
+                                    if ('node_id' in child) {
+                                        if ('node_id' in parent) {
+                                            if (isChild(parent['node_id'], child['node_id'])) {
+
+                                            } else {
+                                                console.log(child);
+                                                return true;
+                                            }
+                                        }
+                                    }
+
+                                    var parent = json[i1][i2][i3][i4];
+                                    for(var i5 in parent) {//第5层带node_id那么上一层也要带node_id而且有父子关系
+                                        var child = parent[i5];
+                                        if (gettype.call(child) == '[object Object]') {
+                                            if ('node_id' in child) {
+                                                if ('node_id' in parent) {
+                                                    if (isChild(parent['node_id'], child['node_id'])) {
+
+                                                    } else {
+                                                        console.log(child);
+                                                        return true;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    var parent = json[i1][i2][i3][i4][i5];
+                                    for(var i6 in parent) {//第6层带node_id那么上一层也要带node_id而且有父子关系
+                                        var child = parent[i6];
+                                        if (gettype.call(child) == '[object Object]') {
+                                            if ('node_id' in child) {
+                                                if ('node_id' in parent) {
+                                                    if (isChild(parent['node_id'], child['node_id'])) {
+
+                                                    } else {
+                                                        console.log(child);
+                                                        return true;
+                                                    }
+                                                }
+                                            }
+
+                                            var parent = json[i1][i2][i3][i4][i5][i6];
+                                            for(var i7 in parent) {//第7层带node_id那么上一层也要带node_id而且有父子关系
+                                                var child = parent[i7];
+                                                if (gettype.call(child) == '[object Object]') {
+                                                    if ('node_id' in child) {
+                                                        if ('node_id' in parent) {
+                                                            if (isChild(parent['node_id'], child['node_id'])) {
+
+                                                            } else {
+                                                                console.log(child);
+                                                                return true;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    var parent = json[i1][i2][i3][i4][i5][i6][i7];
+                                                    for(var i8 in parent) {//第8层带node_id那么上一层也要带node_id而且有父子关系
+                                                        var child = parent[i8];
+                                                        if (gettype.call(child) == '[object Object]') {
+                                                            if ('node_id' in child) {
+                                                                if ('node_id' in parent) {
+                                                                    if (isChild(parent['node_id'], child['node_id'])) {
+
+                                                                    } else {
+                                                                        console.log(child);
+                                                                        return true;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+/*    
 
     for(var i1 in json) {//第一层不会用带node_id的节点
         if (gettype.call(json[i1]) == '[object Object]') {
@@ -186,12 +332,15 @@ var isJumpLay = function(json) {
             }
         }
     }
+
+*/
+
     return false;
 }
 
 var getChangeData = function(){
-  var json = editor.get();
-
+    var json = editor.get();
+    console.log(isJumpLay(json));
     if (isJumpLay(json)) {
         editor.update(window.jsoneditorOldJson);
     } else {

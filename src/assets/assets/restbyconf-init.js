@@ -23,7 +23,7 @@ var defaultOptions = {
     onCreateMenu: onCreateMenu,
     onNodeName: onNodeName,
     onClassName: onClassName,
-    // onChangeJSON: onChangeJSON,
+    onChangeJSON: onChangeJSON,
     onEvent: onEvent
 
 };
@@ -45,9 +45,9 @@ var style = `
     // .restbyconf-hide-node-id{
     //     display:none;
     // }
-    // .restbyconf-hide-add_item_click_before_icon{
-    //     display:none;
-    // }
+    .restbyconf-hide-add_item_click_before_icon{
+        display:none;
+    }
 </style>
 `;
 $("body").append(style);

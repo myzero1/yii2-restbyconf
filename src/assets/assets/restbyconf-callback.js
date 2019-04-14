@@ -70,7 +70,7 @@ var onEvent = function(node, event){
 
         showContextmenu();
         adjustBackground();
-        // getChangeData();
+        getChangeData();
     }
 };
 
