@@ -108,11 +108,9 @@ var isJumpLay = function(json) {
     for(var i1 in json) {//第一层带node_id的节点只有tags
         if (gettype.call(json[i1]) == '[object Object]') {
             if ('node_id' in json[i1]) {
-                console.log(1);
                 if (i1 == 'tags') {
 
                 } else {
-                    console.log(1);
                     return true;
                 }
             }
@@ -126,7 +124,6 @@ var isJumpLay = function(json) {
                             if (isChild(parent['node_id'], child['node_id'])) {
 
                             } else {
-                                console.log(child);
                                 return true;
                             }
                         }
@@ -141,7 +138,6 @@ var isJumpLay = function(json) {
                                     if (isChild(parent['node_id'], child['node_id'])) {
 
                                     } else {
-                                        console.log(child);
                                         return true;
                                     }
                                 }
@@ -156,7 +152,6 @@ var isJumpLay = function(json) {
                                             if (isChild(parent['node_id'], child['node_id'])) {
 
                                             } else {
-                                                console.log(child);
                                                 return true;
                                             }
                                         }
@@ -171,7 +166,6 @@ var isJumpLay = function(json) {
                                                     if (isChild(parent['node_id'], child['node_id'])) {
 
                                                     } else {
-                                                        console.log(child);
                                                         return true;
                                                     }
                                                 }
@@ -188,7 +182,6 @@ var isJumpLay = function(json) {
                                                     if (isChild(parent['node_id'], child['node_id'])) {
 
                                                     } else {
-                                                        console.log(child);
                                                         return true;
                                                     }
                                                 }
@@ -203,7 +196,6 @@ var isJumpLay = function(json) {
                                                             if (isChild(parent['node_id'], child['node_id'])) {
 
                                                             } else {
-                                                                console.log(child);
                                                                 return true;
                                                             }
                                                         }
@@ -218,7 +210,6 @@ var isJumpLay = function(json) {
                                                                     if (isChild(parent['node_id'], child['node_id'])) {
 
                                                                     } else {
-                                                                        console.log(child);
                                                                         return true;
                                                                     }
                                                                 }
@@ -341,7 +332,6 @@ var isJumpLay = function(json) {
 
 var getChangeData = function(){
     var json = editor.get();
-    console.log(isJumpLay(json));
     if (isJumpLay(json)) {
         editor.update(window.jsoneditorOldJson);
     } else {
