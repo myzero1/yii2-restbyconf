@@ -116,12 +116,12 @@ var isJumpLay = function(json) {
             }
             
             var parent = json[i1];
-            for(var i2 in parent) {//第二层带node_id那么上一层也要带node_id而且有父子关系
-                var child = parent[i2];
-                if (gettype.call(child) == '[object Object]') {
-                    if ('node_id' in child) {if (i1 != 'tags') {return true};
-                        if ('node_id' in parent) {
-                            if (isChild(parent['node_id'], child['node_id'])) {
+            for(var i2 in json[i1]) {//第二层带node_id那么上一层也要带node_id而且有父子关系
+                var child = json[i1][i2];
+                if (gettype.call(json[i1][i2]) == '[object Object]') {
+                    if ('node_id' in json[i1][i2]) {if (i1 != 'tags') {return true};
+                        if ('node_id' in json[i1]) {
+                            if (isChild(json[i1]['node_id'], json[i1][i2]['node_id'])) {
 
                             } else {
                                 return true;
@@ -130,12 +130,12 @@ var isJumpLay = function(json) {
                     }
 
                     var parent = json[i1][i2];
-                    for(var i3 in parent) {//第3层带node_id那么上一层也要带node_id而且有父子关系
-                        var child = parent[i3];
-                        if (gettype.call(child) == '[object Object]') {
-                            if ('node_id' in child) {if (i1 != 'tags') {return true};
-                                if ('node_id' in parent) {
-                                    if (isChild(parent['node_id'], child['node_id'])) {
+                    for(var i3 in json[i1][i2]) {//第3层带node_id那么上一层也要带node_id而且有父子关系
+                        var child = json[i1][i2][i3];
+                        if (gettype.call(json[i1][i2][i3]) == '[object Object]') {
+                            if ('node_id' in json[i1][i2][i3]) {if (i1 != 'tags') {return true};
+                                if ('node_id' in json[i1][i2]) {
+                                    if (isChild(json[i1][i2]['node_id'], json[i1][i2][i3]['node_id'])) {
 
                                     } else {
                                         return true;
@@ -144,12 +144,12 @@ var isJumpLay = function(json) {
                             }
 
                             var parent = json[i1][i2][i3];
-                            for(var i4 in parent) {//第4层带node_id那么上一层也要带node_id而且有父子关系
-                                var child = parent[i4];
-                                if (gettype.call(child) == '[object Object]') {
-                                    if ('node_id' in child) {if (i1 != 'tags') {return true};
-                                        if ('node_id' in parent) {
-                                            if (isChild(parent['node_id'], child['node_id'])) {
+                            for(var i4 in json[i1][i2][i3]) {//第4层带node_id那么上一层也要带node_id而且有父子关系
+                                var child = json[i1][i2][i3][i4];
+                                if (gettype.call(json[i1][i2][i3][i4]) == '[object Object]') {
+                                    if ('node_id' in json[i1][i2][i3][i4]) {if (i1 != 'tags') {return true};
+                                        if ('node_id' in json[i1][i2][i3]) {
+                                            if (isChild(json[i1][i2][i3]['node_id'], json[i1][i2][i3][i4]['node_id'])) {
 
                                             } else {
                                                 return true;
@@ -158,12 +158,12 @@ var isJumpLay = function(json) {
                                     }
 
                                     var parent = json[i1][i2][i3][i4];
-                                    for(var i5 in parent) {//第5层带node_id那么上一层也要带node_id而且有父子关系
-                                        var child = parent[i5];
-                                        if (gettype.call(child) == '[object Object]') {
-                                            if ('node_id' in child) {if (i1 != 'tags') {return true};
-                                                if ('node_id' in parent) {
-                                                    if (isChild(parent['node_id'], child['node_id'])) {
+                                    for(var i5 in json[i1][i2][i3][i4]) {//第5层带node_id那么上一层也要带node_id而且有父子关系
+                                        var child = json[i1][i2][i3][i4][i5];
+                                        if (gettype.call(json[i1][i2][i3][i4][i5]) == '[object Object]') {
+                                            if ('node_id' in json[i1][i2][i3][i4][i5]) {if (i1 != 'tags') {return true};
+                                                if ('node_id' in json[i1][i2][i3][i4]) {
+                                                    if (isChild(json[i1][i2][i3][i4]['node_id'], json[i1][i2][i3][i4][i5]['node_id'])) {
 
                                                     } else {
                                                         return true;
@@ -174,12 +174,12 @@ var isJumpLay = function(json) {
                                     }
 
                                     var parent = json[i1][i2][i3][i4][i5];
-                                    for(var i6 in parent) {//第6层带node_id那么上一层也要带node_id而且有父子关系
-                                        var child = parent[i6];
-                                        if (gettype.call(child) == '[object Object]') {
-                                            if ('node_id' in child) {if (i1 != 'tags') {return true};
-                                                if ('node_id' in parent) {
-                                                    if (isChild(parent['node_id'], child['node_id'])) {
+                                    for(var i6 in json[i1][i2][i3][i4][i5]) {//第6层带node_id那么上一层也要带node_id而且有父子关系
+                                        var child = json[i1][i2][i3][i4][i5][i6];
+                                        if (gettype.call(json[i1][i2][i3][i4][i5][i6]) == '[object Object]') {
+                                            if ('node_id' in json[i1][i2][i3][i4][i5][i6]) {if (i1 != 'tags') {return true};
+                                                if ('node_id' in json[i1][i2][i3][i4][i5]) {
+                                                    if (isChild(json[i1][i2][i3][i4][i5]['node_id'], json[i1][i2][i3][i4][i5][i6]['node_id'])) {
 
                                                     } else {
                                                         return true;
@@ -188,12 +188,12 @@ var isJumpLay = function(json) {
                                             }
 
                                             var parent = json[i1][i2][i3][i4][i5][i6];
-                                            for(var i7 in parent) {//第7层带node_id那么上一层也要带node_id而且有父子关系
-                                                var child = parent[i7];
-                                                if (gettype.call(child) == '[object Object]') {
-                                                    if ('node_id' in child) {if (i1 != 'tags') {return true};
-                                                        if ('node_id' in parent) {
-                                                            if (isChild(parent['node_id'], child['node_id'])) {
+                                            for(var i7 in json[i1][i2][i3][i4][i5][i6]) {//第7层带node_id那么上一层也要带node_id而且有父子关系
+                                                var child = json[i1][i2][i3][i4][i5][i6][i7];
+                                                if (gettype.call(json[i1][i2][i3][i4][i5][i6][i7]) == '[object Object]') {
+                                                    if ('node_id' in json[i1][i2][i3][i4][i5][i6][i7]) {if (i1 != 'tags') {return true};
+                                                        if ('node_id' in json[i1][i2][i3][i4][i5][i6]) {
+                                                            if (isChild(json[i1][i2][i3][i4][i5][i6]['node_id'], json[i1][i2][i3][i4][i5][i6][i7]['node_id'])) {
 
                                                             } else {
                                                                 return true;
@@ -202,12 +202,12 @@ var isJumpLay = function(json) {
                                                     }
 
                                                     var parent = json[i1][i2][i3][i4][i5][i6][i7];
-                                                    for(var i8 in parent) {//第8层带node_id那么上一层也要带node_id而且有父子关系
-                                                        var child = parent[i8];
-                                                        if (gettype.call(child) == '[object Object]') {
-                                                            if ('node_id' in child) {if (i1 != 'tags') {return true};
-                                                                if ('node_id' in parent) {
-                                                                    if (isChild(parent['node_id'], child['node_id'])) {
+                                                    for(var i8 in json[i1][i2][i3][i4][i5][i6][i7]) {//第8层带node_id那么上一层也要带node_id而且有父子关系
+                                                        var child = json[i1][i2][i3][i4][i5][i6][i7][i8];
+                                                        if (gettype.call(json[i1][i2][i3][i4][i5][i6][i7][i8]) == '[object Object]') {
+                                                            if ('node_id' in json[i1][i2][i3][i4][i5][i6][i7][i8]) {if (i1 != 'tags') {return true};
+                                                                if ('node_id' in json[i1][i2][i3][i4][i5][i6][i7]) {
+                                                                    if (isChild(json[i1][i2][i3][i4][i5][i6][i7]['node_id'], json[i1][i2][i3][i4][i5][i6][i7][i8]['node_id'])) {
 
                                                                     } else {
                                                                         return true;
