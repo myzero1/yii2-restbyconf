@@ -135,7 +135,7 @@ var onNodeName = function(node){
                 } else if (length == 6) {
                     if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]]) {
                         if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]])) {
-                            var tagNodeId = json[path[0]][path[1]]['node_id'] + new Date().getTime()+'-';
+                            var tagNodeId = json[path[0]][path[1]][path[2]][path[3]][path[4]]['node_id'] + new Date().getTime()+'-';
                             json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] = tagNodeId;
                             editor.update(json);
                             window.jsoneditorOldJson = json;
