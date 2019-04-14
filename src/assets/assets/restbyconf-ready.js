@@ -28,25 +28,201 @@ window.jsoneditorOldJson = {
         }
     },
     "tags": {
-        "add_item_click_before_icon": {
+        "tag": {
             "description": "userName",
             "paths": {
-                "create": {
+                "action": {
                     "description": "create",
+                    "method": "post",
                     "inputs": {
                         "body_params": {
-                          "in_str": {
-                              "des": "user name",
-                              "required": false,
-                              "eg": "myzero1",
-                              "rules": "^\\w{1,32}$",
-                              "error_msg": "You should input a-z,A-Z,0-9",
-                              "enable": true,
-                          }
+                            "in_str": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            },
+                            "add_item_click_before_icon": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        },
+                        "path_params": {
+                            "in_str": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            },
+                            "add_item_click_before_icon": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        },
+                        "query_params": {
+                            "in_str": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            },
+                            "add_item_click_before_icon": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
                         }
                     },
                     "outputs": {
                         "out_str": {
+                            "des": "user name",
+                            "eg": "myzero1"
+                        },
+                        "add_item_click_before_icon": {
+                            "des": "user name",
+                            "eg": "myzero1"
+                        }
+                    }
+                },
+                "add_item_click_before_icon": {
+                    "description": "create",
+                    "method": "post",
+                    "inputs": {
+                        "body_params": {
+                            "in_str": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            },
+                            "add_item_click_before_icon": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        },
+                        "path_params": {
+                            "in_str": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            },
+                            "add_item_click_before_icon": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        },
+                        "query_params": {
+                            "in_str": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            },
+                            "add_item_click_before_icon": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        }
+                    },
+                    "outputs": {
+                        "out_str": {
+                            "des": "user name",
+                            "eg": "myzero1"
+                        },
+                        "add_item_click_before_icon": {
+                            "des": "user name",
+                            "eg": "myzero1"
+                        }
+                    }
+                }
+            }
+        },
+        "add_item_click_before_icon": {
+            "description": "userName",
+            "paths": {
+                "add_item_click_before_icon": {
+                    "description": "create",
+                    "method": "post",
+                    "inputs": {
+                        "body_params": {
+                            "in_str": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            },
+                            "add_item_click_before_icon": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        },
+                        "path_params": {
+                            "in_str": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            },
+                            "add_item_click_before_icon": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        },
+                        "query_params": {
+                            "in_str": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            },
+                            "add_item_click_before_icon": {
+                                "des": "user name",
+                                "required": false,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        }
+                    },
+                    "outputs": {
+                        "out_str": {
+                            "des": "user name",
+                            "eg": "myzero1"
+                        },
+                        "add_item_click_before_icon": {
                             "des": "user name",
                             "eg": "myzero1"
                         }
@@ -66,29 +242,65 @@ var templates = [
           value: {
               "description": "tagName",
               "paths": {
-                  "create": {
-                      "description": "create",
-                      "item_id_in_path": {
-                          "des": "This is the demo of id",
-                          "required": true,
-                          "type": "path",
-                          "eg": "myzero1",
-                          "rules": "\\w+"
-                      },
+                  "action": {
+                      "description": "The action's description",
+                      "method": "post",
                       "inputs": {
-                          "body_params":{
+                          "body_params": {
                               "in_str": {
                                   "des": "user name",
                                   "required": false,
                                   "eg": "myzero1",
                                   "rules": "^\\w{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9",
-                                  "enable": true,
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              },
+                              "add_item_click_before_icon": {
+                                  "des": "user name",
+                                  "required": false,
+                                  "eg": "myzero1",
+                                  "rules": "^\\w{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              }
+                          },
+                          "path_params": {
+                              "in_str": {
+                                  "des": "user name",
+                                  "required": false,
+                                  "eg": "myzero1",
+                                  "rules": "^\\w{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              },
+                              "add_item_click_before_icon": {
+                                  "des": "user name",
+                                  "required": false,
+                                  "eg": "myzero1",
+                                  "rules": "^\\w{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              }
+                          },
+                          "query_params": {
+                              "in_str": {
+                                  "des": "user name",
+                                  "required": false,
+                                  "eg": "myzero1",
+                                  "rules": "^\\w{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              },
+                              "add_item_click_before_icon": {
+                                  "des": "user name",
+                                  "required": false,
+                                  "eg": "myzero1",
+                                  "rules": "^\\w{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
                               }
                           }
                       },
                       "outputs": {
                           "out_str": {
+                              "des": "user name",
+                              "eg": "myzero1"
+                          },
+                          "add_item_click_before_icon": {
                               "des": "user name",
                               "eg": "myzero1"
                           }
@@ -98,26 +310,69 @@ var templates = [
           }
       },
       {
-          text: 'create',
+          text: 'action',
           title: 'Insert a CreatePath Node',
           className: 'jsoneditor-append jsoneditor-default',
-          field: 'create',
+          field: '',
           value: {
-              "description": "create",
+              "description": "The action's description",
+              "method": "post",
               "inputs": {
-                  "body_params":{
+                  "body_params": {
                       "in_str": {
                           "des": "user name",
                           "required": false,
                           "eg": "myzero1",
                           "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9",
-                          "enable": true,
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      },
+                      "add_item_click_before_icon": {
+                          "des": "user name",
+                          "required": false,
+                          "eg": "myzero1",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      }
+                  },
+                  "path_params": {
+                      "in_str": {
+                          "des": "user name",
+                          "required": false,
+                          "eg": "myzero1",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      },
+                      "add_item_click_before_icon": {
+                          "des": "user name",
+                          "required": false,
+                          "eg": "myzero1",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      }
+                  },
+                  "query_params": {
+                      "in_str": {
+                          "des": "user name",
+                          "required": false,
+                          "eg": "myzero1",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      },
+                      "add_item_click_before_icon": {
+                          "des": "user name",
+                          "required": false,
+                          "eg": "myzero1",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
                       }
                   }
               },
               "outputs": {
                   "out_str": {
+                      "des": "user name",
+                      "eg": "myzero1"
+                  },
+                  "add_item_click_before_icon": {
                       "des": "user name",
                       "eg": "myzero1"
                   }
@@ -134,8 +389,7 @@ var templates = [
               "required": false,
               "eg": "myzero1",
               "rules": "^\\w{1,32}$",
-              "error_msg": "You should input a-z,A-Z,0-9",
-              "enable": true,
+              "error_msg": "You should input a-z,A-Z,0-9"
           }
       },
       {
@@ -146,90 +400,6 @@ var templates = [
           value: {
               "des": "user name",
               "eg": "myzero1"
-          }
-      },
-      {
-          text: 'index',
-          title: 'restbyconf-obj-path',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: 'index',
-          value: {
-              "description": "index",
-              "inputs": {
-                  "query_params":{
-                      "in_str": {
-                          "des": "user name",
-                          "required": false,
-                          "eg": "myzero1",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9",
-                          "enable": true,
-                      }
-                  }
-              },
-              "outputs": {
-                  "out_str": {
-                      "des": "user name",
-                      "eg": "myzero1"
-                  }
-              }
-          }
-      },
-      {
-          text: 'update',
-          title: 'Insert a CreatePath Node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: 'update',
-          value: {
-              "description": "update",
-              "inputs": {
-                  "body_params":{
-                      "in_str": {
-                          "des": "user name",
-                          "required": false,
-                          "eg": "myzero1",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9",
-                          "enable": true,
-                      }
-                  }
-              },
-              "outputs": {
-                  "out_str": {
-                      "des": "user name",
-                      "eg": "myzero1"
-                  }
-              }
-          }
-      },
-      {
-          text: 'view',
-          title: 'Insert a CreatePath Node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: 'view',
-          value: {
-              "description": "view",
-              "outputs": {
-                  "out_str": {
-                      "des": "user name",
-                      "eg": "myzero1"
-                  }
-              }
-          }
-      },
-      {
-          text: 'delete',
-          title: 'Insert a CreatePath Node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: 'delete',
-          value: {
-              "description": "delete",
-              "outputs": {
-                  "out_str": {
-                      "des": "user name",
-                      "eg": "myzero1"
-                  }
-              }
           }
       }
   ];
@@ -347,60 +517,60 @@ var schemas = {
                     }
                 }
             },
-          "host": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 32,
-              "format": "hostname",
-              "examples": [
-                "petstore.swagger.io",
-                "github.com"
-              ]
-          },
-          "basePath": {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 32,
-              "pattern": "^/",
-              "examples": [
-                "/v1",
-                "/v2"
-              ]
-          },
-          "externalDocs": {
-              "title": "externalDocs description",
-              "type": "object",
-              "required": [
-                  "description",
-                  "url"
-              ],
-              "properties": {
-                  "description": {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 32,
-                      "examples": [
-                        "e about Swagger"
-                      ]
-                  },
-                  "url": {
-                      "type": "string",
-                      "minLength": 1,
-                      "maxLength": 64,
-                      "pattern": "[a-zA-z]+://[^\\s]*",
-                      "examples": [
-                          "http://www.apache.org/licenses/LICENSE-2.0.html"
-                      ]
-                  }
-              }
-          },
-          "schemes": {
-              "title": "schemes",
-              "enum": [
-                  "https",
-                  "http"
-              ]
-          },
+            "host": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32,
+                "format": "hostname",
+                "examples": [
+                  "petstore.swagger.io",
+                  "github.com"
+                ]
+            },
+            "basePath": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32,
+                "pattern": "^/",
+                "examples": [
+                  "/v1",
+                  "/v2"
+                ]
+            },
+            "externalDocs": {
+                "title": "externalDocs description",
+                "type": "object",
+                "required": [
+                    "description",
+                    "url"
+                ],
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 32,
+                        "examples": [
+                          "e about Swagger"
+                        ]
+                    },
+                    "url": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64,
+                        "pattern": "[a-zA-z]+://[^\\s]*",
+                        "examples": [
+                            "http://www.apache.org/licenses/LICENSE-2.0.html"
+                        ]
+                    }
+                }
+            },
+            "schemes": {
+                "title": "schemes",
+                "enum": [
+                    "https",
+                    "http"
+                ]
+            },
             "securityDefinitions": {
               "title": "securityDefinitions description",
               "type": "object",
@@ -454,6 +624,9 @@ var schemas = {
         "type": "object",
         "required": [],
         "properties": {
+            "tag": {
+                "$ref": "tag"
+            },
             "add_item_click_before_icon": {
                 "$ref": "tag"
             }
@@ -483,15 +656,18 @@ var schemas = {
         "type": "object",
         "required": [],
         "properties": {
-            "create": {
-                "$ref": "create"
+            "action": {
+                "$ref": "action"
+            },
+            "add_item_click_before_icon": {
+                "$ref": "action"
             }
         }
     },
-    "create": {
-        "title": "restbyconf-obj-path",
+    "action": {
+        "title": "restbyconf-obj-action",
         "type": "object",
-        "required": ["description"],
+        "required": [],
         "properties": {
             "description": {
                 "type": "string",
@@ -502,43 +678,22 @@ var schemas = {
                     "update"
                 ],
             },
+            "method": {
+                "title": "method",
+                "enum": [
+                    "post",
+                    "get",
+                    "put",
+                    "delete",
+                    "patch",
+                    "options"
+                ]
+            },
             "inputs": {
                 "$ref": "inputs"
             },
             "outputs": {
                 "$ref": "outputs"
-            }
-        }
-    },
-    "outputs": {
-        "title": "restbyconf-obj-outputs",
-        "type": "object",
-        "required": [],
-        "properties": {
-            "out_str": {
-                "$ref": "out_str"
-            }
-        }
-    },
-    "out_str": {
-        "title": "restbyconf-obj-output",
-        "type": "object",
-        "required": ["eg"],
-        "properties": {
-            "des": {
-                "type": ["string", "number"],
-                "maxLength": 32,
-                "examples": [
-                    "user name"
-                ],
-            },
-            "eg": {
-                "type": ["string", "number"],
-                "minLength": 1,
-                "maxLength": 64,
-                "examples": [
-                    "myzero1"
-                ],
             }
         }
     },
@@ -549,6 +704,12 @@ var schemas = {
         "properties": {
             "body_params": {
                 "$ref": "body_params"
+            },
+            "path_params": {
+                "$ref": "path_params"
+            },
+            "query_params": {
+                "$ref": "query_params"
             }
         }
     },
@@ -559,47 +720,35 @@ var schemas = {
         "properties": {
             "in_str": {
                 "$ref": "in_str"
+            },
+            "add_item_click_before_icon": {
+                "$ref": "in_str"
             }
         }
     },
-    "input_id_in_path": {
-        "title": "restbyconf-obj-in-id",
+    "path_params": {
+        "title": "restbyconf-obj-inputs-path",
         "type": "object",
-        "required": ["des"],
+        "required": [],
         "properties": {
-            "des": {
-                "type": ["string", "number"],
-                "minLength": 1,
-                "maxLength": 32,
-                "examples": [
-                    "user name"
-                ],
+            "in_str": {
+                "$ref": "in_str"
             },
-            "required": {
-                "type": "boolean",
-                "default": true
+            "add_item_click_before_icon": {
+                "$ref": "in_str"
+            }
+        }
+    },
+    "query_params": {
+        "title": "restbyconf-obj-inputs-query",
+        "type": "object",
+        "required": [],
+        "properties": {
+            "in_str": {
+                "$ref": "in_str"
             },
-            "type": {
-                "enum": [
-                    "path",
-                    "query",
-                    "body"
-                ],
-            },
-            "eg": {
-                "type": ["string", "number"],
-                "minLength": 1,
-                "maxLength": 32,
-                "examples": [
-                    "myzero1",
-                    "735735",
-                ],
-            },
-            "rules": {
-                "enum": [
-                    "\\w+",
-                    "\\d+"
-                ],
+            "add_item_click_before_icon": {
+                "$ref": "in_str"
             }
         }
     },
@@ -653,88 +802,38 @@ var schemas = {
             }
         }
     },
-    "index": {
-        "title": "restbyconf-obj-path",
+    "outputs": {
+        "title": "restbyconf-obj-outputs",
         "type": "object",
-        "required": ["description"],
+        "required": [],
         "properties": {
-            "description": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 32,
-                "examples": [
-                    "create",
-                    "update"
-                ],
+            "out_str": {
+                "$ref": "out_str"
             },
-            "inputs": {
-                "$ref": "inputs"
+            "add_item_click_before_icon": {
+                "$ref": "out_str"
             }
         }
     },
-    "update": {
-        "title": "restbyconf-obj-path",
+    "out_str": {
+        "title": "restbyconf-obj-output",
         "type": "object",
-        "required": ["description"],
+        "required": ["eg"],
         "properties": {
-            "description": {
-                "type": "string",
-                "minLength": 1,
+            "des": {
+                "type": ["string", "number"],
                 "maxLength": 32,
                 "examples": [
-                    "create",
-                    "update"
+                    "user name"
                 ],
             },
-            "item_id_in_path":{
-                "$ref": "input_id_in_path"
-            },
-            "inputs": {
-                "$ref": "inputs"
-            }
-        }
-    },
-    "view": {
-        "title": "restbyconf-obj-path",
-        "type": "object",
-        "required": ["description"],
-        "properties": {
-            "description": {
-                "type": "string",
+            "eg": {
+                "type": ["string", "number"],
                 "minLength": 1,
-                "maxLength": 32,
+                "maxLength": 64,
                 "examples": [
-                    "create",
-                    "update"
+                    "myzero1"
                 ],
-            },
-            "item_id_in_path":{
-                "$ref": "input_id_in_path"
-            },
-            "inputs": {
-                "$ref": "inputs"
-            }
-        }
-    },
-    "delete": {
-        "title": "restbyconf-obj-path",
-        "type": "object",
-        "required": ["description"],
-        "properties": {
-            "description": {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 32,
-                "examples": [
-                    "create",
-                    "update"
-                ],
-            },
-            "item_id_in_path":{
-                "$ref": "input_id_in_path"
-            },
-            "inputs": {
-                "$ref": "inputs"
             }
         }
     }
