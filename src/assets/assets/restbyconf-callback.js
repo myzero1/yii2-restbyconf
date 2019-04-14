@@ -1,18 +1,20 @@
 var onChangeJSON = function onChangeJSON(json) {
 
-    if (isJumpLay(json)) {
-        editor.update(window.jsoneditorOldJson);
-    } else {
-        window.jsoneditorOldJson = json;
+    getChangeData();
 
-        // document.getElementById("generator-conf").value = JSON.stringify(json);
-        var restbyconfschamas = {};
-        restbyconfschamas.schema = this.schema;
-        restbyconfschamas.schemaRefs = this.schemaRefs;
-        // console.log(this);
-        // console.log(restbyconfschamas);
-        document.getElementById("generator-conf").value = JSON.stringify(restbyconfschamas);// the options
-    }
+    // if (isJumpLay(json)) {
+    //     editor.update(window.jsoneditorOldJson);
+    // } else {
+    //     window.jsoneditorOldJson = json;
+
+    //     // document.getElementById("generator-conf").value = JSON.stringify(json);
+    //     var restbyconfschamas = {};
+    //     restbyconfschamas.schema = this.schema;
+    //     restbyconfschamas.schemaRefs = this.schemaRefs;
+    //     // console.log(this);
+    //     // console.log(restbyconfschamas);
+    //     document.getElementById("generator-conf").value = JSON.stringify(restbyconfschamas);// the options
+    // }
 }
 var onValidate = function onValidate(json) {
     if (editor!=null) {
