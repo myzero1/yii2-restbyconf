@@ -48,25 +48,18 @@ var onEvent = function(node, event){
         }
         // update the validation of input
         if (isInputLay(node.path)) {
-            // console.log(0);
             var schemaRefs = this.schemaRefs;
-            // console.log(schemaRefs);
-            // console.log(node);
             schemaRefs[node.path[5]]['properties'][node.field] = {
               "$ref": "in_str"
             };
-            // console.log(schemaRefs);
             editor.setSchema(this.schema,schemaRefs);
         }
         // update the validation of output
         if (isOutputLay(node.path)) {
-            // console.log(0);
             var schemaRefs = this.schemaRefs;
-            // console.log(schemaRefs);
             schemaRefs['outputs']['properties'][node.field] = {
               "$ref": "out_str"
             };
-            // console.log(schemaRefs);
             editor.setSchema(this.schema,schemaRefs);
         }
 
