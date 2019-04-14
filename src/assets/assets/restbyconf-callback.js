@@ -51,7 +51,7 @@ var onEvent = function(node, event){
             // console.log(0);
             var schemaRefs = this.schemaRefs;
             // console.log(schemaRefs);
-            console.log(node);
+            // console.log(node);
             schemaRefs[node.path[5]]['properties'][node.field] = {
               "$ref": "in_str"
             };
@@ -72,7 +72,6 @@ var onEvent = function(node, event){
 
         showContextmenu();
         adjustBackground();
-        getChangeData();
     }
 };
 
