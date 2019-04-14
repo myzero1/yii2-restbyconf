@@ -203,22 +203,18 @@ var onCreateMenu = function onCreateMenu(items, node) {
         return itemsTmp;
     } else if(isPathLay(node.path)){
         var itemsTmp  = new Array();
-        var actionList = new Array('index', 'create', 'update', 'view', 'delete');
-        var jsonData = editor.get();
-        var path = node.path;
-
         for (var i = 0;  i < items.length; i++) {
             var text = items[i]['text'];
-            if (text=='追加') {
+            if (text=='插入' && field=='add_item_click_before_icon') {
+                // console.log(items[i]['submenu']);
                 for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
-                    if (inArray(items[i]['submenu'][j]['text'], actionList)) {
-                        if (!(items[i]['submenu'][j]['text'] in jsonData[path[0]][path[1]][path[2]])) {
-                            itemsTmp.push(items[i]['submenu'][j]);
-                        }
+                    if (items[i]['submenu'][j]['text'] == 'action') {
+                        itemsTmp.push(items[i]['submenu'][j]);
                     }
                 }
+            } else if (text=='复制') {
+                itemsTmp.push(items[i]);
             }
-            
         }
 
         itemsTmp.push( {
@@ -367,6 +363,8 @@ var onEditable = function(node) {
             return false;
         } else {
             if(isTagLay(node.path)){
+                return true;
+            } else if(isPathLay(node.path)){
                 return true;
             } else if(isInputLay(node.path)){
                 return true;

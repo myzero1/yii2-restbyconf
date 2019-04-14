@@ -31,7 +31,7 @@ var showContextmenu = function() {
     $(".jsoneditor-field[title=restbyconf-obj-tag]").each(function(){
         $(this).parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
     });
-    $(".jsoneditor-field[title=restbyconf-obj-path]").each(function(){
+    $(".jsoneditor-field[title=restbyconf-obj-action]").each(function(){
         $(this).parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
     });
     $(".jsoneditor-field[title=restbyconf-obj-input]").each(function(){
