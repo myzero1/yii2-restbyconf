@@ -41,7 +41,7 @@ var onEvent = function(node, event){
         // update the validation of action
         if (isPathLay(node.path)) {
             var schemaRefs = this.schemaRefs;
-            schemaRefs['paths']['properties'][node.field] = {
+            schemaRefs['actions']['properties'][node.field] = {
               "$ref": "action"
             };
             editor.setSchema(this.schema,schemaRefs);

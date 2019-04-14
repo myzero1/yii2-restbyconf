@@ -30,7 +30,7 @@ window.jsoneditorOldJson = {
     "controllers": {
         "controller": {
             "description": "userName",
-            "paths": {
+            "actions": {
                 "action": {
                     "description": "create",
                     "method": "post",
@@ -163,7 +163,7 @@ window.jsoneditorOldJson = {
         },
         "add_item_click_before_icon": {
             "description": "userName",
-            "paths": {
+            "actions": {
                 "add_item_click_before_icon": {
                     "description": "create",
                     "method": "post",
@@ -241,7 +241,7 @@ var templates = [
           field: '',
           value: {
               "description": "controllerName",
-              "paths": {
+              "actions": {
                   "action": {
                       "description": "The action's description",
                       "method": "post",
@@ -635,7 +635,7 @@ var schemas = {
     "controller": {
         "title": "restbyconf-obj-controller",
         "type": "object",
-        "required": ["description", "paths"],
+        "required": ["description", "actions"],
         "properties": {
             "description": {
                 "type": "string",
@@ -646,13 +646,13 @@ var schemas = {
                     "log"
                 ],
             },
-            "paths": {
-                "$ref": "paths"
+            "actions": {
+                "$ref": "actions"
             }
         }
     },
-    "paths": {
-        "title": "Paths description",
+    "actions": {
+        "title": "actions description",
         "type": "object",
         "required": [],
         "properties": {

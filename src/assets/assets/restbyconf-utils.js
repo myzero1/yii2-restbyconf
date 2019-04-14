@@ -51,7 +51,7 @@ var isTagLay = function(path) {
 }
 
 var isPathLay = function(path) {
-    if (path.length == 4 && path[0] == 'controllers' && path[2] == 'paths') {
+    if (path.length == 4 && path[0] == 'controllers' && path[2] == 'actions') {
         return true;
     } else {
         return false;
@@ -59,7 +59,7 @@ var isPathLay = function(path) {
 }
 
 var isInputLay = function(path) {
-    if (path.length == 7 && path[0] == 'controllers' && path[2] == 'paths' && path[4] == 'inputs') {
+    if (path.length == 7 && path[0] == 'controllers' && path[2] == 'actions' && path[4] == 'inputs') {
         return true;
     } else {
         return false;
@@ -67,7 +67,7 @@ var isInputLay = function(path) {
 }
 
 var isOutputLay = function(path) {
-    if (path.length == 6 && path[0] == 'controllers' && path[2] == 'paths' && path[4] == 'outputs') {
+    if (path.length == 6 && path[0] == 'controllers' && path[2] == 'actions' && path[4] == 'outputs') {
         return true;
     } else {
         return false;
@@ -75,7 +75,7 @@ var isOutputLay = function(path) {
 }
 
 var isParamLay = function(path) {
-    if (path.length == 6 && path[0] == 'controllers' && path[2] == 'paths' && path[4] == 'inputs') {
+    if (path.length == 6 && path[0] == 'controllers' && path[2] == 'actions' && path[4] == 'inputs') {
         return true;
     } else {
         return false;
