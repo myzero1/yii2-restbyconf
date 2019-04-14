@@ -180,21 +180,21 @@ EOD;
             $this->render("view.php")
         );
 
-       foreach ($this->confAarray['json']['controllers'] as $controller => $controllerV) {
+        // isset($controllers['node_id']) ? unset($controllers['node_id']) : '';
+        foreach ($this->confAarray['json']['controllers'] as $controller => $controllerV) {
+            if ($controller == 'node_id' || $controller == 'add_item_click_before_icon') {
+                continue;
+            }
             $this->controller = $controller;
             $this->controllerV = $controllerV;
+
             $files[] = new CodeFile(
                 sprintf('%s/controllers/%sController.php', $modulePath, ucwords($controller)),
-                $this->render('rest/controller.php')
+                $this->render('rest/ApiController.php')
             );
-            $actions = array_keys($controllerV['paths']);
-
-            foreach ($variable as $key => $value) {
-                # code...
-            }
 
 
-
+/*
 
             if (in_array('create', $actions)) {
                 $files[] = new CodeFile(
@@ -225,7 +225,7 @@ EOD;
                     sprintf('%s/models/search/%sSearch.php', $modulePath, ucwords($controller)),
                     $this->render('rest/IndexProcessing.php')
                 );
-            }
+            }*/
        }
 //        var_dump($conf['json']['controllers']);exit;
 
