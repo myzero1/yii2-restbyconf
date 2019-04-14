@@ -28,8 +28,8 @@ class Generator extends \yii\gii\Generator
     public $confAarray;
     public $moduleClass;
     public $moduleID;
-    public $tag;
-    public $tagV;
+    public $controller;
+    public $controllerV;
 
 
     /**
@@ -145,12 +145,12 @@ EOD;
         );
 
         $confAarray = $this->confAarray;
-        // $rules['tags'] = array_keys( $confAarray['json']['tags']);
-        $tags = [];
-        foreach ($confAarray['json']['tags'] as $key => $value) {
-            $tags[] = Helper::uncamelize($key,$separator='-');
+        // $rules['controllers'] = array_keys( $confAarray['json']['controllers']);
+        $controllers = [];
+        foreach ($confAarray['json']['controllers'] as $key => $value) {
+            $controllers[] = Helper::uncamelize($key,$separator='-');
         }
-        $rules['tags'] = $tags;
+        $rules['controllers'] = $controllers;
         $rules['basePath'] = $confAarray['json']['basePath'];
         $files[] = new CodeFile(
             Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/rules.json'),
@@ -180,46 +180,54 @@ EOD;
             $this->render("view.php")
         );
 
-       foreach ($this->confAarray['json']['tags'] as $tag => $tagV) {
-            $this->tag = $tag;
-            $this->tagV = $tagV;
+       foreach ($this->confAarray['json']['controllers'] as $controller => $controllerV) {
+            $this->controller = $controller;
+            $this->controllerV = $controllerV;
             $files[] = new CodeFile(
-                sprintf('%s/controllers/%sController.php', $modulePath, ucwords($tag)),
+                sprintf('%s/controllers/%sController.php', $modulePath, ucwords($controller)),
                 $this->render('rest/controller.php')
             );
-            $actions = array_keys($tagV['paths']);
+            $actions = array_keys($controllerV['paths']);
+
+            foreach ($variable as $key => $value) {
+                # code...
+            }
+
+
+
+
             if (in_array('create', $actions)) {
                 $files[] = new CodeFile(
-                    sprintf('%s/controllers/processing/%s/Create.php', $modulePath, ucwords($tag)),
+                    sprintf('%s/controllers/processing/%s/Create.php', $modulePath, ucwords($controller)),
                     $this->render('rest/CreateProcessing.php')
                 );
             }
             if (in_array('update', $actions)) {
                 $files[] = new CodeFile(
-                    sprintf('%s/controllers/processing/%s/Update.php', $modulePath, ucwords($tag)),
+                    sprintf('%s/controllers/processing/%s/Update.php', $modulePath, ucwords($controller)),
                     $this->render('rest/UpdateProcessing.php')
                 );
             }
             if (in_array('view', $actions)) {
                 $files[] = new CodeFile(
-                    sprintf('%s/controllers/processing/%s/View.php', $modulePath, ucwords($tag)),
+                    sprintf('%s/controllers/processing/%s/View.php', $modulePath, ucwords($controller)),
                     $this->render('rest/ViewProcessing.php')
                 );
             }
             if (in_array('delete', $actions)) {
                 $files[] = new CodeFile(
-                    sprintf('%s/controllers/processing/%s/Delete.php', $modulePath, ucwords($tag)),
+                    sprintf('%s/controllers/processing/%s/Delete.php', $modulePath, ucwords($controller)),
                     $this->render('rest/DeleteProcessing.php')
                 );
             }
             if (in_array('index', $actions)) {
                 $files[] = new CodeFile(
-                    sprintf('%s/models/search/%sSearch.php', $modulePath, ucwords($tag)),
+                    sprintf('%s/models/search/%sSearch.php', $modulePath, ucwords($controller)),
                     $this->render('rest/IndexProcessing.php')
                 );
             }
        }
-//        var_dump($conf['json']['tags']);exit;
+//        var_dump($conf['json']['controllers']);exit;
 
         // $files[] = new CodeFile(
         //     $modulePath . '/controllers/DefaultController.php',

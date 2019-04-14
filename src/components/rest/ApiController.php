@@ -13,6 +13,7 @@ use yii\filters\VerbFilter;
 
 class ApiController extends ActiveController
 {
+    public $apiActionClass = '\myzero1\restbyconf\components\rest\ApiAction';
     public $modelClass = '';
     public $optional = [
        'login',
