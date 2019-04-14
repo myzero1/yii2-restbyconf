@@ -18,8 +18,8 @@ var onChangeJSON = function onChangeJSON(json) {
 }
 var onValidate = function onValidate(json) {
     if (editor!=null) {
-        if (!('node_id' in json['tags'])) {
-            json['tags']['node_id'] = new Date().getTime()+'-';
+        if (!('node_id' in json['controllers'])) {
+            json['controllers']['node_id'] = new Date().getTime()+'-';
             editor.update(json);
             window.jsoneditorOldJson = json;
         }
@@ -33,8 +33,8 @@ var onEvent = function(node, event){
         // update the validation of tag
         if (isTagLay(node.path)) {
             var schemaRefs = this.schemaRefs;
-            schemaRefs['tags']['properties'][node.field] = {
-              "$ref": "tag"
+            schemaRefs['controllers']['properties'][node.field] = {
+              "$ref": "controller"
             };
             editor.setSchema(this.schema,schemaRefs);
         }
@@ -179,7 +179,7 @@ var onCreateMenu = function onCreateMenu(items, node) {
             if (text=='插入' && field=='add_item_click_before_icon') {
                 // console.log(items[i]['submenu']);
                 for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
-                    if (items[i]['submenu'][j]['text'] == 'tag') {
+                    if (items[i]['submenu'][j]['text'] == 'controller') {
                         itemsTmp.push(items[i]['submenu'][j]);
                     }
                 }
@@ -325,7 +325,7 @@ var onEditable = function(node) {
     // set editable
     var unEditable = [
         'swagger',
-        'tags'
+        'controllers'
     ];
 
     if (Array.isArray(node.path)) {

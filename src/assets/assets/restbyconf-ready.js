@@ -27,8 +27,8 @@ window.jsoneditorOldJson = {
             "name": "api_key"
         }
     },
-    "tags": {
-        "tag": {
+    "controllers": {
+        "controller": {
             "description": "userName",
             "paths": {
                 "action": {
@@ -235,12 +235,12 @@ window.jsoneditorOldJson = {
 
 var templates = [
       {
-          text: 'tag',
-          title: 'Insert a Tag Node',
+          text: 'controller',
+          title: 'Insert a controller Node',
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
-              "description": "tagName",
+              "description": "controllerName",
               "paths": {
                   "action": {
                       "description": "The action's description",
@@ -614,26 +614,26 @@ var schemas = {
                   }
               }
             },
-            "tags": {
-                "$ref": "tags"
+            "controllers": {
+                "$ref": "controllers"
             }
         }
     },
-    "tags": {
-        "title": "restbyconf-obj-tags",
+    "controllers": {
+        "title": "restbyconf-obj-controllers",
         "type": "object",
         "required": [],
         "properties": {
-            "tag": {
-                "$ref": "tag"
+            "controller": {
+                "$ref": "controller"
             },
             "add_item_click_before_icon": {
-                "$ref": "tag"
+                "$ref": "controller"
             }
         }
     },
-    "tag": {
-        "title": "restbyconf-obj-tag",
+    "controller": {
+        "title": "restbyconf-obj-controller",
         "type": "object",
         "required": ["description", "paths"],
         "properties": {

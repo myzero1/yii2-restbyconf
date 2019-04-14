@@ -31,8 +31,8 @@ var defaultOptions = {
 var container = document.getElementById('jsoneditor');
 window.jsoneditorCanUpdateOldJson = true;
 var editor = new JSONEditor(container, defaultOptions, window.jsoneditorOldJson);
-editor.setSelection({path: ["tags"]}); // order to set node id is ok.
-// editor.setSelection({path: ["tags","Demo"]}); // order to set node id is ok.
+editor.setSelection({path: ["controllers"]}); // order to set node id is ok.
+// editor.setSelection({path: ["controllers","Demo"]}); // order to set node id is ok.
 // for style
 var style = `
 <style>
