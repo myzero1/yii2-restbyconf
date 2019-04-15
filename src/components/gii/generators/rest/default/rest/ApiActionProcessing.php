@@ -1,85 +1,47 @@
 <?php
-
-use myzero1\restbyconf\components\rest\ApiHelper;
-/**
- * This is the template for generating a controller class within a module.
- */
-
-/* @var $this yii\web\View */
-/* @var $generator yii\gii\generators\module\Generator */
-
-$controller = ucwords($generator->controller);
-$controllerV = $generator->controllerV;
-$controllerV['actions'] = ApiHelper::rmNode($controllerV['actions']);
-$actions = array_keys($controllerV['actions']);
-$moduleClass = $generator->moduleClass;
-$controlerClass = sprintf('%s\controllers', dirname($moduleClass));
-$processingClassNs = sprintf('%s\processing\%s', $controlerClass, $controller);
-$searchClass = sprintf('\%s\models\search\%sSearch', dirname($moduleClass), $controller);
-
-$inputs = $controllerV['actions']['create']['inputs'];
-$inputsKeys = array_keys($controllerV['actions']['create']['inputs']);
-
-$inputRules = [];
-$inputRules[] = sprintf("\$model->addRule(['%s'], 'trim');", implode("','", $inputsKeys));
-
-foreach ($inputs as $key => $value) {
-    if ($value['required']) {
-        $inputRules[] = sprintf("\$model->addRule(['%s'], 'required');", $key);
-    }
-    $inputRules[] = sprintf("\$model->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '%s']);", $key, $value['rules'], $value['error_msg']);
-}
-
-$egOutputData = [];
-foreach ($controllerV['actions']['create']['outputs'] as $key => $value) {
-    $egOutputData[] = sprintf("'%s' => '%s',", $key, $value['eg']);
-}
-
-$outputs = $controllerV['actions']['create']['outputs'];
-
-echo "<?php\n";
-?>
 /**
  * @link https://github.com/myzero1
  * @copyright Copyright (c) 2019- My zero one
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
- 
-namespace <?=$processingClassNs?>;
+
+namespace app\modules\v1\controllers\processing\UserDemo;
 
 use Yii;
 use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\CodeMsg;
-use myzero1\restbyconf\components\rest\CreateProcessing;
+use myzero1\restbyconf\components\rest\ApiActionProcessing;
 use myzero1\restbyconf\models\Demo as Model;
 
 /**
- * implement the CreateProcessing
+ * implement the UpdateProcessing
  *
  * For more details and usage information on CreateAction, see the [guide article](https://github.com/myzero1/yii2-restbyconf).
  *
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Create implements CreateProcessing
+class Update implements UpdateProcessing
 {
     /**
+     * @param $id mixed
      * @return array date will return to create action.
      * @throws ServerErrorHttpException
      * @throws \yii\base\InvalidConfigException
      */
     public function processing($id)
     {
-        $input = Yii::$app->getRequest()->getBodyParams();
+        $input['get'] = Yii::$app->getRequest()->queryParams();
+        $input['body'] = Yii::$app->getRequest()->getBodyParams();
         $validatedInput = $this->inputValidate($input);
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
-            // $savedData = $this->save($completedData);
+            // $savedData = $this->save($id, $completedData);
             // $db2outData = $this->mappingDb2output($savedData);
             $db2outData = $this->egOutputData();// for demo
             $result = $this->completeResult($db2outData);
@@ -93,29 +55,50 @@ class Create implements CreateProcessing
      */
     public function inputValidate($input)
     {
-        $model = new DynamicModel([
-<?php foreach ($inputsKeys as $key => $value) { ?>
-            '<?=$value?>',
-<?php } ?>
+        // get
+        $modelGet = new DynamicModel([
+            'in_str',
         ]);
 
-<?php foreach ($inputRules as $key => $value) { ?>
-        <?=$value."\n"?>
-<?php } ?>
+        $modelGet->addRule(['in_str'], 'trim');
+        $modelGet->addRule(['in_str'], 'match', ['pattern' => '/^w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
 
 
-        $model->load($input, '');
+        $modelGet->load($input['get'], '');
 
-        if ($model->validate()) {
-            return $input;
-        } else {
-            $errors = $model->errors;
+        if (!$modelGet->validate()) { else {
+            $errors = $modelGet->errors;
             return [
                 'code' => CodeMsg::CLIENT_ERROR,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
         }
+
+        // post
+        $modelPost = new DynamicModel([
+            'in_str',
+        ]);
+
+        $modelPost->addRule(['in_str'], 'trim');
+        $modelPost->addRule(['in_str'], 'match', ['pattern' => '/^w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
+
+
+        $modelPost->load($input['get'], '');
+
+        if (!$modelPost->validate()) { else {
+            $errors = $modelPost->errors;
+            return [
+                'code' => CodeMsg::CLIENT_ERROR,
+                'msg' => Helper::getErrorMsg($errors),
+                'data' => $errors,
+            ];
+        }
+
+        return [
+            'get' => $modelGet->attributes,
+            'post' => $modelPost->attributes,
+        ];
     }
 
     /**
@@ -140,7 +123,6 @@ class Create implements CreateProcessing
     public function completeData($in2dbData)
     {
         $time = time();
-        $in2dbData['created_at'] = $time;
         $in2dbData['updated_at'] = $time;
 
         return $in2dbData;
@@ -151,9 +133,9 @@ class Create implements CreateProcessing
      * @return array
      * @throws ServerErrorHttpException
      */
-    public function save($completedData)
+    public function save($id, $completedData)
     {
-        $model = new Model();
+        $model = $this->findModel($id);
         $model->load($completedData, '');
         if ($model->save()) {
             $savedData = $model->attributes;
@@ -201,14 +183,26 @@ class Create implements CreateProcessing
     }
 
     /**
+     * @param integer $id
+     * @return model the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function findModel($id)
+    {
+        if (($model = Model::find()->where(['id' => $id])->one()) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
      * @return array
      */
     public function egOutputData()
     {
         return [
-<?php foreach ($egOutputData as $key => $value) { ?>
-            <?=$value."\n"?>
-<?php } ?>
+            'out_str' => 'myzero1',
         ];
     }
 }
