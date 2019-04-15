@@ -13,30 +13,30 @@ $actionClass = ucwords($action);
 $controllerV = $generator->controllerV;
 $actions = array_keys($controllerV['actions']);
 $moduleClass = $generator->moduleClass;
-$processingClassNs = sprintf('%s\processing\%s\%s', dirname($moduleClass), $generator->controller, $action);
+$processingClassNs = sprintf('%s\processing\%s', dirname($moduleClass), $generator->controller);
 
 $getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
 $getInputs = ApiHelper::rmNode($getInputs);
 $getInputsKeys = array_keys($getInputs);
 $getInputRules = [];
-$getInputRules[] = sprintf("\$model->addRule(['%s'], 'trim');", implode("','", $getInputsKeys));
+$getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", implode("','", $getInputsKeys));
 foreach ($getInputs as $key => $value) {
     if ($value['required']) {
-        $getInputRules[] = sprintf("\$model->addRule(['%s'], 'required');", $key);
+        $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
     }
-    $getInputRules[] = sprintf("\$model->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '%s']);", $key, $value['rules'], $value['error_msg']);
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '%s']);", $key, $value['rules'], $value['error_msg']);
 }
 
 $postInputs = $controllerV['actions'][$action]['inputs']['body_params'];
 $postInputs = ApiHelper::rmNode($postInputs);
 $postInputsKeys = array_keys($postInputs);
 $postInputRules = [];
-$postInputRules[] = sprintf("\$model->addRule(['%s'], 'trim');", implode("','", $postInputsKeys));
+$postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'trim');", implode("','", $postInputsKeys));
 foreach ($getInputs as $key => $value) {
     if ($value['required']) {
-        $postInputRules[] = sprintf("\$model->addRule(['%s'], 'required');", $key);
+        $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'required');", $key);
     }
-    $postInputRules[] = sprintf("\$model->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '%s']);", $key, $value['rules'], $value['error_msg']);
+    $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '%s']);", $key, $value['rules'], $value['error_msg']);
 }
 
 $outputs = $controllerV['actions'][$action]['outputs'];
@@ -80,11 +80,11 @@ class <?=$actionClass?> implements ApiActionProcessing
      * @throws ServerErrorHttpException
      * @throws \yii\base\InvalidConfigException
      */
-    public function processing($id)
+    public function processing($id=null)
     {
         // the path and query params will geted by queryParams,and the path params will rewrite the query params.
-        $input['get'] = Yii::$app->getRequest()->queryParams();
-        $input['body'] = Yii::$app->getRequest()->getBodyParams();
+        $input['get'] = Yii::$app->request->queryParams;
+        $input['post'] = Yii::$app->request->bodyParams;
         $validatedInput = $this->inputValidate($input);
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
