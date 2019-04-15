@@ -1,4 +1,6 @@
 <?php
+
+use myzero1\restbyconf\components\rest\ApiHelper;
 /**
  * This is the template for generating a controller class within a module.
  */
@@ -6,39 +8,34 @@
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\module\Generator */
 
-$tag = ucwords($generator->controller);
-$tagV = $generator->tagV;
-$actions = array_keys($tagV['actions']);
+$controller = ucwords($generator->controller);
+$controllerV = $generator->controllerV;
+$controllerV['actions'] = ApiHelper::rmNode($controllerV['actions']);
+$actions = array_keys($controllerV['actions']);
 $moduleClass = $generator->moduleClass;
 $controlerClass = sprintf('%s\controllers', dirname($moduleClass));
-$processingClassNs = sprintf('%s\processing\%s', $controlerClass, $tag);
-$searchClass = sprintf('\%s\models\search\%sSearch', dirname($moduleClass), $tag);
-$searchNs = sprintf('%s\models\search', dirname($moduleClass));
+$processingClassNs = sprintf('%s\processing\%s', $controlerClass, $controller);
+$searchClass = sprintf('\%s\models\search\%sSearch', dirname($moduleClass), $controller);
 
-
-
-$inputs = $tagV['paths']['index']['inputs'];
-$inputsKeys = array_keys($tagV['paths']['index']['inputs']);
+$inputs = $controllerV['actions']['create']['inputs'];
+$inputsKeys = array_keys($controllerV['actions']['create']['inputs']);
 
 $inputRules = [];
-// [['demo_name', 'demo_description', 'sort', 'page', 'page_size'], 'trim'],
-$inputRules[] = sprintf("[['%s'], 'trim'],", implode("','", $inputsKeys));
+$inputRules[] = sprintf("\$model->addRule(['%s'], 'trim');", implode("','", $inputsKeys));
 
 foreach ($inputs as $key => $value) {
     if ($value['required']) {
-        $inputRules[] = sprintf("[['%s'], 'required'],", $key);
+        $inputRules[] = sprintf("\$model->addRule(['%s'], 'required');", $key);
     }
-    $inputRules[] = sprintf("[['%s'], 'match', 'pattern' => '/%s/i', 'message' => '%s'],", $key, $value['rules'], $value['error_msg']);
+    $inputRules[] = sprintf("\$model->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '%s']);", $key, $value['rules'], $value['error_msg']);
 }
 
 $egOutputData = [];
-foreach ($tagV['paths']['index']['outputs'] as $key => $value) {
+foreach ($controllerV['actions']['create']['outputs'] as $key => $value) {
     $egOutputData[] = sprintf("'%s' => '%s',", $key, $value['eg']);
 }
 
-$outputs = $tagV['paths']['index']['outputs'];
-
-
+$outputs = $controllerV['actions']['create']['outputs'];
 
 echo "<?php\n";
 ?>
@@ -47,92 +44,72 @@ echo "<?php\n";
  * @copyright Copyright (c) 2019- My zero one
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
+ 
+namespace <?=$processingClassNs?>;
 
-namespace <?=$searchNs?>;
-
-use myzero1\restbyconf\components\rest\Helper;
 use Yii;
-use yii\base\Model;
+use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
-use myzero1\restbyconf\components\SearchHelper;
+use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\CodeMsg;
-use myzero1\restbyconf\components\rest\SearchProcessing;
-use myzero1\restbyconf\models\Demo as DemoModel;
+use myzero1\restbyconf\components\rest\CreateProcessing;
+use myzero1\restbyconf\models\Demo as Model;
 
 /**
- * This is the model class for table "demo".
+ * implement the CreateProcessing
  *
- * @property int $id
- * @property string $name
- * @property string $description
+ * For more details and usage information on CreateAction, see the [guide article](https://github.com/myzero1/yii2-restbyconf).
+ *
+ * @author Myzero1 <myzero1@sina.com>
+ * @since 0.0
  */
-class <?=ucwords($tag)?>Search extends DemoModel implements SearchProcessing
+class Create implements CreateProcessing
 {
-<?php foreach ($inputsKeys as $key => $value) { ?>
-    public $<?=$value?>;
-<?php } ?>
-
-    public $sort;
-    public $page;
-    public $page_size;
-
     /**
-     * {@inheritdoc}
+     * @return array date will return to create action.
+     * @throws ServerErrorHttpException
+     * @throws \yii\base\InvalidConfigException
      */
-    public $outFieldNames;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-<?php foreach ($inputRules as $key => $value) { ?>
-            <?=$value."\n"?>
-<?php } ?>
-
-            [['sort', 'page', 'page_size'], 'trim'],
-            [['page', 'page_size'], 'integer'],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        // bypass scenarios() implementation in the parent class
-        return Model::scenarios();
-    }
-
-
     public function processing($id)
     {
-        $input = Yii::$app->request->queryParams;
+        $input = Yii::$app->getRequest()->getBodyParams();
         $validatedInput = $this->inputValidate($input);
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            // $db2outData = $this->getResult($validatedInput);
-            $db2outData = $this->egOutputData();
+            $in2dbData = $this->mappingInput2db($validatedInput);
+            $completedData = $this->completeData($in2dbData);
+            // $savedData = $this->save($completedData);
+            // $db2outData = $this->mappingDb2output($savedData);
+            $db2outData = $this->egOutputData();// for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
     }
 
+    /**
+     * @param  array $input from the request body
+     * @return array
+     */
     public function inputValidate($input)
     {
-        $this->load($input, '');
+        $model = new DynamicModel([
+<?php foreach ($inputsKeys as $key => $value) { ?>
+            '<?=$value?>',
+<?php } ?>
+        ]);
 
-        if ($this->validate()) {
-            foreach ($input as $k => $y) {
-                $input[$k] = trim($y);
-            }
+<?php foreach ($inputRules as $key => $value) { ?>
+        <?=$value."\n"?>
+<?php } ?>
 
+
+        $model->load($input, '');
+
+        if ($model->validate()) {
             return $input;
         } else {
-//            throw new ServerErrorHttpException('Failed to search items for validation reason.');
-            $errors = $this->errors;
+            $errors = $model->errors;
             return [
                 'code' => CodeMsg::CLIENT_ERROR,
                 'msg' => Helper::getErrorMsg($errors),
@@ -141,47 +118,69 @@ class <?=ucwords($tag)?>Search extends DemoModel implements SearchProcessing
         }
     }
 
-    public function getResult($validatedInput)
+    /**
+     * @param  array $validatedInput validated data
+     * @return array
+     */
+    public function mappingInput2db($validatedInput)
     {
-        $result = [];
-        $query = (new yii\db\Query())
-            ->from($this->tableName());
-
-        $query->where(['is_del' => 0]);
-        $query->andFilterWhere([
-            'and',
-            ['like', 'name', $this->demo_name],
-            ['like', 'description', $this->demo_description],
-        ]);
-
-        $query->select('1');
-        $result['total'] = $query->count();
-
-        $pagination = $this->getPagination($validatedInput);
-        $query->limit($pagination['page_size']);
-        $offset = $pagination['page_size'] * ($pagination['page'] - 1);
-        $query->offset($offset);
-        $result['page'] = $pagination['page_size'];
-        $result['page_size'] = $pagination['page_size'];
-
-        $outFieldNames = [
-            'id' => 'id',
-            'demo_name' => 'name as demo_name',
-            'demo_description' => 'description as demo_description',
-            'created_at' => 'created_at',
-            'updated_at' => 'updated_at',
+        $inputFieldMap = [
+            'demo_name' => 'name',
+            'demo_description' => 'description',
         ];
+        $in2dbData = Helper::input2DbField($validatedInput, $inputFieldMap);
 
-        $sort = $this->getSort($validatedInput, array_keys($outFieldNames), '+id');
-        $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
+        return $in2dbData;
+    }
 
-        $query->select(array_values($outFieldNames));
+    /**
+     * @param  array $in2dbData mapped data form input
+     * @return array
+     */
+    public function completeData($in2dbData)
+    {
+        $time = time();
+        $in2dbData['created_at'] = $time;
+        $in2dbData['updated_at'] = $time;
 
-        // var_dump($query->createCommand()->getRawSql());exit;
-        $items = $query->all();
-        $result['items'] = $this->mappingDb2output($items);
+        return $in2dbData;
+    }
 
-        return $result;
+    /**
+     * @param  array $completedData completed data
+     * @return array
+     * @throws ServerErrorHttpException
+     */
+    public function save($completedData)
+    {
+        $model = new Model();
+        $model->load($completedData, '');
+        if ($model->save()) {
+            $savedData = $model->attributes;
+            return $savedData;
+        } elseif ($model->hasErrors()) {
+            throw new ServerErrorHttpException('Failed to create the object for validation reason.');
+        } else {
+            throw new ServerErrorHttpException('Failed to create the object for unknown reason.');
+        }
+    }
+
+    /**
+     * @param  array $savedData saved data
+     * @return array
+     */
+    public function mappingDb2output($savedData)
+    {
+        $outputFieldMap = [
+            'name' => 'demo_name',
+            'description' => 'demo_description',
+        ];
+        $db2outData = Helper::db2OutputField($savedData, $outputFieldMap);
+
+        $db2outData['created_at'] = Helper::time2string($db2outData['created_at']);
+        $db2outData['updated_at'] = Helper::time2string($db2outData['updated_at']);
+
+        return $db2outData;
     }
 
     /**
@@ -201,60 +200,15 @@ class <?=ucwords($tag)?>Search extends DemoModel implements SearchProcessing
         return $result;
     }
 
-    public function getSort($validatedInput, $fields, $defafult)
-    {
-        if (isset($validatedInput['sort'])) {
-            $sortInfo = Helper::getSort($validatedInput['sort'], $fields, $defafult);
-        } else {
-            $sortInfo = Helper::getSort('+myzeroqtest', $fields, $defafult);
-        }
-
-        return $sortInfo;
-    }
-
-    public function getPagination($validatedInput)
-    {
-        $pagination = [];
-        if (isset($validatedInput['page'])) {
-            $validatedInput['page'] = $validatedInput['page'];
-        } else {
-            $pagination['page'] = 1;
-        }
-        if (isset($validatedInput['page_size'])) {
-            $pagination['page_size'] = $validatedInput['page_size'];
-        } else {
-            $pagination['page_size'] = 30;
-        }
-
-        return $pagination;
-    }
-
-    public function mappingDb2output($resultData)
-    {
-        foreach ($resultData as $k => $v) {
-            $resultData[$k]['created_at'] = Helper::time2string($v['created_at']);
-            $resultData[$k]['updated_at'] = Helper::time2string($v['updated_at']);
-        }
-
-        return $resultData;
-    }
-
     /**
      * @return array
      */
     public function egOutputData()
     {
-        $result = [
+        return [
 <?php foreach ($egOutputData as $key => $value) { ?>
             <?=$value."\n"?>
 <?php } ?>
-        ];
-
-        return [
-            'total' => 1,
-            'page' => 1,
-            'page_size' => 30,
-            'items' => $result
         ];
     }
 }

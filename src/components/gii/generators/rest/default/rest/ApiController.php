@@ -1,4 +1,5 @@
 <?php
+use myzero1\restbyconf\components\rest\ApiHelper;
 /**
  * This is the template for generating a controller class within a module.
  */
@@ -9,10 +10,11 @@
 $controller = ucwords($generator->controller);
 $controllerV = $generator->controllerV;
 $actions = array_keys($controllerV['actions']);
+$actions = ApiHelper::rmNode($actions);
+
 $moduleClass = $generator->moduleClass;
-$controlerClass = sprintf('%s\controllers', dirname($moduleClass));
-$processingClassNs = sprintf('%s\processing\%s', $controlerClass, $controller);
-$searchClass = sprintf('\%s\models\search\%sSearch', dirname($moduleClass), $controller);
+$controlerClassNs = sprintf('%s\controllers', dirname($moduleClass));
+$processingClassNs = sprintf('%s\processing\%s', dirname($moduleClass), $controller);
 
 echo "<?php\n";
 ?>
@@ -21,7 +23,7 @@ echo "<?php\n";
  * @copyright Copyright (c) 2019- My zero one
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
-namespace <?=$controlerClass?>;
+namespace <?=$controlerClassNs?>;
 
 use \myzero1\restbyconf\components\rest\ApiController;
 
@@ -38,36 +40,12 @@ class <?=$controller?>Controller extends ApiController
         $parentActions = parent::actions();
 
         $overwriteActions = [
-<?php if (in_array('create', $actions)): ?>
-            'create' => [
+<?php foreach ($actions as $key => $action) { ?>
+            '<?=$action?>' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\<?=$processingClassNs?>\Create',
+                'processingClass' => '\<?=$processingClassNs?>\<?=ucwords($action)?>',
             ],
-<?php endif; ?>
-<?php if (in_array('update', $actions)): ?>
-            'update' => [
-                'class' => $this->apiActionClass,
-                'processingClass' => '\<?=$processingClassNs?>\Update',
-            ],
-<?php endif; ?>
-<?php if (in_array('view', $actions)): ?>
-            'view' => [
-                'class' => '\myzero1\restbyconf\components\rest\ActiveAction',
-                'processingClass' => '\<?=$processingClassNs?>\View',
-            ],
-<?php endif; ?>
-<?php if (in_array('delete', $actions)): ?>
-            'delete' => [
-                'class' => '\myzero1\restbyconf\components\rest\ActiveAction',
-                'processingClass' => '\<?=$processingClassNs?>\Delete',
-            ],
-<?php endif; ?>
-<?php if (in_array('index', $actions)): ?>
-            'index' => [
-                'class' => '\myzero1\restbyconf\components\rest\ActiveAction',
-                'processingClass' => '<?=$searchClass?>',
-            ],
-<?php endif; ?>
+<?php } ?>
         ];
 
         $actions = array_merge($parentActions, $overwriteActions);

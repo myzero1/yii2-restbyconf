@@ -12,6 +12,7 @@ use yii\helpers\Html;
 use Yii;
 use yii\helpers\StringHelper;
 use myzero1\restbyconf\components\rest\Helper;
+use myzero1\restbyconf\components\rest\ApiHelper;
 
 /**
  * This generator will generate the skeleton code needed by a module.
@@ -180,14 +181,12 @@ EOD;
             $this->render("view.php")
         );
 
-       foreach ($this->confAarray['json']['controllers'] as $controller => $controllerV) {
-            $rmControllers = ['node_id', 'add_item_click_before_icon'];
-            if (in_array($controller, $rmControllers)) {
-                continue;
-            }
+        $controllers = $this->confAarray['json']['controllers'];
+        $controllers = ApiHelper::rmNode($controllers);
 
-
+       foreach ($controllers as $controller => $controllerV) {
             $this->controller = $controller;
+            $controllerV['actions'] = ApiHelper::rmNode($controllerV['actions']);
             $this->controllerV = $controllerV;
             $files[] = new CodeFile(
                 sprintf('%s/controllers/%sController.php', $modulePath, ucwords($controller)),
@@ -195,12 +194,12 @@ EOD;
             );
             $actions = array_keys($controllerV['actions']);
 
-            foreach ($actions as $k => $action) {
-                $files[] = new CodeFile(
-                    sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
-                    $this->render('rest/ApiActionProcessing.php')
-                );
-            }
+            // foreach ($actions as $k => $action) {
+            //     $files[] = new CodeFile(
+            //         sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
+            //         $this->render('rest/ApiActionProcessing.php')
+            //     );
+            // }
 
 
 
