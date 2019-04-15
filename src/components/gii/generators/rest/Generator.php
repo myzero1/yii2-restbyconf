@@ -11,7 +11,6 @@ use yii\gii\CodeFile;
 use yii\helpers\Html;
 use Yii;
 use yii\helpers\StringHelper;
-use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
 
 /**
@@ -146,12 +145,64 @@ EOD;
             $this->conf
         );
 
+        /*
+        [
+            'api/project-team' => [
+                'class' => 'yii\rest\UrlRule',
+                'controller' => ['api/project-team'],
+                'pluralize' => false  //不在url链接中的project-team后加s 复数
+            ],
+            'api/user' => [
+                'controller' => ['api/user'],
+                'class' => 'yii\rest\UrlRule',
+                'pluralize' => false,
+                'extraPatterns' => [
+                    'POST,OPTIONS login' => 'login',
+                    'GET,OPTIONS  reg' => 'reg'
+                ],
+            ],
+        ],
+
+        */
+
         $confAarray = $this->confAarray;
-        // $rules['controllers'] = array_keys( $confAarray['json']['controllers']);
-        $controllers = [];
-        foreach ($confAarray['json']['controllers'] as $key => $value) {
-            $controllers[] = Helper::uncamelize($key,$separator='-');
+        $controllers = $confAarray['json']['controllers'];
+        $controllers = ApiHelper::rmNode($controllers);
+        $curdi = ['create', 'update', 'view', 'delete', 'index', ];
+        $rules = '';
+        foreach ($controllers as $controllerK => $controllerV) {
+            $extra = [];
+            $actions = $controllerV['actions'];
+            $actions = ApiHelper::rmNode($actions);
+            foreach ($actions as $actionK => $actionV) {
+                if (!in_array($actionK, $curdi)) {
+                    $tmp = sprintf('%s,OPTIONS ', strtoupper($actionV['method']));
+                    $pathParams = $actionV['inputs']['path_params'];
+                    $pathParams = ApiHelper::rmNode($pathParams);
+                    foreach ($pathParams as $pathParamK => $pathParamV) {
+                        $tmp = sprintf('%s/<%s:%s>', $tmp, $pathParamK, $pathParamV['rules']);
+                    }
+                    $tmp = sprintf("'%s/%s' => '%s'", $tmp, $actionK, $actionK);
+                    $extra[] = $tmp;
+                }
+            }
+
+            $rules .= sprintf("'%s/%s' => [\n", $confAarray['json']['basePath'], $controllerK);
+            $rules .= sprintf("    'controller' => ['%s/%s'],\n", $confAarray['json']['basePath'], $controllerK);
+            $rules .= sprintf("    'class' => '\\yii\\rest\UrlRule',\n");
+            $rules .= sprintf("    'pluralize' => false,\n");
+            if (count($extra)) {
+                $rules .= sprintf("    'extraPatterns' => [\n");
+                foreach ($extra as $key => $value) {
+                    $rules .= sprintf("        %s,\n", $value);
+                }
+                $rules .= sprintf("    ],\n");
+            }
+            $rules .= sprintf("],\n");
         }
+printf("<pre>%s</pre>", $rules);
+        var_dump($rules);exit;
+
         $rules['controllers'] = $controllers;
         $rules['basePath'] = $confAarray['json']['basePath'];
         $files[] = new CodeFile(
