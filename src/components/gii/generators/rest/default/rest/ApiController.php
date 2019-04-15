@@ -8,7 +8,7 @@
 
 $controller = ucwords($generator->controller);
 $controllerV = $generator->controllerV;
-$actions = array_keys($controllerV['paths']);
+$actions = array_keys($controllerV['actions']);
 $moduleClass = $generator->moduleClass;
 $controlerClass = sprintf('%s\controllers', dirname($moduleClass));
 $processingClassNs = sprintf('%s\processing\%s', $controlerClass, $controller);

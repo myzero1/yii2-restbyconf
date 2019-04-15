@@ -181,21 +181,30 @@ EOD;
         );
 
        foreach ($this->confAarray['json']['controllers'] as $controller => $controllerV) {
+            $rmControllers = ['node_id', 'add_item_click_before_icon'];
+            if (in_array($controller, $rmControllers)) {
+                continue;
+            }
+
+
             $this->controller = $controller;
             $this->controllerV = $controllerV;
             $files[] = new CodeFile(
                 sprintf('%s/controllers/%sController.php', $modulePath, ucwords($controller)),
-                $this->render('rest/controller.php')
+                $this->render('rest/ApiController.php')
             );
-            $actions = array_keys($controllerV['paths']);
+            $actions = array_keys($controllerV['actions']);
 
-            foreach ($variable as $key => $value) {
-                # code...
+            foreach ($actions as $k => $action) {
+                $files[] = new CodeFile(
+                    sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
+                    $this->render('rest/ApiActionProcessing.php')
+                );
             }
 
 
 
-
+/*
             if (in_array('create', $actions)) {
                 $files[] = new CodeFile(
                     sprintf('%s/controllers/processing/%s/Create.php', $modulePath, ucwords($controller)),
@@ -225,7 +234,7 @@ EOD;
                     sprintf('%s/models/search/%sSearch.php', $modulePath, ucwords($controller)),
                     $this->render('rest/IndexProcessing.php')
                 );
-            }
+            }*/
        }
 //        var_dump($conf['json']['controllers']);exit;
 
