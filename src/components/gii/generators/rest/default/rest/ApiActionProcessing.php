@@ -23,7 +23,7 @@ use myzero1\restbyconf\models\Demo as Model;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Update implements UpdateProcessing
+class Update implements ApiActionProcessing
 {
     /**
      * @param $id mixed
@@ -42,9 +42,9 @@ class Update implements UpdateProcessing
         } else {
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
-            // $savedData = $this->save($id, $completedData);
-            // $db2outData = $this->mappingDb2output($savedData);
-            $db2outData = $this->egOutputData();// for demo
+            $handledData = $this->handling($completedData);
+            $db2outData = $this->mappingDb2output($handledData);
+            // $db2outData = $this->egOutputData();// for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -96,10 +96,7 @@ class Update implements UpdateProcessing
             ];
         }
 
-        return [
-            'get' => $modelGet->attributes,
-            'post' => $modelPost->attributes,
-        ];
+        return array_merge($modelGet->attributes, $modelPost->attributes);
     }
 
     /**
@@ -134,31 +131,22 @@ class Update implements UpdateProcessing
      * @return array
      * @throws ServerErrorHttpException
      */
-    public function save($id, $completedData)
+    public function handling($completedData)
     {
-        $model = $this->findModel($id);
-        $model->load($completedData, '');
-        if ($model->save()) {
-            $savedData = $model->attributes;
-            return $savedData;
-        } elseif ($model->hasErrors()) {
-            throw new ServerErrorHttpException('Failed to create the object for validation reason.');
-        } else {
-            throw new ServerErrorHttpException('Failed to create the object for unknown reason.');
-        }
+
     }
 
     /**
      * @param  array $savedData saved data
      * @return array
      */
-    public function mappingDb2output($savedData)
+    public function mappingDb2output($handledData)
     {
         $outputFieldMap = [
             'name' => 'demo_name',
             'description' => 'demo_description',
         ];
-        $db2outData = Helper::db2OutputField($savedData, $outputFieldMap);
+        $db2outData = Helper::db2OutputField($handledData, $outputFieldMap);
 
         $db2outData['created_at'] = Helper::time2string($db2outData['created_at']);
         $db2outData['updated_at'] = Helper::time2string($db2outData['updated_at']);
@@ -184,17 +172,41 @@ class Update implements UpdateProcessing
     }
 
     /**
-     * @param integer $id
-     * @return model the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param  array $db2outData completed data form database
+     * @param  array $extra
+     * @return array
      */
-    public function findModel($id)
+    public function getSort($validatedInput, $fields, $defafult)
     {
-        if (($model = Model::find()->where(['id' => $id])->one()) !== null) {
-            return $model;
+        if (isset($validatedInput['sort'])) {
+            $sortInfo = Helper::getSort($validatedInput['sort'], $fields, $defafult);
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            $sortInfo = Helper::getSort('+myzeroqtest', $fields, $defafult);
         }
+
+        return $sortInfo;
+    }
+
+    /**
+     * @param  array $db2outData completed data form database
+     * @param  array $extra
+     * @return array
+     */
+    public function getPagination($validatedInput)
+    {
+        $pagination = [];
+        if (isset($validatedInput['page'])) {
+            $validatedInput['page'] = $validatedInput['page'];
+        } else {
+            $pagination['page'] = 1;
+        }
+        if (isset($validatedInput['page_size'])) {
+            $pagination['page_size'] = $validatedInput['page_size'];
+        } else {
+            $pagination['page_size'] = 30;
+        }
+
+        return $pagination;
     }
 
     /**
