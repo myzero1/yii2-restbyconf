@@ -30,6 +30,7 @@ class Generator extends \yii\gii\Generator
     public $moduleClass;
     public $moduleID;
     public $controller;
+    public $action;
     public $controllerV;
 
 
@@ -195,6 +196,7 @@ EOD;
             $actions = array_keys($controllerV['actions']);
 
             foreach ($actions as $k => $action) {
+                $this->action = $action;
                 $files[] = new CodeFile(
                     sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
                     $this->render('rest/ApiActionProcessing.php')

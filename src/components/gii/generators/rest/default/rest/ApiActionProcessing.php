@@ -1,4 +1,52 @@
 <?php
+
+use myzero1\restbyconf\components\rest\ApiHelper;
+/**
+ * This is the template for generating a controller class within a module.
+ */
+
+/* @var $this yii\web\View */
+/* @var $generator yii\gii\generators\module\Generator */
+
+$action = $generator->action;
+$actionClass = ucwords($action);
+$controllerV = $generator->controllerV;
+$actions = array_keys($controllerV['actions']);
+$moduleClass = $generator->moduleClass;
+$processingClassNs = sprintf('%s\processing\%s\%s', dirname($moduleClass), $generator->controller, $action);
+
+$getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
+$getInputs = ApiHelper::rmNode($getInputs);
+$getInputsKeys = array_keys($getInputs);
+$getInputRules = [];
+$getInputRules[] = sprintf("\$model->addRule(['%s'], 'trim');", implode("','", $getInputsKeys));
+foreach ($getInputs as $key => $value) {
+    if ($value['required']) {
+        $getInputRules[] = sprintf("\$model->addRule(['%s'], 'required');", $key);
+    }
+    $getInputRules[] = sprintf("\$model->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '%s']);", $key, $value['rules'], $value['error_msg']);
+}
+
+$postInputs = $controllerV['actions'][$action]['inputs']['body_params'];
+$postInputs = ApiHelper::rmNode($postInputs);
+$postInputsKeys = array_keys($postInputs);
+$postInputRules = [];
+$postInputRules[] = sprintf("\$model->addRule(['%s'], 'trim');", implode("','", $postInputsKeys));
+foreach ($getInputs as $key => $value) {
+    if ($value['required']) {
+        $postInputRules[] = sprintf("\$model->addRule(['%s'], 'required');", $key);
+    }
+    $postInputRules[] = sprintf("\$model->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '%s']);", $key, $value['rules'], $value['error_msg']);
+}
+
+$outputs = $controllerV['actions'][$action]['outputs'];
+$outputs = ApiHelper::rmNode($outputs);
+$egOutputData = [];
+foreach ($outputs as $key => $value) {
+    $egOutputData[] = sprintf("'%s' => '%s',", $key, $value['eg']);
+}
+
+
 echo "<?php\n";
 ?>
 /**
@@ -7,7 +55,7 @@ echo "<?php\n";
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace app\modules\v1\controllers\processing\UserDemo;
+namespace <?=$processingClassNs?>;
 
 use Yii;
 use yii\base\DynamicModel;
@@ -15,7 +63,6 @@ use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\CodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use myzero1\restbyconf\models\Demo as Model;
 
 /**
  * implement the UpdateProcessing
@@ -25,7 +72,7 @@ use myzero1\restbyconf\models\Demo as Model;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Update implements ApiActionProcessing
+class <?=$actionClass?> implements ApiActionProcessing
 {
     /**
      * @param $id mixed
@@ -42,11 +89,11 @@ class Update implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            $in2dbData = $this->mappingInput2db($validatedInput);
-            $completedData = $this->completeData($in2dbData);
-            $handledData = $this->handling($completedData);
-            $db2outData = $this->mappingDb2output($handledData);
-            // $db2outData = $this->egOutputData();// for demo
+            // $in2dbData = $this->mappingInput2db($validatedInput);
+            // $completedData = $this->completeData($in2dbData);
+            // $handledData = $this->handling($completedData);
+            // $db2outData = $this->mappingDb2output($handledData);
+            $db2outData = $this->egOutputData();// for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -60,12 +107,14 @@ class Update implements ApiActionProcessing
     {
         // get
         $modelGet = new DynamicModel([
-            'in_str',
+<?php foreach ($getInputsKeys as $key => $value) { ?>
+            '<?=$value?>',
+<?php } ?>
         ]);
 
-        $modelGet->addRule(['in_str'], 'trim');
-        $modelGet->addRule(['in_str'], 'match', ['pattern' => '/^w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
-
+<?php foreach ($getInputRules as $key => $value) { ?>
+        <?=$value."\n"?>
+<?php } ?>
 
         $modelGet->load($input['get'], '');
 
@@ -80,14 +129,16 @@ class Update implements ApiActionProcessing
 
         // post
         $modelPost = new DynamicModel([
-            'in_str',
+<?php foreach ($postInputsKeys as $key => $value) { ?>
+            '<?=$value?>',
+<?php } ?>
         ]);
 
-        $modelPost->addRule(['in_str'], 'trim');
-        $modelPost->addRule(['in_str'], 'match', ['pattern' => '/^w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
+<?php foreach ($postInputRules as $key => $value) { ?>
+        <?=$value."\n"?>
+<?php } ?>
 
-
-        $modelPost->load($input['get'], '');
+        $modelPost->load($input['post'], '');
 
         if (!$modelPost->validate()) {
             $errors = $modelPost->errors;
