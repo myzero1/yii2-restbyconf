@@ -33,6 +33,7 @@ class Update implements UpdateProcessing
      */
     public function processing($id)
     {
+        // the path and query params will geted by queryParams,and the path params will rewrite the query params.
         $input['get'] = Yii::$app->getRequest()->queryParams();
         $input['body'] = Yii::$app->getRequest()->getBodyParams();
         $validatedInput = $this->inputValidate($input);
