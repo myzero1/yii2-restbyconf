@@ -69,4 +69,9 @@ interface ApiActionProcessing
      * @return array
      */
     public function getPagination($validatedInput);
+
+    /**
+     * @return array
+     */
+    public function egOutputData();
 }

@@ -359,4 +359,19 @@ class ApiHelper
             return array_merge($config, $urlRule);
         }
     }
+
+
+    /**
+     * @param array $node
+     * @return array
+     */
+    public static function rmNode($node)
+    {
+        $rmNode = ['node_id', 'add_item_click_before_icon'];
+        foreach ($rmNode as $k => $v) {
+            unset($node[$v]);
+        }
+
+        return $node;
+    }
 }

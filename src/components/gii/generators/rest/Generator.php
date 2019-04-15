@@ -12,6 +12,7 @@ use yii\helpers\Html;
 use Yii;
 use yii\helpers\StringHelper;
 use myzero1\restbyconf\components\rest\Helper;
+use myzero1\restbyconf\components\rest\ApiHelper;
 
 /**
  * This generator will generate the skeleton code needed by a module.
@@ -29,6 +30,7 @@ class Generator extends \yii\gii\Generator
     public $moduleClass;
     public $moduleID;
     public $controller;
+    public $action;
     public $controllerV;
 
 
@@ -180,59 +182,34 @@ EOD;
             $this->render("view.php")
         );
 
-        // isset($controllers['node_id']) ? unset($controllers['node_id']) : '';
-        foreach ($this->confAarray['json']['controllers'] as $controller => $controllerV) {
-            if ($controller == 'node_id' || $controller == 'add_item_click_before_icon') {
-                continue;
-            }
-            $this->controller = $controller;
-            $this->controllerV = $controllerV;
+        $controllers = $this->confAarray['json']['controllers'];
+        $controllers = ApiHelper::rmNode($controllers);
 
+       foreach ($controllers as $controller => $controllerV) {
+            $this->controller = $controller;
+            $controllerV['actions'] = ApiHelper::rmNode($controllerV['actions']);
+            $this->controllerV = $controllerV;
             $files[] = new CodeFile(
                 sprintf('%s/controllers/%sController.php', $modulePath, ucwords($controller)),
                 $this->render('rest/ApiController.php')
             );
+            $actions = array_keys($controllerV['actions']);
 
-
-/*
-
-            if (in_array('create', $actions)) {
+            foreach ($actions as $k => $action) {
+                $this->action = $action;
                 $files[] = new CodeFile(
-                    sprintf('%s/controllers/processing/%s/Create.php', $modulePath, ucwords($controller)),
-                    $this->render('rest/CreateProcessing.php')
+                    sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
+                    $this->render('rest/ApiActionProcessing.php')
                 );
             }
-            if (in_array('update', $actions)) {
-                $files[] = new CodeFile(
-                    sprintf('%s/controllers/processing/%s/Update.php', $modulePath, ucwords($controller)),
-                    $this->render('rest/UpdateProcessing.php')
-                );
-            }
-            if (in_array('view', $actions)) {
-                $files[] = new CodeFile(
-                    sprintf('%s/controllers/processing/%s/View.php', $modulePath, ucwords($controller)),
-                    $this->render('rest/ViewProcessing.php')
-                );
-            }
-            if (in_array('delete', $actions)) {
-                $files[] = new CodeFile(
-                    sprintf('%s/controllers/processing/%s/Delete.php', $modulePath, ucwords($controller)),
-                    $this->render('rest/DeleteProcessing.php')
-                );
-            }
-            if (in_array('index', $actions)) {
-                $files[] = new CodeFile(
-                    sprintf('%s/models/search/%sSearch.php', $modulePath, ucwords($controller)),
-                    $this->render('rest/IndexProcessing.php')
-                );
-            }*/
-       }
-//        var_dump($conf['json']['controllers']);exit;
 
-        // $files[] = new CodeFile(
-        //     $modulePath . '/controllers/DefaultController.php',
-        //     $this->render("controller.php")
-        // );
+        }
+        // var_dump($conf['json']['controllers']);exit;
+
+        $files[] = new CodeFile(
+            $modulePath . '/controllers/DefaultController.php',
+            $this->render("controller.php")
+        );
 
 
         return $files;
