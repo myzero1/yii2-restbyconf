@@ -203,46 +203,13 @@ EOD;
                 );
             }
 
+        }
+        // var_dump($conf['json']['controllers']);exit;
 
-
-/*
-            if (in_array('create', $actions)) {
-                $files[] = new CodeFile(
-                    sprintf('%s/controllers/processing/%s/Create.php', $modulePath, ucwords($controller)),
-                    $this->render('rest/CreateProcessing.php')
-                );
-            }
-            if (in_array('update', $actions)) {
-                $files[] = new CodeFile(
-                    sprintf('%s/controllers/processing/%s/Update.php', $modulePath, ucwords($controller)),
-                    $this->render('rest/UpdateProcessing.php')
-                );
-            }
-            if (in_array('view', $actions)) {
-                $files[] = new CodeFile(
-                    sprintf('%s/controllers/processing/%s/View.php', $modulePath, ucwords($controller)),
-                    $this->render('rest/ViewProcessing.php')
-                );
-            }
-            if (in_array('delete', $actions)) {
-                $files[] = new CodeFile(
-                    sprintf('%s/controllers/processing/%s/Delete.php', $modulePath, ucwords($controller)),
-                    $this->render('rest/DeleteProcessing.php')
-                );
-            }
-            if (in_array('index', $actions)) {
-                $files[] = new CodeFile(
-                    sprintf('%s/models/search/%sSearch.php', $modulePath, ucwords($controller)),
-                    $this->render('rest/IndexProcessing.php')
-                );
-            }*/
-       }
-//        var_dump($conf['json']['controllers']);exit;
-
-        // $files[] = new CodeFile(
-        //     $modulePath . '/controllers/DefaultController.php',
-        //     $this->render("controller.php")
-        // );
+        $files[] = new CodeFile(
+            $modulePath . '/controllers/DefaultController.php',
+            $this->render("controller.php")
+        );
 
 
         return $files;
