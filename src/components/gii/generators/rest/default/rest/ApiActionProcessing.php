@@ -172,6 +172,20 @@ class Update implements ApiActionProcessing
     }
 
     /**
+     * @param integer $id
+     * @return model the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function findModel($id)
+    {
+        if (($model = Model::find()->where(['id' => $id])->one()) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
      * @param  array $db2outData completed data form database
      * @param  array $extra
      * @return array
