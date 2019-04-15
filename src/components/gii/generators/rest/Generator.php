@@ -194,12 +194,12 @@ EOD;
             );
             $actions = array_keys($controllerV['actions']);
 
-            // foreach ($actions as $k => $action) {
-            //     $files[] = new CodeFile(
-            //         sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
-            //         $this->render('rest/ApiActionProcessing.php')
-            //     );
-            // }
+            foreach ($actions as $k => $action) {
+                $files[] = new CodeFile(
+                    sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
+                    $this->render('rest/ApiActionProcessing.php')
+                );
+            }
 
 
 

@@ -1,4 +1,6 @@
 <?php
+echo "<?php\n";
+?>
 /**
  * @link https://github.com/myzero1
  * @copyright Copyright (c) 2019- My zero one
@@ -67,7 +69,7 @@ class Update implements ApiActionProcessing
 
         $modelGet->load($input['get'], '');
 
-        if (!$modelGet->validate()) { else {
+        if (!$modelGet->validate()) {
             $errors = $modelGet->errors;
             return [
                 'code' => CodeMsg::CLIENT_ERROR,
@@ -87,7 +89,7 @@ class Update implements ApiActionProcessing
 
         $modelPost->load($input['get'], '');
 
-        if (!$modelPost->validate()) { else {
+        if (!$modelPost->validate()) {
             $errors = $modelPost->errors;
             return [
                 'code' => CodeMsg::CLIENT_ERROR,
