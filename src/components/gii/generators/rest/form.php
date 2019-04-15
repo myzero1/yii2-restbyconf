@@ -1,20 +1,12 @@
 <?php
+use myzero1\restbyconf\components\rest\ApiHelper;
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $generator yii\gii\generators\module\Generator */
 
 $asset = myzero1\restbyconf\assets\php\JsonEditorAsset::register($this);
-$confDataPathTmp = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/conf.json');
-$confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/confDefault.json');
 
-if (is_file($confDataPathTmp)) {
-    $confDataTmp = file_get_contents($confDataPathTmp);
-    if (empty($confDataTmp)) {
-        $confDataInit = file_get_contents($confDataPathDefault);
-    } else {
-        $confDataInit = $confDataTmp;
-    }
-}
+$confDataInit = ApiHelper::getApiConf();
 
 if ($generator->conf) {
     $confData = $generator->conf;

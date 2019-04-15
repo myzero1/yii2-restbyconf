@@ -19,6 +19,7 @@ namespace <?= $ns ?>;
 use Yii;
 use yii\base\Module as BaseModule;
 use yii\base\BootstrapInterface;
+use myzero1\restbyconf\components\rest\ApiHelper;
 
 /**
  * <?= $generator->moduleID ?> module definition class
@@ -35,25 +36,9 @@ class <?= $className ?> extends BaseModule implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        $controller = [];
-        $rulesPath = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/rules.json');
-        $rulesData = file_get_contents($rulesPath);
-        $rules = json_decode($rulesData, true);
-        foreach ($rules['tags'] as $key => $value) {
-            $controller[] = sprintf('%s/%s', trim($rules['basePath'], '/'), $value);
-        }
-
         if ($app instanceof \yii\web\Application) {
-            $app->getUrlManager()->addRules([
-                [
-                    'class' => '\yii\rest\UrlRule', 
-                    'controller' => $controller,
-                    'pluralize' => false,
-                    'tokens' => [
-                        '{id}' => '<id:\\w[\\w,]*>',
-                    ],
-                ],
-            ], false);
+            $apiUrlRules = ApiHelper::getApiUrlRules();
+            $app->getUrlManager()->addRules($apiUrlRules, false);
         }
     }
 

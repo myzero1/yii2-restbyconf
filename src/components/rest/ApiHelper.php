@@ -7,6 +7,7 @@
 
 namespace myzero1\restbyconf\components\rest;
 use yii\web\ServerErrorHttpException;
+use Yii;
 
 /**
  * Some Helpful function
@@ -360,7 +361,6 @@ class ApiHelper
         }
     }
 
-
     /**
      * @param array $node
      * @return array
@@ -373,5 +373,45 @@ class ApiHelper
         }
 
         return $node;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getApiConf()
+    {
+        $confDataPathTmp = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/api-conf/conf.json');
+        $confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/conf.json');
+
+        if (is_file($confDataPathTmp)) {
+            $confDataTmp = file_get_contents($confDataPathTmp);
+            if (empty($confDataTmp)) {
+                $confDataInit = file_get_contents($confDataPathDefault);
+            } else {
+                $confDataInit = $confDataTmp;
+            }
+        }
+
+        return $confDataInit;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getApiUrlRules()
+    {
+        $confDataPathTmp = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/api-conf/apiUrlRules.php');
+        $confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/apiUrlRules.php');
+
+        if (is_file($confDataPathTmp)) {
+            $confDataTmp = require $confDataPathTmp;
+            if (empty($confDataTmp)) {
+                $confDataInit = require $confDataPathDefault;
+            } else {
+                $confDataInit = $confDataTmp;
+            }
+        }
+
+        return $confDataInit;
     }
 }

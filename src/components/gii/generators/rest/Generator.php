@@ -141,7 +141,7 @@ EOD;
 
         // save conf to file
         $files[] = new CodeFile(
-            Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/conf.json'),
+            Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/api-conf/conf.json'),
             $this->conf
         );
 
@@ -203,13 +203,9 @@ EOD;
         }
 
         $rules .= "];\n";
-// printf("<pre>%s</pre>", $rules);
-//         var_dump($rules);exit;
 
-//         $rules['controllers'] = $controllers;
-//         $rules['basePath'] = $confAarray['json']['basePath'];
         $files[] = new CodeFile(
-            Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/apiUrlRules.php'),
+            Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/api-conf/apiUrlRules.php'),
             $rules
         );
 
