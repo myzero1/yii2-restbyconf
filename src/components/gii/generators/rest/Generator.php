@@ -169,7 +169,8 @@ EOD;
         $controllers = $confAarray['json']['controllers'];
         $controllers = ApiHelper::rmNode($controllers);
         $curdi = ['create', 'update', 'view', 'delete', 'index', ];
-        $rules = '';
+        $rules = "<?php\n";
+        $rules .= "return [\n";
         foreach ($controllers as $controllerK => $controllerV) {
             $extra = [];
             $actions = $controllerV['actions'];
@@ -187,27 +188,29 @@ EOD;
                 }
             }
 
-            $rules .= sprintf("'%s/%s' => [\n", $confAarray['json']['basePath'], $controllerK);
-            $rules .= sprintf("    'controller' => ['%s/%s'],\n", $confAarray['json']['basePath'], $controllerK);
-            $rules .= sprintf("    'class' => '\\yii\\rest\UrlRule',\n");
-            $rules .= sprintf("    'pluralize' => false,\n");
+            $rules .= sprintf("    '%s/%s' => [\n", $confAarray['json']['basePath'], $controllerK);
+            $rules .= sprintf("        'controller' => ['%s/%s'],\n", $confAarray['json']['basePath'], $controllerK);
+            $rules .= sprintf("        'class' => '\\yii\\rest\UrlRule',\n");
+            $rules .= sprintf("        'pluralize' => false,\n");
             if (count($extra)) {
-                $rules .= sprintf("    'extraPatterns' => [\n");
+                $rules .= sprintf("        'extraPatterns' => [\n");
                 foreach ($extra as $key => $value) {
-                    $rules .= sprintf("        %s,\n", $value);
+                    $rules .= sprintf("            %s,\n", $value);
                 }
-                $rules .= sprintf("    ],\n");
+                $rules .= sprintf("        ],\n");
             }
-            $rules .= sprintf("],\n");
+            $rules .= sprintf("    ],\n");
         }
-printf("<pre>%s</pre>", $rules);
-        var_dump($rules);exit;
 
-        $rules['controllers'] = $controllers;
-        $rules['basePath'] = $confAarray['json']['basePath'];
+        $rules .= "];\n";
+// printf("<pre>%s</pre>", $rules);
+//         var_dump($rules);exit;
+
+//         $rules['controllers'] = $controllers;
+//         $rules['basePath'] = $confAarray['json']['basePath'];
         $files[] = new CodeFile(
-            Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/rules.json'),
-            json_encode($rules)
+            Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/apiUrlRules.php'),
+            $rules
         );
 
         return $files;
