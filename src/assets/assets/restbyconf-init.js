@@ -1,5 +1,8 @@
 var restbyconfOptionsStr = $("#restbyconfoptions").text();
-restbyconfOptionsStr = restbyconfOptionsStr.replace(/^\s\s*/, '').replace(/\s\s*$/, '');;
+var restbyconfposition = $("#restbyconfposition").text();
+restbyconfOptionsStr = restbyconfOptionsStr.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+restbyconfposition = restbyconfposition.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+restbyconfposition = JSON.parse(restbyconfposition)
 
 if (restbyconfOptionsStr != '') {
   restbyconfOptions = JSON.parse(restbyconfOptionsStr);
@@ -31,7 +34,8 @@ var defaultOptions = {
 var container = document.getElementById('jsoneditor');
 window.jsoneditorCanUpdateOldJson = true;
 var editor = new JSONEditor(container, defaultOptions, window.jsoneditorOldJson);
-editor.setSelection({path: ["controllers"]}); // order to set node id is ok.
+editor.setSelection({path: restbyconfposition}); // order to set node id is ok.
+$(".restbyconf-hide-add_item_click_before_icon").parents('tr').hide();
 // editor.setSelection({path: ["controllers","Demo"]}); // order to set node id is ok.
 // for style
 var style = `
@@ -59,4 +63,5 @@ adjustBackground();
 $(document).on("click",".jsoneditor-expand-all",function(){
     showContextmenu();
     adjustBackground();
+    $(".restbyconf-hide-add_item_click_before_icon").parents('tr').hide();
 });

@@ -16,6 +16,12 @@ if ($generator->conf) {
     $confData = $confDataInit;
 }
 
+if ($generator->position) {
+    $position = $generator->position;
+} else {
+    $position = '["controllers"]';
+}
+
 ?>
 
 <style type="text/css">
@@ -28,11 +34,16 @@ if ($generator->conf) {
     <?php
         // echo $form->field($generator, 'conf')->label('Api configuration');
         echo $form->field($generator, 'conf')->label('Api configuration')->hiddenInput();
+        // echo $form->field($generator, 'position');
+        echo $form->field($generator, 'position')->hiddenInput();
     ?>
 
     <div id="jsoneditor"></div>
 
     <div id="restbyconfoptions" style="display: none;">
         <?= $confData ?>
+    </div>
+    <div id="restbyconfposition" style="display: none;">
+        <?= $position ?>
     </div>
 </div>

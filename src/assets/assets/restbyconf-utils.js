@@ -358,12 +358,10 @@ var sleep = function(numberMillis) {
 var add_item_click_before_iconChildren = function(node) {
     //if(arr.indexOf(某元素) > -1){//则包含该元素}
     var path = node.path
-    if (path.indexOf('add_item_click_before_icon') > -1) {
-        if (node.field == 'add_item_click_before_icon') {
-            return false;
-        } else {
-            return true;
-        }
+    var pathPre = path;
+    delete(pathPre[pathPre.length-1]);
+    if (pathPre.indexOf('add_item_click_before_icon') > -1) {
+        return true;
     } else {
         return false;
     }
