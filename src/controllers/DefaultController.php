@@ -156,19 +156,19 @@ class DefaultController extends Controller
                 ];
 
                 if ($k1 == 'create') {
-                    $pathName = sprintf('/%s/', $k);
+                    $pathName = sprintf('/%s', $k);
                     $paths[$pathName]['post'] = $path[$v1['method']];
                 } else if ($k1 == 'index') {
-                    $pathName = sprintf('/%s/', $k);
+                    $pathName = sprintf('/%s', $k);
                     $paths[$pathName]['get'] = $path[$v1['method']];
                 } else if ($k1 == 'update') {
-                    $pathName = sprintf('/%s/{id}/', $k);
+                    $pathName = sprintf('/%s/{id}', $k);
                     $paths[$pathName]['put'] = $path[$v1['method']];
                 } else if ($k1 == 'view') {
-                    $pathName = sprintf('/%s/{id}/', $k);
+                    $pathName = sprintf('/%s/{id}', $k);
                     $paths[$pathName]['get'] = $path[$v1['method']];
                 } else if ($k1 == 'delete') {
-                    $pathName = sprintf('/%s/{id}/', $k);
+                    $pathName = sprintf('/%s/{id}', $k);
                     $paths[$pathName]['delete'] = $path[$v1['method']];
                 } else {
                     $paths[$pathName] = $path;
