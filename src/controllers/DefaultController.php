@@ -105,7 +105,7 @@ class DefaultController extends Controller
                         'required' => true,
                         // 'schema' => $schema,
                         'schema' => [
-                            'title' => sprintf('object(%s /%s%s/%s?', $v1['method'], $k, $pathTag, $k1),
+                            'title' => sprintf('bodyInputs(%s /%s%s/%s?', $v1['method'], $k, $pathTag, $k1),
                             "type" => "object",
                             "properties" => $schema,
                         ],
@@ -113,6 +113,28 @@ class DefaultController extends Controller
                 }
 
                 $inputParams = array_merge($pathParams, $queryParams, $bodyParams);
+
+
+
+                $outputParams = [];
+                $path_outputs = $v1['outputs'];
+                $path_outputs = ApiHelper::rmNode($path_outputs);
+                $schema = [];
+                foreach ($path_outputs as $k2 => $v2) {
+                    $schema[$k2] = [
+                        'description' => $v2['des'],
+                        'type' => 'string',
+                        'example' => $v2['eg'],
+                    ];
+                }
+                $outputParams['200'] = [
+                    'description' => 'outputs',
+                    'schema' => [
+                        'title' => sprintf('outputs(%s /%s%s/%s?', $v1['method'], $k, $pathTag, $k1),
+                        "type" => "object",
+                        "properties" => $schema,
+                    ],
+                ];
 
                 // var_dump($inputParams);exit;
 
@@ -123,6 +145,7 @@ class DefaultController extends Controller
                     'description' => $v['description'],
                     'operationId' => $k . ' '. $pathName,
                     'parameters' => $inputParams,
+                    'responses' => $outputParams,
                 ];
 
 
