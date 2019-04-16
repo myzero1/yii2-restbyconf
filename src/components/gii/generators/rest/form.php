@@ -7,6 +7,7 @@ use myzero1\restbyconf\components\rest\ApiHelper;
 $asset = myzero1\restbyconf\assets\php\JsonEditorAsset::register($this);
 
 $confDataInit = ApiHelper::getApiConf();
+// $confDataInit = '';
 
 if ($generator->conf) {
     $confData = $generator->conf;
@@ -25,8 +26,8 @@ if ($generator->conf) {
 
 <div class="rest-form">
     <?php
-        echo $form->field($generator, 'conf')->label('Api configuration');
-        // echo $form->field($generator, 'conf')->label('Api configuration')->hiddenInput();
+        // echo $form->field($generator, 'conf')->label('Api configuration');
+        echo $form->field($generator, 'conf')->label('Api configuration')->hiddenInput();
     ?>
 
     <div id="jsoneditor"></div>
