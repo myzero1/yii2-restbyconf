@@ -390,6 +390,8 @@ class ApiHelper
             } else {
                 $confDataInit = $confDataTmp;
             }
+        } else {
+            $confDataInit = file_get_contents($confDataPathDefault);
         }
 
         return $confDataInit;
@@ -410,6 +412,8 @@ class ApiHelper
             } else {
                 $confDataInit = $confDataTmp;
             }
+        } else {
+           $confDataInit = require $confDataPathDefault;
         }
 
         return $confDataInit;
