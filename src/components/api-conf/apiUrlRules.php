@@ -1,8 +1,11 @@
 <?php
 return [
-    '/v1/woogle' => [
-        'controller' => ['/v1/woogle'],
+    'v1/controller' => [
+        'controller' => ['v1/controller'],
         'class' => '\yii\rest\UrlRule',
         'pluralize' => false,
+        'extraPatterns' => [
+            'GET,OPTIONS /<in_str:\w+>/action' => 'action',
+        ],
     ],
 ];
