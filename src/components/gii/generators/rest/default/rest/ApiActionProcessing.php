@@ -268,7 +268,9 @@ class <?=$actionClass?> implements ApiActionProcessing
     public function egOutputData()
     {
         return [
-            'out_str' => 'myzero1',
+<?php foreach ($egOutputData as $key => $value) { ?>
+            <?=$value . "\n"?>
+<?php } ?>
         ];
     }
 }
