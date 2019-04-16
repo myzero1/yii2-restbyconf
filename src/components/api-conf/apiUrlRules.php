@@ -5,7 +5,7 @@ return [
         'class' => '\yii\rest\UrlRule',
         'pluralize' => false,
         'extraPatterns' => [
-            'GET,OPTIONS <id:\w{1,32}>/info' => 'info',
+            'POST,OPTIONS <in_str:\w{1,32}>/info' => 'info',
         ],
     ],
 ];
