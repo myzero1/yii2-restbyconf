@@ -4,7 +4,7 @@ namespace myzero1\restbyconf\controllers;
 
 use yii\web\Controller;
 use Yii;
-use myzero1\restbyconf\components\rest\Helper;
+use myzero1\restbyconf\components\rest\ApiHelper;
 
 /**
  * Default controller for the `test` module
@@ -35,21 +35,22 @@ class DefaultController extends Controller
      */
     public function actionSwaggerJson()
     {
-        $swaggerPath = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/conf.json');
-        $swaggerData = file_get_contents($swaggerPath);
+        $swaggerData = ApiHelper::getApiConf();
         $json = json_decode($swaggerData, true)['json'];
-        $oldTags = $json['tags'];
-        $tags = [];
+        $oldcontrollers = $json['controllers'];
+        $oldcontrollers = ApiHelper::rmNode($json['controllers']);
+        $controllers = [];
         $paths = [];
 
-        foreach ($oldTags as $k => $v) {
-            $tag = [];
-            $tag['name'] = $k;
-            $tag['description'] = $v['description'];
-            $tags[] = $tag;
+        foreach ($oldcontrollers as $k => $v) {
+            $controller = [];
+            $controller['name'] = $k;
+            $controller['description'] = $v['description'];
+            $controllers[] = $controller;
 
             $inputParams = [];
-            foreach ($v['paths'] as $k1 => $v1) {
+            $paths = ApiHelper::rmNode($v['paths']);
+            foreach ($paths as $k1 => $v1) {
                 $param = [];
 
                 foreach ($v1['inputs'] as $k2 => $v2) {
@@ -69,13 +70,13 @@ class DefaultController extends Controller
             $paths = [];
             $pathData = [];
             $pathOneData = [];
-            $pathPre = sprintf('/%s/', Helper::uncamelize($k,$separator='-'));
+            $pathPre = sprintf('/%s/', ApiHelper::uncamelize($k,$separator='-'));
             $pathOnePre = sprintf('%s/{id}/', $pathPre);
             
             $pathsKey = array_keys($v['paths']);
             if (in_array('index', $pathsKey)) {
                 $paths[$pathPre]['get'] = [
-                    'tags' => $k,
+                    'controllers' => $k,
                     'description' => $v['description'],
                     'operationId' => sprintf('%sController.Get All', $k),
                     'parameters' => $inputParams['index'],
@@ -83,7 +84,7 @@ class DefaultController extends Controller
             }
             if (in_array('create', $pathsKey)) {
                 $paths[$pathPre]['post'] = [
-                    'tags' => $k,
+                    'controllers' => $k,
                     'description' => $v['description'],
                     'operationId' => sprintf('%sController.Post', $k),
                     'parameters' => $inputParams['create'],
@@ -91,7 +92,7 @@ class DefaultController extends Controller
             }
             if (in_array('view', $pathsKey)) {
                 $paths[$pathOnePre]['get'] = [
-                    'tags' => $k,
+                    'controllers' => $k,
                     'description' => $v['description'],
                     'operationId' => sprintf('%sController.Get One', $k),
                     'parameters' => $inputParams['view'],
@@ -99,7 +100,7 @@ class DefaultController extends Controller
             }
             if (in_array('update', $pathsKey)) {
                 $paths[$pathOnePre]['put'] = [
-                    'tags' => $k,
+                    'controllers' => $k,
                     'description' => $v['description'],
                     'operationId' => sprintf('%sController.Put', $k),
                     'parameters' => $inputParams['update'],
@@ -107,7 +108,7 @@ class DefaultController extends Controller
             }
             if (in_array('delete', $pathsKey)) {
                 $paths[$pathOnePre]['delete'] = [
-                    'tags' => $k,
+                    'controllers' => $k,
                     'description' => $v['description'],
                     'operationId' => sprintf('%sController.Delete', $k),
                     'parameters' => $inputParams['delete'],
@@ -116,8 +117,8 @@ class DefaultController extends Controller
         }
 
 
-        unset($json['tags']);
-        $json['tags'] = $tags;
+        unset($json['controllers']);
+        $json['tags'] = $controllers;
         $json['paths'] = $paths;
 
         // var_dump($json);exit;
