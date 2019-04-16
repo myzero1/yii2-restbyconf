@@ -188,8 +188,10 @@ EOD;
                 }
             }
 
-            $rules .= sprintf("    '%s/%s' => [\n", $confAarray['json']['basePath'], $controllerK);
-            $rules .= sprintf("        'controller' => ['%s/%s'],\n", $confAarray['json']['basePath'], $controllerK);
+            $version = trim($confAarray['json']['basePath'], '/');
+
+            $rules .= sprintf("    '%s/%s' => [\n", $version, $controllerK);
+            $rules .= sprintf("        'controller' => ['%s/%s'],\n", $version, $controllerK);
             $rules .= sprintf("        'class' => '\\yii\\rest\UrlRule',\n");
             $rules .= sprintf("        'pluralize' => false,\n");
             if (count($extra)) {
