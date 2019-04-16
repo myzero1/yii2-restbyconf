@@ -181,7 +181,10 @@ EOD;
                     $pathParams = $actionV['inputs']['path_params'];
                     $pathParams = ApiHelper::rmNode($pathParams);
                     foreach ($pathParams as $pathParamK => $pathParamV) {
-                        $tmp = sprintf('%s/<%s:%s>', $tmp, $pathParamK, $pathParamV['rules']);
+                        $rulesTmp = $pathParamV['rules'];
+                        $rulesTmp = trim($rulesTmp, '^');
+                        $rulesTmp = trim($rulesTmp, '$');
+                        $tmp = sprintf('%s<%s:%s>', $tmp, $pathParamK, $rulesTmp);
                     }
                     $tmp = sprintf("'%s/%s' => '%s'", $tmp, $actionK, $actionK);
                     $extra[] = $tmp;
