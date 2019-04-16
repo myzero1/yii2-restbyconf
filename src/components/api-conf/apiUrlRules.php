@@ -1,11 +1,8 @@
 <?php
 return [
-    'v1/controller' => [
-        'controller' => ['v1/controller'],
+    '/v1/demo' => [
+        'controller' => ['/v1/demo'],
         'class' => '\yii\rest\UrlRule',
         'pluralize' => false,
-        'extraPatterns' => [
-            'GET,OPTIONS /<in_str:\w+>/action' => 'action',
-        ],
     ],
 ];

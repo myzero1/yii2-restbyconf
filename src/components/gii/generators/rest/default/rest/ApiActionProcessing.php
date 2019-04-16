@@ -19,7 +19,9 @@ $getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
 $getInputs = ApiHelper::rmNode($getInputs);
 $getInputsKeys = array_keys($getInputs);
 $getInputRules = [];
-$getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", implode("','", $getInputsKeys));
+if (count($getInputs)) {
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", implode("','", $getInputsKeys));
+}
 foreach ($getInputs as $key => $value) {
     if ($value['required']) {
         $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
@@ -31,8 +33,10 @@ $postInputs = $controllerV['actions'][$action]['inputs']['body_params'];
 $postInputs = ApiHelper::rmNode($postInputs);
 $postInputsKeys = array_keys($postInputs);
 $postInputRules = [];
-$postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'trim');", implode("','", $postInputsKeys));
-foreach ($getInputs as $key => $value) {
+if (count($postInputs)) {
+    $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'trim');", implode("','", $postInputsKeys));
+}
+foreach ($postInputs as $key => $value) {
     if ($value['required']) {
         $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'required');", $key);
     }
