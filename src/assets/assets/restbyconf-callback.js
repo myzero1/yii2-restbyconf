@@ -30,9 +30,6 @@ var onValidate = function onValidate(json) {
 var onEvent = function(node, event){
     // console.log(node);
     // console.log(event.type);
-    if (event.type == 'click') {
-         document.getElementById("generator-position").value = JSON.stringify(node.path);
-    }
     if (event.type == 'blur') {
         // update the validation of tag
         if (isTagLay(node.path)) {
@@ -187,8 +184,6 @@ var onCreateMenu = function onCreateMenu(items, node) {
                         itemsTmp.push(items[i]['submenu'][j]);
                     }
                 }
-            } else if (text=='复制') {
-                itemsTmp.push(items[i]);
             }
         }
 
@@ -219,8 +214,6 @@ var onCreateMenu = function onCreateMenu(items, node) {
                         itemsTmp.push(items[i]['submenu'][j]);
                     }
                 }
-            } else if (text=='复制') {
-                itemsTmp.push(items[i]);
             }
         }
 
@@ -253,8 +246,6 @@ var onCreateMenu = function onCreateMenu(items, node) {
                         itemsTmp.push(items[i]['submenu'][j]);
                     }
                 }
-            } else if (text=='复制') {
-                itemsTmp.push(items[i]);
             }
         }
 
@@ -287,8 +278,6 @@ var onCreateMenu = function onCreateMenu(items, node) {
                         itemsTmp.push(items[i]['submenu'][j]);
                     }
                 }
-            } else if (text=='复制') {
-                itemsTmp.push(items[i]);
             }
         }
 

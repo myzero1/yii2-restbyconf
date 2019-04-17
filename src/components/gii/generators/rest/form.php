@@ -32,10 +32,10 @@ if ($generator->position) {
 
 <div class="rest-form">
     <?php
+        // echo $form->field($generator, 'position');
+        echo $form->field($generator, 'position')->label('')->hiddenInput();
         // echo $form->field($generator, 'conf')->label('Api configuration');
         echo $form->field($generator, 'conf')->label('Api configuration')->hiddenInput();
-        // echo $form->field($generator, 'position');
-        echo $form->field($generator, 'position')->hiddenInput();
     ?>
 
     <div id="jsoneditor"></div>
