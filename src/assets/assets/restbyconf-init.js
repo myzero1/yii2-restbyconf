@@ -60,6 +60,9 @@ var style = `
     .restbyconf-hide-add_item_click_before_icon{
         display:none;
     }
+    .jsoneditor-collapse-all, .jsoneditor-expand-all{
+        display:none;
+    }
 </style>
 `;
 $("body").append(style);
