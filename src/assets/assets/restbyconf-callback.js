@@ -30,9 +30,6 @@ var onValidate = function onValidate(json) {
 var onEvent = function(node, event){
     // console.log(node);
     // console.log(event.type);
-    if (event.type == 'click') {
-         document.getElementById("generator-position").value = JSON.stringify(node.path);
-    }
     if (event.type == 'blur') {
         // update the validation of tag
         if (isTagLay(node.path)) {
