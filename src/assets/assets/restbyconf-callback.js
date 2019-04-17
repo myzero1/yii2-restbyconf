@@ -184,8 +184,6 @@ var onCreateMenu = function onCreateMenu(items, node) {
                         itemsTmp.push(items[i]['submenu'][j]);
                     }
                 }
-            } else if (text=='复制') {
-                itemsTmp.push(items[i]);
             }
         }
 
@@ -216,8 +214,6 @@ var onCreateMenu = function onCreateMenu(items, node) {
                         itemsTmp.push(items[i]['submenu'][j]);
                     }
                 }
-            } else if (text=='复制') {
-                itemsTmp.push(items[i]);
             }
         }
 
@@ -250,8 +246,6 @@ var onCreateMenu = function onCreateMenu(items, node) {
                         itemsTmp.push(items[i]['submenu'][j]);
                     }
                 }
-            } else if (text=='复制') {
-                itemsTmp.push(items[i]);
             }
         }
 
@@ -284,8 +278,6 @@ var onCreateMenu = function onCreateMenu(items, node) {
                         itemsTmp.push(items[i]['submenu'][j]);
                     }
                 }
-            } else if (text=='复制') {
-                itemsTmp.push(items[i]);
             }
         }
 
