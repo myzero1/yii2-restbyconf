@@ -25,9 +25,10 @@ var defaultOptions = {
     // onValidate: onValidate,
     onEditable: onEditable,
     onCreateMenu: onCreateMenu,
-    onNodeName: onNodeName,
-    onClassName: onClassName,
+    // onNodeName: onNodeName,
+    // onClassName: onClassName,
     onChangeJSON: onChangeJSON,
+    onError: onError,
     onEvent: onEvent
 
 };
@@ -60,22 +61,25 @@ var style = `
     .restbyconf-hide-add_item_click_before_icon{
         display:none;
     }
-    .jsoneditor-collapse-all, .jsoneditor-expand-all{
-        display:none;
-    }
+    // .jsoneditor-collapse-all, .jsoneditor-expand-all{
+    //     display:none;
+    // }
 </style>
 `;
 $("body").append(style);
 
 // for init 
-showContextmenu();
-adjustBackground();
+// showContextmenu();
+// adjustBackground();
+
 
 $(document).on("click",".jsoneditor-expand-all",function(){
     showContextmenu();
     adjustBackground();
     $(".restbyconf-hide-add_item_click_before_icon").parents('tr').hide();
 });
+
+
 
 $(document).on("click","#jsoneditor",function(){
     var treepath = $('.jsoneditor-treepath').text();

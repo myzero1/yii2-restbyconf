@@ -101,6 +101,24 @@ var isChild = function(parent, child) {
     }
 }
 
+var restMove = function(){
+  var history = editor.history.history;
+  var last = history[history.length -1];
+
+  if (last != undefined) {
+      if (last.action == 'moveNodes') {
+          var oldParentPath = editor.node.findNodeByInternalPath(last.params.oldParentPath).getPath();
+          var newParentPath = editor.node.findNodeByInternalPath(last.params.newParentPath).getPath();
+          var oldParentPathStr = oldParentPath.toString();
+          var newParentPathStr = newParentPath.toString();
+
+          if (oldParentPathStr !== newParentPathStr) {
+              editor.history.undo();
+          }
+      }
+  }
+}
+
 var isJumpLay = function(json) {
     // console.log(json);
     var gettype=Object.prototype.toString
@@ -231,7 +249,7 @@ var isJumpLay = function(json) {
     }
 
 
-/*    
+    /*    
 
     for(var i1 in json) {//第一层不会用带node_id的节点
         if (gettype.call(json[i1]) == '[object Object]') {
@@ -326,7 +344,7 @@ var isJumpLay = function(json) {
         }
     }
 
-*/
+    */
 
     return false;
 }

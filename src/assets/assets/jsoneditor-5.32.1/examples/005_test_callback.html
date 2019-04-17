@@ -26,7 +26,7 @@
 <div id="click_div">undo</div>
     <script>
 
-      var restRemove = function(){
+      var restMove = function(){
           var history = editor.history.history;
           var last = history[history.length -1];
 
@@ -45,7 +45,7 @@
       }
 
     document.getElementById('click_div').onclick = function(){
-        restRemove();
+        restMove();
     };
 
 
@@ -66,7 +66,8 @@
       },
       onChange: function (jsonString) {
         console.log('onChange--------start');
-        restRemove();
+        console.log(editor.treePath);
+        // restMove();
         console.log('onChange--------end');
       },
       onClassName: function (node) {

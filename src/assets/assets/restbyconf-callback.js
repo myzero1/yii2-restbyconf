@@ -1,6 +1,7 @@
 var onChangeJSON = function onChangeJSON(json) {
 
-    getChangeData();
+    // getChangeData();
+    restMove();
 
     // if (isJumpLay(json)) {
     //     editor.update(window.jsoneditorOldJson);
@@ -72,7 +73,7 @@ var onEvent = function(node, event){
 var onNodeName = function(node){
     showContextmenu();
     adjustBackground();
-
+    /*
     if (editor!=null) {
         var path = node.path;
         var json = editor.get();
@@ -147,6 +148,11 @@ var onNodeName = function(node){
             }
         }
     }
+    */
+}
+
+var onError = function(error){
+    console.log(error);
 }
 
 var onClassName = function(node){
