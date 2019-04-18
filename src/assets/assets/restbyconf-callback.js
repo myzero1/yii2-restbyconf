@@ -1,21 +1,5 @@
 var onChangeJSON = function onChangeJSON(json) {
-
-    // getChangeData();
     restMove();
-
-    // if (isJumpLay(json)) {
-    //     editor.update(window.jsoneditorOldJson);
-    // } else {
-    //     window.jsoneditorOldJson = json;
-
-    //     // document.getElementById("generator-conf").value = JSON.stringify(json);
-    //     var restbyconfschamas = {};
-    //     restbyconfschamas.schema = this.schema;
-    //     restbyconfschamas.schemaRefs = this.schemaRefs;
-    //     // console.log(this);
-    //     // console.log(restbyconfschamas);
-    //     document.getElementById("generator-conf").value = JSON.stringify(restbyconfschamas);// the options
-    // }
 }
 var onValidate = function onValidate(json) {
     if (editor!=null) {
@@ -73,82 +57,6 @@ var onEvent = function(node, event){
 var onNodeName = function(node){
     showContextmenu();
     adjustBackground();
-    /*
-    if (editor!=null) {
-        var path = node.path;
-        var json = editor.get();
-        var path = node.path;
-        var length = path.length;
-        
-        if (isInTag(path)) {
-            var json = editor.get();
-            var path = node.path;
-            if (length == 1) {
-                if (!('node_id' in json[path[0]])) {
-                    json[path[0]]['node_id'] = new Date().getTime()+'-';
-                    editor.update(json);
-                    window.jsoneditorOldJson = json;
-                }
-            } else if (node.size >= 1) {
-                if (length == 2) {
-                    if ('node_id' in json[path[0]]) {
-                        if (!('node_id' in json[path[0]][path[1]])) {
-                            var tagNodeId = json[path[0]]['node_id'] + new Date().getTime()+'-';
-                            json[path[0]][path[1]]['node_id'] = tagNodeId;
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    }
-                } else if (length == 3) {
-                    if ('node_id' in json[path[0]][path[1]]) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]])) {
-                            var tagNodeId = json[path[0]][path[1]]['node_id'] + new Date().getTime()+'-';
-                            json[path[0]][path[1]][path[2]]['node_id'] = tagNodeId;
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    }
-                } else if (length == 4) {
-                    if ('node_id' in json[path[0]][path[1]][path[2]]) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]])) {
-                            var tagNodeId = json[path[0]][path[1]][path[2]]['node_id'] + new Date().getTime()+'-';
-                            json[path[0]][path[1]][path[2]][path[3]]['node_id'] = tagNodeId;
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    }
-                } else if (length == 5) {
-                    if ('node_id' in json[path[0]][path[1]][path[2]][path[3]]) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]])) {
-                            var tagNodeId = json[path[0]][path[1]][path[2]][path[3]]['node_id'] + new Date().getTime()+'-';
-                            json[path[0]][path[1]][path[2]][path[3]][path[4]]['node_id'] = tagNodeId;
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    }
-                } else if (length == 6) {
-                    if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]]) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]])) {
-                            var tagNodeId = json[path[0]][path[1]][path[2]][path[3]][path[4]]['node_id'] + new Date().getTime()+'-';
-                            json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] = tagNodeId;
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    }
-                } else if (length == 7) {
-                    if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]])) {
-                            var tagNodeId = json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] + new Date().getTime()+'-';
-                            json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]]['node_id'] = tagNodeId;
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    */
 }
 
 var onError = function(error){
