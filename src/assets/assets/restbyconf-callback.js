@@ -9,7 +9,6 @@ var onValidate = function onValidate(json) {
             window.jsoneditorOldJson = json;
         }
     }
-    
 }
 
 var onEvent = function(node, event){
@@ -74,147 +73,43 @@ var onClassName = function(node){
 }
 
 var onCreateMenu = function onCreateMenu(items, node) {
-    function inArray(value, array){
-        for (var i = array.length - 1; i >= 0; i--) {
-            if (array[i] == value) {
-                return true;
+    var controller = new Array();
+    var action = new Array();
+    var in_str = new Array();
+    var auto = new Array();
+    var array = new Array();
+    var obj = new Array();
+
+    // console.log(node);
+    // console.log(controller);
+
+    for (var i = 0;  i < items.length; i++) {
+        var text = items[i]['text'];
+        if (text=='追加') {
+            for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
+                if (items[i]['submenu'][j]['text'] == 'controller') {
+                    controller.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == 'action') {
+                    action = items[i]['submenu'][j];
+                } else if (items[i]['submenu'][j]['text'] == 'in_str') {
+                    in_str = items[i]['submenu'][j];
+                } else if (items[i]['submenu'][j]['text'] == '自动') {
+                    auto = items[i]['submenu'][j];
+                } else if (items[i]['submenu'][j]['text'] == '数组') {
+                    array = items[i]['submenu'][j];
+                } else if (items[i]['submenu'][j]['text'] == '对象') {
+                    obj = items[i]['submenu'][j];
+                }
             }
         }
-
-        return false;
     }
 
-    var length = node.path.length;
-    var field = node.path[length-1];
-
-    if(isTagLay(node.path)){
-        var itemsTmp  = new Array();
-        for (var i = 0;  i < items.length; i++) {
-            var text = items[i]['text'];
-            if (text=='插入' && field=='add_item_click_before_icon') {
-                // console.log(items[i]['submenu']);
-                for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
-                    if (items[i]['submenu'][j]['text'] == 'controller') {
-                        itemsTmp.push(items[i]['submenu'][j]);
-                    }
-                }
-            }
-        }
-
-        itemsTmp.push( {
-            text : '删除', // the text for the menu item
-            title : 'jsoneditor-remove', // the HTML title attribute
-            className : 'jsoneditor-remove', // the css class name(s) for the menu item
-            click : function(){
-                var jsonData = editor.get();
-                var path = node.path;
-                if (field=='add_item_click_before_icon') {
-                    alert('add_item_click_before_icon不能被删除');
-                } else {
-                    delete(jsonData[path[0]][path[1]]);
-                    editor.update(jsonData);
-                }
-            }
-        } );
-        return itemsTmp;
-    } else if(isPathLay(node.path)){
-        var itemsTmp  = new Array();
-        for (var i = 0;  i < items.length; i++) {
-            var text = items[i]['text'];
-            if (text=='插入' && field=='add_item_click_before_icon') {
-                // console.log(items[i]['submenu']);
-                for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
-                    if (items[i]['submenu'][j]['text'] == 'action') {
-                        itemsTmp.push(items[i]['submenu'][j]);
-                    }
-                }
-            }
-        }
-
-        itemsTmp.push( {
-            text : '删除', // the text for the menu item
-            title : 'jsoneditor-remove', // the HTML title attribute
-            className : 'jsoneditor-remove', // the css class name(s) for the menu item
-            click : function(){
-                var jsonData = editor.get();
-                var path = node.path;
-                if (field=='add_item_click_before_icon') {
-                    alert('add_item_click_before_icon不能被删除');
-                } else {
-                    delete(jsonData[path[0]][path[1]][path[2]][path[3]]);
-                    editor.update(jsonData);
-                }
-            }
-        } );
-
-
-        return itemsTmp;
-    } else if(isInputLay(node.path)){
-        var itemsTmp  = new Array();
-        for (var i = 0;  i < items.length; i++) {
-            var text = items[i]['text'];
-            if (text=='插入' && field=='add_item_click_before_icon') {
-                // console.log(items[i]['submenu']);
-                for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
-                    if (items[i]['submenu'][j]['text'] == 'in_str') {
-                        itemsTmp.push(items[i]['submenu'][j]);
-                    }
-                }
-            }
-        }
-
-        itemsTmp.push( {
-            text : '删除', // the text for the menu item
-            title : 'jsoneditor-remove', // the HTML title attribute
-            className : 'jsoneditor-remove', // the css class name(s) for the menu item
-            click : function(){
-                var jsonData = editor.get();
-                var path = node.path;
-                if (field=='add_item_click_before_icon') {
-                    alert('add_item_click_before_icon不能被删除');
-                } else {
-                    delete(jsonData[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]]);
-                    editor.update(jsonData);
-                }
-            }
-        } );
-
-
-        return itemsTmp;
-    } else if(isOutputLay(node.path)){
-        var itemsTmp  = new Array();
-        for (var i = 0;  i < items.length; i++) {
-            var text = items[i]['text'];
-            if (text=='插入' && field=='add_item_click_before_icon') {
-                // console.log(items[i]['submenu']);
-                for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
-                    if (items[i]['submenu'][j]['text'] == 'out_str') {
-                        itemsTmp.push(items[i]['submenu'][j]);
-                    }
-                }
-            }
-        }
-
-        itemsTmp.push( {
-            text : '删除', // the text for the menu item
-            title : 'jsoneditor-remove', // the HTML title attribute
-            className : 'jsoneditor-remove', // the css class name(s) for the menu item
-            click : function(){
-                var jsonData = editor.get();
-                var path = node.path;
-                if (field=='add_item_click_before_icon') {
-                    alert('add_item_click_before_icon不能被删除');
-                } else {
-                    delete(jsonData[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]);
-                    editor.update(jsonData);
-                }
-            }
-        } );
-
-
-        return itemsTmp;
+    if(isControllers(node.path)){
+        console.log(controller);
+        return items;
+        return controller;
     } else {
-        return [];
+        return items;
     }
 }
 

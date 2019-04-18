@@ -90,6 +90,14 @@ var isInTag = function(path) {
     }
 }
 
+var isControllers = function(path) {
+    if (path.length == 1 && path[0] == 'controllers') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 var isChild = function(parent, child) {
     var childArray = child.split('-');
     var childArrayLen = childArray.length;

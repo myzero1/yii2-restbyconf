@@ -23,7 +23,7 @@ var defaultOptions = {
     enableTransform: false,
     templates: templates,
     // onValidate: onValidate,
-    // onEditable: onEditable,
+    onEditable: onEditable,
     // onCreateMenu: onCreateMenu,
     // onNodeName: onNodeName,
     // onClassName: onClassName,
@@ -49,9 +49,9 @@ editor.setSelection({path: restbyconfpositionOld});
 // for style
 var style = `
 <style>
-    // .jsoneditor-dragarea{
-    //     display:none;
-    // }
+    .jsoneditor-dragarea{
+        display:none;
+    }
     // .jsoneditor-button.jsoneditor-contextmenu{
     //     display:none;
     // }
