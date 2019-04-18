@@ -23,8 +23,8 @@ var defaultOptions = {
     enableTransform: false,
     templates: templates,
     // onValidate: onValidate,
-    onEditable: onEditable,
-    onCreateMenu: onCreateMenu,
+    // onEditable: onEditable,
+    // onCreateMenu: onCreateMenu,
     // onNodeName: onNodeName,
     // onClassName: onClassName,
     onChangeJSON: onChangeJSON,
@@ -52,15 +52,15 @@ var style = `
     // .jsoneditor-dragarea{
     //     display:none;
     // }
-    .jsoneditor-button.jsoneditor-contextmenu{
-        display:none;
-    }
-    .restbyconf-hide-node-id{
-        display:none;
-    }
-    .restbyconf-hide-add_item_click_before_icon{
-        display:none;
-    }
+    // .jsoneditor-button.jsoneditor-contextmenu{
+    //     display:none;
+    // }
+    // .restbyconf-hide-node-id{
+    //     display:none;
+    // }
+    // .restbyconf-hide-add_item_click_before_icon{
+    //     display:none;
+    // }
     // .jsoneditor-collapse-all, .jsoneditor-expand-all{
     //     display:none;
     // }

@@ -41,13 +41,13 @@ var onEvent = function(node, event){
             editor.setSchema(this.schema,schemaRefs);
         }
         // update the validation of output
-        if (isOutputLay(node.path)) {
-            var schemaRefs = this.schemaRefs;
-            schemaRefs['outputs']['properties'][node.field] = {
-              "$ref": "out_str"
-            };
-            editor.setSchema(this.schema,schemaRefs);
-        }
+        // if (isOutputLay(node.path)) {
+        //     var schemaRefs = this.schemaRefs;
+        //     schemaRefs['outputs']['properties'][node.field] = {
+        //       "$ref": "out_str"
+        //     };
+        //     editor.setSchema(this.schema,schemaRefs);
+        // }
 
         showContextmenu();
         adjustBackground();
