@@ -76,12 +76,9 @@ var onCreateMenu = function onCreateMenu(items, node) {
     var controller = new Array();
     var action = new Array();
     var in_str = new Array();
-    var auto = new Array();
-    var array = new Array();
-    var obj = new Array();
-
-    // console.log(node);
-    // console.log(controller);
+    var data = new Array();
+    var del = new Array();
+    var cp = new Array();
 
     for (var i = 0;  i < items.length; i++) {
         var text = items[i]['text'];
@@ -90,26 +87,62 @@ var onCreateMenu = function onCreateMenu(items, node) {
                 if (items[i]['submenu'][j]['text'] == 'controller') {
                     controller.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == 'action') {
-                    action = items[i]['submenu'][j];
+                    action.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == 'in_str') {
-                    in_str = items[i]['submenu'][j];
+                    in_str.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == '自动') {
-                    auto = items[i]['submenu'][j];
+                    data.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == '数组') {
-                    array = items[i]['submenu'][j];
+                    data.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == '对象') {
-                    obj = items[i]['submenu'][j];
+                    data.push(items[i]['submenu'][j]);
                 }
             }
+        } else if (text=='移除') {
+            del = items[i];
+        } else if (text=='复制') {
+            cp = items[i];
         }
     }
 
-    if(isControllers(node.path)){
-        console.log(controller);
-        return items;
-        return controller;
+    // console.log($(".jsoneditor-expandable.jsoneditor-highlight").text());
+    console.log(node.path);
+    // console.log(node);
+    // console.log(controller);
+    // console.log(editor.getSelection());
+    // controllers{0}
+    // action{4}inputs{3}body_params{1}in_str{5}path_params{1}in_str{5}query_params{1}in_str{5}outputs{3}data{0}
+    if (node.path === null) {
+        var selected = $(".jsoneditor-expandable.jsoneditor-highlight").text();
+        if (selected === 'controllers{0}') {
+            return controller;
+        } else if (selected === 'actions{0}') {
+            return action;
+        } else if (selected === 'body_params{0}') {
+            return in_str;
+        } else if (selected === 'path_params{0}') {
+            return in_str;
+        } else if (selected === 'query_params{0}') {
+            return in_str;
+        } else if (selected === 'data{0}') {
+            return data;
+        }
     } else {
-        return items;
+        if(isControllers(node.path)){
+            controller.push(del);
+            controller.push(cp);
+            return controller;
+        } else if(isPathLay(node.path)){
+            action.push(del);
+            action.push(cp);
+            return action;
+        } else if(isInputLay(node.path)){
+            in_str.push(del);
+            in_str.push(cp);
+            return in_str;
+        } else {
+            return items;
+        }
     }
 }
 
@@ -158,4 +191,10 @@ var onEditable = function(node) {
 var onModeChange = function(newMode, oldMode) {
     window.jsoneditorOldJson = editor.get();
     // console.log(window.jsoneditorOldJson);
+}
+
+var onSelectionChange = function(start, end) {
+    // console.log(start);
+    // console.log(end);
+    // console.log(node.getSelection());
 }

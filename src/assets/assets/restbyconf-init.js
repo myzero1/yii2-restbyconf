@@ -24,11 +24,12 @@ var defaultOptions = {
     templates: templates,
     // onValidate: onValidate,
     onEditable: onEditable,
-    // onCreateMenu: onCreateMenu,
+    onCreateMenu: onCreateMenu,
     // onNodeName: onNodeName,
     // onClassName: onClassName,
     onChangeJSON: onChangeJSON,
     onError: onError,
+    onSelectionChange: onSelectionChange,
     onEvent: onEvent
 
 };

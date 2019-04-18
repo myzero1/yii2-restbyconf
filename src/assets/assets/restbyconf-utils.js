@@ -74,6 +74,15 @@ var isOutputLay = function(path) {
     }
 }
 
+var isDataLay = function(path) {
+    if (path.length > 6 && path[0] == 'controllers' && path[2] == 'actions' && path[4] == 'outputs' && path[5] == 'data') {
+        console.log(1)
+        return true;
+    } else {
+        return false;
+    }
+}
+
 var isParamLay = function(path) {
     if (path.length == 6 && path[0] == 'controllers' && path[2] == 'actions' && path[4] == 'inputs') {
         return true;
