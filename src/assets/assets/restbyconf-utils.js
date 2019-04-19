@@ -40,6 +40,11 @@ var showContextmenu = function() {
     $(".jsoneditor-field[title=restbyconf-obj-output]").each(function(){
         $(this).parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
     });
+    // (清空 object)
+    $(".jsoneditor-append .jsoneditor-readonly").parents('.jsoneditor-append').find('.jsoneditor-contextmenu').show();
+    // $(".jsoneditor-append .jsoneditor-readonly").each(function(){
+    //     $(this).parents('.jsoneditor-append').find('.jsoneditor-contextmenu').show();
+    // });
 }
 
 var isTagLay = function(path) {
@@ -50,7 +55,15 @@ var isTagLay = function(path) {
     }
 }
 
-var isPathLay = function(path) {
+var isController = function(path) {
+    if (path.length == 2 && path[0] == 'controllers') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+var isActionLay = function(path) {
     if (path.length == 4 && path[0] == 'controllers' && path[2] == 'actions') {
         return true;
     } else {

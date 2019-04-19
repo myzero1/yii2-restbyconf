@@ -1,5 +1,6 @@
 var onChangeJSON = function onChangeJSON(json) {
     restMove();
+    showContextmenu();
 }
 var onValidate = function onValidate(json) {
     if (editor!=null) {
@@ -24,7 +25,7 @@ var onEvent = function(node, event){
             editor.setSchema(this.schema,schemaRefs);
         }
         // update the validation of action
-        if (isPathLay(node.path)) {
+        if (isActionLay(node.path)) {
             var schemaRefs = this.schemaRefs;
             schemaRefs['actions']['properties'][node.field] = {
               "$ref": "action"
@@ -105,6 +106,8 @@ var onCreateMenu = function onCreateMenu(items, node) {
         }
     }
 
+    console.log(editor.node.findNodeByPath(node.path));
+
     // console.log($(".jsoneditor-expandable.jsoneditor-highlight").text());
     console.log(node.path);
     // console.log(node);
@@ -114,6 +117,7 @@ var onCreateMenu = function onCreateMenu(items, node) {
     // action{4}inputs{3}body_params{1}in_str{5}path_params{1}in_str{5}query_params{1}in_str{5}outputs{3}data{0}
     if (node.path === null) {
         var selected = $(".jsoneditor-expandable.jsoneditor-highlight").text();
+        $(".jsoneditor-expandable.jsoneditor-highlight").next().children(".jsoneditor-contextmenu").show();
         if (selected === 'controllers{0}') {
             return controller;
         } else if (selected === 'actions{0}') {
@@ -128,11 +132,11 @@ var onCreateMenu = function onCreateMenu(items, node) {
             return data;
         }
     } else {
-        if(isControllers(node.path)){
+        if(isController(node.path)){
             controller.push(del);
             controller.push(cp);
             return controller;
-        } else if(isPathLay(node.path)){
+        } else if(isActionLay(node.path)){
             action.push(del);
             action.push(cp);
             return action;
@@ -140,8 +144,10 @@ var onCreateMenu = function onCreateMenu(items, node) {
             in_str.push(del);
             in_str.push(cp);
             return in_str;
-        } else {
-            return items;
+        } else if(isDataLay(node.path)){
+            data.push(del);
+            data.push(cp);
+            return data;
         }
     }
 }
@@ -168,13 +174,13 @@ var onEditable = function(node) {
         if (unEditable.indexOf(path) > -1) {
             return false;
         } else {
-            if(isTagLay(node.path)){
+            if(isController(node.path)){
                 return true;
-            } else if(isPathLay(node.path)){
+            } else if(isActionLay(node.path)){
                 return true;
             } else if(isInputLay(node.path)){
                 return true;
-            } else if(isOutputLay(node.path)){
+            } else if(isDataLay(node.path)){
                 return true;
             } else {
                 return {

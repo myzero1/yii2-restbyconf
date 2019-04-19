@@ -53,9 +53,9 @@ var style = `
     .jsoneditor-dragarea{
         display:none;
     }
-    // .jsoneditor-button.jsoneditor-contextmenu{
-    //     display:none;
-    // }
+    .jsoneditor-button.jsoneditor-contextmenu{
+        display:none;
+    }
     // .restbyconf-hide-node-id{
     //     display:none;
     // }
