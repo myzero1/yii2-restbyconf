@@ -26,7 +26,7 @@ var defaultOptions = {
     onEditable: onEditable,
     onCreateMenu: onCreateMenu,
     // onNodeName: onNodeName,
-    // onClassName: onClassName,
+    onClassName: onClassName,
     onChangeJSON: onChangeJSON,
     onError: onError,
     onSelectionChange: onSelectionChange,

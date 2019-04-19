@@ -64,12 +64,8 @@ var onError = function(error){
 }
 
 var onClassName = function(node){
-    if (node.field == 'node_id') {
-        return 'restbyconf-hide-node-id';
-    }
-
-    if(add_item_click_before_iconChildren(node)){
-        return 'restbyconf-hide-add_item_click_before_icon';
+    if(isDataLay(node.path)){
+        return 'restbyconf-outputs-data';
     }
 }
 
@@ -106,10 +102,7 @@ var onCreateMenu = function onCreateMenu(items, node) {
         }
     }
 
-    console.log(editor.node.findNodeByPath(node.path));
-
     // console.log($(".jsoneditor-expandable.jsoneditor-highlight").text());
-    console.log(node.path);
     // console.log(node);
     // console.log(controller);
     // console.log(editor.getSelection());

@@ -28,23 +28,13 @@ var adjustBackground = function() {
 }
 
 var showContextmenu = function() {
-    $(".jsoneditor-field[title=restbyconf-obj-controller]").each(function(){
-        $(this).parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    });
-    $(".jsoneditor-field[title=restbyconf-obj-action]").each(function(){
-        $(this).parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    });
-    $(".jsoneditor-field[title=restbyconf-obj-input]").each(function(){
-        $(this).parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    });
-    $(".jsoneditor-field[title=restbyconf-obj-output]").each(function(){
-        $(this).parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    });
+
+    $(".jsoneditor-field[title=restbyconf-obj-controller]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
+    $(".jsoneditor-field[title=restbyconf-obj-action]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
+    $(".jsoneditor-field[title=restbyconf-obj-input]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
+    $(".restbyconf-outputs-data").parents('tr').find('.jsoneditor-contextmenu').show();
     // (清空 object)
     $(".jsoneditor-append .jsoneditor-readonly").parents('.jsoneditor-append').find('.jsoneditor-contextmenu').show();
-    // $(".jsoneditor-append .jsoneditor-readonly").each(function(){
-    //     $(this).parents('.jsoneditor-append').find('.jsoneditor-contextmenu').show();
-    // });
 }
 
 var isTagLay = function(path) {
@@ -88,8 +78,7 @@ var isOutputLay = function(path) {
 }
 
 var isDataLay = function(path) {
-    if (path.length > 6 && path[0] == 'controllers' && path[2] == 'actions' && path[4] == 'outputs' && path[5] == 'data') {
-        console.log(1)
+    if (path.length > 6 && path[0] == 'controllers' && path[2] == 'actions' && path[4] == 'outputs') {
         return true;
     } else {
         return false;
