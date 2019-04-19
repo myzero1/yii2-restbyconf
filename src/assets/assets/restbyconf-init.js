@@ -50,9 +50,9 @@ editor.setSelection({path: restbyconfpositionOld});
 // for style
 var style = `
 <style>
-    .jsoneditor-dragarea{
-        display:none;
-    }
+    // .jsoneditor-dragarea{
+    //     display:none;
+    // }
     .jsoneditor-button.jsoneditor-contextmenu{
         display:none;
     }
