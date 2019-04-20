@@ -385,7 +385,8 @@ var getChangeData = function(){
 var getChangeDataNew = function(){
     showContextmenu();
     adjustBackground();
-    
+    restMove();
+
     var json = editor.get();
     var restbyconfData = {};
     restbyconfData.json = json;
