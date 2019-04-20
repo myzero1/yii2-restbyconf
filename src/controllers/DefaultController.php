@@ -126,20 +126,85 @@ class DefaultController extends Controller
                 $outputParams = [];
                 $path_outputs = $v1['outputs'];
                 $path_outputs = ApiHelper::rmNode($path_outputs);
-                $schema = [];
+                $outputs = [];
+                $data = [];
                 foreach ($path_outputs as $k2 => $v2) {
-                    $schema[$k2] = [
-                        'description' => $v2['des'],
-                        'type' => 'string',
-                        'example' => $v2['eg'],
-                    ];
+                    if ($k2=='code') {
+                        $outputs[$k2]['type'] = 'integer';
+                        $outputs[$k2]['description'] = 'Service Status Code';
+                        $outputs[$k2]['example'] = $v2;
+                    } else if ($k2=='msg') {
+                        $outputs[$k2]['type'] = 'integer';
+                        $outputs[$k2]['description'] = 'Service Status Message';
+                        $outputs[$k2]['example'] = $v2;
+                    } else if ($k2=='data') {
+                        $data = [
+                            "title" => "data",
+                            "title" => "data",
+                        ];
+
+                        // var_dump($v2);exit;
+                        foreach ($v2 as $k3 => $v3) {
+                            if (is_array($v3)) {
+                                if (isset($v3[0])) {
+                                    $tmp = [];
+                                    $tmp['type'] = 'array';
+
+                                    foreach ($v3 as $k4 => $v4) {
+                                        $tmpt = [];
+                                        $tmpt['type'] = "object";
+                                        
+                                        foreach ($v4 as $k5 => $v5) {
+                                            $tmpt1 = [];
+                                            $tmpt1['type'] = "string";
+                                            $tmpt1['example'] = $v5;
+
+                                            $tmp2[$k5] = $tmpt1;
+                                        }
+
+                                        $tmpt['properties'] = $tmp2;
+
+                                        $tmp1[$k4] = $tmpt;
+                                    }
+                                    // var_dump($tmp1);exit;
+                                    $tmp['items'] = $tmp1;
+                                    $tmp['items'] = $tmp1[0];
+                                    // $tmp['items']['type'] = 'object';
+                                    // $tmp['items']['type'] = $tmp1;
+                                } else {
+                                    foreach ($v3 as $k4 => $v4) {
+                                        $tmp1 = [];
+                                        $tmp1['type'] = "string";
+                                        $tmp1['example'] = $v4;
+
+                                        $tmp2[$k4] = $tmp1;
+                                    }
+
+                                    $tmp = [];
+                                    $tmp['type'] = 'object';
+                                    $tmp['properties'] = $tmp2;
+                                }
+                            } else {
+                                $tmp = [];
+                                $tmp['type'] = "string";
+                                $tmp['example'] = $v3;
+                            }
+
+                            $data[$k3] = $tmp;
+                        }
+
+                        // var_dump($data);exit;
+                        $outputs[$k2]['type'] = 'object';
+                        $outputs[$k2]['description'] = 'Service Data';
+                        $outputs[$k2]['properties'] = $data;
+                    }
                 }
                 $outputParams['200'] = [
                     'description' => 'outputs',
                     'schema' => [
                         'title' => sprintf('outputs(%s /%s%s/%s?', $v1['method'], $k, $pathTag, $k1),
                         "type" => "object",
-                        "properties" => $schema,
+                        "properties" => $outputs,
                     ],
                 ];
 
