@@ -45,10 +45,7 @@ foreach ($postInputs as $key => $value) {
 
 $outputs = $controllerV['actions'][$action]['outputs'];
 $outputs = ApiHelper::rmNode($outputs);
-$egOutputData = [];
-foreach ($outputs as $key => $value) {
-    $egOutputData[] = sprintf("'%s' => '%s',", $key, $value['eg']);
-}
+$egOutputData = $outputs;
 
 
 echo "<?php\n";
@@ -271,10 +268,8 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return [
-<?php foreach ($egOutputData as $key => $value) { ?>
-            <?=$value . "\n"?>
-<?php } ?>
-        ];
+        $egOutputData = '<?=serialize($egOutputData)?>';
+
+        return unserialize($egOutputData);
     }
 }
