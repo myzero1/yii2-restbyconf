@@ -1,6 +1,5 @@
 var onChangeJSON = function onChangeJSON(json) {
-    restMove();
-    showContextmenu();
+    getChangeDataNew();
 }
 var onValidate = function onValidate(json) {
     if (editor!=null) {
@@ -122,6 +121,8 @@ var onCreateMenu = function onCreateMenu(items, node) {
         } else if (selected === 'query_params{0}') {
             return in_str;
         } else if (selected === 'data{0}') {
+            return data;
+        } else {
             return data;
         }
     } else {

@@ -382,6 +382,17 @@ var getChangeData = function(){
     }
 }
 
+var getChangeDataNew = function(){
+    showContextmenu();
+    adjustBackground();
+    
+    var json = editor.get();
+    var restbyconfData = {};
+    restbyconfData.json = json;
+    restbyconfData.schemaRefs = editor.options.schemaRefs;
+    document.getElementById("generator-conf").value = JSON.stringify(restbyconfData);// the options
+}
+
 var sleep = function(numberMillis) {
   var now = new Date();
   var exitTime = now.getTime() + numberMillis;
