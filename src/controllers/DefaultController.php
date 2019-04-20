@@ -212,10 +212,11 @@ class DefaultController extends Controller
 
                 // $pathName = '/demo/{id}';
                 $pathName = sprintf('/%s%s/%s', $k, $pathTag, $k1);
+                // var_dump($pathName);exit;
                 $path[$v1['method']] = [
                     'tags' => [$k],
                     'description' => $v['description'],
-                    'operationId' => $k . ' '. $pathName,
+                    'operationId' => $k . ''. str_replace('/', '-', str_replace('}', '', str_replace('{', '', $pathName))),
                     'parameters' => $inputParams,
                     'responses' => $outputParams,
                 ];
