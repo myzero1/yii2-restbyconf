@@ -290,7 +290,7 @@ class DefaultController extends Controller
 
                 $content .= sprintf("&nbsp; \n\n`Outputs` \n\n");
                 $content .= sprintf("``` \n");
-                $content .= sprintf("%s \n", json_encode($actionsV['outputs']));
+                $content .= sprintf("%s \n", json_encode($actionsV['outputs'], JSON_PRETTY_PRINT));
                 $content .= sprintf("``` \n");
                 $content .= sprintf("\n");
             }
