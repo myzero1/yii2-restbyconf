@@ -325,6 +325,7 @@ class DefaultController extends Controller
 style;
         $markdownHtml = $markdownHtml . $style;
 
-        return $this->render('markdown', ['markdownHtml' => $markdownHtml]);
+        // return $this->render('markdown', ['markdownHtml' => $markdownHtml]);
+        return $this->renderAjax('markdown', ['markdownHtml' => $markdownHtml]);
     }
 }
