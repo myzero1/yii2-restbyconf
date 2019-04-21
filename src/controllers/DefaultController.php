@@ -127,7 +127,8 @@ class DefaultController extends Controller
                 $path_outputs = $v1['outputs'];
                 $path_outputs = ApiHelper::rmNode($path_outputs);
 
-                $dataStr = json_encode($path_outputs);
+                // $dataStr = json_encode($path_outputs);
+                $dataStr = json_encode($path_outputs, JSON_PRETTY_PRINT);
 
                 $outputParams['200'] = [
                     'description' => 'outputs',
