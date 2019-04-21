@@ -289,8 +289,9 @@ class DefaultController extends Controller
                 }
 
                 $content .= sprintf("&nbsp; \n\n`Outputs` \n\n");
-                $content .= sprintf("| Items | Detail | \n");
-                $content .= sprintf("|-------|:---------:| \n");
+                $content .= sprintf("``` \n");
+                $content .= sprintf("%s \n", json_encode($actionsV['outputs']));
+                $content .= sprintf("``` \n");
                 $content .= sprintf("\n");
             }
         }
