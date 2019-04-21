@@ -207,6 +207,7 @@ class DefaultController extends Controller
         $info .= sprintf("> * license:[%s](%s) \n\n", $json['info']['license']['name'], $json['info']['license']['url']);
         $info .= sprintf("****** \n");
 
+        $table .= sprintf("\n<a name='1.1' ></a> \n");
         $table .= sprintf("\n## 1.1. Table \n");
         $content .= sprintf("\n## 1.2. Content \n");
 
@@ -216,6 +217,7 @@ class DefaultController extends Controller
             $i += 1;
             $table .= sprintf("- [1.2.%s. %s](#1.2.%s) \n", $i, $oldcontroller, $i);
 
+            $content .= sprintf("\n<a name='1.2.%s' ></a> \n", $i);
             $content .= sprintf("### 1.2.%s. %s \n", $i, $oldcontroller);
             $content .= sprintf("> [Go table](#1.1) \n\n");
             $content .= sprintf("%s \n", $oldcontrollerV['description']);
@@ -225,6 +227,7 @@ class DefaultController extends Controller
                 $j += 1;
                 $table .= sprintf("    - [1.2.%s.%s. %s](#1.2.%s.%s) \n", $i, $j, $action, $i, $j);
 
+                $content .= sprintf("\n<a name='1.2.%s.%s' ></a> \n", $i, $j);
                 $content .= sprintf("#### 1.2.%s.%s. %s \n", $i, $j, $action);
                 $content .= sprintf("> [Go table](#1.1) \n\n");
                 $content .= sprintf("&nbsp;`Basic info` \n\n");
