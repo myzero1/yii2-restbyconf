@@ -304,7 +304,7 @@ class DefaultController extends Controller
         $markdown = $info . $table . $content;
 
 
-// var_dump($markdown);exit;
+        // var_dump($markdown);exit;
         $markdownHtml = \yii\helpers\Markdown::process($markdown);
         $markdownHtml = \yii\helpers\Markdown::process($markdown,'gfm');
 
@@ -327,5 +327,14 @@ style;
 
         // return $this->render('markdown', ['markdownHtml' => $markdownHtml]);
         return $this->renderAjax('markdown', ['markdownHtml' => $markdownHtml]);
+    }
+
+    /**
+     * Renders the index view for the module
+     * @return string
+     */
+    public function actionRest()
+    {
+        return $this->redirect(['/gii/rest']);
     }
 }
