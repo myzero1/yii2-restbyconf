@@ -25,6 +25,7 @@ use myzero1\restbyconf\components\rest\ApiHelper;
 class Generator extends \yii\gii\Generator
 {
     public $conf;
+    public $position;
     public $confAarray;
     public $moduleClass;
     public $moduleID;
@@ -55,7 +56,7 @@ class Generator extends \yii\gii\Generator
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['conf'], 'filter', 'filter' => 'trim'],
+            [['conf','position'], 'filter', 'filter' => 'trim'],
             [['conf'], 'required', 'message' => 'You should change the conf.'],
         ]);
     }

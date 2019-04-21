@@ -16,6 +16,12 @@ if ($generator->conf) {
     $confData = $confDataInit;
 }
 
+if ($generator->position) {
+    $position = $generator->position;
+} else {
+    $position = '["controllers"]';
+}
+
 ?>
 
 <style type="text/css">
@@ -26,6 +32,8 @@ if ($generator->conf) {
 
 <div class="rest-form">
     <?php
+        // echo $form->field($generator, 'position');
+        echo $form->field($generator, 'position')->label('')->hiddenInput();
         // echo $form->field($generator, 'conf')->label('Api configuration');
         echo $form->field($generator, 'conf')->label('Api configuration')->hiddenInput();
     ?>
@@ -34,5 +42,8 @@ if ($generator->conf) {
 
     <div id="restbyconfoptions" style="display: none;">
         <?= $confData ?>
+    </div>
+    <div id="restbyconfposition" style="display: none;">
+        <?= $position ?>
     </div>
 </div>

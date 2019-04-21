@@ -23,8 +23,36 @@
   </ul>
 
   <div id="jsoneditor"></div>
+<div id="click_div">undo</div>
+    <script>
 
-  <script>
+      var restMove = function(){
+          var history = editor.history.history;
+          var last = history[history.length -1];
+
+          if (last != undefined) {
+              if (last.action == 'moveNodes') {
+                  var oldParentPath = editor.node.findNodeByInternalPath(last.params.oldParentPath).getPath();
+                  var newParentPath = editor.node.findNodeByInternalPath(last.params.newParentPath).getPath();
+                  var oldParentPathStr = oldParentPath.toString();
+                  var newParentPathStr = newParentPath.toString();
+
+                  if (oldParentPathStr !== newParentPathStr) {
+                      editor.history.undo();
+                  }
+              }
+          }
+      }
+
+    document.getElementById('click_div').onclick = function(){
+        restMove();
+    };
+
+
+
+
+
+
     var container = document.getElementById('jsoneditor');
 
     var options = {
@@ -37,7 +65,10 @@
         console.log('onChangeText');
       },
       onChange: function (jsonString) {
-        console.log('onChange');
+        console.log('onChange--------start');
+        console.log(editor.treePath);
+        // restMove();
+        console.log('onChange--------end');
       },
       onClassName: function (node) {
         console.log('onClassName');
@@ -49,7 +80,7 @@
         console.log('onModeChange');
       },
       onNodeName: function (node) {
-        console.log(node);
+        console.log('onNodeName');
       },
       onValidate: function (json) {
         console.log('onValidate');
@@ -64,7 +95,11 @@
       _id: 123456,
       name: 'John',
       inf: {
-        "name": "name"
+        "name": "name",
+        "address": {
+          'stree':"dd",
+          "provide": "dddd"
+        }
       },
 
       info: {
@@ -73,6 +108,8 @@
     };
 
     var editor = new JSONEditor(container, options, json);
-  </script>
+
+
+    </script>
 </body>
 </html>

@@ -1,20 +1,5 @@
 var onChangeJSON = function onChangeJSON(json) {
-
-    getChangeData();
-
-    // if (isJumpLay(json)) {
-    //     editor.update(window.jsoneditorOldJson);
-    // } else {
-    //     window.jsoneditorOldJson = json;
-
-    //     // document.getElementById("generator-conf").value = JSON.stringify(json);
-    //     var restbyconfschamas = {};
-    //     restbyconfschamas.schema = this.schema;
-    //     restbyconfschamas.schemaRefs = this.schemaRefs;
-    //     // console.log(this);
-    //     // console.log(restbyconfschamas);
-    //     document.getElementById("generator-conf").value = JSON.stringify(restbyconfschamas);// the options
-    // }
+    getChangeDataNew();
 }
 var onValidate = function onValidate(json) {
     if (editor!=null) {
@@ -24,11 +9,11 @@ var onValidate = function onValidate(json) {
             window.jsoneditorOldJson = json;
         }
     }
-    
 }
 
 var onEvent = function(node, event){
-  // console.log(node);
+    // console.log(node);
+    // console.log(event.type);
     if (event.type == 'blur') {
         // update the validation of tag
         if (isTagLay(node.path)) {
@@ -39,7 +24,7 @@ var onEvent = function(node, event){
             editor.setSchema(this.schema,schemaRefs);
         }
         // update the validation of action
-        if (isPathLay(node.path)) {
+        if (isActionLay(node.path)) {
             var schemaRefs = this.schemaRefs;
             schemaRefs['actions']['properties'][node.field] = {
               "$ref": "action"
@@ -55,13 +40,13 @@ var onEvent = function(node, event){
             editor.setSchema(this.schema,schemaRefs);
         }
         // update the validation of output
-        if (isOutputLay(node.path)) {
-            var schemaRefs = this.schemaRefs;
-            schemaRefs['outputs']['properties'][node.field] = {
-              "$ref": "out_str"
-            };
-            editor.setSchema(this.schema,schemaRefs);
-        }
+        // if (isOutputLay(node.path)) {
+        //     var schemaRefs = this.schemaRefs;
+        //     schemaRefs['outputs']['properties'][node.field] = {
+        //       "$ref": "out_str"
+        //     };
+        //     editor.setSchema(this.schema,schemaRefs);
+        // }
 
         showContextmenu();
         adjustBackground();
@@ -71,243 +56,93 @@ var onEvent = function(node, event){
 var onNodeName = function(node){
     showContextmenu();
     adjustBackground();
+}
 
-    if (editor!=null) {
-        var path = node.path;
-        var json = editor.get();
-        var path = node.path;
-        var length = path.length;
-        
-        if (isInTag(path)) {
-            var json = editor.get();
-            var path = node.path;
-            if (length == 1) {
-                if (!('node_id' in json[path[0]])) {
-                    json[path[0]]['node_id'] = new Date().getTime()+'-';
-                    editor.update(json);
-                    window.jsoneditorOldJson = json;
-                }
-            } else if (node.size >= 1) {
-                if (length == 2) {
-                    if ('node_id' in json[path[0]]) {
-                        if (!('node_id' in json[path[0]][path[1]])) {
-                            var tagNodeId = json[path[0]]['node_id'] + new Date().getTime()+'-';
-                            json[path[0]][path[1]]['node_id'] = tagNodeId;
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    }
-                } else if (length == 3) {
-                    if ('node_id' in json[path[0]][path[1]]) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]])) {
-                            var tagNodeId = json[path[0]][path[1]]['node_id'] + new Date().getTime()+'-';
-                            json[path[0]][path[1]][path[2]]['node_id'] = tagNodeId;
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    }
-                } else if (length == 4) {
-                    if ('node_id' in json[path[0]][path[1]][path[2]]) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]])) {
-                            var tagNodeId = json[path[0]][path[1]][path[2]]['node_id'] + new Date().getTime()+'-';
-                            json[path[0]][path[1]][path[2]][path[3]]['node_id'] = tagNodeId;
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    }
-                } else if (length == 5) {
-                    if ('node_id' in json[path[0]][path[1]][path[2]][path[3]]) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]])) {
-                            var tagNodeId = json[path[0]][path[1]][path[2]][path[3]]['node_id'] + new Date().getTime()+'-';
-                            json[path[0]][path[1]][path[2]][path[3]][path[4]]['node_id'] = tagNodeId;
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    }
-                } else if (length == 6) {
-                    if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]]) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]])) {
-                            var tagNodeId = json[path[0]][path[1]][path[2]][path[3]][path[4]]['node_id'] + new Date().getTime()+'-';
-                            json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] = tagNodeId;
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    }
-                } else if (length == 7) {
-                    if ('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]) {
-                        if (!('node_id' in json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]])) {
-                            var tagNodeId = json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]['node_id'] + new Date().getTime()+'-';
-                            json[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]]['node_id'] = tagNodeId;
-                            editor.update(json);
-                            window.jsoneditorOldJson = json;
-                        }
-                    }
-                }
-            }
-        }
-    }
+var onError = function(error){
+    console.log(error);
 }
 
 var onClassName = function(node){
-    if (node.field == 'node_id') {
-        return 'restbyconf-hide-node-id';
-    }
-
-    if(add_item_click_before_iconChildren(node)){
-        return 'restbyconf-hide-add_item_click_before_icon';
+    if(isDataLay(node.path)){
+        return 'restbyconf-outputs-data';
     }
 }
 
 var onCreateMenu = function onCreateMenu(items, node) {
-    function inArray(value, array){
-        for (var i = array.length - 1; i >= 0; i--) {
-            if (array[i] == value) {
-                return true;
-            }
-        }
+    var controller = new Array();
+    var action = new Array();
+    var in_str = new Array();
+    var data = new Array();
+    var del = new Array();
+    var cp = new Array();
 
-        return false;
+    for (var i = 0;  i < items.length; i++) {
+        var text = items[i]['text'];
+        if (text=='追加') {
+            for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
+                if (items[i]['submenu'][j]['text'] == 'controller') {
+                    controller.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == 'action') {
+                    action.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == 'in_str') {
+                    in_str.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == '自动') {
+                    data.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == '数组') {
+                    data.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == '对象') {
+                    data.push(items[i]['submenu'][j]);
+                }
+            }
+        } else if (text=='移除') {
+            del = items[i];
+        } else if (text=='复制') {
+            cp = items[i];
+        }
     }
 
-    var length = node.path.length;
-    var field = node.path[length-1];
-
-    if(isTagLay(node.path)){
-        var itemsTmp  = new Array();
-        for (var i = 0;  i < items.length; i++) {
-            var text = items[i]['text'];
-            if (text=='插入' && field=='add_item_click_before_icon') {
-                // console.log(items[i]['submenu']);
-                for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
-                    if (items[i]['submenu'][j]['text'] == 'controller') {
-                        itemsTmp.push(items[i]['submenu'][j]);
-                    }
-                }
-            } else if (text=='复制') {
-                itemsTmp.push(items[i]);
-            }
+    // console.log($(".jsoneditor-expandable.jsoneditor-highlight").text());
+    // console.log(node);
+    // console.log(controller);
+    // console.log(editor.getSelection());
+    // controllers{0}
+    // action{4}inputs{3}body_params{1}in_str{5}path_params{1}in_str{5}query_params{1}in_str{5}outputs{3}data{0}
+    if (node.path === null) {
+        var selected = $(".jsoneditor-expandable.jsoneditor-highlight").text();
+        $(".jsoneditor-expandable.jsoneditor-highlight").next().children(".jsoneditor-contextmenu").show();
+        if (selected === 'controllers{0}') {
+            return controller;
+        } else if (selected === 'actions{0}') {
+            return action;
+        } else if (selected === 'body_params{0}') {
+            return in_str;
+        } else if (selected === 'path_params{0}') {
+            return in_str;
+        } else if (selected === 'query_params{0}') {
+            return in_str;
+        } else if (selected === 'data{0}') {
+            return data;
+        } else {
+            return data;
         }
-
-        itemsTmp.push( {
-            text : '删除', // the text for the menu item
-            title : 'jsoneditor-remove', // the HTML title attribute
-            className : 'jsoneditor-remove', // the css class name(s) for the menu item
-            click : function(){
-                var jsonData = editor.get();
-                var path = node.path;
-                if (field=='add_item_click_before_icon') {
-                    alert('add_item_click_before_icon不能被删除');
-                } else {
-                    delete(jsonData[path[0]][path[1]]);
-                    editor.update(jsonData);
-                }
-            }
-        } );
-        return itemsTmp;
-    } else if(isPathLay(node.path)){
-        var itemsTmp  = new Array();
-        for (var i = 0;  i < items.length; i++) {
-            var text = items[i]['text'];
-            if (text=='插入' && field=='add_item_click_before_icon') {
-                // console.log(items[i]['submenu']);
-                for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
-                    if (items[i]['submenu'][j]['text'] == 'action') {
-                        itemsTmp.push(items[i]['submenu'][j]);
-                    }
-                }
-            } else if (text=='复制') {
-                itemsTmp.push(items[i]);
-            }
-        }
-
-        itemsTmp.push( {
-            text : '删除', // the text for the menu item
-            title : 'jsoneditor-remove', // the HTML title attribute
-            className : 'jsoneditor-remove', // the css class name(s) for the menu item
-            click : function(){
-                var jsonData = editor.get();
-                var path = node.path;
-                if (field=='add_item_click_before_icon') {
-                    alert('add_item_click_before_icon不能被删除');
-                } else {
-                    delete(jsonData[path[0]][path[1]][path[2]][path[3]]);
-                    editor.update(jsonData);
-                }
-            }
-        } );
-
-
-        return itemsTmp;
-    } else if(isInputLay(node.path)){
-        var itemsTmp  = new Array();
-        for (var i = 0;  i < items.length; i++) {
-            var text = items[i]['text'];
-            if (text=='插入' && field=='add_item_click_before_icon') {
-                // console.log(items[i]['submenu']);
-                for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
-                    if (items[i]['submenu'][j]['text'] == 'in_str') {
-                        itemsTmp.push(items[i]['submenu'][j]);
-                    }
-                }
-            } else if (text=='复制') {
-                itemsTmp.push(items[i]);
-            }
-        }
-
-        itemsTmp.push( {
-            text : '删除', // the text for the menu item
-            title : 'jsoneditor-remove', // the HTML title attribute
-            className : 'jsoneditor-remove', // the css class name(s) for the menu item
-            click : function(){
-                var jsonData = editor.get();
-                var path = node.path;
-                if (field=='add_item_click_before_icon') {
-                    alert('add_item_click_before_icon不能被删除');
-                } else {
-                    delete(jsonData[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]][path[6]]);
-                    editor.update(jsonData);
-                }
-            }
-        } );
-
-
-        return itemsTmp;
-    } else if(isOutputLay(node.path)){
-        var itemsTmp  = new Array();
-        for (var i = 0;  i < items.length; i++) {
-            var text = items[i]['text'];
-            if (text=='插入' && field=='add_item_click_before_icon') {
-                // console.log(items[i]['submenu']);
-                for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
-                    if (items[i]['submenu'][j]['text'] == 'out_str') {
-                        itemsTmp.push(items[i]['submenu'][j]);
-                    }
-                }
-            } else if (text=='复制') {
-                itemsTmp.push(items[i]);
-            }
-        }
-
-        itemsTmp.push( {
-            text : '删除', // the text for the menu item
-            title : 'jsoneditor-remove', // the HTML title attribute
-            className : 'jsoneditor-remove', // the css class name(s) for the menu item
-            click : function(){
-                var jsonData = editor.get();
-                var path = node.path;
-                if (field=='add_item_click_before_icon') {
-                    alert('add_item_click_before_icon不能被删除');
-                } else {
-                    delete(jsonData[path[0]][path[1]][path[2]][path[3]][path[4]][path[5]]);
-                    editor.update(jsonData);
-                }
-            }
-        } );
-
-
-        return itemsTmp;
     } else {
-        return [];
+        if(isController(node.path)){
+            controller.push(del);
+            controller.push(cp);
+            return controller;
+        } else if(isActionLay(node.path)){
+            action.push(del);
+            action.push(cp);
+            return action;
+        } else if(isInputLay(node.path)){
+            in_str.push(del);
+            in_str.push(cp);
+            return in_str;
+        } else if(isDataLay(node.path)){
+            data.push(del);
+            data.push(cp);
+            return data;
+        }
     }
 }
 
@@ -333,13 +168,13 @@ var onEditable = function(node) {
         if (unEditable.indexOf(path) > -1) {
             return false;
         } else {
-            if(isTagLay(node.path)){
+            if(isController(node.path)){
                 return true;
-            } else if(isPathLay(node.path)){
+            } else if(isActionLay(node.path)){
                 return true;
             } else if(isInputLay(node.path)){
                 return true;
-            } else if(isOutputLay(node.path)){
+            } else if(isDataLay(node.path)){
                 return true;
             } else {
                 return {
@@ -356,4 +191,10 @@ var onEditable = function(node) {
 var onModeChange = function(newMode, oldMode) {
     window.jsoneditorOldJson = editor.get();
     // console.log(window.jsoneditorOldJson);
+}
+
+var onSelectionChange = function(start, end) {
+    // console.log(start);
+    // console.log(end);
+    // console.log(node.getSelection());
 }

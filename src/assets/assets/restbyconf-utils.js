@@ -28,18 +28,13 @@ var adjustBackground = function() {
 }
 
 var showContextmenu = function() {
-    $(".jsoneditor-field[title=restbyconf-obj-controller]").each(function(){
-        $(this).parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    });
-    $(".jsoneditor-field[title=restbyconf-obj-action]").each(function(){
-        $(this).parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    });
-    $(".jsoneditor-field[title=restbyconf-obj-input]").each(function(){
-        $(this).parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    });
-    $(".jsoneditor-field[title=restbyconf-obj-output]").each(function(){
-        $(this).parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    });
+
+    $(".jsoneditor-field[title=restbyconf-obj-controller]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
+    $(".jsoneditor-field[title=restbyconf-obj-action]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
+    $(".jsoneditor-field[title=restbyconf-obj-input]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
+    $(".restbyconf-outputs-data").parents('tr').find('.jsoneditor-contextmenu').show();
+    // (清空 object)
+    $(".jsoneditor-append .jsoneditor-readonly").parents('.jsoneditor-append').find('.jsoneditor-contextmenu').show();
 }
 
 var isTagLay = function(path) {
@@ -50,7 +45,15 @@ var isTagLay = function(path) {
     }
 }
 
-var isPathLay = function(path) {
+var isController = function(path) {
+    if (path.length == 2 && path[0] == 'controllers') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+var isActionLay = function(path) {
     if (path.length == 4 && path[0] == 'controllers' && path[2] == 'actions') {
         return true;
     } else {
@@ -74,6 +77,14 @@ var isOutputLay = function(path) {
     }
 }
 
+var isDataLay = function(path) {
+    if (path.length > 6 && path[0] == 'controllers' && path[2] == 'actions' && path[4] == 'outputs') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 var isParamLay = function(path) {
     if (path.length == 6 && path[0] == 'controllers' && path[2] == 'actions' && path[4] == 'inputs') {
         return true;
@@ -90,6 +101,14 @@ var isInTag = function(path) {
     }
 }
 
+var isControllers = function(path) {
+    if (path.length == 1 && path[0] == 'controllers') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 var isChild = function(parent, child) {
     var childArray = child.split('-');
     var childArrayLen = childArray.length;
@@ -99,6 +118,24 @@ var isChild = function(parent, child) {
     } else {
         return false;
     }
+}
+
+var restMove = function(){
+  var history = editor.history.history;
+  var last = history[history.length -1];
+
+  if (last != undefined) {
+      if (last.action == 'moveNodes') {
+          var oldParentPath = editor.node.findNodeByInternalPath(last.params.oldParentPath).getPath();
+          var newParentPath = editor.node.findNodeByInternalPath(last.params.newParentPath).getPath();
+          var oldParentPathStr = oldParentPath.toString();
+          var newParentPathStr = newParentPath.toString();
+
+          if (oldParentPathStr !== newParentPathStr) {
+              editor.history.undo();
+          }
+      }
+  }
 }
 
 var isJumpLay = function(json) {
@@ -231,7 +268,7 @@ var isJumpLay = function(json) {
     }
 
 
-/*    
+    /*    
 
     for(var i1 in json) {//第一层不会用带node_id的节点
         if (gettype.call(json[i1]) == '[object Object]') {
@@ -326,7 +363,7 @@ var isJumpLay = function(json) {
         }
     }
 
-*/
+    */
 
     return false;
 }
@@ -345,6 +382,18 @@ var getChangeData = function(){
     }
 }
 
+var getChangeDataNew = function(){
+    showContextmenu();
+    adjustBackground();
+    restMove();
+
+    var json = editor.get();
+    var restbyconfData = {};
+    restbyconfData.json = json;
+    restbyconfData.schemaRefs = editor.options.schemaRefs;
+    document.getElementById("generator-conf").value = JSON.stringify(restbyconfData);// the options
+}
+
 var sleep = function(numberMillis) {
   var now = new Date();
   var exitTime = now.getTime() + numberMillis;
@@ -358,12 +407,10 @@ var sleep = function(numberMillis) {
 var add_item_click_before_iconChildren = function(node) {
     //if(arr.indexOf(某元素) > -1){//则包含该元素}
     var path = node.path
-    if (path.indexOf('add_item_click_before_icon') > -1) {
-        if (node.field == 'add_item_click_before_icon') {
-            return false;
-        } else {
-            return true;
-        }
+    var pathPre = path;
+    delete(pathPre[pathPre.length-1]);
+    if (pathPre.indexOf('add_item_click_before_icon') > -1) {
+        return true;
     } else {
         return false;
     }

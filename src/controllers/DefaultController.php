@@ -126,31 +126,25 @@ class DefaultController extends Controller
                 $outputParams = [];
                 $path_outputs = $v1['outputs'];
                 $path_outputs = ApiHelper::rmNode($path_outputs);
-                $schema = [];
-                foreach ($path_outputs as $k2 => $v2) {
-                    $schema[$k2] = [
-                        'description' => $v2['des'],
-                        'type' => 'string',
-                        'example' => $v2['eg'],
-                    ];
-                }
+
+                // $dataStr = json_encode($path_outputs);
+                $dataStr = json_encode($path_outputs, JSON_PRETTY_PRINT);
+
                 $outputParams['200'] = [
                     'description' => 'outputs',
-                    'schema' => [
-                        'title' => sprintf('outputs(%s /%s%s/%s?', $v1['method'], $k, $pathTag, $k1),
-                        "type" => "object",
-                        "properties" => $schema,
-                    ],
+                    'type' => 'string',
+                    'example' => $dataStr,
                 ];
 
                 // var_dump($inputParams);exit;
 
                 // $pathName = '/demo/{id}';
                 $pathName = sprintf('/%s%s/%s', $k, $pathTag, $k1);
+                // var_dump($pathName);exit;
                 $path[$v1['method']] = [
                     'tags' => [$k],
                     'description' => $v['description'],
-                    'operationId' => $k . ' '. $pathName,
+                    'operationId' => $k . ''. str_replace('/', '-', str_replace('}', '', str_replace('{', '', $pathName))),
                     'parameters' => $inputParams,
                     'responses' => $outputParams,
                 ];
@@ -194,6 +188,140 @@ class DefaultController extends Controller
      */
     public function actionMarkdown()
     {
-        return $this->render('markdown');
+
+        $swaggerData = ApiHelper::getApiConf();
+        $json = json_decode($swaggerData, true)['json'];
+        $oldcontrollers = $json['controllers'];
+        $oldcontrollers = ApiHelper::rmNode($json['controllers']);
+
+        $info = '';
+        $table = '';
+        $content = '';
+
+        $info .= sprintf("# 1. %s \n", $json['info']['title']);
+        $info .= sprintf("* %s \n", $json['info']['description']);
+        $info .= sprintf("------ \n");
+
+        $info .= sprintf("> * version:%s \n", $json['info']['version']);
+        $info .= sprintf("> * email:%s \n", $json['info']['contact']['email']);
+        $info .= sprintf("> * license:[%s](%s) \n\n", $json['info']['license']['name'], $json['info']['license']['url']);
+        $info .= sprintf("****** \n");
+
+        $table .= sprintf("\n## 1.1. Table \n");
+        $content .= sprintf("\n## 1.2. Content \n");
+
+        // var_dump($oldcontrollers);exit;
+        $i = 0;
+        foreach ($oldcontrollers as $oldcontroller => $oldcontrollerV) {
+            $i += 1;
+            $table .= sprintf("- [1.2.%s. %s](#1.2.%s) \n", $i, $oldcontroller, $i);
+
+            $content .= sprintf("### 1.2.%s. %s \n", $i, $oldcontroller);
+            $content .= sprintf("> [Go table](#1.1) \n\n");
+            $content .= sprintf("%s \n", $oldcontrollerV['description']);
+
+            $j = 0;
+            foreach ($oldcontrollerV['actions'] as $action => $actionsV) {
+                $j += 1;
+                $table .= sprintf("    - [1.2.%s.%s. %s](#1.2.%s.%s) \n", $i, $j, $action, $i, $j);
+
+                $content .= sprintf("#### 1.2.%s.%s. %s \n", $i, $j, $action);
+                $content .= sprintf("> [Go table](#1.1) \n\n");
+                $content .= sprintf("&nbsp;`Basic info` \n\n");
+                $content .= sprintf("| Items | Detail | \n");
+                $content .= sprintf("|-------|:---------:| \n");
+                $content .= sprintf("| Des | %s | \n", $actionsV['description']);
+                $content .= sprintf("| Method | %s | \n", strtoupper($actionsV['method']));
+                $content .= sprintf("| Uri | %s/%s | \n", $json['basePath'], $action);
+                $content .= sprintf("| ContentType | application/json | \n");
+                $content .= sprintf("\n");
+
+                $content .= sprintf("&nbsp; \n\n`Inputs` \n\n");
+                if (count($actionsV['inputs']['body_params'])) {
+                    $content .= sprintf("&nbsp; \n\n");
+                    $content .= sprintf("***Body params*** \n\n");
+                    $content .= sprintf("| Name | Des | Required | Eg | Rules | Rrror msg | \n");
+                    $content .= sprintf("|-|:-:|:-:|:-:|:-:|:-:| \n");
+                    foreach ($actionsV['inputs']['body_params'] as $k => $v) {
+                        $content .= sprintf("| %s | %s | %s | %s | %s | %s | \n",
+                            $k,
+                            $v['des'],
+                            intval($v['required']),
+                            $v['eg'],
+                            $v['rules'],
+                            $v['error_msg']
+                        );
+                    }
+                    $content .= sprintf("\n");
+                }
+                if (count($actionsV['inputs']['path_params'])) {
+                    $content .= sprintf("&nbsp; \n\n");
+                    $content .= sprintf("***Path params*** \n\n");
+                    $content .= sprintf("| Name | Des | Required | Eg | Rules | Rrror msg | \n");
+                    $content .= sprintf("|-|:-:|:-:|:-:|:-:|:-:| \n");
+                    foreach ($actionsV['inputs']['body_params'] as $k => $v) {
+                        $content .= sprintf("| %s | %s | %s | %s | %s | %s | \n",
+                            $k,
+                            $v['des'],
+                            intval($v['required']),
+                            $v['eg'],
+                            $v['rules'],
+                            $v['error_msg']
+                        );
+                    }
+                    $content .= sprintf("\n");
+                }
+                if (count($actionsV['inputs']['query_params'])) {
+                    $content .= sprintf("&nbsp; \n\n");
+                    $content .= sprintf("***Query params*** \n\n");
+                    $content .= sprintf("| Name | Des | Required | Eg | Rules | Rrror msg | \n");
+                    $content .= sprintf("|-|:-:|:-:|:-:|:-:|:-:| \n");
+                    foreach ($actionsV['inputs']['body_params'] as $k => $v) {
+                        $content .= sprintf("| %s | %s | %s | %s | %s | %s | \n",
+                            $k,
+                            $v['des'],
+                            intval($v['required']),
+                            $v['eg'],
+                            $v['rules'],
+                            $v['error_msg']
+                        );
+                    }
+                    $content .= sprintf("\n");
+                }
+
+                $content .= sprintf("&nbsp; \n\n`Outputs` \n\n");
+                $content .= sprintf("``` \n");
+                $content .= sprintf("%s \n", json_encode($actionsV['outputs'], JSON_PRETTY_PRINT));
+                $content .= sprintf("``` \n");
+                $content .= sprintf("\n");
+            }
+        }
+
+
+        $markdown = $info . $table . $content;
+
+
+// var_dump($markdown);exit;
+        $markdownHtml = \yii\helpers\Markdown::process($markdown);
+        $markdownHtml = \yii\helpers\Markdown::process($markdown,'gfm');
+
+        $style = <<<style
+        <style>
+            table {
+                border: 1px solid #ddd;
+                width: 100%;
+            }
+            table>tbody>tr>td, table>tbody>tr>th, table>tfoot>tr>td, table>tfoot>tr>th, table>thead>tr>td, table>thead>tr>th{
+                border: 1px solid #ddd;
+                padding: 8px;
+                line-height: 1.42857143;
+                vertical-align: top;
+            }
+        </style>
+
+style;
+        $markdownHtml = $markdownHtml . $style;
+
+        return $this->render('markdown', ['markdownHtml' => $markdownHtml]);
     }
 }

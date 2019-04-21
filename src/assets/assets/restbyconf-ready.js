@@ -42,24 +42,10 @@ window.jsoneditorOldJson = {
                                 "eg": "myzero1",
                                 "rules": "^\\w{1,32}$",
                                 "error_msg": "You should input a-z,A-Z,0-9"
-                            },
-                            "add_item_click_before_icon": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
                             }
                         },
                         "path_params": {
                             "in_str": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
-                            },
-                            "add_item_click_before_icon": {
                                 "des": "user name",
                                 "required": false,
                                 "eg": "myzero1",
@@ -74,158 +60,13 @@ window.jsoneditorOldJson = {
                                 "eg": "myzero1",
                                 "rules": "^\\w{1,32}$",
                                 "error_msg": "You should input a-z,A-Z,0-9"
-                            },
-                            "add_item_click_before_icon": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
                             }
                         }
                     },
                     "outputs": {
-                        "out_str": {
-                            "des": "user name",
-                            "eg": "myzero1"
-                        },
-                        "add_item_click_before_icon": {
-                            "des": "user name",
-                            "eg": "myzero1"
-                        }
-                    }
-                },
-                "add_item_click_before_icon": {
-                    "description": "create",
-                    "method": "post",
-                    "inputs": {
-                        "body_params": {
-                            "in_str": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
-                            },
-                            "add_item_click_before_icon": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
-                            }
-                        },
-                        "path_params": {
-                            "in_str": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
-                            },
-                            "add_item_click_before_icon": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
-                            }
-                        },
-                        "query_params": {
-                            "in_str": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
-                            },
-                            "add_item_click_before_icon": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
-                            }
-                        }
-                    },
-                    "outputs": {
-                        "out_str": {
-                            "des": "user name",
-                            "eg": "myzero1"
-                        },
-                        "add_item_click_before_icon": {
-                            "des": "user name",
-                            "eg": "myzero1"
-                        }
-                    }
-                }
-            }
-        },
-        "add_item_click_before_icon": {
-            "description": "userName",
-            "actions": {
-                "add_item_click_before_icon": {
-                    "description": "create",
-                    "method": "post",
-                    "inputs": {
-                        "body_params": {
-                            "in_str": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
-                            },
-                            "add_item_click_before_icon": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
-                            }
-                        },
-                        "path_params": {
-                            "in_str": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
-                            },
-                            "add_item_click_before_icon": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
-                            }
-                        },
-                        "query_params": {
-                            "in_str": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
-                            },
-                            "add_item_click_before_icon": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
-                            }
-                        }
-                    },
-                    "outputs": {
-                        "out_str": {
-                            "des": "user name",
-                            "eg": "myzero1"
-                        },
-                        "add_item_click_before_icon": {
-                            "des": "user name",
-                            "eg": "myzero1"
-                        }
+                        "code": 200,
+                        "msg": "msg",
+                        "data": {}
                     }
                 }
             }
@@ -253,24 +94,10 @@ var templates = [
                                   "eg": "myzero1",
                                   "rules": "^\\w{1,32}$",
                                   "error_msg": "You should input a-z,A-Z,0-9"
-                              },
-                              "add_item_click_before_icon": {
-                                  "des": "user name",
-                                  "required": false,
-                                  "eg": "myzero1",
-                                  "rules": "^\\w{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
                               }
                           },
                           "path_params": {
                               "in_str": {
-                                  "des": "user name",
-                                  "required": false,
-                                  "eg": "myzero1",
-                                  "rules": "^\\w{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
-                              },
-                              "add_item_click_before_icon": {
                                   "des": "user name",
                                   "required": false,
                                   "eg": "myzero1",
@@ -285,25 +112,13 @@ var templates = [
                                   "eg": "myzero1",
                                   "rules": "^\\w{1,32}$",
                                   "error_msg": "You should input a-z,A-Z,0-9"
-                              },
-                              "add_item_click_before_icon": {
-                                  "des": "user name",
-                                  "required": false,
-                                  "eg": "myzero1",
-                                  "rules": "^\\w{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
                               }
                           }
                       },
                       "outputs": {
-                          "out_str": {
-                              "des": "user name",
-                              "eg": "myzero1"
-                          },
-                          "add_item_click_before_icon": {
-                              "des": "user name",
-                              "eg": "myzero1"
-                          }
+                          "code": 200,
+                          "msg": "msg",
+                          "data": {}
                       }
                   }
               }
@@ -325,24 +140,10 @@ var templates = [
                           "eg": "myzero1",
                           "rules": "^\\w{1,32}$",
                           "error_msg": "You should input a-z,A-Z,0-9"
-                      },
-                      "add_item_click_before_icon": {
-                          "des": "user name",
-                          "required": false,
-                          "eg": "myzero1",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
                       }
                   },
                   "path_params": {
                       "in_str": {
-                          "des": "user name",
-                          "required": false,
-                          "eg": "myzero1",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
-                      },
-                      "add_item_click_before_icon": {
                           "des": "user name",
                           "required": false,
                           "eg": "myzero1",
@@ -357,25 +158,13 @@ var templates = [
                           "eg": "myzero1",
                           "rules": "^\\w{1,32}$",
                           "error_msg": "You should input a-z,A-Z,0-9"
-                      },
-                      "add_item_click_before_icon": {
-                          "des": "user name",
-                          "required": false,
-                          "eg": "myzero1",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
                       }
                   }
               },
               "outputs": {
-                  "out_str": {
-                      "des": "user name",
-                      "eg": "myzero1"
-                  },
-                  "add_item_click_before_icon": {
-                      "des": "user name",
-                      "eg": "myzero1"
-                  }
+                  "code": 200,
+                  "msg": "msg",
+                  "data": {}
               }
           }
       },
@@ -391,16 +180,6 @@ var templates = [
               "rules": "^\\w{1,32}$",
               "error_msg": "You should input a-z,A-Z,0-9"
           }
-      },
-      {
-          text: 'out_str',
-          title: 'Insert a CreatePath Node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: '',
-          value: {
-              "des": "user name",
-              "eg": "myzero1"
-          }
       }
   ];
 
@@ -413,7 +192,7 @@ var schemas = {
             "swagger": {
                 "title": "swagger version",
                 "description": "It can not edit.",
-                "type": "string",
+                "type": ["number","string"],
                 "examples": [
                     "2.0"
                 ]
@@ -431,7 +210,7 @@ var schemas = {
                 ],
                 "properties": {
                     "description": {
-                        "type": "string",
+                        "type": ["number","string"],
                         "minLength": 1,
                         "maxLength": 512,
                         "examples": [
@@ -440,7 +219,7 @@ var schemas = {
                     },
                     "version": {
                         "title": "The api version",
-                        "type": "string",
+                        "type": ["number","string"],
                         "minLength": 1,
                         "maxLength": 32,
                         "pattern": "^[0-9][0-9.]{0,}[0-9]$",
@@ -451,7 +230,7 @@ var schemas = {
                     },
                     "title": {
                       "title": "Api title",
-                      "type": "string",
+                      "type": ["number","string"],
                       "minLength": 1,
                       "maxLength": 32,
                       "examples": [
@@ -461,7 +240,7 @@ var schemas = {
                     },
                     "termsOfService": {
                       "title": "The terms of service",
-                      "type": "string",
+                      "type": ["number","string"],
                       "minLength": 1,
                       "maxLength": 128,
                       "examples": [
@@ -479,7 +258,7 @@ var schemas = {
                           "email": {
                               "title": "email",
                               "description": "The contact email",
-                              "type": "string",
+                              "type": ["number","string"],
                               "format": "email",
                               "examples": [
                                 "myzero1@sina.com",
@@ -497,7 +276,7 @@ var schemas = {
                       ],
                       "properties": {
                           "name": {
-                              "type": "string",
+                              "type": ["number","string"],
                               "minLength": 1,
                               "maxLength": 32,
                               "examples": [
@@ -505,7 +284,7 @@ var schemas = {
                               ]
                           },
                           "url": {
-                              "type": "string",
+                              "type": ["number","string"],
                               "minLength": 1,
                               "maxLength": 64,
                               "pattern": "[a-zA-z]+://[^\\s]*",
@@ -518,7 +297,7 @@ var schemas = {
                 }
             },
             "host": {
-                "type": "string",
+                "type": ["number","string"],
                 "minLength": 1,
                 "maxLength": 32,
                 "format": "hostname",
@@ -528,7 +307,7 @@ var schemas = {
                 ]
             },
             "basePath": {
-                "type": "string",
+                "type": ["number","string"],
                 "minLength": 1,
                 "maxLength": 32,
                 "pattern": "^/",
@@ -546,7 +325,7 @@ var schemas = {
                 ],
                 "properties": {
                     "description": {
-                        "type": "string",
+                        "type": ["number","string"],
                         "minLength": 1,
                         "maxLength": 32,
                         "examples": [
@@ -554,7 +333,7 @@ var schemas = {
                         ]
                     },
                     "url": {
-                        "type": "string",
+                        "type": ["number","string"],
                         "minLength": 1,
                         "maxLength": 64,
                         "pattern": "[a-zA-z]+://[^\\s]*",
@@ -587,7 +366,7 @@ var schemas = {
                       ],
                       "properties": {
                           "type": {
-                              "type": "string",
+                              "type": ["number","string"],
                               "minLength": 1,
                               "maxLength": 32,
                               "examples": [
@@ -595,7 +374,7 @@ var schemas = {
                               ]
                           },
                           "in": {
-                              "type": "string",
+                              "type": ["number","string"],
                               "minLength": 1,
                               "maxLength": 32,
                                 "examples": [
@@ -603,7 +382,7 @@ var schemas = {
                                 ]
                           },
                           "name": {
-                                "type": "string",
+                                "type": ["number","string"],
                                 "minLength": 1,
                                 "maxLength": 32,
                                 "examples": [
@@ -626,9 +405,6 @@ var schemas = {
         "properties": {
             "controller": {
                 "$ref": "controller"
-            },
-            "add_item_click_before_icon": {
-                "$ref": "controller"
             }
         }
     },
@@ -638,7 +414,7 @@ var schemas = {
         "required": ["description", "actions"],
         "properties": {
             "description": {
-                "type": "string",
+                "type": ["number","string"],
                 "minLength": 1,
                 "maxLength": 32,
                 "examples": [
@@ -658,9 +434,6 @@ var schemas = {
         "properties": {
             "action": {
                 "$ref": "action"
-            },
-            "add_item_click_before_icon": {
-                "$ref": "action"
             }
         }
     },
@@ -670,7 +443,7 @@ var schemas = {
         "required": [],
         "properties": {
             "description": {
-                "type": "string",
+                "type": ["number","string"],
                 "minLength": 1,
                 "maxLength": 32,
                 "examples": [
@@ -700,16 +473,16 @@ var schemas = {
     "inputs": {
         "title": "restbyconf-obj-inputs",
         "type": "object",
-        "required": [],
+        "required": ["body_params","path_params","query_params"],
         "properties": {
+            "query_params": {
+                "$ref": "query_params"
+            },
             "body_params": {
                 "$ref": "body_params"
             },
             "path_params": {
                 "$ref": "path_params"
-            },
-            "query_params": {
-                "$ref": "query_params"
             }
         }
     },
@@ -719,9 +492,6 @@ var schemas = {
         "required": [],
         "properties": {
             "in_str": {
-                "$ref": "in_str"
-            },
-            "add_item_click_before_icon": {
                 "$ref": "in_str"
             }
         }
@@ -733,9 +503,6 @@ var schemas = {
         "properties": {
             "in_str": {
                 "$ref": "in_str"
-            },
-            "add_item_click_before_icon": {
-                "$ref": "in_str"
             }
         }
     },
@@ -746,16 +513,13 @@ var schemas = {
         "properties": {
             "in_str": {
                 "$ref": "in_str"
-            },
-            "add_item_click_before_icon": {
-                "$ref": "in_str"
             }
         }
     },
     "in_str": {
         "title": "restbyconf-obj-input",
         "type": "object",
-        "required": ["des"],
+        "required": ["des","required","eg","rules","error_msg"],
         "properties": {
             "des": {
                 "type": ["string", "number"],
@@ -769,13 +533,6 @@ var schemas = {
                 "type": "boolean",
                 "default": false
             },
-            "type": {
-                "enum": [
-                    "path",
-                    "query",
-                    "body"
-                ],
-            },
             "eg": {
                 "type": ["string", "number"],
                 "minLength": 1,
@@ -785,7 +542,7 @@ var schemas = {
                 ],
             },
             "rules": {
-                "type": "string",
+                "type": ["number","string"],
                 "minLength": 1,
                 "maxLength": 32,
                 "examples": [
@@ -793,7 +550,7 @@ var schemas = {
                 ],
             },
             "error_msg": {
-                "type": "string",
+                "type": ["number","string"],
                 "minLength": 1,
                 "maxLength": 64,
                 "examples": [
@@ -805,35 +562,26 @@ var schemas = {
     "outputs": {
         "title": "restbyconf-obj-outputs",
         "type": "object",
-        "required": [],
+        "required": ["code","msg","data"],
         "properties": {
-            "out_str": {
-                "$ref": "out_str"
-            },
-            "add_item_click_before_icon": {
-                "$ref": "out_str"
-            }
-        }
-    },
-    "out_str": {
-        "title": "restbyconf-obj-output",
-        "type": "object",
-        "required": ["eg"],
-        "properties": {
-            "des": {
-                "type": ["string", "number"],
+            "code": {
+                "type": ["number","string"],
+                "minLength": 1,
                 "maxLength": 32,
                 "examples": [
-                    "user name"
+                    "200 success"
                 ],
             },
-            "eg": {
-                "type": ["string", "number"],
+            "msg": {
+                "type": ["string"],
                 "minLength": 1,
                 "maxLength": 64,
                 "examples": [
                     "myzero1"
                 ],
+            },
+            "data": {
+                "type": "object"
             }
         }
     }
