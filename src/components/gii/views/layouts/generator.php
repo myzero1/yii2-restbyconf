@@ -13,6 +13,13 @@ $activeGenerator = Yii::$app->controller->generator;
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12">
         <br>
+        <?= $content ?>
+        <br>
+        <br>
+        <br>
+        <hr>
+        <h1>Gii menu</h1>
+        <br/>
         <div class="list-group">
             <?php
             $classes = ['list-group-item', 'd-flex', 'justify-content-between', 'align-items-center'];
@@ -24,20 +31,7 @@ $activeGenerator = Yii::$app->controller->generator;
             }
             ?>
         </div>
-
-        <?= $content ?>
     </div>
 </div>
 
-<style type="text/css">
-    .list-group{
-        overflow: hidden;
-    }
-    .list-group-item{
-        float: left;
-    }
-    .list-group-item{
-        border-radius: 0 !important;
-    }
-</style>
 <?php $this->endContent(); ?>
