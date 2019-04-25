@@ -91,10 +91,17 @@ class <?=$actionClass?> implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            // $in2dbData = $this->mappingInput2db($validatedInput);
-            // $completedData = $this->completeData($in2dbData);
-            // $handledData = $this->handling($completedData);
-            // $db2outData = $this->mappingDb2output($handledData);
+            /*
+            $in2dbData = $this->mappingInput2db($validatedInput);
+            $completedData = $this->completeData($in2dbData);
+            $handledData = $this->handling($completedData);
+
+            if (Helper::isReturning($handledData)) {
+                return $handledData;
+            }
+            
+            $db2outData = $this->mappingDb2output($handledData);
+            */
             $db2outData = $this->egOutputData();// for demo
             $result = $this->completeResult($db2outData);
             return $result;
@@ -151,7 +158,10 @@ class <?=$actionClass?> implements ApiActionProcessing
             ];
         }
 
-        return array_merge($modelGet->attributes, $modelPost->attributes);
+        $getAttributes = array_filter($modelGet->attributes);
+        $postAttributes = array_filter($modelPost->attributes);
+
+        return array_merge($postAttributes, $getAttributes);
     }
 
     /**
