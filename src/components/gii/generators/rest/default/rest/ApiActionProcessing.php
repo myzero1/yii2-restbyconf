@@ -82,7 +82,7 @@ class <?=$actionClass?> implements ApiActionProcessing
      * @throws ServerErrorHttpException
      * @throws \yii\base\InvalidConfigException
      */
-    public function processing($id=null)
+    public function processing($params = null)
     {
         // the path and query params will geted by queryParams,and the path params will rewrite the query params.
         $input['get'] = Yii::$app->request->queryParams;
@@ -214,7 +214,7 @@ class <?=$actionClass?> implements ApiActionProcessing
      * @param  array $extra
      * @return array
      */
-    public function completeResult($db2outData=[], $extra = [])
+    public function completeResult($db2outData = [], $extra = [])
     {
         $result = [
             'code' => ApiCodeMsg::SUCCESS,
