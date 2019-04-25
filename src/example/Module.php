@@ -23,7 +23,7 @@ class Module extends BaseModule implements BootstrapInterface
     public function bootstrap($app)
     {
         if ($app instanceof \yii\web\Application) {
-            $apiUrlRules = ApiHelper::getApiUrlRules();
+            $apiUrlRules = require Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/example/apiUrlRules.php');
             $app->getUrlManager()->addRules($apiUrlRules, false);
         }
     }
