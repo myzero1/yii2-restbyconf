@@ -77,7 +77,7 @@ use myzero1\restbyconf\components\rest\ApiActionProcessing;
 class <?=$actionClass?> implements ApiActionProcessing
 {
     /**
-     * @param $id mixed
+     * @param $params mixed
      * @return array date will return to create action.
      * @throws ServerErrorHttpException
      * @throws \yii\base\InvalidConfigException
