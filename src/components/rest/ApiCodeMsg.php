@@ -2,7 +2,7 @@
 
 namespace myzero1\restbyconf\components\rest;
 
-class CodeMsg
+class ApiApiCodeMsg
 {
     const SUCCESS = 200;
     const SUCCESS_MSG = '成功';

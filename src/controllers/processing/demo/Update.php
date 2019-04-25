@@ -11,7 +11,7 @@ use Yii;
 use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
-use myzero1\restbyconf\components\rest\CodeMsg;
+use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\UpdateProcessing;
 use myzero1\restbyconf\models\Demo as Model;
 
@@ -69,7 +69,7 @@ class Update implements UpdateProcessing
         } else {
             $errors = $model->errors;
             return [
-                'code' => CodeMsg::CLIENT_ERROR,
+                'code' => ApiCodeMsg::CLIENT_ERROR,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
@@ -147,8 +147,8 @@ class Update implements UpdateProcessing
     public function completeResult($db2outData)
     {
         $result = [
-            'code' => CodeMsg::SUCCESS,
-            'msg' => CodeMsg::SUCCESS_MSG,
+            'code' => ApiCodeMsg::SUCCESS,
+            'msg' => ApiCodeMsg::SUCCESS_MSG,
             'data' => $db2outData,
         ];
 

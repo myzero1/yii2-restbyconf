@@ -146,26 +146,6 @@ EOD;
             $this->conf
         );
 
-        /*
-        [
-            'api/project-team' => [
-                'class' => 'yii\rest\UrlRule',
-                'controller' => ['api/project-team'],
-                'pluralize' => false  //不在url链接中的project-team后加s 复数
-            ],
-            'api/user' => [
-                'controller' => ['api/user'],
-                'class' => 'yii\rest\UrlRule',
-                'pluralize' => false,
-                'extraPatterns' => [
-                    'POST,OPTIONS login' => 'login',
-                    'GET,OPTIONS  reg' => 'reg'
-                ],
-            ],
-        ],
-
-        */
-
         $confAarray = $this->confAarray;
         $controllers = $confAarray['json']['controllers'];
         $controllers = ApiHelper::rmNode($controllers);
@@ -260,13 +240,6 @@ EOD;
             }
 
         }
-        // var_dump($conf['json']['controllers']);exit;
-
-        $files[] = new CodeFile(
-            $modulePath . '/controllers/DefaultController.php',
-            $this->render("controller.php")
-        );
-
 
         return $files;
     }

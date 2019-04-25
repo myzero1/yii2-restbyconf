@@ -12,7 +12,7 @@ use Yii;
 use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
-use myzero1\restbyconf\components\rest\CodeMsg;
+use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ViewProcessing;
 use myzero1\restbyconf\models\Demo as Model;
 
@@ -66,8 +66,8 @@ class View implements ViewProcessing
     public function completeResult($db2outData)
     {
         $result = [
-            'code' => CodeMsg::SUCCESS,
-            'msg' => CodeMsg::SUCCESS_MSG,
+            'code' => ApiCodeMsg::SUCCESS,
+            'msg' => ApiCodeMsg::SUCCESS_MSG,
             'data' => $db2outData,
         ];
 

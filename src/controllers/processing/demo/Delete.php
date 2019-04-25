@@ -11,7 +11,7 @@ use Yii;
 use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
-use myzero1\restbyconf\components\rest\CodeMsg;
+use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\DeleteProcessing;
 use myzero1\restbyconf\models\Demo as Model;
 
@@ -51,8 +51,8 @@ class Delete implements DeleteProcessing
     public function completeResult()
     {
         $result = [
-            'code' => CodeMsg::SUCCESS,
-            'msg' => CodeMsg::SUCCESS_MSG,
+            'code' => ApiCodeMsg::SUCCESS,
+            'msg' => ApiCodeMsg::SUCCESS_MSG,
             'data' => [],
         ];
 
