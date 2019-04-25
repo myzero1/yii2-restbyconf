@@ -8,7 +8,6 @@
 namespace myzero1\restbyconf\components\rest;
 
 use yii\web\ServerErrorHttpException;
-use Yii;
 
 /**
  * Some Helpful function
@@ -18,7 +17,7 @@ use Yii;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class ApiHelper
+class Helper
 {
     public static function response($data, $code = 0, $msg = '')
     {
@@ -73,7 +72,7 @@ class ApiHelper
      */
     public static function db2OutputField($db, $outputFieldMap = [])
     {
-        if (count($outputFieldMap)) {
+        if (count($outputFieldMap) === 0) {
             return $db;
         } else {
             foreach ($db as $k => $v) {
@@ -358,63 +357,5 @@ class ApiHelper
 
             return array_merge($config, $urlRule);
         }
-    }
-
-    /**
-     * @param array $node
-     * @return array
-     */
-    public static function rmNode($node)
-    {
-        $rmNode = ['node_id', 'add_item_click_before_icon'];
-        foreach ($rmNode as $k => $v) {
-            unset($node[$v]);
-        }
-
-        return $node;
-    }
-
-    /**
-     * @return array
-     */
-    public static function getApiConf()
-    {
-        $confDataPathTmp = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/api-conf/conf.json');
-        $confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/conf.json');
-
-        if (is_file($confDataPathTmp)) {
-            $confDataTmp = file_get_contents($confDataPathTmp);
-            if (empty($confDataTmp)) {
-                $confDataInit = file_get_contents($confDataPathDefault);
-            } else {
-                $confDataInit = $confDataTmp;
-            }
-        } else {
-            $confDataInit = file_get_contents($confDataPathDefault);
-        }
-
-        return $confDataInit;
-    }
-
-    /**
-     * @return array
-     */
-    public static function getApiUrlRules()
-    {
-        $confDataPathTmp = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/api-conf/apiUrlRules.php');
-        $confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/apiUrlRules.php');
-
-        if (is_file($confDataPathTmp)) {
-            $confDataTmp = require $confDataPathTmp;
-            if (empty($confDataTmp)) {
-                $confDataInit = require $confDataPathDefault;
-            } else {
-                $confDataInit = $confDataTmp;
-            }
-        } else {
-            $confDataInit = require $confDataPathDefault;
-        }
-
-        return $confDataInit;
     }
 }
