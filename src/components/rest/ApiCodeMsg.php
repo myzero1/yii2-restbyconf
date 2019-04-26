@@ -10,8 +10,6 @@ class ApiCodeMsg
     const CLIENT_ERROR_MSG = '客户端参数错误';
     const SERVER_ERROR = 550;
     const SERVER_ERROR_MSG = '服务器端错误';
-    const UNKNOWN_ERROR= 735;
-    const UNKNOWN_ERROR_MSG = '未知错误';
 
     const CREATE_SUCCESS = 200;
     const CREATE_SUCCESS_MSG = '添加成功';
