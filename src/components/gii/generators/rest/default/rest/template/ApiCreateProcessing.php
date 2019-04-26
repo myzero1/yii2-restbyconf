@@ -145,10 +145,10 @@ class <?=$actionClass?> implements ApiActionProcessing
         }
 
         // post
-        $modelGet = new DynamicModel($inputFields);
+        $modelPost = new DynamicModel($inputFields);
 
-        $modelGet->addRule($inputFields, 'trim');
-        $modelGet->addRule($inputFields, 'safe');
+        $modelPost->addRule($inputFields, 'trim');
+        $modelPost->addRule($inputFields, 'safe');
 
 <?php foreach ($postInputRules as $key => $value) { ?>
         <?=$value."\n"?>
@@ -206,7 +206,7 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $demo = new Demo();// according to the current situation
+        $demo = new \myzero1\restbyconf\example\models\Demo();// according to the current situation
         $demo->load($completedData, '');
 
         $trans = Yii::$app->db->beginTransaction();

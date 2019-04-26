@@ -74,8 +74,8 @@ class Export implements ApiActionProcessing
 
         // get
         $modelGet = new DynamicModel($inputFields);
-        $modelPost->addRule($inputFields, 'trim');
-        $modelPost->addRule($inputFields, 'safe');
+        $modelGet->addRule($inputFields, 'trim');
+        $modelGet->addRule($inputFields, 'safe');
         $modelGet->load($input['get'], '');
         if (!$modelGet->validate()) {
             $errors = $modelGet->errors;
