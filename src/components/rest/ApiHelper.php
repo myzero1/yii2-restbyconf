@@ -20,6 +20,9 @@ use Yii;
  */
 class ApiHelper
 {
+    const EXPORT_PAGE = 1;
+    const EXPORT_PAGE_SIZE = 999999;
+
     public static function response($data, $code = 0, $msg = '')
     {
         \Yii::$app->response->data = $data;

@@ -72,7 +72,7 @@ class Update implements ApiActionProcessing
         if (!$modelGet->validate()) {
             $errors = $modelGet->errors;
             return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
+                'code' => ApiCodeMsg::BAD_REQUEST,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
@@ -93,7 +93,7 @@ class Update implements ApiActionProcessing
         if (!$modelPost->validate()) {
             $errors = $modelPost->errors;
             return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
+                'code' => ApiCodeMsg::BAD_REQUEST,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
@@ -139,7 +139,29 @@ class Update implements ApiActionProcessing
      */
     public function handling($completedData)
     {
+        $demo = Update::findModel($completedData['id']);
+        $demo->load($completedData, '');
 
+        $trans = Yii::$app->db->beginTransaction();
+        try {
+            $flag = true;
+            if ( !($flag = $demo->save()) ) {
+                $trans->rollBack();
+                throw new ServerErrorHttpException('Failed to save Model reason.');
+            }
+
+            if ($flag) {
+                $trans->commit();
+            } else {
+                $trans->rollBack();
+                throw new ServerErrorHttpException('Failed to save commit reason.');
+            }
+ 
+            return ['id' => $demo->id];
+        } catch (Exception $e) {
+            $trans->rollBack();
+            throw new ServerErrorHttpException('Failed to save all models reason.');
+        }
     }
 
     /**
@@ -168,51 +190,13 @@ class Update implements ApiActionProcessing
     public function completeResult($db2outData = [], $extra = [])
     {
         $result = [
-            'code' => ApiCodeMsg::SUCCESS,
-            'msg' => ApiCodeMsg::SUCCESS_MSG,
+            'code' => ApiCodeMsg::OK,
+            'msg' => ApiCodeMsg::OK_MSG,
             'data' => $db2outData,
             'extra' => $extra,
         ];
 
         return $result;
-    }
-
-    /**
-     * @param  array $db2outData completed data form database
-     * @param  array $extra
-     * @return array
-     */
-    public function getSort($validatedInput, $fields, $defafult)
-    {
-        if (isset($validatedInput['sort'])) {
-            $sortInfo = Helper::getSort($validatedInput['sort'], $fields, $defafult);
-        } else {
-            $sortInfo = Helper::getSort('+myzeroqtest', $fields, $defafult);
-        }
-
-        return $sortInfo;
-    }
-
-    /**
-     * @param  array $db2outData completed data form database
-     * @param  array $extra
-     * @return array
-     */
-    public function getPagination($validatedInput)
-    {
-        $pagination = [];
-        if (isset($validatedInput['page'])) {
-            $validatedInput['page'] = $validatedInput['page'];
-        } else {
-            $pagination['page'] = 1;
-        }
-        if (isset($validatedInput['page_size'])) {
-            $pagination['page_size'] = $validatedInput['page_size'];
-        } else {
-            $pagination['page_size'] = 30;
-        }
-
-        return $pagination;
     }
 
     /**
@@ -223,5 +207,36 @@ class Update implements ApiActionProcessing
         $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:1:{s:2:"id";i:1;}}';
 
         return unserialize($egOutputData);
+    }
+
+
+    /**
+     * @param  int $id
+     * @return array
+     */
+    public static function findModel($id)
+    {
+        $demo = Demo::find()->where(['id' => $id, 'is_del' => 0])->one();
+
+        if (!$demo) {
+            return [
+                'code' => ApiCodeMsg::NOT_FOUND,
+                'msg' => ApiCodeMsg::NOT_FOUND_MSG,
+                'data' => new \StdClass(),
+            ];
+        } else {
+            return $demo;
+        }
+
+        /*
+        $data = [
+            'code' => ApiCodeMsg::NOT_FOUND,
+            'msg' => ApiCodeMsg::NOT_FOUND_MSG,
+            'data' => new \StdClass(),
+        ];
+
+        Yii::$app->response->data = $data;
+        Yii::$app->response->send();
+        */
     }
 }

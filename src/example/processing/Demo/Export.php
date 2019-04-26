@@ -77,7 +77,7 @@ class Export implements ApiActionProcessing
         if (!$modelGet->validate()) {
             $errors = $modelGet->errors;
             return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
+                'code' => ApiCodeMsg::BAD_REQUEST,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
@@ -93,7 +93,7 @@ class Export implements ApiActionProcessing
         if (!$modelPost->validate()) {
             $errors = $modelPost->errors;
             return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
+                'code' => ApiCodeMsg::BAD_REQUEST,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
@@ -139,8 +139,32 @@ class Export implements ApiActionProcessing
      */
     public function handling($completedData)
     {
+        $input['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
+        $input['page'] = ApiHelper::EXPORT_PAGE;
 
+        $index = new Index();
+        $items = $index->processing($completedData);
+
+        $exportParams = [
+            'dataProvider' => new \yii\data\ArrayDataProvider([
+                'allModels' => $items['data']['items'],
+            ]),
+            'columns' => [
+                [
+                    'attribute' => 'name',
+                    'label' => 'name',
+                ],
+                [
+                    'header' => 'description',
+                    'content' => function ($row) {
+                        return $row['des'];
+                    }
+                ],
+            ],
+        ];
+        return $exportParams;
     }
+
 
     /**
      * @param  array $savedData saved data
@@ -168,8 +192,8 @@ class Export implements ApiActionProcessing
     public function completeResult($db2outData = [], $extra = [])
     {
         $result = [
-            'code' => ApiCodeMsg::SUCCESS,
-            'msg' => ApiCodeMsg::SUCCESS_MSG,
+            'code' => ApiCodeMsg::OK,
+            'msg' => ApiCodeMsg::OK_MSG,
             'data' => $db2outData,
             'extra' => $extra,
         ];

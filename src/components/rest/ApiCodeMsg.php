@@ -47,4 +47,19 @@ class ApiCodeMsg
     const INDEX_CLIENT_ERROR_MSG = '搜索时参数错误';
     const INDEX_SERVER_ERROR = 554;
     const INDEX_SERVER_ERROR_MSG = '搜索时服务器端错误';
+
+    const OK = 735200;
+    const OK_MSG = 'OK';
+    const BAD_REQUEST = 735400;
+    const BAD_REQUEST_MSG = 'Bad Request';
+    const UNAUTHORIZED = 735401;
+    const UNAUTHORIZED_MSG = 'Unauthorized';
+    const FORBIDDEN = 735403;
+    const FORBIDDEN_MSG = 'Forbidden';
+    const NOT_FOUND = 735404;
+    const NOT_FOUND_MSG = 'Not Found';
+    const INTERNAL_SERVER = 735500;
+    const INTERNAL_SERVER_MSG = 'Internal Server Error';
+    const UNKNOWN_ERROR= 735735;
+    const UNKNOWN_ERROR_MSG = 'Unknown';
 }

@@ -77,7 +77,7 @@ class Index implements ApiActionProcessing
         if (!$modelGet->validate()) {
             $errors = $modelGet->errors;
             return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
+                'code' => ApiCodeMsg::BAD_REQUEST,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
@@ -93,7 +93,7 @@ class Index implements ApiActionProcessing
         if (!$modelPost->validate()) {
             $errors = $modelPost->errors;
             return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
+                'code' => ApiCodeMsg::BAD_REQUEST,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
@@ -139,7 +139,46 @@ class Index implements ApiActionProcessing
      */
     public function handling($completedData)
     {
+        $result = [];
 
+        $query = (new Query())
+            ->from('demo')
+            ->andFilterWhere([
+                'and',
+                ['like', 'name', $completedData['name']],
+                ['like', 'des', $completedData['des']],
+                ['=', 'is_del', 0],
+            ]);
+
+        $query->select(['id']);
+
+        $result['total'] = intval($query->count());
+        $pagination = $this->getPagination($completedData);
+        $query->limit($pagination['page_size']);
+        $offset = $pagination['page_size'] * ($pagination['page'] - 1);
+        $query->offset($offset);
+        $result['page'] = intval($pagination['page']);
+        $result['page_size'] = intval($pagination['page_size']);
+
+        $outFieldNames = [
+            'id' => 'id',
+            'name' => 'name',
+            'des' => 'des',
+        ];
+
+        // $query -> groupBy(['kc.keyword_id']);
+
+        // $sort = $this->getSort($completedData, array_keys($outFieldNames), '+id');
+        // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
+
+        $query->select(array_values($outFieldNames));
+
+        //  var_dump($query->createCommand()->getRawSql());exit;
+
+        $items = $query->all();
+        $result['items'] = $items;
+
+        return $result;
     }
 
     /**
@@ -168,8 +207,8 @@ class Index implements ApiActionProcessing
     public function completeResult($db2outData = [], $extra = [])
     {
         $result = [
-            'code' => ApiCodeMsg::SUCCESS,
-            'msg' => ApiCodeMsg::SUCCESS_MSG,
+            'code' => ApiCodeMsg::OK,
+            'msg' => ApiCodeMsg::OK_MSG,
             'data' => $db2outData,
             'extra' => $extra,
         ];

@@ -72,7 +72,7 @@ class View implements ApiActionProcessing
         if (!$modelGet->validate()) {
             $errors = $modelGet->errors;
             return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
+                'code' => ApiCodeMsg::BAD_REQUEST,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
@@ -88,7 +88,7 @@ class View implements ApiActionProcessing
         if (!$modelPost->validate()) {
             $errors = $modelPost->errors;
             return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
+                'code' => ApiCodeMsg::BAD_REQUEST,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
@@ -134,7 +134,9 @@ class View implements ApiActionProcessing
      */
     public function handling($completedData)
     {
+        $demo = Update::findModel($completedData['id']);
 
+        return $demo;
     }
 
     /**
@@ -163,51 +165,13 @@ class View implements ApiActionProcessing
     public function completeResult($db2outData = [], $extra = [])
     {
         $result = [
-            'code' => ApiCodeMsg::SUCCESS,
-            'msg' => ApiCodeMsg::SUCCESS_MSG,
+            'code' => ApiCodeMsg::OK,
+            'msg' => ApiCodeMsg::OK_MSG,
             'data' => $db2outData,
             'extra' => $extra,
         ];
 
         return $result;
-    }
-
-    /**
-     * @param  array $db2outData completed data form database
-     * @param  array $extra
-     * @return array
-     */
-    public function getSort($validatedInput, $fields, $defafult)
-    {
-        if (isset($validatedInput['sort'])) {
-            $sortInfo = Helper::getSort($validatedInput['sort'], $fields, $defafult);
-        } else {
-            $sortInfo = Helper::getSort('+myzeroqtest', $fields, $defafult);
-        }
-
-        return $sortInfo;
-    }
-
-    /**
-     * @param  array $db2outData completed data form database
-     * @param  array $extra
-     * @return array
-     */
-    public function getPagination($validatedInput)
-    {
-        $pagination = [];
-        if (isset($validatedInput['page'])) {
-            $validatedInput['page'] = $validatedInput['page'];
-        } else {
-            $pagination['page'] = 1;
-        }
-        if (isset($validatedInput['page_size'])) {
-            $pagination['page_size'] = $validatedInput['page_size'];
-        } else {
-            $pagination['page_size'] = 30;
-        }
-
-        return $pagination;
     }
 
     /**
