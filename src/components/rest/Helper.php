@@ -416,4 +416,26 @@ class Helper
 
         return true;
     }
+
+    /**
+     * @param array $input
+     * @return mixed
+     */
+    public static function inputFilter($input)
+    {
+        return array_filter(
+            $input,
+            function($v){
+                return !in_array(
+                    $v,
+                    $invalidParams = [
+                        '',
+                        null,
+                        [],
+                    ],
+                    true
+                );
+            }
+        );
+    }
 }

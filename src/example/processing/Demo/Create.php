@@ -62,13 +62,21 @@ class Create implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
+        $inputFields = [
+            'id',
+            'name',
+            'des',
+
+            'sort',
+            'page',
+            'page_size',
+        ];
+
         // get
-        $modelGet = new DynamicModel([
-        ]);
-
-
+        $modelGet = new DynamicModel($inputFields);
+        $modelPost->addRule($inputFields, 'trim');
+        $modelPost->addRule($inputFields, 'safe');
         $modelGet->load($input['get'], '');
-
         if (!$modelGet->validate()) {
             $errors = $modelGet->errors;
             return [
@@ -79,18 +87,13 @@ class Create implements ApiActionProcessing
         }
 
         // post
-        $modelPost = new DynamicModel([
-            'name',
-            'des',
-        ]);
-
-        $modelPost->addRule(['name','des'], 'trim');
+        $modelPost = new DynamicModel($inputFields);
+        $modelPost->addRule($inputFields, 'trim');
+        $modelPost->addRule($inputFields, 'safe');
         $modelPost->addRule(['name'], 'required');
         $modelPost->addRule(['name'], 'match', ['pattern' => '/^\w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
         $modelPost->addRule(['des'], 'match', ['pattern' => '/^\w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
-
         $modelPost->load($input['post'], '');
-
         if (!$modelPost->validate()) {
             $errors = $modelPost->errors;
             return [
@@ -100,10 +103,11 @@ class Create implements ApiActionProcessing
             ];
         }
 
-        $getAttributes = array_filter($modelGet->attributes);
-        $postAttributes = array_filter($modelPost->attributes);
+        $getAttributes = Helper::inputFilter($modelGet->attributes);
+        $postAttributes = Helper::inputFilter($modelPost->attributes);
+        $attributes = array_merge($postAttributes, $getAttributes);
 
-        return array_merge($postAttributes, $getAttributes);
+        return array_merge($modelGet->attributes, $attributes);
     }
 
     /**
