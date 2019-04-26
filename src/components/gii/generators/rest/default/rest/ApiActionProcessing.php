@@ -34,6 +34,12 @@ $postInputs = $controllerV['actions'][$action]['inputs']['body_params'];
 $postInputs = ApiHelper::rmNode($postInputs);
 $postInputsKeys = array_keys($postInputs);
 $postInputRules = [];
+
+$pathInputs = $controllerV['actions'][$action]['inputs']['path_params'];
+$pathInputsKeys = array_keys($pathInputs);
+
+$inputsKeys = array_merge($postInputsKeys, $getInputsKeys, $pathInputsKeys);
+
 if (count($postInputs)) {
     $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'trim');", implode("','", $postInputsKeys));
 }
@@ -114,12 +120,17 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        // get
-        $modelGet = new DynamicModel([
-<?php foreach ($getInputsKeys as $key => $value) { ?>
+        $inputFields = [
+<?php foreach ($inputsKeys as $key => $value) { ?>
             '<?=$value?>',
 <?php } ?>
-        ]);
+        ];
+
+        // get
+        $modelGet = new DynamicModel($inputFields);
+
+        $modelGet->addRule($inputFields, 'trim');
+        $modelGet->addRule($inputFields, 'safe');
 
 <?php foreach ($getInputRules as $key => $value) { ?>
         <?=$value."\n"?>
@@ -137,11 +148,10 @@ class <?=$actionClass?> implements ApiActionProcessing
         }
 
         // post
-        $modelPost = new DynamicModel([
-<?php foreach ($postInputsKeys as $key => $value) { ?>
-            '<?=$value?>',
-<?php } ?>
-        ]);
+        $modelGet = new DynamicModel($inputFields);
+
+        $modelGet->addRule($inputFields, 'trim');
+        $modelGet->addRule($inputFields, 'safe');
 
 <?php foreach ($postInputRules as $key => $value) { ?>
         <?=$value."\n"?>
@@ -158,10 +168,11 @@ class <?=$actionClass?> implements ApiActionProcessing
             ];
         }
 
-        $getAttributes = array_filter($modelGet->attributes);
-        $postAttributes = array_filter($modelPost->attributes);
+        $getAttributes = Helper::inputFilter($modelGet->attributes);
+        $postAttributes = Helper::inputFilter($modelPost->attributes);
+        $attributes = array_merge($postAttributes, $getAttributes);
 
-        return array_merge($postAttributes, $getAttributes);
+        return array_merge($modelGet->attributes, $attributes);
     }
 
     /**
