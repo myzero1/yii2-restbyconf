@@ -275,7 +275,7 @@ class Helper
         foreach ($apiRuleConfigs as $key => $value) {
             $apiRuleConfigsDealed[] = self::addOptionsAction($value);
         }
-// var_dump($apiRuleConfigsDealed);exit;
+        // var_dump($apiRuleConfigsDealed);exit;
         return $apiRuleConfigsDealed;
     }
 
@@ -357,5 +357,63 @@ class Helper
 
             return array_merge($config, $urlRule);
         }
+    }
+
+    /**
+     * @param string $filename export-enterprise
+     * @param array $exportParams [
+     * 'dataProvider' => $dataProvider,
+     * 'columns' => [
+     * [
+     * 'attribute' => 'id',
+     * 'label' => '网吧编码',
+     * ],
+     * [
+     * 'attribute' => 'name',
+     * 'label' => '网吧名称',
+     * ],
+     * ],
+     * ]
+     * @throws  \RuntimeException
+     * @return bool true
+     */
+    public static function createXls($filename, $exportParams)
+    {
+        $filenameXls = $filename . '.xls';
+        try {
+            $exporter = new \yii2tech\spreadsheet\Spreadsheet($exportParams);
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e);
+        }
+        $exporter->save($filenameXls);
+
+        return true;
+    }
+
+    /**
+     * @param string $filename export-enterprise
+     * @param string $password password
+     * @throws  \RuntimeException
+     * @return bool true
+     */
+    public static function encryptZIP($filename, $password)
+    {
+        $filenameXls = $filename . '.xls';
+        $filenameZip = $filename . '.zip';
+        $zipFile = new ZipFile();
+
+        try {
+            $zipFile
+                ->addFile($filenameXls)
+                ->setPassword($password)
+                ->saveAsFile($filenameZip)
+                ->close();
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e);
+        }
+        $zipFile->close();
+        unlink($filenameXls);
+
+        return true;
     }
 }
