@@ -7,10 +7,12 @@ use Yii;
 /**
  * This is the model class for table "demo".
  *
- * @property string $id id
- * @property string $name name
- * @property string $des description
- * @property string $is_del  id Del
+ * @property int $id
+ * @property string $name
+ * @property string $des
+ * @property int $created_at
+ * @property int $updated_at
+ * @property int $is_del 0未删除，非0为删除
  */
 class Demo extends \yii\db\ActiveRecord
 {
@@ -28,9 +30,9 @@ class Demo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['name'], 'required'],
-            [['id', 'name', 'des', 'is_del'], 'safe'],
+            [['name', 'des', 'created_at', 'updated_at'], 'required'],
+            [['created_at', 'updated_at', 'is_del'], 'integer'],
+            [['name', 'des'], 'string', 'max' => 255],
         ];
     }
 
@@ -42,8 +44,10 @@ class Demo extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'des' => 'Description',
-            'is_del' => 'Is del',
+            'des' => 'Des',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'is_del' => 'Is Del',
         ];
     }
 }
