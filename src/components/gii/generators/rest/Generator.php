@@ -242,7 +242,7 @@ EOD;
                 } else {
                     $files[] = new CodeFile(
                         sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
-                        $this->render('rest/ApiCustomProcessing.php')
+                        $this->render('rest/template/ApiCustomProcessing.php')
                     );
                 }
             }

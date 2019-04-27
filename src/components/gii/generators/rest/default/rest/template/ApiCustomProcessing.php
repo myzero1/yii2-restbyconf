@@ -210,7 +210,7 @@ class <?=$actionClass?> implements ApiActionProcessing
     public function handling($completedData)
     {
         $model = new \myzero1\restbyconf\example\models\Demo();// according to the current situation
-        // $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\Demo', $id);
+        // $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\Demo', $completedData['id']);
         // return $model;
         
         $model->load($completedData, '');
