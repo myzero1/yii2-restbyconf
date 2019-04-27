@@ -224,7 +224,7 @@ class <?=$actionClass?> implements ApiActionProcessing
         $query->select(['id']);
 
         $result['total'] = intval($query->count());
-        $pagination = $this->getPagination($completedData);
+        $pagination = ApiHelper::getPagination($completedData);
         $query->limit($pagination['page_size']);
         $offset = $pagination['page_size'] * ($pagination['page'] - 1);
         $query->offset($offset);
@@ -239,7 +239,7 @@ class <?=$actionClass?> implements ApiActionProcessing
 
         // $query -> groupBy(['kc.keyword_id']);
 
-        // $sort = $this->getSort($completedData, array_keys($outFieldNames), '+id');
+        // $sort = ApiHelper::getSort($completedData, array_keys($outFieldNames), '+id');
         // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
         $query->select(array_values($outFieldNames));

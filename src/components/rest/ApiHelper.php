@@ -471,4 +471,28 @@ class ApiHelper
             }
         );
     }
+
+    /**
+     * @param  array $validatedInput
+     * @return array
+     */
+    public static function getPagination($validatedInput)
+    {
+        $pagination = [
+            'page' => ApiHelper::EXPORT_PAGE,
+            'page_size' => ApiHelper::EXPORT_PAGE_SIZE,
+        ];
+        if (isset($validatedInput['page'])) {
+            $pagination['page'] = $validatedInput['page'];
+        } else {
+            $pagination['page'] = 1;
+        }
+        if (isset($validatedInput['page_size'])) {
+            $pagination['page_size'] = $validatedInput['page_size'];
+        } else {
+            $pagination['page_size'] = 30;
+        }
+
+        return $pagination;
+    }
 }
