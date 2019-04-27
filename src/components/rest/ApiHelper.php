@@ -478,10 +478,7 @@ class ApiHelper
      */
     public static function getPagination($validatedInput)
     {
-        $pagination = [
-            'page' => ApiHelper::EXPORT_PAGE,
-            'page_size' => ApiHelper::EXPORT_PAGE_SIZE,
-        ];
+        $pagination = [];
         if (isset($validatedInput['page'])) {
             $pagination['page'] = $validatedInput['page'];
         } else {
