@@ -492,4 +492,35 @@ class ApiHelper
 
         return $pagination;
     }
+
+    /**
+     * @param string $filename export-files
+     * @param array $exportParams [
+     * 'dataProvider' => $dataProvider,
+     * 'columns' => [
+     * [
+     * 'attribute' => 'id',
+     * 'label' => '网吧编码',
+     * ],
+     * [
+     * 'attribute' => 'name',
+     * 'label' => '网吧名称',
+     * ],
+     * ],
+     * ]
+     * @throws  \RuntimeException
+     * @return bool true
+     */
+    public static function createXls($filename, $exportParams)
+    {
+        $filenameXls = $filename . '.xls';
+        try {
+            $exporter = new \yii2tech\spreadsheet\Spreadsheet($exportParams);
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e);
+        }
+        $exporter->save($filenameXls);
+
+        return true;
+    }
 }
