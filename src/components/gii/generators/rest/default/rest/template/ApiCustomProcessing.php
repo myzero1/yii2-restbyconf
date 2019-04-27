@@ -209,6 +209,113 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function handling($completedData)
     {
+        $model = new \myzero1\restbyconf\example\models\Demo();// according to the current situation
+        // $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\Demo', $id);
+        // return $model;
+        
+        $model->load($completedData, '');
+
+        $trans = Yii::$app->db->beginTransaction();
+        try {
+            $flag = true;
+            if ( !($flag = $model->save()) ) {
+                $trans->rollBack();
+                throw new ServerErrorHttpException('Failed to save Model reason.');
+            }
+
+            if ($flag) {
+                $trans->commit();
+            } else {
+                $trans->rollBack();
+                throw new ServerErrorHttpException('Failed to save commit reason.');
+            }
+ 
+            return ['id' => $model->id];
+        } catch (Exception $e) {
+            $trans->rollBack();
+            throw new ServerErrorHttpException('Failed to save all models reason.');
+        }
+
+        /*
+        $result = [];
+
+        $query = (new Query())
+            ->from('demo')
+            ->andFilterWhere([
+                'and',
+<?php foreach ($inputsKeys as $key => $value) { ?>
+                '<?=sprintf("['=', '%s', \$completedData['%s']],\n", $value, $value)?>',
+<?php } ?>
+                ['=', 'is_del', 0],
+            ]);
+
+        $query->select(['id']);
+
+        $result['total'] = intval($query->count());
+        $pagination = ApiHelper::getPagination($completedData);
+        $query->limit($pagination['page_size']);
+        $offset = $pagination['page_size'] * ($pagination['page'] - 1);
+        $query->offset($offset);
+        $result['page'] = intval($pagination['page']);
+        $result['page_size'] = intval($pagination['page_size']);
+
+        $outFieldNames = [
+            'id' => 'id',
+            'name' => 'name',
+            'des' => 'des',
+        ];
+
+        // $query -> groupBy(['kc.keyword_id']);
+
+        // $sort = ApiHelper::getSort($completedData, array_keys($outFieldNames), '+id');
+        // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
+
+        $query->select(array_values($outFieldNames));
+
+        //  var_dump($query->createCommand()->getRawSql());exit;
+
+        $items = $query->all();
+        $result['items'] = $items;
+
+        return $result;
+        */
+
+        /*
+        $input['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
+        $input['page'] = ApiHelper::EXPORT_PAGE;
+
+        $index = new Index();
+        $items = $index->processing($completedData);
+
+        $exportParams = [
+            'dataProvider' => new \yii\data\ArrayDataProvider([
+                'allModels' => $items['data']['items'],
+            ]),
+            /*
+            'columns' => [
+                [
+                    'attribute' => 'name',
+                    'label' => 'name',
+                ],
+                [
+                    'header' => 'description',
+                    'content' => function ($row) {
+                        return $row['des'];
+                    }
+                ],
+            ],
+            */
+        ];
+
+        $name = sprintf('export-%s', time());
+        $filenameBase = Yii::getAlias(sprintf('@app/web/%s', $name));
+
+        ApiHelper::createXls($filenameBase, $exportParams);
+
+        return [
+            'url' => Yii::$app->urlManager->createAbsoluteUrl([sprintf('/%s.xls', $name)])
+        ];
+        */
     }
 
     /**
