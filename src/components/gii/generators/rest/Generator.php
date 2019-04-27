@@ -231,14 +231,21 @@ EOD;
             );
             $actions = array_keys($controllerV['actions']);
 
+            $template = ['create', 'update', 'delete', 'view', 'index', 'export', ];
             foreach ($actions as $k => $action) {
                 $this->action = $action;
-                $files[] = new CodeFile(
-                    sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
-                    $this->render('rest/ApiActionProcessing.php')
-                );
+                if (in_array($action, $template)) {
+                    $files[] = new CodeFile(
+                        sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
+                        $this->render(sprintf('rest/template/Api%sProcessing.php', ucfirst($action)))
+                    );
+                } else {
+                    $files[] = new CodeFile(
+                        sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
+                        $this->render('rest/ApiCustomProcessing.php')
+                    );
+                }
             }
-
         }
 
         return $files;

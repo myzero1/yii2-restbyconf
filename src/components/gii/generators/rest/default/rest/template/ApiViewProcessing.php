@@ -213,28 +213,7 @@ class <?=$actionClass?> implements ApiActionProcessing
             return $model;
         }
 
-        $model->load($completedData, '');
-
-        $trans = Yii::$app->db->beginTransaction();
-        try {
-            $flag = true;
-            if ( !($flag = $model->save()) ) {
-                $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save Model reason.');
-            }
-
-            if ($flag) {
-                $trans->commit();
-            } else {
-                $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save commit reason.');
-            }
- 
-            return ['id' => $model->id];
-        } catch (Exception $e) {
-            $trans->rollBack();
-            throw new ServerErrorHttpException('Failed to save all models reason.');
-        }
+        return $model;
     }
 
     /**
