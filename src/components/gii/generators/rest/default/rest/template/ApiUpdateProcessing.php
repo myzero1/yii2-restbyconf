@@ -66,6 +66,7 @@ use Yii;
 use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
+use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
 
@@ -91,7 +92,7 @@ class <?=$actionClass?> implements ApiActionProcessing
         $input['get'] = Yii::$app->request->queryParams;
         $input['post'] = Yii::$app->request->bodyParams;
         $validatedInput = $this->inputValidate($input);
-        if (Helper::isReturning($validatedInput)) {
+        if (ApiHelper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
             /*
@@ -99,7 +100,7 @@ class <?=$actionClass?> implements ApiActionProcessing
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
-            if (Helper::isReturning($handledData)) {
+            if (ApiHelper::isReturning($handledData)) {
                 return $handledData;
             }
             
@@ -145,10 +146,10 @@ class <?=$actionClass?> implements ApiActionProcessing
         }
 
         // post
-        $modelGet = new DynamicModel($inputFields);
+        $modelPost = new DynamicModel($inputFields);
 
-        $modelGet->addRule($inputFields, 'trim');
-        $modelGet->addRule($inputFields, 'safe');
+        $modelPost->addRule($inputFields, 'trim');
+        $modelPost->addRule($inputFields, 'safe');
 
 <?php foreach ($postInputRules as $key => $value) { ?>
         <?=$value."\n"?>
@@ -165,8 +166,8 @@ class <?=$actionClass?> implements ApiActionProcessing
             ];
         }
 
-        $getAttributes = Helper::inputFilter($modelGet->attributes);
-        $postAttributes = Helper::inputFilter($modelPost->attributes);
+        $getAttributes = ApiHelper::inputFilter($modelGet->attributes);
+        $postAttributes = ApiHelper::inputFilter($modelPost->attributes);
         $attributes = array_merge($postAttributes, $getAttributes);
 
         return array_merge($modelGet->attributes, $attributes);
@@ -182,7 +183,7 @@ class <?=$actionClass?> implements ApiActionProcessing
             'demo_name' => 'name',
             'demo_description' => 'description',
         ];
-        $in2dbData = Helper::input2DbField($validatedInput, $inputFieldMap);
+        $in2dbData = ApiHelper::input2DbField($validatedInput, $inputFieldMap);
 
         return $in2dbData;
     }
@@ -206,7 +207,33 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function handling($completedData)
     {
+        $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\Demo', $id);
+        if (ApiHelper::isReturning($model)) {
+            return $model;
+        }
 
+        $model->load($completedData, '');
+
+        $trans = Yii::$app->db->beginTransaction();
+        try {
+            $flag = true;
+            if ( !($flag = $model->save()) ) {
+                $trans->rollBack();
+                throw new ServerErrorHttpException('Failed to save Model reason.');
+            }
+
+            if ($flag) {
+                $trans->commit();
+            } else {
+                $trans->rollBack();
+                throw new ServerErrorHttpException('Failed to save commit reason.');
+            }
+ 
+            return ['id' => $model->id];
+        } catch (Exception $e) {
+            $trans->rollBack();
+            throw new ServerErrorHttpException('Failed to save all models reason.');
+        }
     }
 
     /**
@@ -219,10 +246,10 @@ class <?=$actionClass?> implements ApiActionProcessing
             'name' => 'demo_name',
             'description' => 'demo_description',
         ];
-        $db2outData = Helper::db2OutputField($handledData, $outputFieldMap);
+        $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        $db2outData['created_at'] = Helper::time2string($db2outData['created_at']);
-        $db2outData['updated_at'] = Helper::time2string($db2outData['updated_at']);
+        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }
@@ -242,44 +269,6 @@ class <?=$actionClass?> implements ApiActionProcessing
         ];
 
         return $result;
-    }
-
-    /**
-     * @param  array $db2outData completed data form database
-     * @param  array $extra
-     * @return array
-     */
-    public function getSort($validatedInput, $fields, $defafult)
-    {
-        if (isset($validatedInput['sort'])) {
-            $sortInfo = Helper::getSort($validatedInput['sort'], $fields, $defafult);
-        } else {
-            $sortInfo = Helper::getSort('+myzeroqtest', $fields, $defafult);
-        }
-
-        return $sortInfo;
-    }
-
-    /**
-     * @param  array $db2outData completed data form database
-     * @param  array $extra
-     * @return array
-     */
-    public function getPagination($validatedInput)
-    {
-        $pagination = [];
-        if (isset($validatedInput['page'])) {
-            $validatedInput['page'] = $validatedInput['page'];
-        } else {
-            $pagination['page'] = 1;
-        }
-        if (isset($validatedInput['page_size'])) {
-            $pagination['page_size'] = $validatedInput['page_size'];
-        } else {
-            $pagination['page_size'] = 30;
-        }
-
-        return $pagination;
     }
 
     /**

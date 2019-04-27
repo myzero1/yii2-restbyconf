@@ -255,9 +255,8 @@ class ApiHelper
     }
 
     /**
-     * @param string $camelCaps
-     * @param string $separator
-     * @return string
+     * @param array $urlRule
+     * @return array
      */
     public static function optimizeRestUrlRules($urlRules)
     {
@@ -279,14 +278,13 @@ class ApiHelper
         foreach ($apiRuleConfigs as $key => $value) {
             $apiRuleConfigsDealed[] = self::addOptionsAction($value);
         }
-// var_dump($apiRuleConfigsDealed);exit;
+        // var_dump($apiRuleConfigsDealed);exit;
         return $apiRuleConfigsDealed;
     }
 
     /**
-     * @param string $camelCaps
-     * @param string $separator
-     * @return string
+     * @param array $urlRule
+     * @return array
      */
     public static function addOptionsAction($urlRule)
     {
@@ -419,5 +417,58 @@ class ApiHelper
         }
 
         return $confDataInit;
+    }
+
+    /**
+     * @param  string $modelClass
+     * @param  int $id
+     * @return mixed
+     */
+    public static function findModel($modelClass, $id)
+    {
+        $model = $modelClass::find()->where(['id' => $id, 'is_del' => 0])->one();
+
+        if (!$model) {
+            return [
+                'code' => ApiCodeMsg::NOT_FOUND,
+                'msg' => ApiCodeMsg::NOT_FOUND_MSG,
+                'data' => new \StdClass(),
+            ];
+
+            /*
+            $data = [
+                'code' => ApiCodeMsg::NOT_FOUND,
+                'msg' => ApiCodeMsg::NOT_FOUND_MSG,
+                'data' => new \StdClass(),
+            ];
+
+            Yii::$app->response->data = $data;
+            Yii::$app->response->send();
+            */
+        } else {
+            return $model;
+        }
+    }
+
+    /**
+     * @param array $input
+     * @return mixed
+     */
+    public static function inputFilter($input)
+    {
+        return array_filter(
+            $input,
+            function($v){
+                return !in_array(
+                    $v,
+                    $invalidParams = [
+                        '',
+                        null,
+                        [],
+                    ],
+                    true
+                );
+            }
+        );
     }
 }

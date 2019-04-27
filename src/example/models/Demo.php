@@ -10,6 +10,7 @@ use Yii;
  * @property string $id id
  * @property string $name name
  * @property string $des description
+ * @property string $is_del  id Del
  */
 class Demo extends \yii\db\ActiveRecord
 {
@@ -29,7 +30,7 @@ class Demo extends \yii\db\ActiveRecord
         return [
             [['id'], 'integer'],
             [['name'], 'required'],
-            [['id', 'name', 'des'], 'safe'],
+            [['id', 'name', 'des', 'is_del'], 'safe'],
         ];
     }
 
@@ -41,7 +42,8 @@ class Demo extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'des' => 'description',
+            'des' => 'Description',
+            'is_del' => 'Is del',
         ];
     }
 }

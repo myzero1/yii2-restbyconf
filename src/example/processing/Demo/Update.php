@@ -1,11 +1,66 @@
 <?php
+
+use myzero1\restbyconf\components\rest\ApiHelper;
+
 /**
- * @link https://github.com/myzero1
- * @copyright Copyright (c) 2019- My zero one
- * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
+ * This is the template for generating a controller class within a module.
  */
 
-namespace myzero1\restbyconf\example\processing\demo;
+/* @var $this yii\web\View */
+/* @var $generator yii\gii\generators\module\Generator */
+
+$action = $generator->action;
+$actionClass = ucwords($action);
+$controllerV = $generator->controllerV;
+$actions = array_keys($controllerV['actions']);
+$moduleClass = $generator->moduleClass;
+$processingClassNs = sprintf('%s\processing\%s', dirname($moduleClass), $generator->controller);
+
+$getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
+$getInputsKeys = array_keys($getInputs);
+$getInputRules = [];
+if (count($getInputs)) {
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", implode("','", $getInputsKeys));
+}
+foreach ($getInputs as $key => $value) {
+    if ($value['required']) {
+        $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
+    }
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '%s']);", $key, $value['rules'], $value['error_msg']);
+}
+
+$postInputs = $controllerV['actions'][$action]['inputs']['body_params'];
+$postInputsKeys = array_keys($postInputs);
+$postInputRules = [];
+
+$pathInputs = $controllerV['actions'][$action]['inputs']['path_params'];
+$pathInputsKeys = array_keys($pathInputs);
+
+$inputsKeys = array_merge($postInputsKeys, $getInputsKeys, $pathInputsKeys);
+
+if (count($postInputs)) {
+    $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'trim');", implode("','", $postInputsKeys));
+}
+foreach ($postInputs as $key => $value) {
+    if ($value['required']) {
+        $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'required');", $key);
+    }
+    $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '%s']);", $key, $value['rules'], $value['error_msg']);
+}
+
+$outputs = $controllerV['actions'][$action]['outputs'];
+$egOutputData = $outputs;
+
+
+echo "<?php\n";
+?>
+/**
+* @link https://github.com/myzero1
+* @copyright Copyright (c) 2019- My zero one
+* @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
+*/
+
+namespace <?= $processingClassNs ?>;
 
 use Yii;
 use yii\base\DynamicModel;
@@ -13,236 +68,212 @@ use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use myzero1\restbyconf\example\models\Demo;
 
 /**
- * implement the UpdateProcessing
- *
- * For more details and usage information on CreateAction, see the [guide article](https://github.com/myzero1/yii2-restbyconf).
- *
- * @author Myzero1 <myzero1@sina.com>
- * @since 0.0
- */
-class Update implements ApiActionProcessing
+* implement the UpdateProcessing
+*
+* For more details and usage information on CreateAction, see the [guide article](https://github.com/myzero1/yii2-restbyconf).
+*
+* @author Myzero1
+<myzero1@sina.com>
+* @since 0.0
+*/
+class <?= $actionClass ?> implements ApiActionProcessing
 {
-    /**
-     * @param $params mixed
-     * @return array date will return to create action.
-     * @throws ServerErrorHttpException
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function processing($params = null)
-    {
-        // the path and query params will geted by queryParams,and the path params will rewrite the query params.
-        $input['get'] = Yii::$app->request->queryParams;
-        $input['post'] = Yii::$app->request->bodyParams;
-        $validatedInput = $this->inputValidate($input);
-        if (Helper::isReturning($validatedInput)) {
-            return $validatedInput;
-        } else {
-            /*
-            $in2dbData = $this->mappingInput2db($validatedInput);
-            $completedData = $this->completeData($in2dbData);
-            $handledData = $this->handling($completedData);
+/**
+* @param $params mixed
+* @return array date will return to create action.
+* @throws ServerErrorHttpException
+* @throws \yii\base\InvalidConfigException
+*/
+public function processing($params = null)
+{
+// the path and query params will geted by queryParams,and the path params will rewrite the query params.
+$input['get'] = Yii::$app->request->queryParams;
+$input['post'] = Yii::$app->request->bodyParams;
+$validatedInput = $this->inputValidate($input);
+if (Helper::isReturning($validatedInput)) {
+return $validatedInput;
+} else {
+/*
+$in2dbData = $this->mappingInput2db($validatedInput);
+$completedData = $this->completeData($in2dbData);
+$handledData = $this->handling($completedData);
 
-            if (Helper::isReturning($handledData)) {
-                return $handledData;
-            }
-            
-            $db2outData = $this->mappingDb2output($handledData);
-            */
-            $db2outData = $this->egOutputData();// for demo
-            $result = $this->completeResult($db2outData);
-            return $result;
-        }
-    }
+if (Helper::isReturning($handledData)) {
+return $handledData;
+}
 
-    /**
-     * @param  array $input from the request body
-     * @return array
-     */
-    public function inputValidate($input)
-    {
-        $inputFields = [
-            'id',
-            'name',
-            'des',
+$db2outData = $this->mappingDb2output($handledData);
+*/
+$db2outData = $this->egOutputData();// for demo
+$result = $this->completeResult($db2outData);
+return $result;
+}
+}
 
-            'sort',
-            'page',
-            'page_size',
-        ];
+/**
+* @param  array $input from the request body
+* @return array
+*/
+public function inputValidate($input)
+{
+$inputFields = [
+<?php foreach ($inputsKeys as $key => $value) { ?>
+    '<?= $value ?>',
+<?php } ?>
+];
 
-        // get
-        $modelGet = new DynamicModel($inputFields);
-        $modelGet->addRule($inputFields, 'trim');
-        $modelGet->addRule($inputFields, 'safe');
-        $modelGet->load($input['get'], '');
-        if (!$modelGet->validate()) {
-            $errors = $modelGet->errors;
-            return [
-                'code' => ApiCodeMsg::BAD_REQUEST,
-                'msg' => Helper::getErrorMsg($errors),
-                'data' => $errors,
-            ];
-        }
+// get
+$modelGet = new DynamicModel($inputFields);
 
-        // post
-        $modelPost = new DynamicModel($inputFields);
-        $modelPost->addRule($inputFields, 'trim');
-        $modelPost->addRule($inputFields, 'safe');
-        $modelPost->addRule(['name'], 'required');
-        $modelPost->addRule(['name'], 'match', ['pattern' => '/^\w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
-        $modelPost->addRule(['des'], 'match', ['pattern' => '/^\w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
-        $modelPost->load($input['post'], '');
-        if (!$modelPost->validate()) {
-            $errors = $modelPost->errors;
-            return [
-                'code' => ApiCodeMsg::BAD_REQUEST,
-                'msg' => Helper::getErrorMsg($errors),
-                'data' => $errors,
-            ];
-        }
+$modelGet->addRule($inputFields, 'trim');
+$modelGet->addRule($inputFields, 'safe');
 
-        $getAttributes = Helper::inputFilter($modelGet->attributes);
-        $postAttributes = Helper::inputFilter($modelPost->attributes);
-        $attributes = array_merge($postAttributes, $getAttributes);
+<?php foreach ($getInputRules as $key => $value) { ?>
+    <?= $value . "\n" ?>
+<?php } ?>
 
-        return array_merge($modelGet->attributes, $attributes);
-    }
+$modelGet->load($input['get'], '');
 
-    /**
-     * @param  array $validatedInput validated data
-     * @return array
-     */
-    public function mappingInput2db($validatedInput)
-    {
-        $inputFieldMap = [
-            'demo_name' => 'name',
-            'demo_description' => 'description',
-        ];
-        $in2dbData = Helper::input2DbField($validatedInput, $inputFieldMap);
+if (!$modelGet->validate()) {
+$errors = $modelGet->errors;
+return [
+'code' => ApiCodeMsg::CLIENT_ERROR,
+'msg' => Helper::getErrorMsg($errors),
+'data' => $errors,
+];
+}
 
-        return $in2dbData;
-    }
+// post
+$modelPost = new DynamicModel($inputFields);
 
-    /**
-     * @param  array $in2dbData mapped data form input
-     * @return array
-     */
-    public function completeData($in2dbData)
-    {
-        $time = time();
-        $in2dbData['updated_at'] = $time;
+$modelPost->addRule($inputFields, 'trim');
+$modelPost->addRule($inputFields, 'safe');
 
-        return $in2dbData;
-    }
+<?php foreach ($postInputRules as $key => $value) { ?>
+    <?= $value . "\n" ?>
+<?php } ?>
 
-    /**
-     * @param  array $completedData completed data
-     * @return array
-     * @throws ServerErrorHttpException
-     */
-    public function handling($completedData)
-    {
-        $demo = Update::findModel($completedData['id']);
-        $demo->load($completedData, '');
+$modelPost->load($input['post'], '');
 
-        $trans = Yii::$app->db->beginTransaction();
-        try {
-            $flag = true;
-            if ( !($flag = $demo->save()) ) {
-                $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save Model reason.');
-            }
+if (!$modelPost->validate()) {
+$errors = $modelPost->errors;
+return [
+'code' => ApiCodeMsg::CLIENT_ERROR,
+'msg' => Helper::getErrorMsg($errors),
+'data' => $errors,
+];
+}
 
-            if ($flag) {
-                $trans->commit();
-            } else {
-                $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save commit reason.');
-            }
- 
-            return ['id' => $demo->id];
-        } catch (Exception $e) {
-            $trans->rollBack();
-            throw new ServerErrorHttpException('Failed to save all models reason.');
-        }
-    }
+$getAttributes = Helper::inputFilter($modelGet->attributes);
+$postAttributes = Helper::inputFilter($modelPost->attributes);
+$attributes = array_merge($postAttributes, $getAttributes);
 
-    /**
-     * @param  array $savedData saved data
-     * @return array
-     */
-    public function mappingDb2output($handledData)
-    {
-        $outputFieldMap = [
-            'name' => 'demo_name',
-            'description' => 'demo_description',
-        ];
-        $db2outData = Helper::db2OutputField($handledData, $outputFieldMap);
+return array_merge($modelGet->attributes, $attributes);
+}
 
-        $db2outData['created_at'] = Helper::time2string($db2outData['created_at']);
-        $db2outData['updated_at'] = Helper::time2string($db2outData['updated_at']);
+/**
+* @param  array $validatedInput validated data
+* @return array
+*/
+public function mappingInput2db($validatedInput)
+{
+$inputFieldMap = [
+'demo_name' => 'name',
+'demo_description' => 'description',
+];
+$in2dbData = Helper::input2DbField($validatedInput, $inputFieldMap);
 
-        return $db2outData;
-    }
+return $in2dbData;
+}
 
-    /**
-     * @param  array $db2outData completed data form database
-     * @param  array $extra
-     * @return array
-     */
-    public function completeResult($db2outData = [], $extra = [])
-    {
-        $result = [
-            'code' => ApiCodeMsg::OK,
-            'msg' => ApiCodeMsg::OK_MSG,
-            'data' => $db2outData,
-            'extra' => $extra,
-        ];
+/**
+* @param  array $in2dbData mapped data form input
+* @return array
+*/
+public function completeData($in2dbData)
+{
+$time = time();
+$in2dbData['updated_at'] = $time;
 
-        return $result;
-    }
+return $in2dbData;
+}
 
-    /**
-     * @return array
-     */
-    public function egOutputData()
-    {
-        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:1:{s:2:"id";i:1;}}';
+/**
+* @param  array $completedData completed data
+* @return array
+* @throws ServerErrorHttpException
+*/
+public function handling($completedData)
+{
+$demo = new \myzero1\restbyconf\example\models\Demo();// according to the current situation
+$demo->load($completedData, '');
 
-        return unserialize($egOutputData);
-    }
+$trans = Yii::$app->db->beginTransaction();
+try {
+$flag = true;
+if ( !($flag = $demo->save()) ) {
+$trans->rollBack();
+throw new ServerErrorHttpException('Failed to save Model reason.');
+}
 
+if ($flag) {
+$trans->commit();
+} else {
+$trans->rollBack();
+throw new ServerErrorHttpException('Failed to save commit reason.');
+}
 
-    /**
-     * @param  int $id
-     * @return array
-     */
-    public static function findModel($id)
-    {
-        $demo = Demo::find()->where(['id' => $id, 'is_del' => 0])->one();
+return ['id' => $demo->id];
+} catch (Exception $e) {
+$trans->rollBack();
+throw new ServerErrorHttpException('Failed to save all models reason.');
+}
+}
 
-        if (!$demo) {
-            return [
-                'code' => ApiCodeMsg::NOT_FOUND,
-                'msg' => ApiCodeMsg::NOT_FOUND_MSG,
-                'data' => new \StdClass(),
-            ];
-        } else {
-            return $demo;
-        }
+/**
+* @param  array $savedData saved data
+* @return array
+*/
+public function mappingDb2output($handledData)
+{
+$outputFieldMap = [
+'name' => 'demo_name',
+'description' => 'demo_description',
+];
+$db2outData = Helper::db2OutputField($handledData, $outputFieldMap);
 
-        /*
-        $data = [
-            'code' => ApiCodeMsg::NOT_FOUND,
-            'msg' => ApiCodeMsg::NOT_FOUND_MSG,
-            'data' => new \StdClass(),
-        ];
+$db2outData['created_at'] = Helper::time2string($db2outData['created_at']);
+$db2outData['updated_at'] = Helper::time2string($db2outData['updated_at']);
 
-        Yii::$app->response->data = $data;
-        Yii::$app->response->send();
-        */
-    }
+return $db2outData;
+}
+
+/**
+* @param  array $db2outData completed data form database
+* @param  array $extra
+* @return array
+*/
+public function completeResult($db2outData = [], $extra = [])
+{
+$result = [
+'code' => ApiCodeMsg::SUCCESS,
+'msg' => ApiCodeMsg::SUCCESS_MSG,
+'data' => $db2outData,
+'extra' => $extra,
+];
+
+return $result;
+}
+
+/**
+* @return array
+*/
+public function egOutputData()
+{
+$egOutputData = '<?= serialize($egOutputData) ?>';
+
+return unserialize($egOutputData);
+}
 }

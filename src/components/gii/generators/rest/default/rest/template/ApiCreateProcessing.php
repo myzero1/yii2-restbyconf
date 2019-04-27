@@ -165,8 +165,8 @@ class <?=$actionClass?> implements ApiActionProcessing
             ];
         }
 
-        $getAttributes = Helper::inputFilter($modelGet->attributes);
-        $postAttributes = Helper::inputFilter($modelPost->attributes);
+        $getAttributes = ApiHelper::inputFilter($modelGet->attributes);
+        $postAttributes = ApiHelper::inputFilter($modelPost->attributes);
         $attributes = array_merge($postAttributes, $getAttributes);
 
         return array_merge($modelGet->attributes, $attributes);
@@ -182,7 +182,7 @@ class <?=$actionClass?> implements ApiActionProcessing
             'demo_name' => 'name',
             'demo_description' => 'description',
         ];
-        $in2dbData = Helper::input2DbField($validatedInput, $inputFieldMap);
+        $in2dbData = ApiHelper::input2DbField($validatedInput, $inputFieldMap);
 
         return $in2dbData;
     }
@@ -206,13 +206,13 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $demo = new \myzero1\restbyconf\example\models\Demo();// according to the current situation
-        $demo->load($completedData, '');
+        $model = new \myzero1\restbyconf\example\models\Demo();// according to the current situation
+        $model->load($completedData, '');
 
         $trans = Yii::$app->db->beginTransaction();
         try {
             $flag = true;
-            if ( !($flag = $demo->save()) ) {
+            if ( !($flag = $model->save()) ) {
                 $trans->rollBack();
                 throw new ServerErrorHttpException('Failed to save Model reason.');
             }
@@ -224,7 +224,7 @@ class <?=$actionClass?> implements ApiActionProcessing
                 throw new ServerErrorHttpException('Failed to save commit reason.');
             }
  
-            return ['id' => $demo->id];
+            return ['id' => $model->id];
         } catch (Exception $e) {
             $trans->rollBack();
             throw new ServerErrorHttpException('Failed to save all models reason.');
@@ -241,10 +241,10 @@ class <?=$actionClass?> implements ApiActionProcessing
             'name' => 'demo_name',
             'description' => 'demo_description',
         ];
-        $db2outData = Helper::db2OutputField($handledData, $outputFieldMap);
+        $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        $db2outData['created_at'] = Helper::time2string($db2outData['created_at']);
-        $db2outData['updated_at'] = Helper::time2string($db2outData['updated_at']);
+        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }
