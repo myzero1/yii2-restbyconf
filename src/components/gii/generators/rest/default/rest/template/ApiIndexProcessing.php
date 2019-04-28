@@ -264,8 +264,10 @@ class <?=$actionClass?> implements ApiActionProcessing
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
-        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
+        foreach ($db2outData['items'] as $k => $v) {
+            $db2outData['items'][$k]['created_at'] = ApiHelper::time2string($v['created_at']);
+            $db2outData['items'][$k]['updated_at'] = ApiHelper::time2string($v['updated_at']);
+        }
 
         return $db2outData;
     }
