@@ -17,7 +17,8 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->redirect(['/gii/rest']);
+        // return $this->render('index');
     }
 
     /**
@@ -304,7 +305,7 @@ class DefaultController extends Controller
         $markdown = $info . $table . $content;
 
 
-// var_dump($markdown);exit;
+        // var_dump($markdown);exit;
         $markdownHtml = \yii\helpers\Markdown::process($markdown);
         $markdownHtml = \yii\helpers\Markdown::process($markdown,'gfm');
 
@@ -325,6 +326,16 @@ class DefaultController extends Controller
 style;
         $markdownHtml = $markdownHtml . $style;
 
-        return $this->render('markdown', ['markdownHtml' => $markdownHtml]);
+        // return $this->render('markdown', ['markdownHtml' => $markdownHtml]);
+        return $this->renderAjax('markdown', ['markdownHtml' => $markdownHtml]);
+    }
+
+    /**
+     * Renders the index view for the module
+     * @return string
+     */
+    public function actionRest()
+    {
+        return $this->redirect(['/gii/rest']);
     }
 }

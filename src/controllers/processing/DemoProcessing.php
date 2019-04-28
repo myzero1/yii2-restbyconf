@@ -3,7 +3,7 @@
 namespace myzero1\restbyconf\controllers\processing;
 
 use myzero1\restbyconf\components\rest\Helper;
-use myzero1\restbyconf\components\rest\CodeMsg;
+use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use yii\web\NotFoundHttpException;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\models\DemoModel as Model;
@@ -21,8 +21,8 @@ class DemoProcessing
     public function create($input)
     {
         return [
-            'code' => CodeMsg::SUCCESS,
-            'msg' => CodeMsg::SUCCESS_MSG,
+            'code' => ApiCodeMsg::SUCCESS,
+            'msg' => ApiCodeMsg::SUCCESS_MSG,
             'data' => [
                 'demo_name' => $input['demo_name'],
                 'demo_description' => $input['demo_description'],
@@ -43,7 +43,7 @@ class DemoProcessing
         if (!$model->validate()) {
             $errors = $model->errors;
             return [
-                'code' => CodeMsg::CLIENT_ERROR,
+                'code' => ApiCodeMsg::CLIENT_ERROR,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
@@ -63,8 +63,8 @@ class DemoProcessing
                 $outputField = Helper::db2OutputField($modelArray, $outputFieldMap);
 
                 return [
-                    'code' => CodeMsg::SUCCESS,
-                    'msg' => CodeMsg::SUCCESS_MSG,
+                    'code' => ApiCodeMsg::SUCCESS,
+                    'msg' => ApiCodeMsg::SUCCESS_MSG,
                     'data' => $outputField,
                 ];
             }
@@ -81,8 +81,8 @@ class DemoProcessing
     public function update($id, $input)
     {
         return [
-            'code' => CodeMsg::SUCCESS,
-            'msg' => CodeMsg::SUCCESS_MSG,
+            'code' => ApiCodeMsg::SUCCESS,
+            'msg' => ApiCodeMsg::SUCCESS_MSG,
             'data' => [
                 'demo_name' => $input['demo_name'],
                 'demo_description' => $input['demo_description'],
@@ -103,7 +103,7 @@ class DemoProcessing
         if (!$model->validate()) {
             $errors = $model->errors;
             return [
-                'code' => CodeMsg::CLIENT_ERROR,
+                'code' => ApiCodeMsg::CLIENT_ERROR,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
@@ -123,8 +123,8 @@ class DemoProcessing
                 $outputField = Helper::db2OutputField($modelArray, $outputFieldMap);
 
                 return [
-                    'code' => CodeMsg::SUCCESS,
-                    'msg' => CodeMsg::SUCCESS_MSG,
+                    'code' => ApiCodeMsg::SUCCESS,
+                    'msg' => ApiCodeMsg::SUCCESS_MSG,
                     'data' => $outputField,
                 ];
             }
@@ -139,8 +139,8 @@ class DemoProcessing
     public function view($id)
     {
         return [
-            'code' => CodeMsg::SUCCESS,
-            'msg' => CodeMsg::SUCCESS_MSG,
+            'code' => ApiCodeMsg::SUCCESS,
+            'msg' => ApiCodeMsg::SUCCESS_MSG,
             'data' => [
                 'demo_name' => 'myzero1',
                 'demo_description' => 'I am a phper',
@@ -160,8 +160,8 @@ class DemoProcessing
         $outputField = Helper::db2OutputField($modelArray, $outputFieldMap);
 
         return [
-            'code' => CodeMsg::SUCCESS,
-            'msg' => CodeMsg::SUCCESS_MSG,
+            'code' => ApiCodeMsg::SUCCESS,
+            'msg' => ApiCodeMsg::SUCCESS_MSG,
             'data' => $outputField,
         ];
     }
@@ -175,8 +175,8 @@ class DemoProcessing
     public function delete($id)
     {
         return [
-            'code' => CodeMsg::SUCCESS,
-            'msg' => CodeMsg::SUCCESS_MSG,
+            'code' => ApiCodeMsg::SUCCESS,
+            'msg' => ApiCodeMsg::SUCCESS_MSG,
             'data' => [],
         ];
 
@@ -192,8 +192,8 @@ class DemoProcessing
             throw new ServerErrorHttpException('Failed to delete the object for unknown reason.');
         } else {
             return [
-                'code' => CodeMsg::SUCCESS,
-                'msg' => CodeMsg::SUCCESS_MSG,
+                'code' => ApiCodeMsg::SUCCESS,
+                'msg' => ApiCodeMsg::SUCCESS_MSG,
                 'data' => [],
             ];
         }

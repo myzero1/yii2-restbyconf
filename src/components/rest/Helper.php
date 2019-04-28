@@ -6,6 +6,7 @@
  */
 
 namespace myzero1\restbyconf\components\rest;
+
 use yii\web\ServerErrorHttpException;
 
 /**
@@ -233,10 +234,10 @@ class Helper
      * @param string $separator
      * @return string
      */
-    public static function camelize($uncamelized_words,$separator='_')
+    public static function camelize($uncamelized_words, $separator = '_')
     {
-        $uncamelized_words = $separator. str_replace($separator, " ", strtolower($uncamelized_words));
-        return ltrim(str_replace(" ", "", ucwords($uncamelized_words)), $separator );
+        $uncamelized_words = $separator . str_replace($separator, " ", strtolower($uncamelized_words));
+        return ltrim(str_replace(" ", "", ucwords($uncamelized_words)), $separator);
     }
 
     /**
@@ -244,7 +245,7 @@ class Helper
      * @param string $separator
      * @return string
      */
-    public static function uncamelize($camelCaps,$separator='_')
+    public static function uncamelize($camelCaps, $separator = '_')
     {
         return strtolower(preg_replace('/([a-z])([A-Z])/', "$1" . $separator . "$2", $camelCaps));
     }
@@ -274,7 +275,7 @@ class Helper
         foreach ($apiRuleConfigs as $key => $value) {
             $apiRuleConfigsDealed[] = self::addOptionsAction($value);
         }
-// var_dump($apiRuleConfigsDealed);exit;
+        // var_dump($apiRuleConfigsDealed);exit;
         return $apiRuleConfigsDealed;
     }
 
@@ -288,11 +289,10 @@ class Helper
         $unit = $urlRule;
 
         if ($urlRule['controller'][0] == 'restbyconf_custom_rules') {
-            foreach ($urlRule['extraPatterns'] as $key => $val)
-            {
-                if(!is_numeric(strpos($key, 'OPTIONS'))){
+            foreach ($urlRule['extraPatterns'] as $key => $val) {
+                if (!is_numeric(strpos($key, 'OPTIONS'))) {
                     //判断是否有空格符
-                    if(is_numeric(strpos($key, ' '))){
+                    if (is_numeric(strpos($key, ' '))) {
                         //存在
                         $tmp = explode(' ', $key);
                         $k = str_replace($tmp[0], 'OPTIONS', $key);
@@ -307,19 +307,18 @@ class Helper
             return $urlRule['extraPatterns'];
         } else {
             //防止默认options控制器被屏蔽
-            if(isset($unit['only'])&&!empty($unit['only'])&&!in_array('options', $unit['only'])){
+            if (isset($unit['only']) && !empty($unit['only']) && !in_array('options', $unit['only'])) {
                 $urlRule['only'][] = 'options';
             }
-            if(isset($unit['except'])&&!empty($unit['except'])&&in_array('options', $unit['except'])){
+            if (isset($unit['except']) && !empty($unit['except']) && in_array('options', $unit['except'])) {
                 $urlRule['except'] = array_merge(array_diff($unit['except'], ['options']));
             }
             //由于ajax设置请求头后,会有一次options请求,默认为所有路由添加支持options请求
-            if(isset($unit['extraPatterns'])&&!empty($unit['extraPatterns'])){
-                foreach ($unit['extraPatterns'] as $key => $val)
-                {
-                    if(!is_numeric(strpos($key, 'OPTIONS'))){
+            if (isset($unit['extraPatterns']) && !empty($unit['extraPatterns'])) {
+                foreach ($unit['extraPatterns'] as $key => $val) {
+                    if (!is_numeric(strpos($key, 'OPTIONS'))) {
                         //判断是否有空格符
-                        if(is_numeric(strpos($key, ' '))){
+                        if (is_numeric(strpos($key, ' '))) {
                             //存在
                             $tmp = explode(' ', $key);
                             $k = str_replace($tmp[0], 'OPTIONS', $key);
@@ -331,7 +330,7 @@ class Helper
                     }
                 }
             }
-            if(isset($unit['patterns'])&&!empty($unit['patterns'])) {
+            if (isset($unit['patterns']) && !empty($unit['patterns'])) {
                 foreach ($unit['patterns'] as $key => $val) {
                     if (!is_numeric(strpos($key, 'OPTIONS'))) {
                         //判断是否有空格符
@@ -349,7 +348,7 @@ class Helper
             }
 
             $config = [
-                'class' => '\yii\rest\UrlRule',  
+                'class' => '\yii\rest\UrlRule',
                 'pluralize' => false,
                 'tokens' => [
                     '{id}' => '<id:\\w[\\w,]*>',
@@ -358,5 +357,85 @@ class Helper
 
             return array_merge($config, $urlRule);
         }
+    }
+
+    /**
+     * @param string $filename export-enterprise
+     * @param array $exportParams [
+     * 'dataProvider' => $dataProvider,
+     * 'columns' => [
+     * [
+     * 'attribute' => 'id',
+     * 'label' => '网吧编码',
+     * ],
+     * [
+     * 'attribute' => 'name',
+     * 'label' => '网吧名称',
+     * ],
+     * ],
+     * ]
+     * @throws  \RuntimeException
+     * @return bool true
+     */
+    public static function createXls($filename, $exportParams)
+    {
+        $filenameXls = $filename . '.xls';
+        try {
+            $exporter = new \yii2tech\spreadsheet\Spreadsheet($exportParams);
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e);
+        }
+        $exporter->save($filenameXls);
+
+        return true;
+    }
+
+    /**
+     * @param string $filename export-enterprise
+     * @param string $password password
+     * @throws  \RuntimeException
+     * @return bool true
+     */
+    public static function encryptZIP($filename, $password)
+    {
+        $filenameXls = $filename . '.xls';
+        $filenameZip = $filename . '.zip';
+        $zipFile = new ZipFile();
+
+        try {
+            $zipFile
+                ->addFile($filenameXls)
+                ->setPassword($password)
+                ->saveAsFile($filenameZip)
+                ->close();
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e);
+        }
+        $zipFile->close();
+        unlink($filenameXls);
+
+        return true;
+    }
+
+    /**
+     * @param array $input
+     * @return mixed
+     */
+    public static function inputFilter($input)
+    {
+        return array_filter(
+            $input,
+            function($v){
+                return !in_array(
+                    $v,
+                    $invalidParams = [
+                        '',
+                        null,
+                        [],
+                    ],
+                    true
+                );
+            }
+        );
     }
 }

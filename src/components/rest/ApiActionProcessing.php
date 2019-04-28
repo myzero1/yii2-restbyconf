@@ -18,9 +18,10 @@ namespace myzero1\restbyconf\components\rest;
 interface ApiActionProcessing
 {
     /**
-     * @return array date will return to create action.
+     * @param  mixed $params
+     * @return array the action data.
      */
-    public function processing($id=null);
+    public function processing($params = null);
 
     /**
      * @param  array $input from the request body
@@ -57,18 +58,6 @@ interface ApiActionProcessing
      * @return array
      */
     public function completeResult($db2outData);
-
-    /**
-     * @param  array $validatedInput
-     * @return array
-     */
-    public function getSort($validatedInput, $fields, $defafult);
-
-    /**
-     * @param  array $validatedInput
-     * @return array
-     */
-    public function getPagination($validatedInput);
 
     /**
      * @return array

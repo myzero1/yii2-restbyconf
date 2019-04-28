@@ -6,7 +6,14 @@ use myzero1\restbyconf\components\rest\ApiHelper;
 
 $asset = myzero1\restbyconf\assets\php\JsonEditorAsset::register($this);
 
-$confDataInit = ApiHelper::getApiConf();
+// basePath
+if ($generator->conf) {
+    $conf = json_decode($generator->conf, true);
+    $moduleId = trim($conf['json']['basePath'], '/');
+} else {
+    $moduleId = 'v1';
+}
+$confDataInit = ApiHelper::getApiConf($moduleId);
 // $confDataInit = '';
 
 if ($generator->conf) {

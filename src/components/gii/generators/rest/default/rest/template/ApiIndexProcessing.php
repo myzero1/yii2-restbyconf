@@ -17,7 +17,6 @@ $moduleClass = $generator->moduleClass;
 $processingClassNs = sprintf('%s\processing\%s', dirname($moduleClass), $generator->controller);
 
 $getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
-$getInputs = ApiHelper::rmNode($getInputs);
 $getInputsKeys = array_keys($getInputs);
 $getInputRules = [];
 if (count($getInputs)) {
@@ -31,7 +30,6 @@ foreach ($getInputs as $key => $value) {
 }
 
 $postInputs = $controllerV['actions'][$action]['inputs']['body_params'];
-$postInputs = ApiHelper::rmNode($postInputs);
 $postInputsKeys = array_keys($postInputs);
 $postInputRules = [];
 
@@ -51,7 +49,6 @@ foreach ($postInputs as $key => $value) {
 }
 
 $outputs = $controllerV['actions'][$action]['outputs'];
-$outputs = ApiHelper::rmNode($outputs);
 $egOutputData = $outputs;
 
 
@@ -66,9 +63,11 @@ echo "<?php\n";
 namespace <?=$processingClassNs?>;
 
 use Yii;
+use yii\db\Query;
 use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
+use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
 
@@ -94,7 +93,7 @@ class <?=$actionClass?> implements ApiActionProcessing
         $input['get'] = Yii::$app->request->queryParams;
         $input['post'] = Yii::$app->request->bodyParams;
         $validatedInput = $this->inputValidate($input);
-        if (Helper::isReturning($validatedInput)) {
+        if (ApiHelper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
             /*
@@ -102,7 +101,7 @@ class <?=$actionClass?> implements ApiActionProcessing
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
-            if (Helper::isReturning($handledData)) {
+            if (ApiHelper::isReturning($handledData)) {
                 return $handledData;
             }
             
@@ -124,6 +123,7 @@ class <?=$actionClass?> implements ApiActionProcessing
 <?php foreach ($inputsKeys as $key => $value) { ?>
             '<?=$value?>',
 <?php } ?>
+            'id',
         ];
 
         // get
@@ -148,10 +148,10 @@ class <?=$actionClass?> implements ApiActionProcessing
         }
 
         // post
-        $modelGet = new DynamicModel($inputFields);
+        $modelPost = new DynamicModel($inputFields);
 
-        $modelGet->addRule($inputFields, 'trim');
-        $modelGet->addRule($inputFields, 'safe');
+        $modelPost->addRule($inputFields, 'trim');
+        $modelPost->addRule($inputFields, 'safe');
 
 <?php foreach ($postInputRules as $key => $value) { ?>
         <?=$value."\n"?>
@@ -168,8 +168,8 @@ class <?=$actionClass?> implements ApiActionProcessing
             ];
         }
 
-        $getAttributes = Helper::inputFilter($modelGet->attributes);
-        $postAttributes = Helper::inputFilter($modelPost->attributes);
+        $getAttributes = ApiHelper::inputFilter($modelGet->attributes);
+        $postAttributes = ApiHelper::inputFilter($modelPost->attributes);
         $attributes = array_merge($postAttributes, $getAttributes);
 
         return array_merge($modelGet->attributes, $attributes);
@@ -185,7 +185,7 @@ class <?=$actionClass?> implements ApiActionProcessing
             'demo_name' => 'name',
             'demo_description' => 'description',
         ];
-        $in2dbData = Helper::input2DbField($validatedInput, $inputFieldMap);
+        $in2dbData = ApiHelper::input2DbField($validatedInput, $inputFieldMap);
 
         return $in2dbData;
     }
@@ -209,7 +209,49 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function handling($completedData)
     {
+        $result = [];
 
+        $query = (new Query())
+            ->from('demo')
+            ->andFilterWhere([
+                'and',
+<?php foreach ($inputsKeys as $key => $value) { ?>
+                <?=sprintf("['=', '%s', \$completedData['%s']],\n", $value, $value)?>
+<?php } ?>
+                ['=', 'is_del', 0],
+            ]);
+
+        $query->select(['id']);
+
+        $result['total'] = intval($query->count());
+        $pagination = ApiHelper::getPagination($completedData);
+        $query->limit($pagination['page_size']);
+        $offset = $pagination['page_size'] * ($pagination['page'] - 1);
+        $query->offset($offset);
+        $result['page'] = intval($pagination['page']);
+        $result['page_size'] = intval($pagination['page_size']);
+
+        $outFieldNames = [
+            'id' => 'id',
+            'name' => 'name',
+            'des' => 'des',
+            'created_at' => 'created_at',
+            'updated_at' => 'updated_at',
+        ];
+
+        // $query -> groupBy(['kc.keyword_id']);
+
+        // $sort = ApiHelper::getSort($completedData, array_keys($outFieldNames), '+id');
+        // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
+
+        $query->select(array_values($outFieldNames));
+
+        //  var_dump($query->createCommand()->getRawSql());exit;
+
+        $items = $query->all();
+        $result['items'] = $items;
+
+        return $result;
     }
 
     /**
@@ -222,67 +264,29 @@ class <?=$actionClass?> implements ApiActionProcessing
             'name' => 'demo_name',
             'description' => 'demo_description',
         ];
-        $db2outData = Helper::db2OutputField($handledData, $outputFieldMap);
+        $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        $db2outData['created_at'] = Helper::time2string($db2outData['created_at']);
-        $db2outData['updated_at'] = Helper::time2string($db2outData['updated_at']);
+        foreach ($db2outData['items'] as $k => $v) {
+            $db2outData['items'][$k]['created_at'] = ApiHelper::time2string($v['created_at']);
+            $db2outData['items'][$k]['updated_at'] = ApiHelper::time2string($v['updated_at']);
+        }
 
         return $db2outData;
     }
 
     /**
      * @param  array $db2outData completed data form database
-     * @param  array $extra
      * @return array
      */
-    public function completeResult($db2outData = [], $extra = [])
+    public function completeResult($db2outData = [])
     {
         $result = [
             'code' => ApiCodeMsg::SUCCESS,
             'msg' => ApiCodeMsg::SUCCESS_MSG,
             'data' => $db2outData,
-            'extra' => $extra,
         ];
 
         return $result;
-    }
-
-    /**
-     * @param  array $db2outData completed data form database
-     * @param  array $extra
-     * @return array
-     */
-    public function getSort($validatedInput, $fields, $defafult)
-    {
-        if (isset($validatedInput['sort'])) {
-            $sortInfo = Helper::getSort($validatedInput['sort'], $fields, $defafult);
-        } else {
-            $sortInfo = Helper::getSort('+myzeroqtest', $fields, $defafult);
-        }
-
-        return $sortInfo;
-    }
-
-    /**
-     * @param  array $db2outData completed data form database
-     * @param  array $extra
-     * @return array
-     */
-    public function getPagination($validatedInput)
-    {
-        $pagination = [];
-        if (isset($validatedInput['page'])) {
-            $validatedInput['page'] = $validatedInput['page'];
-        } else {
-            $pagination['page'] = 1;
-        }
-        if (isset($validatedInput['page_size'])) {
-            $pagination['page_size'] = $validatedInput['page_size'];
-        } else {
-            $pagination['page_size'] = 30;
-        }
-
-        return $pagination;
     }
 
     /**

@@ -9,8 +9,6 @@ namespace myzero1\restbyconf\components\rest;
 
 use Yii;
 use yii\base\InvalidConfigException;
-use yii\db\ActiveRecordInterface;
-use yii\web\NotFoundHttpException;
 
 /**
  * Action is the base class for action classes that implement RESTful API.
@@ -56,13 +54,13 @@ class ApiAction extends \yii\base\Action
     /**
      * {@inheritdoc}
      */
-    public function run($id=null)
+    public function run($params = null)
     {
         if ($this->checkAccess) {
             call_user_func($this->checkAccess, $this->id);
         }
 
         $processing = new $this->processingClass();
-        return $processing->processing($id);
+        return $processing->processing($params);
     }
 }

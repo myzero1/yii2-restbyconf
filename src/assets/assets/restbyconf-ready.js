@@ -13,8 +13,8 @@ window.jsoneditorOldJson = {
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         }
     },
-    "host": "petstore.swagger.io",
-    "basePath": "/v2",
+    "host": "restbyconf.test",
+    "basePath": "/v1",
     "externalDocs": {
         "description": "11Find out more about Swagger",
         "url": "http://swagger.io"
@@ -28,36 +28,157 @@ window.jsoneditorOldJson = {
         }
     },
     "controllers": {
-        "controller": {
+        "demo": {
             "description": "userName",
             "actions": {
-                "action": {
-                    "description": "create",
+                "create": {
+                    "description": "The action's description",
                     "method": "post",
                     "inputs": {
                         "body_params": {
-                            "in_str": {
-                                "des": "user name",
+                            "name": {
+                                "des": "Name",
+                                "required": true,
+                                "eg": "name",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            },
+                            "des": {
+                                "des": "Description",
                                 "required": false,
-                                "eg": "myzero1",
+                                "eg": "description",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        },
+                        "path_params": {},
+                        "query_params": {}
+                    },
+                    "outputs": {
+                        "code": 200,
+                        "msg": "msg",
+                        "data": {
+                            "id": 1,
+                            "name": "name",
+                            "des": "description",
+                            "created_at": "2019-04-28 11:11:11",
+                            "updated_at": "2019-04-28 11:11:11"
+                        }
+                    }
+                },
+                "update": {
+                    "description": "The action's description",
+                    "method": "put",
+                    "inputs": {
+                        "body_params": {
+                            "name": {
+                                "des": "Name",
+                                "required": false,
+                                "eg": "name",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            },
+                            "des": {
+                                "des": "Description",
+                                "required": false,
+                                "eg": "description",
                                 "rules": "^\\w{1,32}$",
                                 "error_msg": "You should input a-z,A-Z,0-9"
                             }
                         },
                         "path_params": {
-                            "in_str": {
-                                "des": "user name",
-                                "required": false,
-                                "eg": "myzero1",
-                                "rules": "^\\w{1,32}$",
+                            "id": {
+                                "des": "Id",
+                                "required": true,
+                                "eg": 1,
+                                "rules": "^\\d{1,32}$",
                                 "error_msg": "You should input a-z,A-Z,0-9"
                             }
                         },
-                        "query_params": {
-                            "in_str": {
-                                "des": "user name",
+                        "query_params": {}
+                    },
+                    "outputs": {
+                        "code": 200,
+                        "msg": "msg",
+                        "data": {
+                            "id": 1,
+                            "name": "name",
+                            "des": "description",
+                            "created_at": "2019-04-28 11:11:11",
+                            "updated_at": "2019-04-28 11:11:11"
+                        }
+                    }
+                },
+                "view": {
+                    "description": "The action's description",
+                    "method": "get",
+                    "inputs": {
+                        "body_params": {},
+                        "path_params": {
+                            "id": {
+                                "des": "Id",
                                 "required": false,
-                                "eg": "myzero1",
+                                "eg": 1,
+                                "rules": "^\\d{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        },
+                        "query_params": {}
+                    },
+                    "outputs": {
+                        "code": 200,
+                        "msg": "msg",
+                        "data": {
+                            "id": 1,
+                            "name": "name",
+                            "des": "desdescription",
+                            "created_at": "2019-04-28 11:11:11",
+                            "updated_at": "2019-04-28 11:11:11"
+                        }
+                    }
+                },
+                "delete": {
+                    "description": "The action's description",
+                    "method": "delete",
+                    "inputs": {
+                        "body_params": {},
+                        "path_params": {
+                            "id": {
+                                "des": "Id",
+                                "required": false,
+                                "eg": 1,
+                                "rules": "^\\d{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        },
+                        "query_params": {}
+                    },
+                    "outputs": {
+                        "code": 200,
+                        "msg": "msg",
+                        "data": {
+                            "id": 1
+                        }
+                    }
+                },
+                "index": {
+                    "description": "create",
+                    "method": "get",
+                    "inputs": {
+                        "body_params": {},
+                        "path_params": {},
+                        "query_params": {
+                            "name": {
+                                "des": "Name",
+                                "required": false,
+                                "eg": "n1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            },
+                            "des": {
+                                "des": "Description",
+                                "required": false,
+                                "eg": "description",
                                 "rules": "^\\w{1,32}$",
                                 "error_msg": "You should input a-z,A-Z,0-9"
                             }
@@ -66,7 +187,97 @@ window.jsoneditorOldJson = {
                     "outputs": {
                         "code": 200,
                         "msg": "msg",
-                        "data": {}
+                        "data": {
+                            "total": 9,
+                            "page": 1,
+                            "page_size": 20,
+                            "items": [{
+                                "id": 0,
+                                "name": "n0",
+                                "des": "d0",
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }, {
+                                "id": 1,
+                                "name": "n1",
+                                "des": "d1",
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }, {
+                                "id": 2,
+                                "name": "n2",
+                                "des": "d2",
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }]
+                        }
+                    }
+                },
+                "export": {
+                    "description": "create",
+                    "method": "get",
+                    "inputs": {
+                        "body_params": {},
+                        "path_params": {},
+                        "query_params": {
+                            "name": {
+                                "des": "Name",
+                                "required": false,
+                                "eg": "n1",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            },
+                            "des": {
+                                "des": "Description",
+                                "required": false,
+                                "eg": "description",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        }
+                    },
+                    "outputs": {
+                        "code": 200,
+                        "msg": "msg",
+                        "data": {
+                            "url": "/export.xsl"
+                        }
+                    }
+                },
+                "custom": {
+                    "description": "The action's description",
+                    "method": "patch",
+                    "inputs": {
+                        "body_params": {
+                            "name": {
+                                "des": "Name",
+                                "required": false,
+                                "eg": "rename",
+                                "rules": "^\\w{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        },
+                        "path_params": {
+                            "id": {
+                                "des": "Id",
+                                "required": true,
+                                "eg": 1,
+                                "rules": "^\\d{1,32}$",
+                                "error_msg": "You should input a-z,A-Z,0-9"
+                            }
+                        },
+                        "query_params": {}
+                    },
+                    "outputs": {
+                        "code": 200,
+                        "msg": "msg",
+                        "data": {
+                            "id": 1,
+                            "name": "rename",
+                            "des": "description",
+                            "created_at": "2019-04-28 11:11:11",
+                            "updated_at": "2019-04-28 11:11:11"
+                        }
                     }
                 }
             }
@@ -81,35 +292,156 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
-              "description": "controllerName",
+              "description": "Insert a controller node",
               "actions": {
-                  "action": {
+                  "create": {
                       "description": "The action's description",
                       "method": "post",
                       "inputs": {
                           "body_params": {
-                              "in_str": {
-                                  "des": "user name",
+                              "name": {
+                                  "des": "Name",
+                                  "required": true,
+                                  "eg": "name",
+                                  "rules": "^\\w{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              },
+                              "des": {
+                                  "des": "Description",
                                   "required": false,
-                                  "eg": "myzero1",
+                                  "eg": "description",
+                                  "rules": "^\\w{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              }
+                          },
+                          "path_params": {},
+                          "query_params": {}
+                      },
+                      "outputs": {
+                          "code": 200,
+                          "msg": "msg",
+                          "data": {
+                              "id": 1,
+                              "name": "name",
+                              "des": "description",
+                              "created_at": "2019-04-28 11:11:11",
+                              "updated_at": "2019-04-28 11:11:11"
+                          }
+                      }
+                  },
+                  "update": {
+                      "description": "The action's description",
+                      "method": "put",
+                      "inputs": {
+                          "body_params": {
+                              "name": {
+                                  "des": "Name",
+                                  "required": false,
+                                  "eg": "name",
+                                  "rules": "^\\w{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              },
+                              "des": {
+                                  "des": "Description",
+                                  "required": false,
+                                  "eg": "description",
                                   "rules": "^\\w{1,32}$",
                                   "error_msg": "You should input a-z,A-Z,0-9"
                               }
                           },
                           "path_params": {
-                              "in_str": {
-                                  "des": "user name",
-                                  "required": false,
-                                  "eg": "myzero1",
-                                  "rules": "^\\w{1,32}$",
+                              "id": {
+                                  "des": "Id",
+                                  "required": true,
+                                  "eg": 1,
+                                  "rules": "^\\d{1,32}$",
                                   "error_msg": "You should input a-z,A-Z,0-9"
                               }
                           },
-                          "query_params": {
-                              "in_str": {
-                                  "des": "user name",
+                          "query_params": {}
+                      },
+                      "outputs": {
+                          "code": 200,
+                          "msg": "msg",
+                          "data": {
+                              "id": 1,
+                              "name": "name",
+                              "des": "description",
+                              "created_at": "2019-04-28 11:11:11",
+                              "updated_at": "2019-04-28 11:11:11"
+                          }
+                      }
+                  },
+                  "view": {
+                      "description": "The action's description",
+                      "method": "get",
+                      "inputs": {
+                          "body_params": {},
+                          "path_params": {
+                              "id": {
+                                  "des": "Id",
                                   "required": false,
-                                  "eg": "myzero1",
+                                  "eg": 1,
+                                  "rules": "^\\d{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              }
+                          },
+                          "query_params": {}
+                      },
+                      "outputs": {
+                          "code": 200,
+                          "msg": "msg",
+                          "data": {
+                              "id": 1,
+                              "name": "name",
+                              "des": "desdescription",
+                              "created_at": "2019-04-28 11:11:11",
+                              "updated_at": "2019-04-28 11:11:11"
+                          }
+                      }
+                  },
+                  "delete": {
+                      "description": "The action's description",
+                      "method": "delete",
+                      "inputs": {
+                          "body_params": {},
+                          "path_params": {
+                              "id": {
+                                  "des": "Id",
+                                  "required": false,
+                                  "eg": 1,
+                                  "rules": "^\\d{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              }
+                          },
+                          "query_params": {}
+                      },
+                      "outputs": {
+                          "code": 200,
+                          "msg": "msg",
+                          "data": {
+                              "id": 1
+                          }
+                      }
+                  },
+                  "index": {
+                      "description": "create",
+                      "method": "get",
+                      "inputs": {
+                          "body_params": {},
+                          "path_params": {},
+                          "query_params": {
+                              "name": {
+                                  "des": "Name",
+                                  "required": false,
+                                  "eg": "n1",
+                                  "rules": "^\\w{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              },
+                              "des": {
+                                  "des": "Description",
+                                  "required": false,
+                                  "eg": "description",
                                   "rules": "^\\w{1,32}$",
                                   "error_msg": "You should input a-z,A-Z,0-9"
                               }
@@ -118,59 +450,105 @@ var templates = [
                       "outputs": {
                           "code": 200,
                           "msg": "msg",
-                          "data": {}
+                          "data": {
+                              "total": 9,
+                              "page": 1,
+                              "page_size": 20,
+                              "items": [{
+                                  "id": 0,
+                                  "name": "n0",
+                                  "des": "d0",
+                                  "created_at": "2019-04-28 11:11:11",
+                                  "updated_at": "2019-04-28 11:11:11"
+                              }, {
+                                  "id": 1,
+                                  "name": "n1",
+                                  "des": "d1",
+                                  "created_at": "2019-04-28 11:11:11",
+                                  "updated_at": "2019-04-28 11:11:11"
+                              }, {
+                                  "id": 2,
+                                  "name": "n2",
+                                  "des": "d2",
+                                  "created_at": "2019-04-28 11:11:11",
+                                  "updated_at": "2019-04-28 11:11:11"
+                              }]
+                          }
+                      }
+                  },
+                  "export": {
+                      "description": "create",
+                      "method": "get",
+                      "inputs": {
+                          "body_params": {},
+                          "path_params": {},
+                          "query_params": {
+                              "name": {
+                                  "des": "Name",
+                                  "required": false,
+                                  "eg": "n1",
+                                  "rules": "^\\w{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              },
+                              "des": {
+                                  "des": "Description",
+                                  "required": false,
+                                  "eg": "description",
+                                  "rules": "^\\w{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              }
+                          }
+                      },
+                      "outputs": {
+                          "code": 200,
+                          "msg": "msg",
+                          "data": {
+                              "url": "/export.xsl"
+                          }
+                      }
+                  },
+                  "custom": {
+                      "description": "The action's description",
+                      "method": "patch",
+                      "inputs": {
+                          "body_params": {
+                              "name": {
+                                  "des": "Name",
+                                  "required": false,
+                                  "eg": "rename",
+                                  "rules": "^\\w{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              }
+                          },
+                          "path_params": {
+                              "id": {
+                                  "des": "Id",
+                                  "required": true,
+                                  "eg": 1,
+                                  "rules": "^\\d{1,32}$",
+                                  "error_msg": "You should input a-z,A-Z,0-9"
+                              }
+                          },
+                          "query_params": {}
+                      },
+                      "outputs": {
+                          "code": 200,
+                          "msg": "msg",
+                          "data": {
+                              "id": 1,
+                              "name": "rename",
+                              "des": "description",
+                              "created_at": "2019-04-28 11:11:11",
+                              "updated_at": "2019-04-28 11:11:11"
+                          }
                       }
                   }
               }
           }
       },
       {
-          text: 'action',
-          title: 'Insert a CreatePath Node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: '',
-          value: {
-              "description": "The action's description",
-              "method": "post",
-              "inputs": {
-                  "body_params": {
-                      "in_str": {
-                          "des": "user name",
-                          "required": false,
-                          "eg": "myzero1",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
-                      }
-                  },
-                  "path_params": {
-                      "in_str": {
-                          "des": "user name",
-                          "required": false,
-                          "eg": "myzero1",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
-                      }
-                  },
-                  "query_params": {
-                      "in_str": {
-                          "des": "user name",
-                          "required": false,
-                          "eg": "myzero1",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
-                      }
-                  }
-              },
-              "outputs": {
-                  "code": 200,
-                  "msg": "msg",
-                  "data": {}
-              }
-          }
-      },
-      {
-          text: 'in_str',
-          title: 'Insert a CreatePath Node',
+          text: 'param',
+          title: 'Insert a param node',
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
@@ -179,6 +557,297 @@ var templates = [
               "eg": "myzero1",
               "rules": "^\\w{1,32}$",
               "error_msg": "You should input a-z,A-Z,0-9"
+          }
+      },
+      {
+          text: 'create',
+          title: 'Insert a action node',
+          className: 'jsoneditor-append jsoneditor-default',
+          field: '',
+          value: {
+              "description": "The action's description",
+              "method": "post",
+              "inputs": {
+                  "body_params": {
+                      "name": {
+                          "des": "Name",
+                          "required": true,
+                          "eg": "name",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      },
+                      "des": {
+                          "des": "Description",
+                          "required": false,
+                          "eg": "description",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      }
+                  },
+                  "path_params": {},
+                  "query_params": {}
+              },
+              "outputs": {
+                  "code": 200,
+                  "msg": "msg",
+                  "data": {
+                      "id": 1,
+                      "name": "name",
+                      "des": "description",
+                      "created_at": "2019-04-28 11:11:11",
+                      "updated_at": "2019-04-28 11:11:11"
+                  }
+              }
+          }
+      },
+      {
+          text: 'update',
+          title: 'Insert a action node',
+          className: 'jsoneditor-append jsoneditor-default',
+          field: '',
+          value: {
+              "description": "The action's description",
+              "method": "put",
+              "inputs": {
+                  "body_params": {
+                      "name": {
+                          "des": "Name",
+                          "required": false,
+                          "eg": "name",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      },
+                      "des": {
+                          "des": "Description",
+                          "required": false,
+                          "eg": "description",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      }
+                  },
+                  "path_params": {
+                      "id": {
+                          "des": "Id",
+                          "required": true,
+                          "eg": 1,
+                          "rules": "^\\d{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      }
+                  },
+                  "query_params": {}
+              },
+              "outputs": {
+                  "code": 200,
+                  "msg": "msg",
+                  "data": {
+                      "id": 1,
+                      "name": "name",
+                      "des": "description",
+                      "created_at": "2019-04-28 11:11:11",
+                      "updated_at": "2019-04-28 11:11:11"
+                  }
+              }
+          }
+      },
+      {
+          text: 'view',
+          title: 'Insert a action node',
+          className: 'jsoneditor-append jsoneditor-default',
+          field: '',
+          value: {
+              "description": "The action's description",
+              "method": "get",
+              "inputs": {
+                  "body_params": {},
+                  "path_params": {
+                      "id": {
+                          "des": "Id",
+                          "required": false,
+                          "eg": 1,
+                          "rules": "^\\d{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      }
+                  },
+                  "query_params": {}
+              },
+              "outputs": {
+                  "code": 200,
+                  "msg": "msg",
+                  "data": {
+                      "id": 1,
+                      "name": "name",
+                      "des": "desdescription",
+                      "created_at": "2019-04-28 11:11:11",
+                      "updated_at": "2019-04-28 11:11:11"
+                  }
+              }
+          }
+      },
+      {
+          text: 'delete',
+          title: 'Insert a action node',
+          className: 'jsoneditor-append jsoneditor-default',
+          field: '',
+          value: {
+              "description": "The action's description",
+              "method": "delete",
+              "inputs": {
+                  "body_params": {},
+                  "path_params": {
+                      "id": {
+                          "des": "Id",
+                          "required": false,
+                          "eg": 1,
+                          "rules": "^\\d{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      }
+                  },
+                  "query_params": {}
+              },
+              "outputs": {
+                  "code": 200,
+                  "msg": "msg",
+                  "data": {
+                      "id": 1
+                  }
+              }
+          }
+      },
+      {
+          text: 'index',
+          title: 'Insert a action node',
+          className: 'jsoneditor-append jsoneditor-default',
+          field: '',
+          value: {
+              "description": "create",
+              "method": "get",
+              "inputs": {
+                  "body_params": {},
+                  "path_params": {},
+                  "query_params": {
+                      "name": {
+                          "des": "Name",
+                          "required": false,
+                          "eg": "n1",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      },
+                      "des": {
+                          "des": "Description",
+                          "required": false,
+                          "eg": "description",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      }
+                  }
+              },
+              "outputs": {
+                  "code": 200,
+                  "msg": "msg",
+                  "data": {
+                      "total": 9,
+                      "page": 1,
+                      "page_size": 20,
+                      "items": [{
+                          "id": 0,
+                          "name": "n0",
+                          "des": "d0",
+                          "created_at": "2019-04-28 11:11:11",
+                          "updated_at": "2019-04-28 11:11:11"
+                      }, {
+                          "id": 1,
+                          "name": "n1",
+                          "des": "d1",
+                          "created_at": "2019-04-28 11:11:11",
+                          "updated_at": "2019-04-28 11:11:11"
+                      }, {
+                          "id": 2,
+                          "name": "n2",
+                          "des": "d2",
+                          "created_at": "2019-04-28 11:11:11",
+                          "updated_at": "2019-04-28 11:11:11"
+                      }]
+                  }
+              }
+          }
+      },
+      {
+          text: 'export',
+          title: 'Insert a action node',
+          className: 'jsoneditor-append jsoneditor-default',
+          field: '',
+          value: {
+              "description": "create",
+              "method": "get",
+              "inputs": {
+                  "body_params": {},
+                  "path_params": {},
+                  "query_params": {
+                      "name": {
+                          "des": "Name",
+                          "required": false,
+                          "eg": "n1",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      },
+                      "des": {
+                          "des": "Description",
+                          "required": false,
+                          "eg": "description",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      }
+                  }
+              },
+              "outputs": {
+                  "code": 200,
+                  "msg": "msg",
+                  "data": {
+                      "url": "/export.xsl"
+                  }
+              }
+          }
+      },
+      {
+          text: 'custom',
+          title: 'Insert a action node',
+          className: 'jsoneditor-append jsoneditor-default',
+          field: '',
+          value: {
+              "description": "The action's description",
+              "method": "patch",
+              "inputs": {
+                  "body_params": {
+                      "name": {
+                          "des": "Name",
+                          "required": false,
+                          "eg": "rename",
+                          "rules": "^\\w{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      }
+                  },
+                  "path_params": {
+                      "id": {
+                          "des": "Id",
+                          "required": true,
+                          "eg": 1,
+                          "rules": "^\\d{1,32}$",
+                          "error_msg": "You should input a-z,A-Z,0-9"
+                      }
+                  },
+                  "query_params": {}
+              },
+              "outputs": {
+                  "code": 200,
+                  "msg": "msg",
+                  "data": {
+                      "id": 1,
+                      "name": "rename",
+                      "des": "description",
+                      "created_at": "2019-04-28 11:11:11",
+                      "updated_at": "2019-04-28 11:11:11"
+                  }
+              }
           }
       }
   ];
@@ -192,206 +861,147 @@ var schemas = {
             "swagger": {
                 "title": "swagger version",
                 "description": "It can not edit.",
-                "type": ["number","string"],
-                "examples": [
-                    "2.0"
-                ]
+                "type": ["number", "string"],
+                "examples": ["2.0"]
             },
             "info": {
                 "title": "Info description",
                 "type": "object",
-                "required": [
-                    "description",
-                    "version",
-                    "title",
-                    "termsOfService",
-                    "contact",
-                    "license"
-                ],
+                "required": ["description", "version", "title", "termsOfService", "contact", "license"],
                 "properties": {
                     "description": {
-                        "type": ["number","string"],
+                        "type": ["number", "string"],
                         "minLength": 1,
                         "maxLength": 512,
-                        "examples": [
-                            "This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters."
-                        ]
+                        "examples": ["This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters."]
                     },
                     "version": {
                         "title": "The api version",
-                        "type": ["number","string"],
+                        "type": ["number", "string"],
                         "minLength": 1,
                         "maxLength": 32,
                         "pattern": "^[0-9][0-9.]{0,}[0-9]$",
-                        "examples": [
-                            "1.0.0",
-                            "1.0.1"
-                        ]
+                        "examples": ["1.0.0", "1.0.1"]
                     },
                     "title": {
-                      "title": "Api title",
-                      "type": ["number","string"],
-                      "minLength": 1,
-                      "maxLength": 32,
-                      "examples": [
-                        "Create restfull api by conf.",
-                        "Swagger Petstore"
-                      ]
+                        "title": "Api title",
+                        "type": ["number", "string"],
+                        "minLength": 1,
+                        "maxLength": 32,
+                        "examples": ["Create restfull api by conf.", "Swagger Petstore"]
                     },
                     "termsOfService": {
-                      "title": "The terms of service",
-                      "type": ["number","string"],
-                      "minLength": 1,
-                      "maxLength": 128,
-                      "examples": [
-                        "https://github.com/myzero1/yii2-restbyconf",
-                        "http://swagger.io/terms/"
-                      ]
+                        "title": "The terms of service",
+                        "type": ["number", "string"],
+                        "minLength": 1,
+                        "maxLength": 128,
+                        "examples": ["https://github.com/myzero1/yii2-restbyconf", "http://swagger.io/terms/"]
                     },
                     "contact": {
-                      "title": "contact description",
-                      "type": "object",
-                      "required": [
-                          "email"
-                      ],
-                      "properties": {
-                          "email": {
-                              "title": "email",
-                              "description": "The contact email",
-                              "type": ["number","string"],
-                              "format": "email",
-                              "examples": [
-                                "myzero1@sina.com",
-                                "apiteam@swagger.io"
-                              ]
-                          }
-                      }
+                        "title": "contact description",
+                        "type": "object",
+                        "required": ["email"],
+                        "properties": {
+                            "email": {
+                                "title": "email",
+                                "description": "The contact email",
+                                "type": ["number", "string"],
+                                "format": "email",
+                                "examples": ["myzero1@sina.com", "apiteam@swagger.io"]
+                            }
+                        }
                     },
                     "license": {
-                      "title": "contact description",
-                      "type": "object",
-                      "required": [
-                          "name",
-                          "url"
-                      ],
-                      "properties": {
-                          "name": {
-                              "type": ["number","string"],
-                              "minLength": 1,
-                              "maxLength": 32,
-                              "examples": [
-                                  "Apache 2.0"
-                              ]
-                          },
-                          "url": {
-                              "type": ["number","string"],
-                              "minLength": 1,
-                              "maxLength": 64,
-                              "pattern": "[a-zA-z]+://[^\\s]*",
-                              "examples": [
-                                  "http://www.apache.org/licenses/LICENSE-2.0.html"
-                              ]
+                        "title": "contact description",
+                        "type": "object",
+                        "required": ["name", "url"],
+                        "properties": {
+                            "name": {
+                                "type": ["number", "string"],
+                                "minLength": 1,
+                                "maxLength": 32,
+                                "examples": ["Apache 2.0"]
+                            },
+                            "url": {
+                                "type": ["number", "string"],
+                                "minLength": 1,
+                                "maxLength": 64,
+                                "pattern": "[a-zA-z]+://[^\\s]*",
+                                "examples": ["http://www.apache.org/licenses/LICENSE-2.0.html"]
                             }
                         }
                     }
                 }
             },
             "host": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 32,
                 "format": "hostname",
-                "examples": [
-                  "petstore.swagger.io",
-                  "github.com"
-                ]
+                "examples": ["petstore.swagger.io", "github.com"]
             },
             "basePath": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 32,
                 "pattern": "^/",
-                "examples": [
-                  "/v1",
-                  "/v2"
-                ]
+                "examples": ["/v1", "/v2"]
             },
             "externalDocs": {
                 "title": "externalDocs description",
                 "type": "object",
-                "required": [
-                    "description",
-                    "url"
-                ],
+                "required": ["description", "url"],
                 "properties": {
                     "description": {
-                        "type": ["number","string"],
+                        "type": ["number", "string"],
                         "minLength": 1,
                         "maxLength": 32,
-                        "examples": [
-                          "e about Swagger"
-                        ]
+                        "examples": ["e about Swagger"]
                     },
                     "url": {
-                        "type": ["number","string"],
+                        "type": ["number", "string"],
                         "minLength": 1,
                         "maxLength": 64,
                         "pattern": "[a-zA-z]+://[^\\s]*",
-                        "examples": [
-                            "http://www.apache.org/licenses/LICENSE-2.0.html"
-                        ]
+                        "examples": ["http://www.apache.org/licenses/LICENSE-2.0.html"]
                     }
                 }
             },
             "schemes": {
                 "title": "schemes",
-                "enum": [
-                    "https",
-                    "http"
-                ]
+                "enum": ["https", "http"]
             },
             "securityDefinitions": {
-              "title": "securityDefinitions description",
-              "type": "object",
-              "required": [
-                  "api_key"
-              ],
-              "properties": {
-                  "api_key": {
-                      "title": "api_key description",
-                      "type": "object",
-                      "required": [
-                          "type",
-                          "name"
-                      ],
-                      "properties": {
-                          "type": {
-                              "type": ["number","string"],
-                              "minLength": 1,
-                              "maxLength": 32,
-                              "examples": [
-                                "apiKey"
-                              ]
-                          },
-                          "in": {
-                              "type": ["number","string"],
-                              "minLength": 1,
-                              "maxLength": 32,
-                                "examples": [
-                                    "header"
-                                ]
-                          },
-                          "name": {
-                                "type": ["number","string"],
+                "title": "securityDefinitions description",
+                "type": "object",
+                "required": ["api_key"],
+                "properties": {
+                    "api_key": {
+                        "title": "api_key description",
+                        "type": "object",
+                        "required": ["type", "name"],
+                        "properties": {
+                            "type": {
+                                "type": ["number", "string"],
                                 "minLength": 1,
                                 "maxLength": 32,
-                                "examples": [
-                                "api_key"
-                              ]
-                          }
-                      }
-                  }
-              }
+                                "examples": ["apiKey"]
+                            },
+                            "in": {
+                                "type": ["number", "string"],
+                                "minLength": 1,
+                                "maxLength": 32,
+                                "examples": ["header"]
+                            },
+                            "name": {
+                                "type": ["number", "string"],
+                                "minLength": 1,
+                                "maxLength": 32,
+                                "examples": ["api_key"]
+                            }
+                        }
+                    }
+                }
             },
             "controllers": {
                 "$ref": "controllers"
@@ -405,6 +1015,9 @@ var schemas = {
         "properties": {
             "controller": {
                 "$ref": "controller"
+            },
+            "demo": {
+                "$ref": "controller"
             }
         }
     },
@@ -414,13 +1027,10 @@ var schemas = {
         "required": ["description", "actions"],
         "properties": {
             "description": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 32,
-                "examples": [
-                    "user",
-                    "log"
-                ],
+                "examples": ["user", "log"]
             },
             "actions": {
                 "$ref": "actions"
@@ -432,7 +1042,25 @@ var schemas = {
         "type": "object",
         "required": [],
         "properties": {
-            "action": {
+            "index": {
+                "$ref": "action"
+            },
+            "create": {
+                "$ref": "action"
+            },
+            "update": {
+                "$ref": "action"
+            },
+            "view": {
+                "$ref": "action"
+            },
+            "delete": {
+                "$ref": "action"
+            },
+            "export": {
+                "$ref": "action"
+            },
+            "custom": {
                 "$ref": "action"
             }
         }
@@ -443,24 +1071,14 @@ var schemas = {
         "required": [],
         "properties": {
             "description": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 32,
-                "examples": [
-                    "create",
-                    "update"
-                ],
+                "examples": ["create", "update"]
             },
             "method": {
                 "title": "method",
-                "enum": [
-                    "post",
-                    "get",
-                    "put",
-                    "delete",
-                    "patch",
-                    "options"
-                ]
+                "enum": ["post", "get", "put", "delete", "patch", "options"]
             },
             "inputs": {
                 "$ref": "inputs"
@@ -473,7 +1091,7 @@ var schemas = {
     "inputs": {
         "title": "restbyconf-obj-inputs",
         "type": "object",
-        "required": ["body_params","path_params","query_params"],
+        "required": ["body_params", "path_params", "query_params"],
         "properties": {
             "query_params": {
                 "$ref": "query_params"
@@ -491,8 +1109,17 @@ var schemas = {
         "type": "object",
         "required": [],
         "properties": {
-            "in_str": {
-                "$ref": "in_str"
+            "param": {
+                "$ref": "param"
+            },
+            "name": {
+                "$ref": "param"
+            },
+            "des": {
+                "$ref": "param"
+            },
+            "status": {
+                "$ref": "param"
             }
         }
     },
@@ -501,8 +1128,14 @@ var schemas = {
         "type": "object",
         "required": [],
         "properties": {
-            "in_str": {
-                "$ref": "in_str"
+            "param": {
+                "$ref": "param"
+            },
+            "id": {
+                "$ref": "param"
+            },
+            "name": {
+                "$ref": "param"
             }
         }
     },
@@ -511,23 +1144,36 @@ var schemas = {
         "type": "object",
         "required": [],
         "properties": {
-            "in_str": {
-                "$ref": "in_str"
+            "param": {
+                "$ref": "param"
+            },
+            "name": {
+                "$ref": "param"
+            },
+            "des": {
+                "$ref": "param"
+            },
+            "": {
+                "$ref": "param"
+            },
+            "created_at": {
+                "$ref": "param"
+            },
+            "updated_at": {
+                "$ref": "param"
             }
         }
     },
-    "in_str": {
+    "param": {
         "title": "restbyconf-obj-input",
         "type": "object",
-        "required": ["des","required","eg","rules","error_msg"],
+        "required": ["des", "required", "eg", "rules", "error_msg"],
         "properties": {
             "des": {
                 "type": ["string", "number"],
                 "minLength": 1,
                 "maxLength": 32,
-                "examples": [
-                    "user name"
-                ],
+                "examples": ["user name"]
             },
             "required": {
                 "type": "boolean",
@@ -537,48 +1183,38 @@ var schemas = {
                 "type": ["string", "number"],
                 "minLength": 1,
                 "maxLength": 32,
-                "examples": [
-                    "myzero1"
-                ],
+                "examples": ["myzero1"]
             },
             "rules": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 32,
-                "examples": [
-                    "^\\w{1,32}$"
-                ],
+                "examples": ["^\\w{1,32}$"]
             },
             "error_msg": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 64,
-                "examples": [
-                    "You should input a-z,A-Z,0-9"
-                ],
+                "examples": ["You should input a-z,A-Z,0-9"]
             }
         }
     },
     "outputs": {
         "title": "restbyconf-obj-outputs",
         "type": "object",
-        "required": ["code","msg","data"],
+        "required": ["code", "msg", "data"],
         "properties": {
             "code": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 32,
-                "examples": [
-                    "200 success"
-                ],
+                "examples": ["200 success"]
             },
             "msg": {
                 "type": ["string"],
                 "minLength": 1,
                 "maxLength": 64,
-                "examples": [
-                    "myzero1"
-                ],
+                "examples": ["myzero1"]
             },
             "data": {
                 "type": "object"

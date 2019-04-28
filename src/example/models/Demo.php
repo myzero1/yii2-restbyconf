@@ -1,6 +1,6 @@
 <?php
 
-namespace myzero1\restbyconf\models;
+namespace myzero1\restbyconf\example\models;
 
 use Yii;
 

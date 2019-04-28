@@ -6,6 +6,7 @@
  */
 
 namespace myzero1\restbyconf\components\rest;
+
 use yii\web\ServerErrorHttpException;
 use Yii;
 
@@ -19,6 +20,9 @@ use Yii;
  */
 class ApiHelper
 {
+    const EXPORT_PAGE = 1;
+    const EXPORT_PAGE_SIZE = 999999;
+
     public static function response($data, $code = 0, $msg = '')
     {
         \Yii::$app->response->data = $data;
@@ -234,10 +238,10 @@ class ApiHelper
      * @param string $separator
      * @return string
      */
-    public static function camelize($uncamelized_words,$separator='_')
+    public static function camelize($uncamelized_words, $separator = '_')
     {
-        $uncamelized_words = $separator. str_replace($separator, " ", strtolower($uncamelized_words));
-        return ltrim(str_replace(" ", "", ucwords($uncamelized_words)), $separator );
+        $uncamelized_words = $separator . str_replace($separator, " ", strtolower($uncamelized_words));
+        return ltrim(str_replace(" ", "", ucwords($uncamelized_words)), $separator);
     }
 
     /**
@@ -245,15 +249,14 @@ class ApiHelper
      * @param string $separator
      * @return string
      */
-    public static function uncamelize($camelCaps,$separator='_')
+    public static function uncamelize($camelCaps, $separator = '_')
     {
         return strtolower(preg_replace('/([a-z])([A-Z])/', "$1" . $separator . "$2", $camelCaps));
     }
 
     /**
-     * @param string $camelCaps
-     * @param string $separator
-     * @return string
+     * @param array $urlRule
+     * @return array
      */
     public static function optimizeRestUrlRules($urlRules)
     {
@@ -275,25 +278,23 @@ class ApiHelper
         foreach ($apiRuleConfigs as $key => $value) {
             $apiRuleConfigsDealed[] = self::addOptionsAction($value);
         }
-// var_dump($apiRuleConfigsDealed);exit;
+        // var_dump($apiRuleConfigsDealed);exit;
         return $apiRuleConfigsDealed;
     }
 
     /**
-     * @param string $camelCaps
-     * @param string $separator
-     * @return string
+     * @param array $urlRule
+     * @return array
      */
     public static function addOptionsAction($urlRule)
     {
         $unit = $urlRule;
 
         if ($urlRule['controller'][0] == 'restbyconf_custom_rules') {
-            foreach ($urlRule['extraPatterns'] as $key => $val)
-            {
-                if(!is_numeric(strpos($key, 'OPTIONS'))){
+            foreach ($urlRule['extraPatterns'] as $key => $val) {
+                if (!is_numeric(strpos($key, 'OPTIONS'))) {
                     //判断是否有空格符
-                    if(is_numeric(strpos($key, ' '))){
+                    if (is_numeric(strpos($key, ' '))) {
                         //存在
                         $tmp = explode(' ', $key);
                         $k = str_replace($tmp[0], 'OPTIONS', $key);
@@ -308,19 +309,18 @@ class ApiHelper
             return $urlRule['extraPatterns'];
         } else {
             //防止默认options控制器被屏蔽
-            if(isset($unit['only'])&&!empty($unit['only'])&&!in_array('options', $unit['only'])){
+            if (isset($unit['only']) && !empty($unit['only']) && !in_array('options', $unit['only'])) {
                 $urlRule['only'][] = 'options';
             }
-            if(isset($unit['except'])&&!empty($unit['except'])&&in_array('options', $unit['except'])){
+            if (isset($unit['except']) && !empty($unit['except']) && in_array('options', $unit['except'])) {
                 $urlRule['except'] = array_merge(array_diff($unit['except'], ['options']));
             }
             //由于ajax设置请求头后,会有一次options请求,默认为所有路由添加支持options请求
-            if(isset($unit['extraPatterns'])&&!empty($unit['extraPatterns'])){
-                foreach ($unit['extraPatterns'] as $key => $val)
-                {
-                    if(!is_numeric(strpos($key, 'OPTIONS'))){
+            if (isset($unit['extraPatterns']) && !empty($unit['extraPatterns'])) {
+                foreach ($unit['extraPatterns'] as $key => $val) {
+                    if (!is_numeric(strpos($key, 'OPTIONS'))) {
                         //判断是否有空格符
-                        if(is_numeric(strpos($key, ' '))){
+                        if (is_numeric(strpos($key, ' '))) {
                             //存在
                             $tmp = explode(' ', $key);
                             $k = str_replace($tmp[0], 'OPTIONS', $key);
@@ -332,7 +332,7 @@ class ApiHelper
                     }
                 }
             }
-            if(isset($unit['patterns'])&&!empty($unit['patterns'])) {
+            if (isset($unit['patterns']) && !empty($unit['patterns'])) {
                 foreach ($unit['patterns'] as $key => $val) {
                     if (!is_numeric(strpos($key, 'OPTIONS'))) {
                         //判断是否有空格符
@@ -350,7 +350,7 @@ class ApiHelper
             }
 
             $config = [
-                'class' => '\yii\rest\UrlRule',  
+                'class' => '\yii\rest\UrlRule',
                 'pluralize' => false,
                 'tokens' => [
                     '{id}' => '<id:\\w[\\w,]*>',
@@ -376,11 +376,12 @@ class ApiHelper
     }
 
     /**
+     * @param string $moduleId
      * @return array
      */
-    public static function getApiConf()
+    public static function getApiConf($moduleId='v1')
     {
-        $confDataPathTmp = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/api-conf/conf.json');
+        $confDataPathTmp = Yii::getAlias(sprintf('@app/modules/%s/config/conf.json', $moduleId));
         $confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/conf.json');
 
         if (is_file($confDataPathTmp)) {
@@ -398,11 +399,12 @@ class ApiHelper
     }
 
     /**
+     * @param string $moduleId
      * @return array
      */
-    public static function getApiUrlRules()
+    public static function getApiUrlRules($moduleId='v1')
     {
-        $confDataPathTmp = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/api-conf/apiUrlRules.php');
+        $confDataPathTmp = Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $moduleId));
         $confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/apiUrlRules.php');
 
         if (is_file($confDataPathTmp)) {
@@ -413,9 +415,114 @@ class ApiHelper
                 $confDataInit = $confDataTmp;
             }
         } else {
-           $confDataInit = require $confDataPathDefault;
+            $confDataInit = require $confDataPathDefault;
         }
 
         return $confDataInit;
+    }
+
+    /**
+     * @param  string $modelClass
+     * @param  int $id
+     * @return mixed
+     */
+    public static function findModel($modelClass, $id)
+    {
+        $model = $modelClass::find()->where(['id' => $id, 'is_del' => 0])->one();
+
+        if (!$model) {
+            return [
+                'code' => ApiCodeMsg::NOT_FOUND,
+                'msg' => ApiCodeMsg::NOT_FOUND_MSG,
+                'data' => new \StdClass(),
+            ];
+
+            /*
+            $data = [
+                'code' => ApiCodeMsg::NOT_FOUND,
+                'msg' => ApiCodeMsg::NOT_FOUND_MSG,
+                'data' => new \StdClass(),
+            ];
+
+            Yii::$app->response->data = $data;
+            Yii::$app->response->send();
+            */
+        } else {
+            return $model;
+        }
+    }
+
+    /**
+     * @param array $input
+     * @return mixed
+     */
+    public static function inputFilter($input)
+    {
+        return array_filter(
+            $input,
+            function($v){
+                return !in_array(
+                    $v,
+                    $invalidParams = [
+                        '',
+                        null,
+                        [],
+                    ],
+                    true
+                );
+            }
+        );
+    }
+
+    /**
+     * @param  array $validatedInput
+     * @return array
+     */
+    public static function getPagination($validatedInput)
+    {
+        $pagination = [];
+        if (isset($validatedInput['page'])) {
+            $pagination['page'] = $validatedInput['page'];
+        } else {
+            $pagination['page'] = 1;
+        }
+        if (isset($validatedInput['page_size'])) {
+            $pagination['page_size'] = $validatedInput['page_size'];
+        } else {
+            $pagination['page_size'] = 30;
+        }
+
+        return $pagination;
+    }
+
+    /**
+     * @param string $filename export-files
+     * @param array $exportParams [
+     * 'dataProvider' => $dataProvider,
+     * 'columns' => [
+     * [
+     * 'attribute' => 'id',
+     * 'label' => '网吧编码',
+     * ],
+     * [
+     * 'attribute' => 'name',
+     * 'label' => '网吧名称',
+     * ],
+     * ],
+     * ]
+     * @throws  \RuntimeException
+     * @return bool true
+     */
+    public static function createXls($filename, $exportParams)
+    {
+        $filenameXls = $filename . '.xls';
+        try {
+            $exporter = new \yii2tech\spreadsheet\Spreadsheet($exportParams);
+        } catch (\Exception $e) {
+            throw new \RuntimeException($e);
+        }
+        $exporter->save($filenameXls);
+
+        return true;
     }
 }

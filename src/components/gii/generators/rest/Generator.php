@@ -142,29 +142,9 @@ EOD;
 
         // save conf to file
         $files[] = new CodeFile(
-            Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/api-conf/conf.json'),
+            Yii::getAlias(sprintf('@app/modules/%s/config/conf.json', $this->moduleID)),
             $this->conf
         );
-
-        /*
-        [
-            'api/project-team' => [
-                'class' => 'yii\rest\UrlRule',
-                'controller' => ['api/project-team'],
-                'pluralize' => false  //不在url链接中的project-team后加s 复数
-            ],
-            'api/user' => [
-                'controller' => ['api/user'],
-                'class' => 'yii\rest\UrlRule',
-                'pluralize' => false,
-                'extraPatterns' => [
-                    'POST,OPTIONS login' => 'login',
-                    'GET,OPTIONS  reg' => 'reg'
-                ],
-            ],
-        ],
-
-        */
 
         $confAarray = $this->confAarray;
         $controllers = $confAarray['json']['controllers'];
@@ -209,9 +189,9 @@ EOD;
         }
 
         $rules .= "];\n";
-
+        
         $files[] = new CodeFile(
-            Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/api-conf/apiUrlRules.php'),
+            Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $this->moduleID)),
             $rules
         );
 
@@ -251,22 +231,22 @@ EOD;
             );
             $actions = array_keys($controllerV['actions']);
 
+            $template = ['create', 'update', 'delete', 'view', 'index', 'export', ];
             foreach ($actions as $k => $action) {
                 $this->action = $action;
-                $files[] = new CodeFile(
-                    sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
-                    $this->render('rest/ApiActionProcessing.php')
-                );
+                if (in_array($action, $template)) {
+                    $files[] = new CodeFile(
+                        sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
+                        $this->render(sprintf('rest/template/Api%sProcessing.php', ucfirst($action)))
+                    );
+                } else {
+                    $files[] = new CodeFile(
+                        sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
+                        $this->render('rest/template/ApiCustomProcessing.php')
+                    );
+                }
             }
-
         }
-        // var_dump($conf['json']['controllers']);exit;
-
-        $files[] = new CodeFile(
-            $modulePath . '/controllers/DefaultController.php',
-            $this->render("controller.php")
-        );
-
 
         return $files;
     }

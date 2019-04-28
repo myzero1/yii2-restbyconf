@@ -5,15 +5,15 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace app\modules\v1\controllers\processing\UserDemo;
+namespace myzero1\restbyconf\example\processing\Demo;
 
 use Yii;
 use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
-use myzero1\restbyconf\components\rest\CodeMsg;
+use myzero1\restbyconf\components\rest\ApiHelper;
+use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use myzero1\restbyconf\models\Demo as Model;
 
 /**
  * implement the UpdateProcessing
@@ -23,27 +23,34 @@ use myzero1\restbyconf\models\Demo as Model;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Update implements ApiActionProcessing
+class View implements ApiActionProcessing
 {
     /**
-     * @param $id mixed
+     * @param $params mixed
      * @return array date will return to create action.
      * @throws ServerErrorHttpException
      * @throws \yii\base\InvalidConfigException
      */
-    public function processing($id)
+    public function processing($params = null)
     {
         // the path and query params will geted by queryParams,and the path params will rewrite the query params.
-        $input['get'] = Yii::$app->getRequest()->queryParams();
-        $input['body'] = Yii::$app->getRequest()->getBodyParams();
+        $input['get'] = Yii::$app->request->queryParams;
+        $input['post'] = Yii::$app->request->bodyParams;
         $validatedInput = $this->inputValidate($input);
-        if (Helper::isReturning($validatedInput)) {
+        if (ApiHelper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
+            
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
+
+            if (ApiHelper::isReturning($handledData)) {
+                return $handledData;
+            }
+            
             $db2outData = $this->mappingDb2output($handledData);
+            
             // $db2outData = $this->egOutputData();// for demo
             $result = $this->completeResult($db2outData);
             return $result;
@@ -56,47 +63,54 @@ class Update implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        // get
-        $modelGet = new DynamicModel([
-            'in_str',
-        ]);
+        $inputFields = [
+            'id',
+            'id',
+            'created_at',
+            'updated_at',
+        ];
 
-        $modelGet->addRule(['in_str'], 'trim');
-        $modelGet->addRule(['in_str'], 'match', ['pattern' => '/^w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
+        // get
+        $modelGet = new DynamicModel($inputFields);
+
+        $modelGet->addRule($inputFields, 'trim');
+        $modelGet->addRule($inputFields, 'safe');
 
 
         $modelGet->load($input['get'], '');
 
-        if (!$modelGet->validate()) { else {
+        if (!$modelGet->validate()) {
             $errors = $modelGet->errors;
             return [
-                'code' => CodeMsg::CLIENT_ERROR,
+                'code' => ApiCodeMsg::CLIENT_ERROR,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
         }
 
         // post
-        $modelPost = new DynamicModel([
-            'in_str',
-        ]);
+        $modelPost = new DynamicModel($inputFields);
 
-        $modelPost->addRule(['in_str'], 'trim');
-        $modelPost->addRule(['in_str'], 'match', ['pattern' => '/^w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
+        $modelPost->addRule($inputFields, 'trim');
+        $modelPost->addRule($inputFields, 'safe');
 
 
-        $modelPost->load($input['get'], '');
+        $modelPost->load($input['post'], '');
 
-        if (!$modelPost->validate()) { else {
+        if (!$modelPost->validate()) {
             $errors = $modelPost->errors;
             return [
-                'code' => CodeMsg::CLIENT_ERROR,
+                'code' => ApiCodeMsg::CLIENT_ERROR,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
         }
 
-        return array_merge($modelGet->attributes, $modelPost->attributes);
+        $getAttributes = ApiHelper::inputFilter($modelGet->attributes);
+        $postAttributes = ApiHelper::inputFilter($modelPost->attributes);
+        $attributes = array_merge($postAttributes, $getAttributes);
+
+        return array_merge($modelGet->attributes, $attributes);
     }
 
     /**
@@ -109,7 +123,7 @@ class Update implements ApiActionProcessing
             'demo_name' => 'name',
             'demo_description' => 'description',
         ];
-        $in2dbData = Helper::input2DbField($validatedInput, $inputFieldMap);
+        $in2dbData = ApiHelper::input2DbField($validatedInput, $inputFieldMap);
 
         return $in2dbData;
     }
@@ -123,6 +137,8 @@ class Update implements ApiActionProcessing
         $time = time();
         $in2dbData['updated_at'] = $time;
 
+        $in2dbData = ApiHelper::inputFilter($in2dbData);
+
         return $in2dbData;
     }
 
@@ -133,7 +149,12 @@ class Update implements ApiActionProcessing
      */
     public function handling($completedData)
     {
+        $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\Demo', $completedData['id']);
+        if (ApiHelper::isReturning($model)) {
+            return $model;
+        }
 
+        return $model;
     }
 
     /**
@@ -146,67 +167,27 @@ class Update implements ApiActionProcessing
             'name' => 'demo_name',
             'description' => 'demo_description',
         ];
-        $db2outData = Helper::db2OutputField($handledData, $outputFieldMap);
+        $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        $db2outData['created_at'] = Helper::time2string($db2outData['created_at']);
-        $db2outData['updated_at'] = Helper::time2string($db2outData['updated_at']);
+        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }
 
     /**
      * @param  array $db2outData completed data form database
-     * @param  array $extra
      * @return array
      */
-    public function completeResult($db2outData=[], $extra = [])
+    public function completeResult($db2outData = [])
     {
         $result = [
-            'code' => CodeMsg::SUCCESS,
-            'msg' => CodeMsg::SUCCESS_MSG,
+            'code' => ApiCodeMsg::SUCCESS,
+            'msg' => ApiCodeMsg::SUCCESS_MSG,
             'data' => $db2outData,
-            'extra' => $extra,
         ];
 
         return $result;
-    }
-
-    /**
-     * @param  array $db2outData completed data form database
-     * @param  array $extra
-     * @return array
-     */
-    public function getSort($validatedInput, $fields, $defafult)
-    {
-        if (isset($validatedInput['sort'])) {
-            $sortInfo = Helper::getSort($validatedInput['sort'], $fields, $defafult);
-        } else {
-            $sortInfo = Helper::getSort('+myzeroqtest', $fields, $defafult);
-        }
-
-        return $sortInfo;
-    }
-
-    /**
-     * @param  array $db2outData completed data form database
-     * @param  array $extra
-     * @return array
-     */
-    public function getPagination($validatedInput)
-    {
-        $pagination = [];
-        if (isset($validatedInput['page'])) {
-            $validatedInput['page'] = $validatedInput['page'];
-        } else {
-            $pagination['page'] = 1;
-        }
-        if (isset($validatedInput['page_size'])) {
-            $pagination['page_size'] = $validatedInput['page_size'];
-        } else {
-            $pagination['page_size'] = 30;
-        }
-
-        return $pagination;
     }
 
     /**
@@ -214,8 +195,8 @@ class Update implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return [
-            'out_str' => 'myzero1',
-        ];
+        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:5:{s:2:"id";i:1;s:4:"name";s:4:"name";s:3:"des";s:14:"desdescription";s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}';
+
+        return unserialize($egOutputData);
     }
 }
