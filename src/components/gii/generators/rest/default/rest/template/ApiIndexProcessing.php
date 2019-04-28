@@ -235,6 +235,8 @@ class <?=$actionClass?> implements ApiActionProcessing
             'id' => 'id',
             'name' => 'name',
             'des' => 'des',
+            'created_at' => 'created_at',
+            'updated_at' => 'updated_at',
         ];
 
         // $query -> groupBy(['kc.keyword_id']);
