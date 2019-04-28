@@ -36,6 +36,24 @@ Setting
 
 Once the extension is installed, simply modify your application configuration as follows:
 
+
+`In main-local.php`
+
+```php
+...
+if (!YII_ENV_TEST) {
+    // configuration adjustments for 'dev' environment
+    $config['bootstrap'][] = 'gii';
+    $config['modules']['gii'] = [
+        'class' => 'myzero1\restbyconf\components\gii\Module',
+    ];
+}
+...
+```
+
+
+`In main.php`
+
 ```php
 return [
     ......
