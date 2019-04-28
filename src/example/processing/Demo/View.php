@@ -5,7 +5,7 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace app\modules\v1\processing\demo;
+namespace myzero1\restbyconf\example\processing\Demo;
 
 use Yii;
 use yii\base\DynamicModel;
