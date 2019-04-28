@@ -283,7 +283,7 @@ class <?=$actionClass?> implements ApiActionProcessing
 
         return $result;
         */
-
+        
         /*
         $input['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
         $input['page'] = ApiHelper::EXPORT_PAGE;
@@ -295,20 +295,18 @@ class <?=$actionClass?> implements ApiActionProcessing
             'dataProvider' => new \yii\data\ArrayDataProvider([
                 'allModels' => $items['data']['items'],
             ]),
-            /*
-            'columns' => [
-                [
-                    'attribute' => 'name',
-                    'label' => 'name',
-                ],
-                [
-                    'header' => 'description',
-                    'content' => function ($row) {
-                        return $row['des'];
-                    }
-                ],
-            ],
-            */
+            // 'columns' => [
+            //     [
+            //         'attribute' => 'name',
+            //         'label' => 'name',
+            //     ],
+            //     [
+            //         'header' => 'description',
+            //         'content' => function ($row) {
+            //             return $row['des'];
+            //         }
+            //     ],
+            // ],
         ];
 
         $name = sprintf('export-%s', time());
