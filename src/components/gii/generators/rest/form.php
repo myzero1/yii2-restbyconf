@@ -1,5 +1,6 @@
 <?php
 use myzero1\restbyconf\components\rest\ApiHelper;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $generator yii\gii\generators\module\Generator */
@@ -29,15 +30,36 @@ if ($generator->position) {
     $position = '["controllers"]';
 }
 
+$mId = ApiHelper::getRestModuleName();
+
 ?>
 
 <style type="text/css">
     .modal.fade.show{
         opacity:1;
     }
+    .restbyconfig .navbar-brand{
+        line-height: 50px;
+        margin-left: 0 !important;
+    }
 </style>
 
 <div class="rest-form">
+
+    <nav class="navbar navbar-default restbyconfig" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">The other menu of restbyconfig</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a target="_blank" href="<?=Url::to([sprintf('/%s/default/swagger', $mId), 'mId' => $moduleId])?>">Swagger</a></li>
+                    <li><a target="_blank" href="<?=Url::to([sprintf('/%s/default/markdown', $mId), 'mId' => $moduleId])?>">Markdown</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <?php
         // echo $form->field($generator, 'position');
         echo $form->field($generator, 'position')->label('')->hiddenInput();

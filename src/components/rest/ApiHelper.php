@@ -525,4 +525,44 @@ class ApiHelper
 
         return true;
     }
+
+    /**
+     * Get the module's name of restbyconf.
+     *
+     * 调用实例：Helper::
+     *
+     * @param   void
+     * @return  string
+     **/
+    public static function getRestModuleName(){
+        foreach (\Yii::$app->modules as $key => $value) {
+            if (!is_array($value)) {
+                if ('myzero1\restbyconf\Module' == $value::className()) {
+                    return $key;
+                }
+            }
+        }
+        return 'nRestbyconfModule';
+    }
+
+    /**
+     * Get the module's name of restbyconf.
+     *
+     * 调用实例：Helper::
+     *
+     * @param   obj $generator
+     * @return  bool
+     **/
+    public static function isRestGenerator ($generator){
+        $attributes = $generator->attributes;
+        $restAttributes = ['conf', 'position', 'confAarray', 'moduleClass', 'moduleID', 'controller', 'action', 'controllerV', ];
+
+        foreach ($restAttributes as $k => $v) {
+            if (in_array($v, $attributes)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
