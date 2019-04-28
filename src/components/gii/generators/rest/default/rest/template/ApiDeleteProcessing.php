@@ -123,6 +123,8 @@ class <?=$actionClass?> implements ApiActionProcessing
             '<?=$value?>',
 <?php } ?>
             'id',
+            'created_at',
+            'updated_at',
         ];
 
         // get

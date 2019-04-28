@@ -122,6 +122,9 @@ class <?=$actionClass?> implements ApiActionProcessing
 <?php foreach ($inputsKeys as $key => $value) { ?>
             '<?=$value?>',
 <?php } ?>
+            'id',
+            'created_at',
+            'updated_at',
         ];
 
         // get
