@@ -555,6 +555,9 @@ var schemas = {
         "type": "object",
         "required": [],
         "properties": {
+            "controller": {
+                "$ref": "controller"
+            },
             "demo": {
                 "$ref": "controller"
             }
