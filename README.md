@@ -57,58 +57,17 @@ if (!YII_ENV_TEST) {
 ```php
 return [
     ......
+    'bootstrap' => [
+        // 'v1',
+    ],
+    ......
     'modules' => [
         ......
-        'gdexport' => [
-            'class' => 'myzero1\gdexport\Module',
-        ],
+        // 'v1' => 'app\modules\v1\Module',
+        'restbyconf' => 'myzero1\restbyconf\Module',
         ......
     ],
     ......
 ];
 ```
 
-Usage
------
-
-### Use export widget in view
-You can use it,anywhere in view as following:
-
-```php
-
-<?= \myzero1\gdexport\helpers\Helper::createExportForm($dataProvider, $columns, $name='导出文件名', $buttonOpts = ['class' => 'btn btn-info'], $url=['/gdexport/export/export','id' => 1], $writerType='Xls', $buttonLable='导出');?>
-
-```
-### Use custom router
-Use the custom router in ExportController.php, as following:
-
-```php
-
-<?php
-//......
-/**
- * ExportController.
- */
-class ExportController extends Controller
-{
-    //......
-    /**
-     * Realtime exporter
-     * @return mixed
-     */
-    public function actionRealtime()
-    {
-        $post = \Yii::$app->request->post();
-
-        return \myzero1\gdexport\helpers\Helper::exportSend($post['export_columns'], $exportQuery=$post['export_query'], $exportSql=$post['export_sql'], $exportName=$post['export_name'], $writerType = $post['export_type']);
-    }
-?>
-
-```
-
-Use the custom router in view, as following:
-
-```php
-<?= \myzero1\gdexport\helpers\Helper::createExportForm($dataProvider, $columns, $name='导出文件名', $buttonOpts = ['class' => 'btn btn-info'], ['/export/realtime'], $writerType='Xls', $buttonLable='导出');?>
-
-```
