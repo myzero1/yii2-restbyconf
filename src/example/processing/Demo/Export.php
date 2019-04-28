@@ -5,12 +5,14 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace myzero1\restbyconf\example\processing\demo;
+namespace app\modules\v1\processing\demo;
 
 use Yii;
+use yii\db\Query;
 use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
+use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
 
@@ -36,21 +38,21 @@ class Export implements ApiActionProcessing
         $input['get'] = Yii::$app->request->queryParams;
         $input['post'] = Yii::$app->request->bodyParams;
         $validatedInput = $this->inputValidate($input);
-        if (Helper::isReturning($validatedInput)) {
+        if (ApiHelper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*
+            
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
-            if (Helper::isReturning($handledData)) {
+            if (ApiHelper::isReturning($handledData)) {
                 return $handledData;
             }
             
             $db2outData = $this->mappingDb2output($handledData);
-            */
-            $db2outData = $this->egOutputData();// for demo
+            
+            // $db2outData = $this->egOutputData();// for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -63,24 +65,27 @@ class Export implements ApiActionProcessing
     public function inputValidate($input)
     {
         $inputFields = [
-            'id',
             'name',
             'des',
-
-            'sort',
-            'page',
-            'page_size',
+            'id',
         ];
 
         // get
         $modelGet = new DynamicModel($inputFields);
+
         $modelGet->addRule($inputFields, 'trim');
         $modelGet->addRule($inputFields, 'safe');
+
+        $modelGet->addRule(['name','des'], 'trim');
+        $modelGet->addRule(['name'], 'match', ['pattern' => '/^\w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
+        $modelGet->addRule(['des'], 'match', ['pattern' => '/^\w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
+
         $modelGet->load($input['get'], '');
+
         if (!$modelGet->validate()) {
             $errors = $modelGet->errors;
             return [
-                'code' => ApiCodeMsg::BAD_REQUEST,
+                'code' => ApiCodeMsg::CLIENT_ERROR,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
@@ -88,23 +93,24 @@ class Export implements ApiActionProcessing
 
         // post
         $modelPost = new DynamicModel($inputFields);
+
         $modelPost->addRule($inputFields, 'trim');
         $modelPost->addRule($inputFields, 'safe');
-        $modelPost->addRule(['name'], 'required');
-        $modelPost->addRule(['name'], 'match', ['pattern' => '/^\w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
-        $modelPost->addRule(['des'], 'match', ['pattern' => '/^\w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
+
+
         $modelPost->load($input['post'], '');
+
         if (!$modelPost->validate()) {
             $errors = $modelPost->errors;
             return [
-                'code' => ApiCodeMsg::BAD_REQUEST,
+                'code' => ApiCodeMsg::CLIENT_ERROR,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
         }
 
-        $getAttributes = Helper::inputFilter($modelGet->attributes);
-        $postAttributes = Helper::inputFilter($modelPost->attributes);
+        $getAttributes = ApiHelper::inputFilter($modelGet->attributes);
+        $postAttributes = ApiHelper::inputFilter($modelPost->attributes);
         $attributes = array_merge($postAttributes, $getAttributes);
 
         return array_merge($modelGet->attributes, $attributes);
@@ -120,7 +126,7 @@ class Export implements ApiActionProcessing
             'demo_name' => 'name',
             'demo_description' => 'description',
         ];
-        $in2dbData = Helper::input2DbField($validatedInput, $inputFieldMap);
+        $in2dbData = ApiHelper::input2DbField($validatedInput, $inputFieldMap);
 
         return $in2dbData;
     }
@@ -133,6 +139,8 @@ class Export implements ApiActionProcessing
     {
         $time = time();
         $in2dbData['updated_at'] = $time;
+
+        $in2dbData = ApiHelper::inputFilter($in2dbData);
 
         return $in2dbData;
     }
@@ -154,6 +162,7 @@ class Export implements ApiActionProcessing
             'dataProvider' => new \yii\data\ArrayDataProvider([
                 'allModels' => $items['data']['items'],
             ]),
+            /*
             'columns' => [
                 [
                     'attribute' => 'name',
@@ -166,18 +175,18 @@ class Export implements ApiActionProcessing
                     }
                 ],
             ],
+            */
         ];
 
         $name = sprintf('export-%s', time());
-        $filenameBase = Yii::getAlias(sprintf('@app/web/exports/%s', $name));
+        $filenameBase = Yii::getAlias(sprintf('@app/web/%s', $name));
 
-        Helper::createXls($filenameBase, $exportParams);
+        ApiHelper::createXls($filenameBase, $exportParams);
 
         return [
-            'url' => Yii::$app->urlManager->createAbsoluteUrl([sprintf('/exports/%s.xls', $name)])
+            'url' => Yii::$app->urlManager->createAbsoluteUrl([sprintf('/%s.xls', $name)])
         ];
     }
-
 
     /**
      * @param  array $savedData saved data
@@ -189,26 +198,21 @@ class Export implements ApiActionProcessing
             'name' => 'demo_name',
             'description' => 'demo_description',
         ];
-        $db2outData = Helper::db2OutputField($handledData, $outputFieldMap);
-
-        $db2outData['created_at'] = Helper::time2string($db2outData['created_at']);
-        $db2outData['updated_at'] = Helper::time2string($db2outData['updated_at']);
+        $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
         return $db2outData;
     }
 
     /**
      * @param  array $db2outData completed data form database
-     * @param  array $extra
      * @return array
      */
-    public function completeResult($db2outData = [], $extra = [])
+    public function completeResult($db2outData = [])
     {
         $result = [
-            'code' => ApiCodeMsg::OK,
-            'msg' => ApiCodeMsg::OK_MSG,
+            'code' => ApiCodeMsg::SUCCESS,
+            'msg' => ApiCodeMsg::SUCCESS_MSG,
             'data' => $db2outData,
-            'extra' => $extra,
         ];
 
         return $result;
@@ -219,7 +223,7 @@ class Export implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:1:{s:3:"url";s:39:"http://swagger.io/download/export_1.xls";}}';
+        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:1:{s:3:"url";s:11:"/export.xsl";}}';
 
         return unserialize($egOutputData);
     }

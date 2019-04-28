@@ -5,12 +5,13 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace myzero1\restbyconf\example\processing\demo;
+namespace app\modules\v1\processing\demo;
 
 use Yii;
 use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
+use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
 
@@ -39,7 +40,7 @@ class Create implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*
+            
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
@@ -49,8 +50,8 @@ class Create implements ApiActionProcessing
             }
             
             $db2outData = $this->mappingDb2output($handledData);
-            */
-            $db2outData = $this->egOutputData();// for demo
+            
+            // $db2outData = $this->egOutputData();// for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -63,24 +64,26 @@ class Create implements ApiActionProcessing
     public function inputValidate($input)
     {
         $inputFields = [
-            'id',
             'name',
             'des',
-
-            'sort',
-            'page',
-            'page_size',
+            'id',
+            'created_at',
+            'updated_at',
         ];
 
         // get
         $modelGet = new DynamicModel($inputFields);
+
         $modelGet->addRule($inputFields, 'trim');
         $modelGet->addRule($inputFields, 'safe');
+
+
         $modelGet->load($input['get'], '');
+
         if (!$modelGet->validate()) {
             $errors = $modelGet->errors;
             return [
-                'code' => ApiCodeMsg::BAD_REQUEST,
+                'code' => ApiCodeMsg::CLIENT_ERROR,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
@@ -88,23 +91,28 @@ class Create implements ApiActionProcessing
 
         // post
         $modelPost = new DynamicModel($inputFields);
+
         $modelPost->addRule($inputFields, 'trim');
         $modelPost->addRule($inputFields, 'safe');
+
+        $modelPost->addRule(['name','des'], 'trim');
         $modelPost->addRule(['name'], 'required');
         $modelPost->addRule(['name'], 'match', ['pattern' => '/^\w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
         $modelPost->addRule(['des'], 'match', ['pattern' => '/^\w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
+
         $modelPost->load($input['post'], '');
+
         if (!$modelPost->validate()) {
             $errors = $modelPost->errors;
             return [
-                'code' => ApiCodeMsg::BAD_REQUEST,
+                'code' => ApiCodeMsg::CLIENT_ERROR,
                 'msg' => Helper::getErrorMsg($errors),
                 'data' => $errors,
             ];
         }
 
-        $getAttributes = Helper::inputFilter($modelGet->attributes);
-        $postAttributes = Helper::inputFilter($modelPost->attributes);
+        $getAttributes = ApiHelper::inputFilter($modelGet->attributes);
+        $postAttributes = ApiHelper::inputFilter($modelPost->attributes);
         $attributes = array_merge($postAttributes, $getAttributes);
 
         return array_merge($modelGet->attributes, $attributes);
@@ -120,7 +128,7 @@ class Create implements ApiActionProcessing
             'demo_name' => 'name',
             'demo_description' => 'description',
         ];
-        $in2dbData = Helper::input2DbField($validatedInput, $inputFieldMap);
+        $in2dbData = ApiHelper::input2DbField($validatedInput, $inputFieldMap);
 
         return $in2dbData;
     }
@@ -132,7 +140,9 @@ class Create implements ApiActionProcessing
     public function completeData($in2dbData)
     {
         $time = time();
-        $in2dbData['updated_at'] = $time;
+        $in2dbData['created_at'] = $in2dbData['updated_at'] = $time;
+
+        $in2dbData = ApiHelper::inputFilter($in2dbData);
 
         return $in2dbData;
     }
@@ -144,13 +154,13 @@ class Create implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $demo = new Demo();
-        $demo->load($completedData, '');
+        $model = new \myzero1\restbyconf\example\models\Demo();// according to the current situation
+        $model->load($completedData, '');
 
         $trans = Yii::$app->db->beginTransaction();
         try {
             $flag = true;
-            if ( !($flag = $demo->save()) ) {
+            if ( !($flag = $model->save()) ) {
                 $trans->rollBack();
                 throw new ServerErrorHttpException('Failed to save Model reason.');
             }
@@ -162,7 +172,7 @@ class Create implements ApiActionProcessing
                 throw new ServerErrorHttpException('Failed to save commit reason.');
             }
  
-            return ['id' => $demo->id];
+            return $model;
         } catch (Exception $e) {
             $trans->rollBack();
             throw new ServerErrorHttpException('Failed to save all models reason.');
@@ -179,26 +189,24 @@ class Create implements ApiActionProcessing
             'name' => 'demo_name',
             'description' => 'demo_description',
         ];
-        $db2outData = Helper::db2OutputField($handledData, $outputFieldMap);
+        $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        $db2outData['created_at'] = Helper::time2string($db2outData['created_at']);
-        $db2outData['updated_at'] = Helper::time2string($db2outData['updated_at']);
+        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }
 
     /**
      * @param  array $db2outData completed data form database
-     * @param  array $extra
      * @return array
      */
-    public function completeResult($db2outData = [], $extra = [])
+    public function completeResult($db2outData = [])
     {
         $result = [
-            'code' => ApiCodeMsg::OK,
-            'msg' => ApiCodeMsg::OK_MSG,
+            'code' => ApiCodeMsg::SUCCESS,
+            'msg' => ApiCodeMsg::SUCCESS_MSG,
             'data' => $db2outData,
-            'extra' => $extra,
         ];
 
         return $result;
@@ -209,7 +217,7 @@ class Create implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:1:{s:2:"id";i:1;}}';
+        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:5:{s:2:"id";i:1;s:4:"name";s:4:"name";s:3:"des";s:11:"description";s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}';
 
         return unserialize($egOutputData);
     }
