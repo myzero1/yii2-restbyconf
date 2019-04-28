@@ -217,7 +217,7 @@ class <?=$actionClass?> implements ApiActionProcessing
             return $model;
         }
 
-        $model->id_del = 1;
+        $model->is_del = 1;
 
         $trans = Yii::$app->db->beginTransaction();
         try {
