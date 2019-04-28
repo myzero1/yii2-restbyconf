@@ -403,206 +403,147 @@ var schemas = {
             "swagger": {
                 "title": "swagger version",
                 "description": "It can not edit.",
-                "type": ["number","string"],
-                "examples": [
-                    "2.0"
-                ]
+                "type": ["number", "string"],
+                "examples": ["2.0"]
             },
             "info": {
                 "title": "Info description",
                 "type": "object",
-                "required": [
-                    "description",
-                    "version",
-                    "title",
-                    "termsOfService",
-                    "contact",
-                    "license"
-                ],
+                "required": ["description", "version", "title", "termsOfService", "contact", "license"],
                 "properties": {
                     "description": {
-                        "type": ["number","string"],
+                        "type": ["number", "string"],
                         "minLength": 1,
                         "maxLength": 512,
-                        "examples": [
-                            "This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters."
-                        ]
+                        "examples": ["This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters."]
                     },
                     "version": {
                         "title": "The api version",
-                        "type": ["number","string"],
+                        "type": ["number", "string"],
                         "minLength": 1,
                         "maxLength": 32,
                         "pattern": "^[0-9][0-9.]{0,}[0-9]$",
-                        "examples": [
-                            "1.0.0",
-                            "1.0.1"
-                        ]
+                        "examples": ["1.0.0", "1.0.1"]
                     },
                     "title": {
-                      "title": "Api title",
-                      "type": ["number","string"],
-                      "minLength": 1,
-                      "maxLength": 32,
-                      "examples": [
-                        "Create restfull api by conf.",
-                        "Swagger Petstore"
-                      ]
+                        "title": "Api title",
+                        "type": ["number", "string"],
+                        "minLength": 1,
+                        "maxLength": 32,
+                        "examples": ["Create restfull api by conf.", "Swagger Petstore"]
                     },
                     "termsOfService": {
-                      "title": "The terms of service",
-                      "type": ["number","string"],
-                      "minLength": 1,
-                      "maxLength": 128,
-                      "examples": [
-                        "https://github.com/myzero1/yii2-restbyconf",
-                        "http://swagger.io/terms/"
-                      ]
+                        "title": "The terms of service",
+                        "type": ["number", "string"],
+                        "minLength": 1,
+                        "maxLength": 128,
+                        "examples": ["https://github.com/myzero1/yii2-restbyconf", "http://swagger.io/terms/"]
                     },
                     "contact": {
-                      "title": "contact description",
-                      "type": "object",
-                      "required": [
-                          "email"
-                      ],
-                      "properties": {
-                          "email": {
-                              "title": "email",
-                              "description": "The contact email",
-                              "type": ["number","string"],
-                              "format": "email",
-                              "examples": [
-                                "myzero1@sina.com",
-                                "apiteam@swagger.io"
-                              ]
-                          }
-                      }
+                        "title": "contact description",
+                        "type": "object",
+                        "required": ["email"],
+                        "properties": {
+                            "email": {
+                                "title": "email",
+                                "description": "The contact email",
+                                "type": ["number", "string"],
+                                "format": "email",
+                                "examples": ["myzero1@sina.com", "apiteam@swagger.io"]
+                            }
+                        }
                     },
                     "license": {
-                      "title": "contact description",
-                      "type": "object",
-                      "required": [
-                          "name",
-                          "url"
-                      ],
-                      "properties": {
-                          "name": {
-                              "type": ["number","string"],
-                              "minLength": 1,
-                              "maxLength": 32,
-                              "examples": [
-                                  "Apache 2.0"
-                              ]
-                          },
-                          "url": {
-                              "type": ["number","string"],
-                              "minLength": 1,
-                              "maxLength": 64,
-                              "pattern": "[a-zA-z]+://[^\\s]*",
-                              "examples": [
-                                  "http://www.apache.org/licenses/LICENSE-2.0.html"
-                              ]
+                        "title": "contact description",
+                        "type": "object",
+                        "required": ["name", "url"],
+                        "properties": {
+                            "name": {
+                                "type": ["number", "string"],
+                                "minLength": 1,
+                                "maxLength": 32,
+                                "examples": ["Apache 2.0"]
+                            },
+                            "url": {
+                                "type": ["number", "string"],
+                                "minLength": 1,
+                                "maxLength": 64,
+                                "pattern": "[a-zA-z]+://[^\\s]*",
+                                "examples": ["http://www.apache.org/licenses/LICENSE-2.0.html"]
                             }
                         }
                     }
                 }
             },
             "host": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 32,
                 "format": "hostname",
-                "examples": [
-                  "petstore.swagger.io",
-                  "github.com"
-                ]
+                "examples": ["petstore.swagger.io", "github.com"]
             },
             "basePath": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 32,
                 "pattern": "^/",
-                "examples": [
-                  "/v1",
-                  "/v2"
-                ]
+                "examples": ["/v1", "/v2"]
             },
             "externalDocs": {
                 "title": "externalDocs description",
                 "type": "object",
-                "required": [
-                    "description",
-                    "url"
-                ],
+                "required": ["description", "url"],
                 "properties": {
                     "description": {
-                        "type": ["number","string"],
+                        "type": ["number", "string"],
                         "minLength": 1,
                         "maxLength": 32,
-                        "examples": [
-                          "e about Swagger"
-                        ]
+                        "examples": ["e about Swagger"]
                     },
                     "url": {
-                        "type": ["number","string"],
+                        "type": ["number", "string"],
                         "minLength": 1,
                         "maxLength": 64,
                         "pattern": "[a-zA-z]+://[^\\s]*",
-                        "examples": [
-                            "http://www.apache.org/licenses/LICENSE-2.0.html"
-                        ]
+                        "examples": ["http://www.apache.org/licenses/LICENSE-2.0.html"]
                     }
                 }
             },
             "schemes": {
                 "title": "schemes",
-                "enum": [
-                    "https",
-                    "http"
-                ]
+                "enum": ["https", "http"]
             },
             "securityDefinitions": {
-              "title": "securityDefinitions description",
-              "type": "object",
-              "required": [
-                  "api_key"
-              ],
-              "properties": {
-                  "api_key": {
-                      "title": "api_key description",
-                      "type": "object",
-                      "required": [
-                          "type",
-                          "name"
-                      ],
-                      "properties": {
-                          "type": {
-                              "type": ["number","string"],
-                              "minLength": 1,
-                              "maxLength": 32,
-                              "examples": [
-                                "apiKey"
-                              ]
-                          },
-                          "in": {
-                              "type": ["number","string"],
-                              "minLength": 1,
-                              "maxLength": 32,
-                                "examples": [
-                                    "header"
-                                ]
-                          },
-                          "name": {
-                                "type": ["number","string"],
+                "title": "securityDefinitions description",
+                "type": "object",
+                "required": ["api_key"],
+                "properties": {
+                    "api_key": {
+                        "title": "api_key description",
+                        "type": "object",
+                        "required": ["type", "name"],
+                        "properties": {
+                            "type": {
+                                "type": ["number", "string"],
                                 "minLength": 1,
                                 "maxLength": 32,
-                                "examples": [
-                                "api_key"
-                              ]
-                          }
-                      }
-                  }
-              }
+                                "examples": ["apiKey"]
+                            },
+                            "in": {
+                                "type": ["number", "string"],
+                                "minLength": 1,
+                                "maxLength": 32,
+                                "examples": ["header"]
+                            },
+                            "name": {
+                                "type": ["number", "string"],
+                                "minLength": 1,
+                                "maxLength": 32,
+                                "examples": ["api_key"]
+                            }
+                        }
+                    }
+                }
             },
             "controllers": {
                 "$ref": "controllers"
@@ -616,6 +557,15 @@ var schemas = {
         "properties": {
             "controller": {
                 "$ref": "controller"
+            },
+            "user": {
+                "$ref": "controller"
+            },
+            "user1": {
+                "$ref": "controller"
+            },
+            "demo": {
+                "$ref": "controller"
             }
         }
     },
@@ -625,13 +575,10 @@ var schemas = {
         "required": ["description", "actions"],
         "properties": {
             "description": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 32,
-                "examples": [
-                    "user",
-                    "log"
-                ],
+                "examples": ["user", "log"]
             },
             "actions": {
                 "$ref": "actions"
@@ -643,7 +590,25 @@ var schemas = {
         "type": "object",
         "required": [],
         "properties": {
-            "action": {
+            "index": {
+                "$ref": "action"
+            },
+            "create": {
+                "$ref": "action"
+            },
+            "update": {
+                "$ref": "action"
+            },
+            "view": {
+                "$ref": "action"
+            },
+            "delete": {
+                "$ref": "action"
+            },
+            "export": {
+                "$ref": "action"
+            },
+            "custom": {
                 "$ref": "action"
             }
         }
@@ -654,24 +619,14 @@ var schemas = {
         "required": [],
         "properties": {
             "description": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 32,
-                "examples": [
-                    "create",
-                    "update"
-                ],
+                "examples": ["create", "update"]
             },
             "method": {
                 "title": "method",
-                "enum": [
-                    "post",
-                    "get",
-                    "put",
-                    "delete",
-                    "patch",
-                    "options"
-                ]
+                "enum": ["post", "get", "put", "delete", "patch", "options"]
             },
             "inputs": {
                 "$ref": "inputs"
@@ -684,7 +639,7 @@ var schemas = {
     "inputs": {
         "title": "restbyconf-obj-inputs",
         "type": "object",
-        "required": ["body_params","path_params","query_params"],
+        "required": ["body_params", "path_params", "query_params"],
         "properties": {
             "query_params": {
                 "$ref": "query_params"
@@ -704,6 +659,15 @@ var schemas = {
         "properties": {
             "in_str": {
                 "$ref": "in_str"
+            },
+            "name": {
+                "$ref": "in_str"
+            },
+            "des": {
+                "$ref": "in_str"
+            },
+            "status": {
+                "$ref": "in_str"
             }
         }
     },
@@ -713,6 +677,12 @@ var schemas = {
         "required": [],
         "properties": {
             "in_str": {
+                "$ref": "in_str"
+            },
+            "id": {
+                "$ref": "in_str"
+            },
+            "name": {
                 "$ref": "in_str"
             }
         }
@@ -724,21 +694,34 @@ var schemas = {
         "properties": {
             "in_str": {
                 "$ref": "in_str"
+            },
+            "name": {
+                "$ref": "in_str"
+            },
+            "des": {
+                "$ref": "in_str"
+            },
+            "": {
+                "$ref": "in_str"
+            },
+            "created_at": {
+                "$ref": "in_str"
+            },
+            "updated_at": {
+                "$ref": "in_str"
             }
         }
     },
     "in_str": {
         "title": "restbyconf-obj-input",
         "type": "object",
-        "required": ["des","required","eg","rules","error_msg"],
+        "required": ["des", "required", "eg", "rules", "error_msg"],
         "properties": {
             "des": {
                 "type": ["string", "number"],
                 "minLength": 1,
                 "maxLength": 32,
-                "examples": [
-                    "user name"
-                ],
+                "examples": ["user name"]
             },
             "required": {
                 "type": "boolean",
@@ -748,48 +731,38 @@ var schemas = {
                 "type": ["string", "number"],
                 "minLength": 1,
                 "maxLength": 32,
-                "examples": [
-                    "myzero1"
-                ],
+                "examples": ["myzero1"]
             },
             "rules": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 32,
-                "examples": [
-                    "^\\w{1,32}$"
-                ],
+                "examples": ["^\\w{1,32}$"]
             },
             "error_msg": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 64,
-                "examples": [
-                    "You should input a-z,A-Z,0-9"
-                ],
+                "examples": ["You should input a-z,A-Z,0-9"]
             }
         }
     },
     "outputs": {
         "title": "restbyconf-obj-outputs",
         "type": "object",
-        "required": ["code","msg","data"],
+        "required": ["code", "msg", "data"],
         "properties": {
             "code": {
-                "type": ["number","string"],
+                "type": ["number", "string"],
                 "minLength": 1,
                 "maxLength": 32,
-                "examples": [
-                    "200 success"
-                ],
+                "examples": ["200 success"]
             },
             "msg": {
                 "type": ["string"],
                 "minLength": 1,
                 "maxLength": 64,
-                "examples": [
-                    "myzero1"
-                ],
+                "examples": ["myzero1"]
             },
             "data": {
                 "type": "object"
