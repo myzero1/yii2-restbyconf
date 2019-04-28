@@ -547,7 +547,7 @@ var templates = [
           }
       },
       {
-          text: 'in_str',
+          text: 'param',
           title: 'Insert a param node',
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
@@ -1109,17 +1109,17 @@ var schemas = {
         "type": "object",
         "required": [],
         "properties": {
-            "in_str": {
-                "$ref": "in_str"
+            "param": {
+                "$ref": "param"
             },
             "name": {
-                "$ref": "in_str"
+                "$ref": "param"
             },
             "des": {
-                "$ref": "in_str"
+                "$ref": "param"
             },
             "status": {
-                "$ref": "in_str"
+                "$ref": "param"
             }
         }
     },
@@ -1128,14 +1128,14 @@ var schemas = {
         "type": "object",
         "required": [],
         "properties": {
-            "in_str": {
-                "$ref": "in_str"
+            "param": {
+                "$ref": "param"
             },
             "id": {
-                "$ref": "in_str"
+                "$ref": "param"
             },
             "name": {
-                "$ref": "in_str"
+                "$ref": "param"
             }
         }
     },
@@ -1144,27 +1144,27 @@ var schemas = {
         "type": "object",
         "required": [],
         "properties": {
-            "in_str": {
-                "$ref": "in_str"
+            "param": {
+                "$ref": "param"
             },
             "name": {
-                "$ref": "in_str"
+                "$ref": "param"
             },
             "des": {
-                "$ref": "in_str"
+                "$ref": "param"
             },
             "": {
-                "$ref": "in_str"
+                "$ref": "param"
             },
             "created_at": {
-                "$ref": "in_str"
+                "$ref": "param"
             },
             "updated_at": {
-                "$ref": "in_str"
+                "$ref": "param"
             }
         }
     },
-    "in_str": {
+    "param": {
         "title": "restbyconf-obj-input",
         "type": "object",
         "required": ["des", "required", "eg", "rules", "error_msg"],

@@ -35,7 +35,7 @@ var onEvent = function(node, event){
         if (isInputLay(node.path)) {
             var schemaRefs = this.schemaRefs;
             schemaRefs[node.path[5]]['properties'][node.field] = {
-              "$ref": "in_str"
+              "$ref": "param"
             };
             editor.setSchema(this.schema,schemaRefs);
         }
@@ -71,7 +71,7 @@ var onClassName = function(node){
 var onCreateMenu = function onCreateMenu(items, node) {
     var controller = new Array();
     var action = new Array();
-    var in_str = new Array();
+    var param = new Array();
     var data = new Array();
     var del = new Array();
     var cp = new Array();
@@ -82,16 +82,28 @@ var onCreateMenu = function onCreateMenu(items, node) {
             for (var j = items[i]['submenu'].length - 1; j >= 0; j--) {
                 if (items[i]['submenu'][j]['text'] == 'controller') {
                     controller.push(items[i]['submenu'][j]);
-                } else if (items[i]['submenu'][j]['text'] == 'action') {
-                    action.push(items[i]['submenu'][j]);
-                } else if (items[i]['submenu'][j]['text'] == 'in_str') {
-                    in_str.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == 'param') {
+                    param.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == '自动') {
                     data.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == '数组') {
                     data.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == '对象') {
                     data.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == 'create') {
+                    action.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == 'updte') {
+                    action.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == 'view') {
+                    action.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == 'delete') {
+                    action.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == 'custom') {
+                    action.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == 'index') {
+                    action.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == 'export') {
+                    action.push(items[i]['submenu'][j]);
                 }
             }
         } else if (text=='移除') {
@@ -106,7 +118,7 @@ var onCreateMenu = function onCreateMenu(items, node) {
     // console.log(controller);
     // console.log(editor.getSelection());
     // controllers{0}
-    // action{4}inputs{3}body_params{1}in_str{5}path_params{1}in_str{5}query_params{1}in_str{5}outputs{3}data{0}
+    // action{4}inputs{3}body_params{1}param{5}path_params{1}param{5}query_params{1}param{5}outputs{3}data{0}
     if (node.path === null) {
         var selected = $(".jsoneditor-expandable.jsoneditor-highlight").text();
         $(".jsoneditor-expandable.jsoneditor-highlight").next().children(".jsoneditor-contextmenu").show();
@@ -115,11 +127,11 @@ var onCreateMenu = function onCreateMenu(items, node) {
         } else if (selected === 'actions{0}') {
             return action;
         } else if (selected === 'body_params{0}') {
-            return in_str;
+            return param;
         } else if (selected === 'path_params{0}') {
-            return in_str;
+            return param;
         } else if (selected === 'query_params{0}') {
-            return in_str;
+            return param;
         } else if (selected === 'data{0}') {
             return data;
         } else {
@@ -135,9 +147,9 @@ var onCreateMenu = function onCreateMenu(items, node) {
             action.push(cp);
             return action;
         } else if(isInputLay(node.path)){
-            in_str.push(del);
-            in_str.push(cp);
-            return in_str;
+            param.push(del);
+            param.push(cp);
+            return param;
         } else if(isDataLay(node.path)){
             data.push(del);
             data.push(cp);
