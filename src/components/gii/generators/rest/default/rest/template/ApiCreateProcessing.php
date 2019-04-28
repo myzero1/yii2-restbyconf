@@ -228,7 +228,7 @@ class <?=$actionClass?> implements ApiActionProcessing
                 throw new ServerErrorHttpException('Failed to save commit reason.');
             }
  
-            return ['id' => $model->id];
+            return $model;
         } catch (Exception $e) {
             $trans->rollBack();
             throw new ServerErrorHttpException('Failed to save all models reason.');
