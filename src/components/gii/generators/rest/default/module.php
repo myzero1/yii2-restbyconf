@@ -37,7 +37,7 @@ class <?= $className ?> extends BaseModule implements BootstrapInterface
     public function bootstrap($app)
     {
         if ($app instanceof \yii\web\Application) {
-            $apiUrlRules = ApiHelper::getApiUrlRules();
+            $apiUrlRules = ApiHelper::getApiUrlRules($this->id);
             $app->getUrlManager()->addRules($apiUrlRules, false);
         }
     }

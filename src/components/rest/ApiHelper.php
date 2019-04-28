@@ -376,11 +376,12 @@ class ApiHelper
     }
 
     /**
+     * @param string $moduleId
      * @return array
      */
-    public static function getApiConf()
+    public static function getApiConf($moduleId='v1')
     {
-        $confDataPathTmp = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/api-conf/conf.json');
+        $confDataPathTmp = Yii::getAlias(sprintf('@app/modules/%s/config/conf.json', $moduleId));
         $confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/conf.json');
 
         if (is_file($confDataPathTmp)) {
@@ -398,11 +399,12 @@ class ApiHelper
     }
 
     /**
+     * @param string $moduleId
      * @return array
      */
-    public static function getApiUrlRules()
+    public static function getApiUrlRules($moduleId='v1')
     {
-        $confDataPathTmp = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/api-conf/apiUrlRules.php');
+        $confDataPathTmp = Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $moduleId));
         $confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/apiUrlRules.php');
 
         if (is_file($confDataPathTmp)) {
