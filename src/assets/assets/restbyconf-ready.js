@@ -40,15 +40,15 @@ window.jsoneditorOldJson = {
                                 "des": "Name",
                                 "required": true,
                                 "eg": "name",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
                             },
                             "des": {
                                 "des": "Description",
                                 "required": false,
                                 "eg": "description",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
                             }
                         },
                         "path_params": {},
@@ -75,15 +75,15 @@ window.jsoneditorOldJson = {
                                 "des": "Name",
                                 "required": false,
                                 "eg": "name",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
                             },
                             "des": {
                                 "des": "Description",
                                 "required": false,
                                 "eg": "description",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
                             }
                         },
                         "path_params": {
@@ -92,7 +92,7 @@ window.jsoneditorOldJson = {
                                 "required": true,
                                 "eg": 1,
                                 "rules": "^\\d{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
+                                "error_msg": "Input parameter error"
                             }
                         },
                         "query_params": {}
@@ -120,7 +120,7 @@ window.jsoneditorOldJson = {
                                 "required": false,
                                 "eg": 1,
                                 "rules": "^\\d{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
+                                "error_msg": "Input parameter error"
                             }
                         },
                         "query_params": {}
@@ -148,7 +148,7 @@ window.jsoneditorOldJson = {
                                 "required": false,
                                 "eg": 1,
                                 "rules": "^\\d{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
+                                "error_msg": "Input parameter error"
                             }
                         },
                         "query_params": {}
@@ -172,15 +172,15 @@ window.jsoneditorOldJson = {
                                 "des": "Name",
                                 "required": false,
                                 "eg": "n1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
                             },
                             "des": {
                                 "des": "Description",
                                 "required": false,
                                 "eg": "description",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
                             }
                         }
                     },
@@ -224,15 +224,15 @@ window.jsoneditorOldJson = {
                                 "des": "Name",
                                 "required": false,
                                 "eg": "n1",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
                             },
                             "des": {
                                 "des": "Description",
                                 "required": false,
                                 "eg": "description",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
                             }
                         }
                     },
@@ -253,8 +253,8 @@ window.jsoneditorOldJson = {
                                 "des": "Name",
                                 "required": false,
                                 "eg": "rename",
-                                "rules": "^\\w{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
                             }
                         },
                         "path_params": {
@@ -263,7 +263,7 @@ window.jsoneditorOldJson = {
                                 "required": true,
                                 "eg": 1,
                                 "rules": "^\\d{1,32}$",
-                                "error_msg": "You should input a-z,A-Z,0-9"
+                                "error_msg": "Input parameter error"
                             }
                         },
                         "query_params": {}
@@ -303,15 +303,15 @@ var templates = [
                                   "des": "Name",
                                   "required": true,
                                   "eg": "name",
-                                  "rules": "^\\w{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
+                                  "rules": "^.{0,32}$",
+                                  "error_msg": "Input parameter error"
                               },
                               "des": {
                                   "des": "Description",
                                   "required": false,
                                   "eg": "description",
-                                  "rules": "^\\w{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
+                                  "rules": "^.{0,32}$",
+                                  "error_msg": "Input parameter error"
                               }
                           },
                           "path_params": {},
@@ -338,15 +338,15 @@ var templates = [
                                   "des": "Name",
                                   "required": false,
                                   "eg": "name",
-                                  "rules": "^\\w{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
+                                  "rules": "^.{0,32}$",
+                                  "error_msg": "Input parameter error"
                               },
                               "des": {
                                   "des": "Description",
                                   "required": false,
                                   "eg": "description",
-                                  "rules": "^\\w{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
+                                  "rules": "^.{0,32}$",
+                                  "error_msg": "Input parameter error"
                               }
                           },
                           "path_params": {
@@ -355,7 +355,7 @@ var templates = [
                                   "required": true,
                                   "eg": 1,
                                   "rules": "^\\d{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
+                                  "error_msg": "Input parameter error"
                               }
                           },
                           "query_params": {}
@@ -383,7 +383,7 @@ var templates = [
                                   "required": false,
                                   "eg": 1,
                                   "rules": "^\\d{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
+                                  "error_msg": "Input parameter error"
                               }
                           },
                           "query_params": {}
@@ -411,7 +411,7 @@ var templates = [
                                   "required": false,
                                   "eg": 1,
                                   "rules": "^\\d{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
+                                  "error_msg": "Input parameter error"
                               }
                           },
                           "query_params": {}
@@ -435,15 +435,15 @@ var templates = [
                                   "des": "Name",
                                   "required": false,
                                   "eg": "n1",
-                                  "rules": "^\\w{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
+                                  "rules": "^.{0,32}$",
+                                  "error_msg": "Input parameter error"
                               },
                               "des": {
                                   "des": "Description",
                                   "required": false,
                                   "eg": "description",
-                                  "rules": "^\\w{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
+                                  "rules": "^.{0,32}$",
+                                  "error_msg": "Input parameter error"
                               }
                           }
                       },
@@ -487,15 +487,15 @@ var templates = [
                                   "des": "Name",
                                   "required": false,
                                   "eg": "n1",
-                                  "rules": "^\\w{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
+                                  "rules": "^.{0,32}$",
+                                  "error_msg": "Input parameter error"
                               },
                               "des": {
                                   "des": "Description",
                                   "required": false,
                                   "eg": "description",
-                                  "rules": "^\\w{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
+                                  "rules": "^.{0,32}$",
+                                  "error_msg": "Input parameter error"
                               }
                           }
                       },
@@ -516,8 +516,8 @@ var templates = [
                                   "des": "Name",
                                   "required": false,
                                   "eg": "rename",
-                                  "rules": "^\\w{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
+                                  "rules": "^.{0,32}$",
+                                  "error_msg": "Input parameter error"
                               }
                           },
                           "path_params": {
@@ -526,7 +526,7 @@ var templates = [
                                   "required": true,
                                   "eg": 1,
                                   "rules": "^\\d{1,32}$",
-                                  "error_msg": "You should input a-z,A-Z,0-9"
+                                  "error_msg": "Input parameter error"
                               }
                           },
                           "query_params": {}
@@ -555,8 +555,8 @@ var templates = [
               "des": "user name",
               "required": false,
               "eg": "myzero1",
-              "rules": "^\\w{1,32}$",
-              "error_msg": "You should input a-z,A-Z,0-9"
+              "rules": "^.{0,32}$",
+              "error_msg": "Input parameter error"
           }
       },
       {
@@ -573,15 +573,15 @@ var templates = [
                           "des": "Name",
                           "required": true,
                           "eg": "name",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
+                          "rules": "^.{0,32}$",
+                          "error_msg": "Input parameter error"
                       },
                       "des": {
                           "des": "Description",
                           "required": false,
                           "eg": "description",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
+                          "rules": "^.{0,32}$",
+                          "error_msg": "Input parameter error"
                       }
                   },
                   "path_params": {},
@@ -614,15 +614,15 @@ var templates = [
                           "des": "Name",
                           "required": false,
                           "eg": "name",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
+                          "rules": "^.{0,32}$",
+                          "error_msg": "Input parameter error"
                       },
                       "des": {
                           "des": "Description",
                           "required": false,
                           "eg": "description",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
+                          "rules": "^.{0,32}$",
+                          "error_msg": "Input parameter error"
                       }
                   },
                   "path_params": {
@@ -631,7 +631,7 @@ var templates = [
                           "required": true,
                           "eg": 1,
                           "rules": "^\\d{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
+                          "error_msg": "Input parameter error"
                       }
                   },
                   "query_params": {}
@@ -665,7 +665,7 @@ var templates = [
                           "required": false,
                           "eg": 1,
                           "rules": "^\\d{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
+                          "error_msg": "Input parameter error"
                       }
                   },
                   "query_params": {}
@@ -699,7 +699,7 @@ var templates = [
                           "required": false,
                           "eg": 1,
                           "rules": "^\\d{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
+                          "error_msg": "Input parameter error"
                       }
                   },
                   "query_params": {}
@@ -729,15 +729,15 @@ var templates = [
                           "des": "Name",
                           "required": false,
                           "eg": "n1",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
+                          "rules": "^.{0,32}$",
+                          "error_msg": "Input parameter error"
                       },
                       "des": {
                           "des": "Description",
                           "required": false,
                           "eg": "description",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
+                          "rules": "^.{0,32}$",
+                          "error_msg": "Input parameter error"
                       }
                   }
               },
@@ -787,15 +787,15 @@ var templates = [
                           "des": "Name",
                           "required": false,
                           "eg": "n1",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
+                          "rules": "^.{0,32}$",
+                          "error_msg": "Input parameter error"
                       },
                       "des": {
                           "des": "Description",
                           "required": false,
                           "eg": "description",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
+                          "rules": "^.{0,32}$",
+                          "error_msg": "Input parameter error"
                       }
                   }
               },
@@ -822,8 +822,8 @@ var templates = [
                           "des": "Name",
                           "required": false,
                           "eg": "rename",
-                          "rules": "^\\w{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
+                          "rules": "^.{0,32}$",
+                          "error_msg": "Input parameter error"
                       }
                   },
                   "path_params": {
@@ -832,7 +832,7 @@ var templates = [
                           "required": true,
                           "eg": 1,
                           "rules": "^\\d{1,32}$",
-                          "error_msg": "You should input a-z,A-Z,0-9"
+                          "error_msg": "Input parameter error"
                       }
                   },
                   "query_params": {}
@@ -1157,7 +1157,7 @@ var schemas = {
             },
             "error_msg": {
                 "type": ["number", "string"],
-                "examples": ["You should input a-z,A-Z,0-9"]
+                "examples": ["Input parameter error"]
             }
         }
     },
