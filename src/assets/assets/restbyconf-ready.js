@@ -871,30 +871,22 @@ var schemas = {
                 "properties": {
                     "description": {
                         "type": ["number", "string"],
-                        "minLength": 1,
-                        "maxLength": 512,
                         "examples": ["This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters."]
                     },
                     "version": {
                         "title": "The api version",
                         "type": ["number", "string"],
-                        "minLength": 1,
-                        "maxLength": 32,
                         "pattern": "^[0-9][0-9.]{0,}[0-9]$",
                         "examples": ["1.0.0", "1.0.1"]
                     },
                     "title": {
                         "title": "Api title",
                         "type": ["number", "string"],
-                        "minLength": 1,
-                        "maxLength": 32,
                         "examples": ["Create restfull api by conf.", "Swagger Petstore"]
                     },
                     "termsOfService": {
                         "title": "The terms of service",
                         "type": ["number", "string"],
-                        "minLength": 1,
-                        "maxLength": 128,
                         "examples": ["https://github.com/myzero1/yii2-restbyconf", "http://swagger.io/terms/"]
                     },
                     "contact": {
@@ -918,14 +910,10 @@ var schemas = {
                         "properties": {
                             "name": {
                                 "type": ["number", "string"],
-                                "minLength": 1,
-                                "maxLength": 32,
                                 "examples": ["Apache 2.0"]
                             },
                             "url": {
                                 "type": ["number", "string"],
-                                "minLength": 1,
-                                "maxLength": 64,
                                 "pattern": "[a-zA-z]+://[^\\s]*",
                                 "examples": ["http://www.apache.org/licenses/LICENSE-2.0.html"]
                             }
@@ -935,15 +923,11 @@ var schemas = {
             },
             "host": {
                 "type": ["number", "string"],
-                "minLength": 1,
-                "maxLength": 32,
                 "format": "hostname",
                 "examples": ["petstore.swagger.io", "github.com"]
             },
             "basePath": {
                 "type": ["number", "string"],
-                "minLength": 1,
-                "maxLength": 32,
                 "pattern": "^/",
                 "examples": ["/v1", "/v2"]
             },
@@ -954,14 +938,10 @@ var schemas = {
                 "properties": {
                     "description": {
                         "type": ["number", "string"],
-                        "minLength": 1,
-                        "maxLength": 32,
                         "examples": ["e about Swagger"]
                     },
                     "url": {
                         "type": ["number", "string"],
-                        "minLength": 1,
-                        "maxLength": 64,
                         "pattern": "[a-zA-z]+://[^\\s]*",
                         "examples": ["http://www.apache.org/licenses/LICENSE-2.0.html"]
                     }
@@ -983,20 +963,14 @@ var schemas = {
                         "properties": {
                             "type": {
                                 "type": ["number", "string"],
-                                "minLength": 1,
-                                "maxLength": 32,
                                 "examples": ["apiKey"]
                             },
                             "in": {
                                 "type": ["number", "string"],
-                                "minLength": 1,
-                                "maxLength": 32,
                                 "examples": ["header"]
                             },
                             "name": {
                                 "type": ["number", "string"],
-                                "minLength": 1,
-                                "maxLength": 32,
                                 "examples": ["api_key"]
                             }
                         }
@@ -1028,8 +1002,6 @@ var schemas = {
         "properties": {
             "description": {
                 "type": ["number", "string"],
-                "minLength": 1,
-                "maxLength": 32,
                 "examples": ["user", "log"]
             },
             "actions": {
@@ -1072,8 +1044,6 @@ var schemas = {
         "properties": {
             "description": {
                 "type": ["number", "string"],
-                "minLength": 1,
-                "maxLength": 32,
                 "examples": ["create", "update"]
             },
             "method": {
@@ -1171,8 +1141,6 @@ var schemas = {
         "properties": {
             "des": {
                 "type": ["string", "number"],
-                "minLength": 1,
-                "maxLength": 32,
                 "examples": ["user name"]
             },
             "required": {
@@ -1181,20 +1149,14 @@ var schemas = {
             },
             "eg": {
                 "type": ["string", "number"],
-                "minLength": 1,
-                "maxLength": 32,
                 "examples": ["myzero1"]
             },
             "rules": {
                 "type": ["number", "string"],
-                "minLength": 1,
-                "maxLength": 32,
                 "examples": ["^\\w{1,32}$"]
             },
             "error_msg": {
                 "type": ["number", "string"],
-                "minLength": 1,
-                "maxLength": 64,
                 "examples": ["You should input a-z,A-Z,0-9"]
             }
         }
@@ -1206,14 +1168,10 @@ var schemas = {
         "properties": {
             "code": {
                 "type": ["number", "string"],
-                "minLength": 1,
-                "maxLength": 32,
                 "examples": ["200 success"]
             },
             "msg": {
                 "type": ["string"],
-                "minLength": 1,
-                "maxLength": 64,
                 "examples": ["myzero1"]
             },
             "data": {
