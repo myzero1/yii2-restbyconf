@@ -129,7 +129,7 @@ EOD;
     {
         $this->confAarray = json_decode($this->conf, true);
         $this->moduleID = trim($this->confAarray['json']['basePath'], '/');
-        $this->moduleClass = sprintf('app\modules\%s\%s', $this->moduleID, 'Module');
+        $this->moduleClass = sprintf('app\modules\%s\%s', $this->moduleID, 'RestByConfModule');
         $files = [];
 
         // for rest api

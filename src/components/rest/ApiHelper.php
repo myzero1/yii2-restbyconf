@@ -546,6 +546,26 @@ class ApiHelper
     }
 
     /**
+     * Get the module's id of restbyconf.
+     *
+     * 调用实例：Helper::
+     *
+     * @param   void
+     * @return  string
+     **/
+    public static function getRestByConfModuleId(){
+        $moduleId = [];
+        foreach (\Yii::$app->modules as $key => $value) {
+            if (!is_array($value)) {
+                if (stripos($value::className(),"RestByConfModule") !== false) {
+                    $moduleId[] = $key;
+                }
+            }
+        }
+        return $moduleId;
+    }
+
+    /**
      * Get the module's name of restbyconf.
      *
      * 调用实例：Helper::

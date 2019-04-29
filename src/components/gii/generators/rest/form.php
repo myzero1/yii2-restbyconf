@@ -12,7 +12,7 @@ if ($generator->conf) {
     $conf = json_decode($generator->conf, true);
     $moduleId = trim($conf['json']['basePath'], '/');
 } else {
-    $moduleId = 'v1';
+    $moduleId = Yii::$app->request->get('mId', 'v1');
 }
 $confDataInit = ApiHelper::getApiConf($moduleId);
 // $confDataInit = '';
@@ -32,6 +32,11 @@ if ($generator->position) {
 
 $mId = ApiHelper::getRestModuleName();
 
+$modulesId = ApiHelper::getRestByConfModuleId();
+array_unshift($modulesId, '');
+
+$moduleId = Yii::$app->request->get('mId', '');
+
 ?>
 
 <style type="text/css">
@@ -45,6 +50,22 @@ $mId = ApiHelper::getRestModuleName();
 </style>
 
 <div class="rest-form">
+
+    <nav class="navbar navbar-default restbyconfig" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Selectable modules</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <?php foreach ($modulesId as $k => $v) {
+                        $class = $v == $moduleId ? 'active' : '';
+                        printf('<li class="%s"><a href="%s">%s api</a></li>', $class, Url::to(['/' . Yii::$app->request->getPathInfo(), 'mId' => $v]), $v);
+                    } ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <nav class="navbar navbar-default restbyconfig" role="navigation">
         <div class="container-fluid">
