@@ -1,6 +1,6 @@
 <?php
     $asset = myzero1\restbyconf\components\swagger\SwaggerAsset::register($this);
-    $swaggerJsonUri = sprintf('/%s/default/swagger-json', $this->context->module->id);
+    $swaggerJsonUri = $url;
 ?>
 
 <div id="swagger-content"></div>

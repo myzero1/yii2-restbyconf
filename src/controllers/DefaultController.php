@@ -4,6 +4,7 @@ namespace myzero1\restbyconf\controllers;
 
 use yii\web\Controller;
 use Yii;
+use yii\helpers\Url;
 use myzero1\restbyconf\components\rest\ApiHelper;
 
 /**
@@ -27,7 +28,9 @@ class DefaultController extends Controller
      */
     public function actionSwagger()
     { 
-        return $this->renderAjax('swagger');
+        $mId = Yii::$app->request->get('mId', 'v1');
+        $url = Url::to([sprintf('/%s/default/swagger-json', $this->module->id), 'mId' => $mId]);
+        return $this->renderAjax('swagger', ['url' => $url]);
     }
 
     /**
