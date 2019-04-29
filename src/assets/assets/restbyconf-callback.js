@@ -92,7 +92,7 @@ var onCreateMenu = function onCreateMenu(items, node) {
                     data.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == 'create') {
                     action.push(items[i]['submenu'][j]);
-                } else if (items[i]['submenu'][j]['text'] == 'updte') {
+                } else if (items[i]['submenu'][j]['text'] == 'update') {
                     action.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == 'view') {
                     action.push(items[i]['submenu'][j]);
