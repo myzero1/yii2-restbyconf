@@ -29,10 +29,10 @@ window.jsoneditorOldJson = {
     },
     "controllers": {
         "demo": {
-            "description": "userName",
+            "description": "Insert a controller node",
             "actions": {
                 "create": {
-                    "description": "The action's description",
+                    "description": "The create action's description",
                     "method": "post",
                     "inputs": {
                         "body_params": {
@@ -67,7 +67,7 @@ window.jsoneditorOldJson = {
                     }
                 },
                 "update": {
-                    "description": "The action's description",
+                    "description": "The update action's description",
                     "method": "put",
                     "inputs": {
                         "body_params": {
@@ -110,7 +110,7 @@ window.jsoneditorOldJson = {
                     }
                 },
                 "view": {
-                    "description": "The action's description",
+                    "description": "The view action's description",
                     "method": "get",
                     "inputs": {
                         "body_params": {},
@@ -138,7 +138,7 @@ window.jsoneditorOldJson = {
                     }
                 },
                 "delete": {
-                    "description": "The action's description",
+                    "description": "The delete action's description",
                     "method": "delete",
                     "inputs": {
                         "body_params": {},
@@ -162,7 +162,7 @@ window.jsoneditorOldJson = {
                     }
                 },
                 "index": {
-                    "description": "create",
+                    "description": "The index action's description",
                     "method": "get",
                     "inputs": {
                         "body_params": {},
@@ -214,7 +214,7 @@ window.jsoneditorOldJson = {
                     }
                 },
                 "export": {
-                    "description": "create",
+                    "description": "The export action's description",
                     "method": "get",
                     "inputs": {
                         "body_params": {},
@@ -245,7 +245,7 @@ window.jsoneditorOldJson = {
                     }
                 },
                 "custom": {
-                    "description": "The action's description",
+                    "description": "The custom action's description",
                     "method": "patch",
                     "inputs": {
                         "body_params": {
@@ -295,7 +295,7 @@ var templates = [
               "description": "Insert a controller node",
               "actions": {
                   "create": {
-                      "description": "The action's description",
+                      "description": "The controller's description",
                       "method": "post",
                       "inputs": {
                           "body_params": {
@@ -565,7 +565,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
-              "description": "The action's description",
+              "description": "The create action's description",
               "method": "post",
               "inputs": {
                   "body_params": {
@@ -606,7 +606,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
-              "description": "The action's description",
+              "description": "The update action's description",
               "method": "put",
               "inputs": {
                   "body_params": {
@@ -655,7 +655,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
-              "description": "The action's description",
+              "description": "The view action's description",
               "method": "get",
               "inputs": {
                   "body_params": {},
@@ -689,7 +689,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
-              "description": "The action's description",
+              "description": "The delete action's description",
               "method": "delete",
               "inputs": {
                   "body_params": {},
@@ -719,7 +719,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
-              "description": "create",
+              "description": "The index action's description",
               "method": "get",
               "inputs": {
                   "body_params": {},
@@ -777,7 +777,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
-              "description": "create",
+              "description": "The export action's description",
               "method": "get",
               "inputs": {
                   "body_params": {},
@@ -814,7 +814,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
-              "description": "The action's description",
+              "description": "The custom action's description",
               "method": "patch",
               "inputs": {
                   "body_params": {
