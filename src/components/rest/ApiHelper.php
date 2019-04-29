@@ -537,7 +537,7 @@ class ApiHelper
     public static function getRestModuleName(){
         foreach (\Yii::$app->modules as $key => $value) {
             if (!is_array($value)) {
-                if ('myzero1\restbyconf\Module' == $value::className()) {
+                if ('myzero1\restbyconf\Module' == $value) {
                     return $key;
                 }
             }
@@ -557,7 +557,7 @@ class ApiHelper
         $moduleId = [];
         foreach (\Yii::$app->modules as $key => $value) {
             if (!is_array($value)) {
-                if (stripos($value::className(),"RestByConfModule") !== false) {
+                if (stripos(json_encode($value),"RestByConfModule") !== false) {
                     $moduleId[] = $key;
                 }
             }
