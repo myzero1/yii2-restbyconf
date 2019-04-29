@@ -6,7 +6,7 @@ return [
         'pluralize' => false,
         'extraPatterns' => [
             'GET,OPTIONS /export' => 'export',
-            'PATCH,OPTIONS <id:\d{1,32}>/custom' => 'custom',
+            'PATCH,OPTIONS <id:\d{0,32}>/custom' => 'custom',
         ],
     ],
 ];
