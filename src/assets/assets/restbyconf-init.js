@@ -70,8 +70,8 @@ var style = `
 $("body").append(style);
 
 // for init 
-// showContextmenu();
-// adjustBackground();
+showContextmenu();
+adjustBackground();
 
 
 $(document).on("click",".jsoneditor-expand-all",function(){
