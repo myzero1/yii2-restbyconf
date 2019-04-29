@@ -60,7 +60,11 @@ $moduleId = Yii::$app->request->get('mId', '');
                 <ul class="nav navbar-nav">
                     <?php foreach ($modulesId as $k => $v) {
                         $class = $v == $moduleId ? 'active' : '';
-                        printf('<li class="%s"><a href="%s">%s api</a></li>', $class, Url::to(['/' . Yii::$app->request->getPathInfo(), 'mId' => $v]), $v);
+                        if ($v != '') {
+                            printf('<li class="%s"><a href="%s">%s api</a></li>', $class, Url::to(['/' . Yii::$app->request->getPathInfo(), 'mId' => $v]), $v);
+                        } else {
+                            printf('<li class="%s"><a href="%s">%s api</a></li>', $class, Url::to(['/' . Yii::$app->request->getPathInfo()]), $v);
+                        }
                     } ?>
                 </ul>
             </div>
@@ -74,8 +78,23 @@ $moduleId = Yii::$app->request->get('mId', '');
             </div>
             <div>
                 <ul class="nav navbar-nav">
-                    <li><a target="_blank" href="<?=Url::to([sprintf('/%s/default/swagger', $mId), 'mId' => $moduleId])?>">Swagger</a></li>
-                    <li><a target="_blank" href="<?=Url::to([sprintf('/%s/default/markdown', $mId), 'mId' => $moduleId])?>">Markdown</a></li>
+                    <?php 
+                        if ($moduleId != '') {
+                            printf('<li><a target="_blank" href="%s">Swagger</a></li>',
+                                Url::to([sprintf('/%s/default/swagger', $mId), 'mId' => $moduleId]) 
+                            );
+                            printf('<li><a target="_blank" href="%s">Markdown</a></li>',
+                                Url::to([sprintf('/%s/default/markdown', $mId), 'mId' => $moduleId]) 
+                            );
+                        } else {
+                            printf('<li><a target="_blank" href="%s">Swagger</a></li>',
+                                Url::to([sprintf('/%s/default/swagger', $mId)])
+                            );
+                            printf('<li><a target="_blank" href="%s">Markdown</a></li>',
+                                Url::to([sprintf('/%s/default/markdown', $mId)]) 
+                            );
+                        }
+                    ?>
                 </ul>
             </div>
         </div>
