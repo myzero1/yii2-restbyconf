@@ -36,7 +36,8 @@ class DefaultController extends Controller
      */
     public function actionSwaggerJson()
     {
-        $swaggerData = ApiHelper::getApiConf();
+        $mId = Yii::$app->request->get('mId', 'v1');
+        $swaggerData = ApiHelper::getApiConf($mId);
         $json = json_decode($swaggerData, true)['json'];
         $oldcontrollers = $json['controllers'];
         $oldcontrollers = ApiHelper::rmNode($json['controllers']);
@@ -189,8 +190,8 @@ class DefaultController extends Controller
      */
     public function actionMarkdown()
     {
-
-        $swaggerData = ApiHelper::getApiConf();
+        $mId = Yii::$app->request->get('mId', 'v1');
+        $swaggerData = ApiHelper::getApiConf($mId);
         $json = json_decode($swaggerData, true)['json'];
         $oldcontrollers = $json['controllers'];
         $oldcontrollers = ApiHelper::rmNode($json['controllers']);
