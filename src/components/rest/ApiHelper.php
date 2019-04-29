@@ -22,6 +22,8 @@ class ApiHelper
 {
     const EXPORT_PAGE = 1;
     const EXPORT_PAGE_SIZE = 999999;
+    const DEFAULT_PAGE = 1;
+    const DEFAULT_PAGE_SIZE = 20;
 
     public static function response($data, $code = 0, $msg = '')
     {
@@ -113,7 +115,7 @@ class ApiHelper
      */
     public static function string2time($string)
     {
-        if (empty($timestamp)) {
+        if (empty($string)) {
             return 0;
         } else {
             return strtotime($string);
