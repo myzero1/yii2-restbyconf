@@ -267,7 +267,7 @@ class DefaultController extends Controller
                     $content .= sprintf("***Path params*** \n\n");
                     $content .= sprintf("| Name | Des | Required | Eg | Rules | Rrror msg | \n");
                     $content .= sprintf("|-|:-:|:-:|:-:|:-:|:-:| \n");
-                    foreach ($actionsV['inputs']['body_params'] as $k => $v) {
+                    foreach ($actionsV['inputs']['path_params'] as $k => $v) {
                         $content .= sprintf("| %s | %s | %s | %s | %s | %s | \n",
                             $k,
                             $v['des'],
@@ -284,7 +284,7 @@ class DefaultController extends Controller
                     $content .= sprintf("***Query params*** \n\n");
                     $content .= sprintf("| Name | Des | Required | Eg | Rules | Rrror msg | \n");
                     $content .= sprintf("|-|:-:|:-:|:-:|:-:|:-:| \n");
-                    foreach ($actionsV['inputs']['body_params'] as $k => $v) {
+                    foreach ($actionsV['inputs']['query_params'] as $k => $v) {
                         $content .= sprintf("| %s | %s | %s | %s | %s | %s | \n",
                             $k,
                             $v['des'],

@@ -91,7 +91,7 @@ window.jsoneditorOldJson = {
                                 "des": "Id",
                                 "required": true,
                                 "eg": 1,
-                                "rules": "^\\d{1,32}$",
+                                "rules": "^\\d{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
                         },
@@ -119,7 +119,7 @@ window.jsoneditorOldJson = {
                                 "des": "Id",
                                 "required": false,
                                 "eg": 1,
-                                "rules": "^\\d{1,32}$",
+                                "rules": "^\\d{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
                         },
@@ -147,7 +147,7 @@ window.jsoneditorOldJson = {
                                 "des": "Id",
                                 "required": false,
                                 "eg": 1,
-                                "rules": "^\\d{1,32}$",
+                                "rules": "^\\d{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
                         },
@@ -262,7 +262,7 @@ window.jsoneditorOldJson = {
                                 "des": "Id",
                                 "required": true,
                                 "eg": 1,
-                                "rules": "^\\d{1,32}$",
+                                "rules": "^\\d{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
                         },
@@ -354,7 +354,7 @@ var templates = [
                                   "des": "Id",
                                   "required": true,
                                   "eg": 1,
-                                  "rules": "^\\d{1,32}$",
+                                  "rules": "^\\d{0,32}$",
                                   "error_msg": "Input parameter error"
                               }
                           },
@@ -382,7 +382,7 @@ var templates = [
                                   "des": "Id",
                                   "required": false,
                                   "eg": 1,
-                                  "rules": "^\\d{1,32}$",
+                                  "rules": "^\\d{0,32}$",
                                   "error_msg": "Input parameter error"
                               }
                           },
@@ -410,7 +410,7 @@ var templates = [
                                   "des": "Id",
                                   "required": false,
                                   "eg": 1,
-                                  "rules": "^\\d{1,32}$",
+                                  "rules": "^\\d{0,32}$",
                                   "error_msg": "Input parameter error"
                               }
                           },
@@ -525,7 +525,7 @@ var templates = [
                                   "des": "Id",
                                   "required": true,
                                   "eg": 1,
-                                  "rules": "^\\d{1,32}$",
+                                  "rules": "^\\d{0,32}$",
                                   "error_msg": "Input parameter error"
                               }
                           },
@@ -630,7 +630,7 @@ var templates = [
                           "des": "Id",
                           "required": true,
                           "eg": 1,
-                          "rules": "^\\d{1,32}$",
+                          "rules": "^\\d{0,32}$",
                           "error_msg": "Input parameter error"
                       }
                   },
@@ -664,7 +664,7 @@ var templates = [
                           "des": "Id",
                           "required": false,
                           "eg": 1,
-                          "rules": "^\\d{1,32}$",
+                          "rules": "^\\d{0,32}$",
                           "error_msg": "Input parameter error"
                       }
                   },
@@ -698,7 +698,7 @@ var templates = [
                           "des": "Id",
                           "required": false,
                           "eg": 1,
-                          "rules": "^\\d{1,32}$",
+                          "rules": "^\\d{0,32}$",
                           "error_msg": "Input parameter error"
                       }
                   },
@@ -831,7 +831,7 @@ var templates = [
                           "des": "Id",
                           "required": true,
                           "eg": 1,
-                          "rules": "^\\d{1,32}$",
+                          "rules": "^\\d{0,32}$",
                           "error_msg": "Input parameter error"
                       }
                   },
