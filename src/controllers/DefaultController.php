@@ -28,7 +28,7 @@ class DefaultController extends Controller
      */
     public function actionSwagger()
     { 
-        $mId = Yii::$app->request->get('mId', 'v1');
+        $mId = Yii::$app->request->get('mId', '');
         $url = Url::to([sprintf('/%s/default/swagger-json', $this->module->id), 'mId' => $mId]);
         return $this->renderAjax('swagger', ['url' => $url]);
     }
@@ -39,7 +39,7 @@ class DefaultController extends Controller
      */
     public function actionSwaggerJson()
     {
-        $mId = Yii::$app->request->get('mId', 'v1');
+        $mId = Yii::$app->request->get('mId', '');
         $swaggerData = ApiHelper::getApiConf($mId);
         $json = json_decode($swaggerData, true)['json'];
         $oldcontrollers = $json['controllers'];
@@ -193,7 +193,7 @@ class DefaultController extends Controller
      */
     public function actionMarkdown()
     {
-        $mId = Yii::$app->request->get('mId', 'v1');
+        $mId = Yii::$app->request->get('mId', '');
         $swaggerData = ApiHelper::getApiConf($mId);
         $json = json_decode($swaggerData, true)['json'];
         $oldcontrollers = $json['controllers'];
