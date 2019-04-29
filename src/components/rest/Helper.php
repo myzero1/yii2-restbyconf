@@ -438,4 +438,25 @@ class Helper
             }
         );
     }
+
+    /**
+     * get dates
+     * @param array $dictionary
+     * @param string $type
+     * @param string $item
+     * @return string
+     */
+    public static function getDictionary($dictionary, $type, $item)
+    {
+        // $dictionaryPath = sprintf('%s/../backend/config/dictionary.php', Yii::getAlias('@app'));
+        // $dictionary = Yii::$app->params['dictionary'];
+        // $dictionary = require $dictionaryPath;
+
+
+        if (isset($dictionary[$type][$item])) {
+            return $dictionary[$type][$item];
+        } else {
+            return '';
+        }
+    }
 }
