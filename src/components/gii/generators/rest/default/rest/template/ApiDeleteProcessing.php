@@ -35,6 +35,16 @@ $postInputRules = [];
 
 $pathInputs = $controllerV['actions'][$action]['inputs']['path_params'];
 $pathInputsKeys = array_keys($pathInputs);
+//var_dump($pathInputs);exit;
+if (count($pathInputs)) {
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", implode("','", $pathInputsKeys));
+}
+foreach ($pathInputs as $key => $value) {
+    if ($value['required']) {
+        $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
+    }
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
+}
 
 $inputsKeys = array_merge($postInputsKeys, $getInputsKeys, $pathInputsKeys);
 
