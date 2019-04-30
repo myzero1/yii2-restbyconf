@@ -40,8 +40,11 @@ class <?=$controller?>Controller extends ApiController
         $parentActions = parent::actions();
 
         $overwriteActions = [
-<?php foreach ($actions as $key => $action) { ?>
-            '<?=$action?>' => [
+    <?php
+        foreach ($actions as $key => $action) {
+            $actionNew = ApiHelper::uncamelize($action, '-');
+    ?>
+            '<?=$actionNew?>' => [
                 'class' => $this->apiActionClass,
                 'processingClass' => '\<?=$processingClassNs?>\<?=ucwords($action)?>',
             ],
