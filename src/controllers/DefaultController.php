@@ -226,7 +226,7 @@ class DefaultController extends Controller
             $content .= sprintf("\n<a name='1.2.%s' ></a> \n", $i);
             $content .= sprintf("### 1.2.%s. %s \n", $i, $oldcontroller);
             $content .= sprintf("> [Go table](#1.1) \n\n");
-            $content .= sprintf("&nbsp;`description` \n\n");
+            $content .= sprintf("&nbsp;`Description` \n\n");
             $content .= sprintf("%s \n", $oldcontrollerV['description']);
 
             $j = 0;
@@ -237,14 +237,15 @@ class DefaultController extends Controller
                 $content .= sprintf("\n<a name='1.2.%s.%s' ></a> \n", $i, $j);
                 $content .= sprintf("#### 1.2.%s.%s. %s \n", $i, $j, $action);
                 $content .= sprintf("> [Go table](#1.1) \n\n");
-                $content .= sprintf("&nbsp;`summary` \n\n");
-                $content .= sprintf("%s \n\n", $actionsV['summary']);
-                $content .= sprintf("&nbsp;`description` \n\n");
-                $content .= sprintf("%s \n", $actionsV['description']);
+                // $content .= sprintf("&nbsp;`summary` \n\n");
+                // $content .= sprintf("%s \n\n", $actionsV['summary']);
+                // $content .= sprintf("&nbsp;`description` \n\n");
+                // $content .= sprintf("%s \n", $actionsV['description']);
                 $content .= sprintf("\n&nbsp;`Basic info` \n\n");
                 $content .= sprintf("| Items | Detail | \n");
                 $content .= sprintf("|-------|:---------:| \n");
-                $content .= sprintf("| Des | %s | \n", $actionsV['description']);
+                $content .= sprintf("| Summary | %s | \n", $actionsV['summary']);
+                $content .= sprintf("| Description | %s | \n", $actionsV['description']);
                 $content .= sprintf("| Method | %s | \n", strtoupper($actionsV['method']));
                 $content .= sprintf("| Uri | %s/%s | \n", $json['basePath'], $action);
                 $content .= sprintf("| ContentType | application/json | \n");
