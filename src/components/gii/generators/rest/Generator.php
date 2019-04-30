@@ -161,12 +161,17 @@ EOD;
                     $tmp = sprintf('%s,OPTIONS ', strtoupper($actionV['method']));
                     $pathParams = $actionV['inputs']['path_params'];
                     $pathParams = ApiHelper::rmNode($pathParams);
+                    $tmpIds = [];
                     foreach ($pathParams as $pathParamK => $pathParamV) {
                         $rulesTmp = $pathParamV['rules'];
                         $rulesTmp = trim($rulesTmp, '^');
                         $rulesTmp = trim($rulesTmp, '$');
-                        $tmp = sprintf('%s<%s:%s>', $tmp, $pathParamK, $rulesTmp);
+                        // $tmp = sprintf('%s<%s:%s>', $tmp, $pathParamK, $rulesTmp);
+                        $tmpIds[] = sprintf('<%s:%s>', $pathParamK, $rulesTmp);
                     }
+
+                    $tmpIdsStr = implode('/', $tmpIds);
+                    $tmp = sprintf('%s%s', $tmp, $tmpIdsStr);
 
                     $actionK = ApiHelper::uncamelize($actionK, '-');
                     $tmp = sprintf("'%s/%s' => '%s'", $tmp, $actionK, $actionK);
