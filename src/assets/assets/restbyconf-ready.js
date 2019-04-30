@@ -302,8 +302,8 @@ var templates = [
               "description": "Insert a controller node",
               "actions": {
                   "create": {
-                      "summary": "The controller action's summary",
-                      "description": "The controller's description",
+                      "summary": "The create action's summary",
+                      "description": "The action's description",
                       "method": "post",
                       "inputs": {
                           "body_params": {
@@ -436,7 +436,8 @@ var templates = [
                       }
                   },
                   "index": {
-                      "description": "create",
+                      "summary": "The index action's summary",
+                      "description": "The action's description",
                       "method": "get",
                       "inputs": {
                           "body_params": {},
@@ -488,7 +489,8 @@ var templates = [
                       }
                   },
                   "export": {
-                      "description": "create",
+                      "summary": "The export action's summary",
+                      "description": "The action's description",
                       "method": "get",
                       "inputs": {
                           "body_params": {},
