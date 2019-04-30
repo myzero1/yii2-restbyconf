@@ -133,7 +133,7 @@ class DefaultController extends Controller
                 $path_outputs = ApiHelper::rmNode($path_outputs);
 
                 // $dataStr = json_encode($path_outputs);
-                $dataStr = json_encode($path_outputs, JSON_PRETTY_PRINT);
+                $dataStr = json_encode($path_outputs, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
 
                 $outputParams['200'] = [
                     'description' => 'outputs',
@@ -305,7 +305,7 @@ class DefaultController extends Controller
 
                 $content .= sprintf("&nbsp; \n\n`Outputs` \n\n");
                 $content .= sprintf("``` \n");
-                $content .= sprintf("%s \n", json_encode($actionsV['outputs'], JSON_PRETTY_PRINT));
+                $content .= sprintf("%s \n", json_encode($actionsV['outputs'], JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT));
                 $content .= sprintf("``` \n");
                 $content .= sprintf("\n");
             }
