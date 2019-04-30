@@ -426,20 +426,26 @@ class ApiHelper
     /**
      * @param  string $modelClass
      * @param  int $id
+     * @param  array $where
      * @return mixed
      */
-    public static function findModel($modelClass, $id)
+    public static function findModel($modelClass, $id, $where = [])
     {
-        $model = $modelClass::find()->where(['id' => $id, 'is_del' => 0])->one();
+        if (count($where)) {
+            $model = $modelClass::find()->where($where)->one();
+        } else {
+            $model = $modelClass::find()->where(['id' => $id, 'is_del' => 0])->one();
+        }
 
         if (!$model) {
+            /*
             return [
                 'code' => ApiCodeMsg::NOT_FOUND,
                 'msg' => ApiCodeMsg::NOT_FOUND_MSG,
                 'data' => new \StdClass(),
             ];
+            */
 
-            /*
             $data = [
                 'code' => ApiCodeMsg::NOT_FOUND,
                 'msg' => ApiCodeMsg::NOT_FOUND_MSG,
@@ -448,7 +454,7 @@ class ApiHelper
 
             Yii::$app->response->data = $data;
             Yii::$app->response->send();
-            */
+            exit;
         } else {
             return $model;
         }
