@@ -32,6 +32,7 @@ window.jsoneditorOldJson = {
             "description": "Insert a controller node",
             "actions": {
                 "create": {
+                    "summary": "The create action's summary",
                     "description": "The create action's description",
                     "method": "post",
                     "inputs": {
@@ -67,6 +68,7 @@ window.jsoneditorOldJson = {
                     }
                 },
                 "update": {
+                    "summary": "The update action's summary",
                     "description": "The update action's description",
                     "method": "put",
                     "inputs": {
@@ -110,6 +112,7 @@ window.jsoneditorOldJson = {
                     }
                 },
                 "view": {
+                    "summary": "The view action's summary",
                     "description": "The view action's description",
                     "method": "get",
                     "inputs": {
@@ -138,6 +141,7 @@ window.jsoneditorOldJson = {
                     }
                 },
                 "delete": {
+                    "summary": "The delete action's summary",
                     "description": "The delete action's description",
                     "method": "delete",
                     "inputs": {
@@ -162,6 +166,7 @@ window.jsoneditorOldJson = {
                     }
                 },
                 "index": {
+                    "summary": "The index action's summary",
                     "description": "The index action's description",
                     "method": "get",
                     "inputs": {
@@ -214,6 +219,7 @@ window.jsoneditorOldJson = {
                     }
                 },
                 "export": {
+                    "summary": "The export action's summary",
                     "description": "The export action's description",
                     "method": "get",
                     "inputs": {
@@ -245,6 +251,7 @@ window.jsoneditorOldJson = {
                     }
                 },
                 "custom": {
+                    "summary": "The custom action's summary",
                     "description": "The custom action's description",
                     "method": "patch",
                     "inputs": {
@@ -295,6 +302,7 @@ var templates = [
               "description": "Insert a controller node",
               "actions": {
                   "create": {
+                      "summary": "The controller action's summary",
                       "description": "The controller's description",
                       "method": "post",
                       "inputs": {
@@ -330,6 +338,7 @@ var templates = [
                       }
                   },
                   "update": {
+                      "summary": "The update action's summary",
                       "description": "The action's description",
                       "method": "put",
                       "inputs": {
@@ -373,6 +382,7 @@ var templates = [
                       }
                   },
                   "view": {
+                      "summary": "The view action's summary",
                       "description": "The action's description",
                       "method": "get",
                       "inputs": {
@@ -401,6 +411,7 @@ var templates = [
                       }
                   },
                   "delete": {
+                      "summary": "The delete action's summary",
                       "description": "The action's description",
                       "method": "delete",
                       "inputs": {
@@ -508,6 +519,7 @@ var templates = [
                       }
                   },
                   "custom": {
+                      "summary": "The custom action's summary",
                       "description": "The action's description",
                       "method": "patch",
                       "inputs": {
@@ -565,6 +577,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
+              "summary": "The create action's summary",
               "description": "The create action's description",
               "method": "post",
               "inputs": {
@@ -606,6 +619,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
+              "summary": "The update action's summary",
               "description": "The update action's description",
               "method": "put",
               "inputs": {
@@ -655,6 +669,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
+              "summary": "The view action's summary",
               "description": "The view action's description",
               "method": "get",
               "inputs": {
@@ -689,6 +704,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
+              "summary": "The delete action's summary",
               "description": "The delete action's description",
               "method": "delete",
               "inputs": {
@@ -719,6 +735,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
+              "summary": "The index action's summary",
               "description": "The index action's description",
               "method": "get",
               "inputs": {
@@ -777,6 +794,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
+              "summary": "The export action's summary",
               "description": "The export action's description",
               "method": "get",
               "inputs": {
@@ -814,6 +832,7 @@ var templates = [
           className: 'jsoneditor-append jsoneditor-default',
           field: '',
           value: {
+              "summary": "The custom action's summary",
               "description": "The custom action's description",
               "method": "patch",
               "inputs": {
@@ -1042,9 +1061,13 @@ var schemas = {
         "type": "object",
         "required": [],
         "properties": {
+            "summary": {
+                "type": ["number", "string"],
+                "examples": ["action's summary"]
+            },
             "description": {
                 "type": ["number", "string"],
-                "examples": ["create", "update"]
+                "examples": ["description's summary"]
             },
             "method": {
                 "title": "method",

@@ -148,7 +148,8 @@ class DefaultController extends Controller
                 // var_dump($pathName);exit;
                 $path[$v1['method']] = [
                     'tags' => [$k],
-                    'description' => $v['description'],
+                    'description' => $v1['description'],
+                    'summary' => $v1['summary'],
                     'operationId' => $k . ''. str_replace('/', '-', str_replace('}', '', str_replace('{', '', $pathName))),
                     'parameters' => $inputParams,
                     'responses' => $outputParams,
