@@ -167,6 +167,8 @@ EOD;
                         $rulesTmp = trim($rulesTmp, '$');
                         $tmp = sprintf('%s<%s:%s>', $tmp, $pathParamK, $rulesTmp);
                     }
+
+                    $actionK = ApiHelper::uncamelize($actionK, '-');
                     $tmp = sprintf("'%s/%s' => '%s'", $tmp, $actionK, $actionK);
                     $extra[] = $tmp;
                 }
