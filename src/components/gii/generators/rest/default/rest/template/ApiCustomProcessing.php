@@ -178,7 +178,7 @@ class <?=$actionClass?> implements ApiActionProcessing
             $flag = true;
             if (!($flag = $model->save())) {
                 $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save Model reason.');
+                return ApiHelper::getModelError($modelPost, ApiCodeMsg::INTERNAL_SERVER);
             }
 
             if ($flag) {

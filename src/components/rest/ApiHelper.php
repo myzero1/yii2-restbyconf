@@ -593,4 +593,22 @@ class ApiHelper
 
         return true;
     }
+
+    /**
+     * Get the module's name of restbyconf.
+     *
+     * 调用实例：Helper::
+     *
+     * @param   obj $model
+     * @param   int $code
+     * @return  array
+     **/
+    public static function getModelError($model, $code){
+        $errors = $model->errors;
+        return [
+            'code' => $code,
+            'msg' => Helper::getErrorMsg($errors),
+            'data' => $errors,
+        ];
+    }
 }

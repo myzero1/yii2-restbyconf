@@ -154,6 +154,7 @@ class <?=$actionClass?> implements ApiActionProcessing
     {
         $time = time();
         $in2dbData['updated_at'] = $time;
+        $in2dbData['is_del'] = 1;
 
         $in2dbData = ApiHelper::inputFilter($in2dbData);
 
@@ -172,14 +173,14 @@ class <?=$actionClass?> implements ApiActionProcessing
             return $model;
         }
 
-        $model->is_del = 1;
+        $model->load($completedData, '');
 
         $trans = Yii::$app->db->beginTransaction();
         try {
             $flag = true;
             if (!($flag = $model->save())) {
                 $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save model reason.');
+                return ApiHelper::getModelError($modelPost, ApiCodeMsg::INTERNAL_SERVER);
             }
 
             if ($flag) {

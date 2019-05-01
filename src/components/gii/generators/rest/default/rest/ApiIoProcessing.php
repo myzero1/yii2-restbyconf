@@ -67,6 +67,7 @@ use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
+use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiIoProcessing;
 
 /**
@@ -109,12 +110,7 @@ class <?=$actionClass?> implements ApiIoProcessing
         $modelGet->load($input['get'], '');
 
         if (!$modelGet->validate()) {
-            $errors = $modelGet->errors;
-            return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
-                'msg' => Helper::getErrorMsg($errors),
-                'data' => $errors,
-            ];
+            return ApiHelper::getModelError($modelGet, ApiCodeMsg::BAD_REQUEST);
         }
 
         // post
@@ -130,12 +126,7 @@ class <?=$actionClass?> implements ApiIoProcessing
         $modelPost->load($input['post'], '');
 
         if (!$modelPost->validate()) {
-            $errors = $modelPost->errors;
-            return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
-                'msg' => Helper::getErrorMsg($errors),
-                'data' => $errors,
-            ];
+            return ApiHelper::getModelError($modelPost, ApiCodeMsg::BAD_REQUEST);
         }
 
         $getAttributes = Helper::inputFilter($modelGet->attributes);
