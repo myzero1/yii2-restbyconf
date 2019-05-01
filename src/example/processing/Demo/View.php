@@ -85,8 +85,6 @@ class View implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        $time = time();
-
         $in2dbData = ApiHelper::inputFilter($in2dbData);
 
         return $in2dbData;
