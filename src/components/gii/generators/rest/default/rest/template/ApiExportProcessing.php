@@ -15,6 +15,8 @@ $controllerV = $generator->controllerV;
 $actions = array_keys($controllerV['actions']);
 $moduleClass = $generator->moduleClass;
 $processingClassNs = sprintf('%s\processing\%s', dirname($moduleClass), $generator->controller);
+$ioClass = sprintf('%s\processing\%s\io\%sIo', dirname($moduleClass), $generator->controller, $actionClass);
+$ioClassName = sprintf('%sIo', $actionClass);
 
 $getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
 $getInputsKeys = array_keys($getInputs);
@@ -73,16 +75,16 @@ echo "<?php\n";
 namespace <?=$processingClassNs?>;
 
 use Yii;
-use yii\db\Query;
 use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
+use <?=$ioClass?>;
 
 /**
- * implement the UpdateProcessing
+ * implement the ActionProcessing
  *
  * For more details and usage information on CreateAction, see the [guide article](https://github.com/myzero1/yii2-restbyconf).
  *
@@ -103,21 +105,19 @@ class <?=$actionClass?> implements ApiActionProcessing
         $input['get'] = Yii::$app->request->queryParams;
         $input['post'] = Yii::$app->request->bodyParams;
         $validatedInput = $this->inputValidate($input);
-        if (ApiHelper::isReturning($validatedInput)) {
+        if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*
-            $in2dbData = $this->mappingInput2db($validatedInput);
+            /* $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
-            if (ApiHelper::isReturning($handledData)) {
-                return $handledData;
+            if (Helper::isReturning($handledData)) {
+            return $handledData;
             }
-            
-            $db2outData = $this->mappingDb2output($handledData);
-            */
-            $db2outData = $this->egOutputData();// for demo
+
+            $db2outData = $this->mappingDb2output($handledData);*/
+            $db2outData = <?=$ioClassName?>::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -129,60 +129,7 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        $inputFields = [
-<?php foreach ($inputsKeys as $key => $value) { ?>
-            '<?=$value?>',
-<?php } ?>
-            'id',
-        ];
-
-        // get
-        $modelGet = new DynamicModel($inputFields);
-
-        $modelGet->addRule($inputFields, 'trim');
-        $modelGet->addRule($inputFields, 'safe');
-
-<?php foreach ($getInputRules as $key => $value) { ?>
-        <?=$value."\n"?>
-<?php } ?>
-
-        $modelGet->load($input['get'], '');
-
-        if (!$modelGet->validate()) {
-            $errors = $modelGet->errors;
-            return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
-                'msg' => Helper::getErrorMsg($errors),
-                'data' => $errors,
-            ];
-        }
-
-        // post
-        $modelPost = new DynamicModel($inputFields);
-
-        $modelPost->addRule($inputFields, 'trim');
-        $modelPost->addRule($inputFields, 'safe');
-
-<?php foreach ($postInputRules as $key => $value) { ?>
-        <?=$value."\n"?>
-<?php } ?>
-
-        $modelPost->load($input['post'], '');
-
-        if (!$modelPost->validate()) {
-            $errors = $modelPost->errors;
-            return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
-                'msg' => Helper::getErrorMsg($errors),
-                'data' => $errors,
-            ];
-        }
-
-        $getAttributes = ApiHelper::inputFilter($modelGet->attributes);
-        $postAttributes = ApiHelper::inputFilter($modelPost->attributes);
-        $attributes = array_merge($postAttributes, $getAttributes);
-
-        return array_merge($modelGet->attributes, $attributes);
+        return <?=$ioClassName?>::inputValidate($input); // for demo
     }
 
     /**
@@ -292,8 +239,6 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        $egOutputData = '<?=serialize($egOutputData)?>';
-
-        return unserialize($egOutputData);
+        return <?=$ioClassName?>::egOutputData(); // for demo
     }
 }

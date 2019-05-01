@@ -117,7 +117,7 @@ class <?=$actionClass?> implements ApiActionProcessing
             }
 
             $db2outData = $this->mappingDb2output($handledData);*/
-            $db2outData = <?=$ioClassName?>::egOutputData() // for demo
+            $db2outData = <?=$ioClassName?>::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -129,7 +129,7 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        return <?=$ioClassName?>::inputValidate() // for demo
+        return <?=$ioClassName?>::inputValidate($input); // for demo
     }
 
     /**
@@ -231,6 +231,6 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return <?=$ioClassName?>::egOutputData() // for demo
+        return <?=$ioClassName?>::egOutputData(); // for demo
     }
 }

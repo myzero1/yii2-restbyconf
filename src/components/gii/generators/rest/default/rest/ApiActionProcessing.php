@@ -15,9 +15,10 @@ $controllerV = $generator->controllerV;
 $actions = array_keys($controllerV['actions']);
 $moduleClass = $generator->moduleClass;
 $processingClassNs = sprintf('%s\processing\%s', dirname($moduleClass), $generator->controller);
+$ioClass = sprintf('%s\processing\%s\io\%sIo', dirname($moduleClass), $generator->controller, $actionClass);
+$ioClassName = sprintf('%sIo', $actionClass);
 
 $getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
-$getInputs = ApiHelper::rmNode($getInputs);
 $getInputsKeys = array_keys($getInputs);
 $getInputRules = [];
 if (count($getInputs)) {
@@ -31,12 +32,21 @@ foreach ($getInputs as $key => $value) {
 }
 
 $postInputs = $controllerV['actions'][$action]['inputs']['body_params'];
-$postInputs = ApiHelper::rmNode($postInputs);
 $postInputsKeys = array_keys($postInputs);
 $postInputRules = [];
 
 $pathInputs = $controllerV['actions'][$action]['inputs']['path_params'];
 $pathInputsKeys = array_keys($pathInputs);
+//var_dump($pathInputs);exit;
+if (count($pathInputs)) {
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", implode("','", $pathInputsKeys));
+}
+foreach ($pathInputs as $key => $value) {
+    if ($value['required']) {
+        $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
+    }
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
+}
 
 $inputsKeys = array_merge($postInputsKeys, $getInputsKeys, $pathInputsKeys);
 
@@ -51,7 +61,6 @@ foreach ($postInputs as $key => $value) {
 }
 
 $outputs = $controllerV['actions'][$action]['outputs'];
-$outputs = ApiHelper::rmNode($outputs);
 $egOutputData = $outputs;
 
 
@@ -69,11 +78,13 @@ use Yii;
 use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
+use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
+use <?=$ioClass?>;
 
 /**
- * implement the UpdateProcessing
+ * implement the ActionProcessing
  *
  * For more details and usage information on CreateAction, see the [guide article](https://github.com/myzero1/yii2-restbyconf).
  *
@@ -97,18 +108,16 @@ class <?=$actionClass?> implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*
-            $in2dbData = $this->mappingInput2db($validatedInput);
+            /* $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
             if (Helper::isReturning($handledData)) {
-                return $handledData;
+            return $handledData;
             }
-            
-            $db2outData = $this->mappingDb2output($handledData);
-            */
-            $db2outData = $this->egOutputData();// for demo
+
+            $db2outData = $this->mappingDb2output($handledData);*/
+            $db2outData = <?=$ioClassName?>::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -120,59 +129,7 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        $inputFields = [
-<?php foreach ($inputsKeys as $key => $value) { ?>
-            '<?=$value?>',
-<?php } ?>
-        ];
-
-        // get
-        $modelGet = new DynamicModel($inputFields);
-
-        $modelGet->addRule($inputFields, 'trim');
-        $modelGet->addRule($inputFields, 'safe');
-
-<?php foreach ($getInputRules as $key => $value) { ?>
-        <?=$value."\n"?>
-<?php } ?>
-
-        $modelGet->load($input['get'], '');
-
-        if (!$modelGet->validate()) {
-            $errors = $modelGet->errors;
-            return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
-                'msg' => Helper::getErrorMsg($errors),
-                'data' => $errors,
-            ];
-        }
-
-        // post
-        $modelGet = new DynamicModel($inputFields);
-
-        $modelGet->addRule($inputFields, 'trim');
-        $modelGet->addRule($inputFields, 'safe');
-
-<?php foreach ($postInputRules as $key => $value) { ?>
-        <?=$value."\n"?>
-<?php } ?>
-
-        $modelPost->load($input['post'], '');
-
-        if (!$modelPost->validate()) {
-            $errors = $modelPost->errors;
-            return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
-                'msg' => Helper::getErrorMsg($errors),
-                'data' => $errors,
-            ];
-        }
-
-        $getAttributes = Helper::inputFilter($modelGet->attributes);
-        $postAttributes = Helper::inputFilter($modelPost->attributes);
-        $attributes = array_merge($postAttributes, $getAttributes);
-
-        return array_merge($modelGet->attributes, $attributes);
+        return <?=$ioClassName?>::inputValidate($input); // for demo
     }
 
     /**
@@ -290,8 +247,6 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        $egOutputData = '<?=serialize($egOutputData)?>';
-
-        return unserialize($egOutputData);
+        return <?=$ioClassName?>::egOutputData(); // for demo
     }
 }
