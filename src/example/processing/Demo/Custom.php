@@ -40,7 +40,7 @@ class Custom implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*$in2dbData = $this->mappingInput2db($validatedInput);
+            $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
@@ -48,8 +48,8 @@ class Custom implements ApiActionProcessing
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);*/
-            $db2outData = CustomIo::egOutputData(); // for demo
+            $db2outData = $this->mappingDb2output($handledData);
+            // $db2outData = CustomIo::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -85,8 +85,7 @@ class Custom implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        $time = time();
-        $in2dbData['updated_at'] = $time;
+        $in2dbData['updated_at'] = time();
 
         $in2dbData = ApiHelper::inputFilter($in2dbData);
 
@@ -100,9 +99,7 @@ class Custom implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        // $model = new \myzero1\restbyconf\example\models\Demo();// according to the current situation
         $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\Demo', $completedData['id']);
-        // return $model;
         
         $model->load($completedData, '');
 
