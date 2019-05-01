@@ -18,12 +18,12 @@ $processingClassNs = sprintf('%s\processing\%s\io', dirname($moduleClass), $gene
 
 $getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
 $getInputs = ApiHelper::rmNode($getInputs);
-$getInputsKeys = array_keys($getInputs);
 
 $pathInputs = $controllerV['actions'][$action]['inputs']['path_params'];
 $pathInputsKeys = array_keys($pathInputs);
 
 $getInputs = array_merge($getInputs, $pathInputs);
+$getInputsKeys = array_keys($getInputs);
 
 $getInputRules = [];
 if (count($getInputs)) {
