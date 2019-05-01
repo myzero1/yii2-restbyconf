@@ -203,7 +203,7 @@ class <?=$actionClass?> implements ApiActionProcessing
             ->andFilterWhere([
                 'and',
 <?php foreach ($inputsKeys as $key => $value) { ?>
-                '<?=sprintf("['=', '%s', \$completedData['%s']],\n", $value, $value)?>',
+                <?=sprintf("['=', '%s', \$completedData['%s']],\n", $value, $value)?>
 <?php } ?>
                 ['=', 'is_del', 0],
             ]);
