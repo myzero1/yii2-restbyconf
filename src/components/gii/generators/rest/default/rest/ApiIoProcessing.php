@@ -19,6 +19,12 @@ $processingClassNs = sprintf('%s\processing\%s\io', dirname($moduleClass), $gene
 $getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
 $getInputs = ApiHelper::rmNode($getInputs);
 $getInputsKeys = array_keys($getInputs);
+
+$pathInputs = $controllerV['actions'][$action]['inputs']['path_params'];
+$pathInputsKeys = array_keys($pathInputs);
+
+$getInputs = array_merge($getInputs, $pathInputs);
+
 $getInputRules = [];
 if (count($getInputs)) {
     $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", implode("','", $getInputsKeys));
@@ -35,10 +41,7 @@ $postInputs = ApiHelper::rmNode($postInputs);
 $postInputsKeys = array_keys($postInputs);
 $postInputRules = [];
 
-$pathInputs = $controllerV['actions'][$action]['inputs']['path_params'];
-$pathInputsKeys = array_keys($pathInputs);
-
-$inputsKeys = array_merge($postInputsKeys, $getInputsKeys, $pathInputsKeys);
+$inputsKeys = array_merge($postInputsKeys, $getInputsKeys);
 
 if (count($postInputs)) {
     $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'trim');", implode("','", $postInputsKeys));
@@ -93,6 +96,10 @@ class <?=$actionClass?> implements ApiIoProcessing
 <?php foreach ($inputsKeys as $key => $value) { ?>
             '<?=$value?>',
 <?php } ?>
+            'id',
+            'sort',
+            'page',
+            'page_size',
         ];
 
         // get
