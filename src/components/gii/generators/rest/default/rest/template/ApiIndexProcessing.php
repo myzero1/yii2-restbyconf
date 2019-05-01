@@ -113,7 +113,7 @@ class <?=$actionClass?> implements ApiActionProcessing
             $handledData = $this->handling($completedData);
 
             if (Helper::isReturning($handledData)) {
-            return $handledData;
+                return $handledData;
             }
 
             $db2outData = $this->mappingDb2output($handledData);*/
