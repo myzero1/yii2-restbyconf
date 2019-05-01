@@ -26,9 +26,6 @@ $getInputs = array_merge($getInputs, $pathInputs);
 $getInputsKeys = array_keys($getInputs);
 
 $getInputRules = [];
-if (count($getInputs)) {
-    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", implode("','", $getInputsKeys));
-}
 foreach ($getInputs as $key => $value) {
     if ($value['required']) {
         $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
@@ -41,17 +38,14 @@ $postInputs = ApiHelper::rmNode($postInputs);
 $postInputsKeys = array_keys($postInputs);
 $postInputRules = [];
 
-$inputsKeys = array_merge($postInputsKeys, $getInputsKeys);
-
-if (count($postInputs)) {
-    $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'trim');", implode("','", $postInputsKeys));
-}
 foreach ($postInputs as $key => $value) {
     if ($value['required']) {
         $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'required');", $key);
     }
     $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
 }
+
+$inputsKeys = array_merge($postInputsKeys, $getInputsKeys);
 
 $outputs = $controllerV['actions'][$action]['outputs'];
 $outputs = ApiHelper::rmNode($outputs);
