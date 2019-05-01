@@ -25,6 +25,6 @@ CREATE TABLE `demo` (
   `des` varchar(255) NOT NULL,
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
-  `is_del` tinyint(4) NOT NULL DEFAULT 0 COMMENT '1为未删除，大于1为删除',
+  `is_del` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0为未删除，大于0为删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;

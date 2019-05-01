@@ -40,7 +40,7 @@ class Create implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*$in2dbData = $this->mappingInput2db($validatedInput);
+            $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
@@ -48,8 +48,8 @@ class Create implements ApiActionProcessing
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);*/
-            $db2outData = CreateIo::egOutputData(); // for demo
+            $db2outData = $this->mappingDb2output($handledData);
+            // $db2outData = CreateIo::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -85,8 +85,8 @@ class Create implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        $time = time();
-        $in2dbData['updated_at'] = $time;
+        $in2dbData['created_at'] = $in2dbData['updated_at'] = time();
+        $in2dbData['is_del'] = 0;
 
         $in2dbData = ApiHelper::inputFilter($in2dbData);
 
