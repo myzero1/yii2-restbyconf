@@ -285,12 +285,10 @@ class <?=$actionClass?> implements ApiActionProcessing
     }
 
     /**
-     * @return array
-     */
+    * @return array
+    */
     public function egOutputData()
     {
-        $egOutputData = '<?=serialize($egOutputData)?>';
-
-        return unserialize($egOutputData);
+        return <?=$ioClassName?>::egOutputData() // for demo
     }
 }

@@ -21,10 +21,10 @@ interface ApiIoProcessing
      * @param  array $input from the request body
      * @return array
      */
-    public function inputValidate($input);
+    public static function inputValidate($input);
 
     /**
      * @return array
      */
-    public function egOutputData();
+    public static function egOutputData();
 }

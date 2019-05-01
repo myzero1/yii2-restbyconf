@@ -254,7 +254,7 @@ EOD;
                 }
 
                 $files[] = new CodeFile(
-                    sprintf('%s/processing/%s/io/%s.php', $modulePath, ucwords($controller), ucwords($action)),
+                    sprintf('%s/processing/%s/io/%sIo.php', $modulePath, ucwords($controller), ucwords($action)),
                     $this->render('rest/ApiIoProcessing.php')
                 );
             }

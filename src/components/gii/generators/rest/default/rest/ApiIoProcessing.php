@@ -10,7 +10,7 @@ use myzero1\restbyconf\components\rest\ApiHelper;
 /* @var $generator yii\gii\generators\module\Generator */
 
 $action = $generator->action;
-$actionClass = ucwords($action);
+$actionClass = ucwords($action) . 'Io';
 $controllerV = $generator->controllerV;
 $actions = array_keys($controllerV['actions']);
 $moduleClass = $generator->moduleClass;
@@ -87,7 +87,7 @@ class <?=$actionClass?> implements ApiIoProcessing
      * @param  array $input from the request body
      * @return array
      */
-    public function inputValidate($input)
+    public static function inputValidate($input)
     {
         $inputFields = [
 <?php foreach ($inputsKeys as $key => $value) { ?>
@@ -117,10 +117,10 @@ class <?=$actionClass?> implements ApiIoProcessing
         }
 
         // post
-        $modelGet = new DynamicModel($inputFields);
+        $modelPost = new DynamicModel($inputFields);
 
-        $modelGet->addRule($inputFields, 'trim');
-        $modelGet->addRule($inputFields, 'safe');
+        $modelPost->addRule($inputFields, 'trim');
+        $modelPost->addRule($inputFields, 'safe');
 
 <?php foreach ($postInputRules as $key => $value) { ?>
         <?=$value."\n"?>
@@ -147,7 +147,7 @@ class <?=$actionClass?> implements ApiIoProcessing
     /**
      * @return array
      */
-    public function egOutputData()
+    public static function egOutputData()
     {
         $egOutputData = '<?=serialize($egOutputData)?>';
 
