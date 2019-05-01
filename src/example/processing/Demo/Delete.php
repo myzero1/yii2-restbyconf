@@ -40,7 +40,7 @@ class Delete implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*$in2dbData = $this->mappingInput2db($validatedInput);
+            $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
@@ -48,8 +48,8 @@ class Delete implements ApiActionProcessing
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);*/
-            $db2outData = DeleteIo::egOutputData(); // for demo
+            $db2outData = $this->mappingDb2output($handledData);
+            // $db2outData = DeleteIo::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -85,8 +85,6 @@ class Delete implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        $time = time();
-        $in2dbData['updated_at'] = $time;
         $in2dbData['is_del'] = 1;
 
         $in2dbData = ApiHelper::inputFilter($in2dbData);
@@ -102,9 +100,6 @@ class Delete implements ApiActionProcessing
     public function handling($completedData)
     {
         $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\Demo', $completedData['id']);
-        if (ApiHelper::isReturning($model)) {
-            return $model;
-        }
 
         $model->load($completedData, '');
 
