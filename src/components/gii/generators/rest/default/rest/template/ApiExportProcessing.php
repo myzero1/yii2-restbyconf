@@ -168,6 +168,7 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function handling($completedData)
     {
+
         $input['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
         $input['page'] = ApiHelper::EXPORT_PAGE;
 
@@ -215,6 +216,9 @@ class <?=$actionClass?> implements ApiActionProcessing
             'description' => 'demo_description',
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
+
+        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }

@@ -178,9 +178,9 @@ class <?=$actionClass?> implements ApiActionProcessing
         $trans = Yii::$app->db->beginTransaction();
         try {
             $flag = true;
-            if (!($flag = $model->save())) {
+            if ( !($flag = $model->save()) ) {
                 $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save Model reason.');
+                throw new ServerErrorHttpException('Failed to save model reason.');
             }
 
             if ($flag) {
@@ -190,7 +190,7 @@ class <?=$actionClass?> implements ApiActionProcessing
                 throw new ServerErrorHttpException('Failed to save commit reason.');
             }
  
-            return $model;
+            return $model->attributes;
         } catch (Exception $e) {
             $trans->rollBack();
             throw new ServerErrorHttpException('Failed to save all models reason.');

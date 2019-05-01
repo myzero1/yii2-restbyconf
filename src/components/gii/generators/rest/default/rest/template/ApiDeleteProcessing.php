@@ -178,9 +178,9 @@ class <?=$actionClass?> implements ApiActionProcessing
         $trans = Yii::$app->db->beginTransaction();
         try {
             $flag = true;
-            if (!($flag = $model->save())) {
+            if ( !($flag = $model->save()) ) {
                 $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save Model reason.');
+                throw new ServerErrorHttpException('Failed to save model reason.');
             }
 
             if ($flag) {
@@ -190,7 +190,7 @@ class <?=$actionClass?> implements ApiActionProcessing
                 throw new ServerErrorHttpException('Failed to save commit reason.');
             }
  
-            return ['id' => $model->id];
+            return $model->attributes;
         } catch (Exception $e) {
             $trans->rollBack();
             throw new ServerErrorHttpException('Failed to save all models reason.');
@@ -208,6 +208,9 @@ class <?=$actionClass?> implements ApiActionProcessing
             'description' => 'demo_description',
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
+
+        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }

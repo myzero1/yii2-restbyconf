@@ -169,11 +169,8 @@ class <?=$actionClass?> implements ApiActionProcessing
     public function handling($completedData)
     {
         $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\Demo', $completedData['id']);
-        if (ApiHelper::isReturning($model)) {
-            return $model;
-        }
 
-        return $model;
+        return $model->attributes;
     }
 
     /**

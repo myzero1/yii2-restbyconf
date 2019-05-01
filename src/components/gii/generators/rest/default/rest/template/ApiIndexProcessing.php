@@ -156,6 +156,8 @@ class <?=$actionClass?> implements ApiActionProcessing
         $time = time();
         $in2dbData['updated_at'] = $time;
 
+        $in2dbData = ApiHelper::inputFilter($in2dbData);
+
         return $in2dbData;
     }
 
@@ -172,9 +174,8 @@ class <?=$actionClass?> implements ApiActionProcessing
             ->from('demo')
             ->andFilterWhere([
                 'and',
-<?php foreach ($inputsKeys as $key => $value) { ?>
-                <?=sprintf("['=', '%s', \$completedData['%s']],\n", $value, $value)?>
-<?php } ?>
+                ['=', 'name', $completedData['name']],
+                ['=', 'des', $completedData['des']],
                 ['=', 'is_del', 0],
             ]);
 
@@ -223,10 +224,8 @@ class <?=$actionClass?> implements ApiActionProcessing
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        foreach ($db2outData['items'] as $k => $v) {
-            $db2outData['items'][$k]['created_at'] = ApiHelper::time2string($v['created_at']);
-            $db2outData['items'][$k]['updated_at'] = ApiHelper::time2string($v['updated_at']);
-        }
+        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }
