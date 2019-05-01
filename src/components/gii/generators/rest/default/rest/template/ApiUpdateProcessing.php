@@ -177,7 +177,7 @@ class <?=$actionClass?> implements ApiActionProcessing
         $trans = Yii::$app->db->beginTransaction();
         try {
             $flag = true;
-            if ( !($flag = $model->save()) ) {
+            if (!($flag = $model->save())) {
                 $trans->rollBack();
                 throw new ServerErrorHttpException('Failed to save model reason.');
             }
