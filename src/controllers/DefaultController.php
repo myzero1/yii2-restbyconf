@@ -145,6 +145,7 @@ class DefaultController extends Controller
 
                 // $pathName = '/demo/{id}';
                 $k1 = ApiHelper::uncamelize($k1, '-');
+                $k = ApiHelper::uncamelize($k, '-');
                 $pathName = sprintf('/%s%s/%s', $k, $pathTag, $k1);
                 // var_dump($pathName);exit;
                 $path[$v1['method']] = [
