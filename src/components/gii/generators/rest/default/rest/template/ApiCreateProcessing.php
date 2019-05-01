@@ -169,6 +169,7 @@ class <?=$actionClass?> implements ApiActionProcessing
     {
 
         $model = new \myzero1\restbyconf\example\models\Demo();// according to the current situation
+        
         $model->load($completedData, '');
 
         $trans = Yii::$app->db->beginTransaction();

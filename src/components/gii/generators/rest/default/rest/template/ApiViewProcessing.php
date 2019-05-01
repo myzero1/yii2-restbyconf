@@ -152,9 +152,6 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        $time = time();
-        $in2dbData['updated_at'] = $time;
-
         $in2dbData = ApiHelper::inputFilter($in2dbData);
 
         return $in2dbData;

@@ -152,11 +152,6 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        $time = time();
-        $in2dbData['updated_at'] = $time;
-
-        $in2dbData = ApiHelper::inputFilter($in2dbData);
-
         return $in2dbData;
     }
 
@@ -210,15 +205,8 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function mappingDb2output($handledData)
     {
-        $outputFieldMap = [
-            'name' => 'demo_name',
-            'description' => 'demo_description',
-        ];
-        $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
-
-        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
-        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
-
+        $db2outData = $handledData;
+        
         return $db2outData;
     }
 

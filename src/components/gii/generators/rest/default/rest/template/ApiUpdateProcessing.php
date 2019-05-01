@@ -152,8 +152,7 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        $time = time();
-        $in2dbData['updated_at'] = $time;
+        $in2dbData['updated_at'] = time();
 
         $in2dbData = ApiHelper::inputFilter($in2dbData);
 
@@ -168,9 +167,6 @@ class <?=$actionClass?> implements ApiActionProcessing
     public function handling($completedData)
     {
         $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\Demo', $completedData['id']);
-        if (ApiHelper::isReturning($model)) {
-            return $model;
-        }
 
         $model->load($completedData, '');
 
