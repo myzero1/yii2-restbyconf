@@ -40,7 +40,7 @@ class View implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*$in2dbData = $this->mappingInput2db($validatedInput);
+            $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
@@ -48,8 +48,8 @@ class View implements ApiActionProcessing
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);*/
-            $db2outData = ViewIo::egOutputData(); // for demo
+            $db2outData = $this->mappingDb2output($handledData);
+            // $db2outData = ViewIo::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -86,7 +86,6 @@ class View implements ApiActionProcessing
     public function completeData($in2dbData)
     {
         $time = time();
-        $in2dbData['updated_at'] = $time;
 
         $in2dbData = ApiHelper::inputFilter($in2dbData);
 
