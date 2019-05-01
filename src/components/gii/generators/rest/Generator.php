@@ -252,6 +252,11 @@ EOD;
                         $this->render('rest/template/ApiCustomProcessing.php')
                     );
                 }
+
+                $files[] = new CodeFile(
+                    sprintf('%s/processing/%s/io/%s.php', $modulePath, ucwords($controller), ucwords($action)),
+                    $this->render('rest/ApiIoProcessing.php')
+                );
             }
         }
 
