@@ -107,7 +107,7 @@ class <?=$actionClass?> implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /* $in2dbData = $this->mappingInput2db($validatedInput);
+            /*$in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
