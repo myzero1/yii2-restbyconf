@@ -429,7 +429,7 @@ class ApiHelper
      * @param  array $where
      * @return mixed
      */
-    public static function \/**/findModel($modelClass, $id, $where = [])
+    public static function findModel($modelClass, $id, $where = [])
     {
         if (count($where)) {
             $model = $modelClass::find()->where($where)->one();
