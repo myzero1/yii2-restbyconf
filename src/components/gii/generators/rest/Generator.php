@@ -180,6 +180,7 @@ EOD;
             }
 
             $version = trim($confAarray['json']['basePath'], '/');
+            $controllerK = ApiHelper::uncamelize($controllerK, $separator = '-');
 
             $rules .= sprintf("    '%s/%s' => [\n", $version, $controllerK);
             $rules .= sprintf("        'controller' => ['%s/%s'],\n", $version, $controllerK);
