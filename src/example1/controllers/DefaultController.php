@@ -5,7 +5,7 @@ namespace myzero1\restbyconf\example\controllers;
 use yii\web\Controller;
 
 /**
- * Default controller for the `v5` module
+ * Default controller for the `v1` module
  */
 class DefaultController extends Controller
 {

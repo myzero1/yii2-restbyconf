@@ -5,25 +5,25 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace myzero1\restbyconf\example\processing\demo;
+namespace myzero1\restbyconf\example\processing\Demo;
 
 use Yii;
+use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use myzero1\restbyconf\example\processing\demo\io\UpdateIo;
 
 /**
- * implement the ActionProcessing
+ * implement the UpdateProcessing
  *
  * For more details and usage information on CreateAction, see the [guide article](https://github.com/myzero1/yii2-restbyconf).
  *
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Update implements ApiActionProcessing
+class Create implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -40,16 +40,18 @@ class Update implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*$in2dbData = $this->mappingInput2db($validatedInput);
+            
+            $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
             if (Helper::isReturning($handledData)) {
                 return $handledData;
             }
-
-            $db2outData = $this->mappingDb2output($handledData);*/
-            $db2outData = UpdateIo::egOutputData(); // for demo
+            
+            $db2outData = $this->mappingDb2output($handledData);
+            
+            // $db2outData = $this->egOutputData();// for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -61,7 +63,59 @@ class Update implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        return UpdateIo::inputValidate($input); // for demo
+        $inputFields = [
+            'name',
+            'des',
+            'id',
+            'created_at',
+            'updated_at',
+        ];
+
+        // get
+        $modelGet = new DynamicModel($inputFields);
+
+        $modelGet->addRule($inputFields, 'trim');
+        $modelGet->addRule($inputFields, 'safe');
+
+
+        $modelGet->load($input['get'], '');
+
+        if (!$modelGet->validate()) {
+            $errors = $modelGet->errors;
+            return [
+                'code' => ApiCodeMsg::CLIENT_ERROR,
+                'msg' => Helper::getErrorMsg($errors),
+                'data' => $errors,
+            ];
+        }
+
+        // post
+        $modelPost = new DynamicModel($inputFields);
+
+        $modelPost->addRule($inputFields, 'trim');
+        $modelPost->addRule($inputFields, 'safe');
+
+        $modelPost->addRule(['name','des'], 'trim');
+        $modelPost->addRule(['name'], 'required');
+        $modelPost->addRule(['name'], 'match', ['pattern' => '/^\w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
+        $modelPost->addRule(['des'], 'match', ['pattern' => '/^\w{1,32}$/i', 'message' => 'You should input a-z,A-Z,0-9']);
+
+        $modelPost->load($input['post'], '');
+
+        if (!$modelPost->validate()) {
+            $errors = $modelPost->errors;
+            return [
+                'code' => ApiCodeMsg::CLIENT_ERROR,
+                'msg' => Helper::getErrorMsg($errors),
+                'data' => $errors,
+            ];
+        }
+
+        $getAttributes = ApiHelper::inputFilter($modelGet->attributes);
+        $postAttributes = ApiHelper::inputFilter($modelPost->attributes);
+        $attributes = array_merge($postAttributes, $getAttributes);
+
+        return array_merge($modelGet->attributes, $attributes);
     }
 
     /**
@@ -86,7 +140,7 @@ class Update implements ApiActionProcessing
     public function completeData($in2dbData)
     {
         $time = time();
-        $in2dbData['updated_at'] = $time;
+        $in2dbData['created_at'] = $in2dbData['updated_at'] = $time;
 
         $in2dbData = ApiHelper::inputFilter($in2dbData);
 
@@ -100,19 +154,15 @@ class Update implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\Demo', $completedData['id']);
-        if (ApiHelper::isReturning($model)) {
-            return $model;
-        }
-
+        $model = new \myzero1\restbyconf\example\models\Demo();// according to the current situation
         $model->load($completedData, '');
 
         $trans = Yii::$app->db->beginTransaction();
         try {
             $flag = true;
-            if (!($flag = $model->save())) {
+            if ( !($flag = $model->save()) ) {
                 $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
+                throw new ServerErrorHttpException('Failed to save Model reason.');
             }
 
             if ($flag) {
@@ -122,7 +172,7 @@ class Update implements ApiActionProcessing
                 throw new ServerErrorHttpException('Failed to save commit reason.');
             }
  
-            return $model->attributes;
+            return $model;
         } catch (Exception $e) {
             $trans->rollBack();
             throw new ServerErrorHttpException('Failed to save all models reason.');
@@ -167,6 +217,8 @@ class Update implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return UpdateIo::egOutputData(); // for demo
+        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:5:{s:2:"id";i:1;s:4:"name";s:4:"name";s:3:"des";s:11:"description";s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}';
+
+        return unserialize($egOutputData);
     }
 }

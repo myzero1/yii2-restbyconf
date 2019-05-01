@@ -13,7 +13,7 @@ use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use myzero1\restbyconf\example\processing\demo\io\UpdateIo;
+use myzero1\restbyconf\example\processing\demo\io\CustomIo;
 
 /**
  * implement the ActionProcessing
@@ -23,7 +23,7 @@ use myzero1\restbyconf\example\processing\demo\io\UpdateIo;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Update implements ApiActionProcessing
+class Custom implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -49,7 +49,7 @@ class Update implements ApiActionProcessing
             }
 
             $db2outData = $this->mappingDb2output($handledData);*/
-            $db2outData = UpdateIo::egOutputData(); // for demo
+            $db2outData = CustomIo::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -61,7 +61,7 @@ class Update implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        return UpdateIo::inputValidate($input); // for demo
+        return CustomIo::inputValidate($input); // for demo
     }
 
     /**
@@ -100,11 +100,10 @@ class Update implements ApiActionProcessing
      */
     public function handling($completedData)
     {
+        // $model = new \myzero1\restbyconf\example\models\Demo();// according to the current situation
         $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\Demo', $completedData['id']);
-        if (ApiHelper::isReturning($model)) {
-            return $model;
-        }
-
+        // return $model;
+        
         $model->load($completedData, '');
 
         $trans = Yii::$app->db->beginTransaction();
@@ -121,12 +120,90 @@ class Update implements ApiActionProcessing
                 $trans->rollBack();
                 throw new ServerErrorHttpException('Failed to save commit reason.');
             }
- 
+
             return $model->attributes;
         } catch (Exception $e) {
             $trans->rollBack();
             throw new ServerErrorHttpException('Failed to save all models reason.');
         }
+
+        /*
+        $result = [];
+
+        $query = (new Query())
+            ->from('demo')
+            ->andFilterWhere([
+                'and',
+                ['=', 'name', $completedData['name']],
+                ['=', 'id', $completedData['id']],
+                ['=', 'is_del', 0],
+            ]);
+
+        $query->select(['id']);
+
+        $result['total'] = intval($query->count());
+        $pagination = ApiHelper::getPagination($completedData);
+        $query->limit($pagination['page_size']);
+        $offset = $pagination['page_size'] * ($pagination['page'] - 1);
+        $query->offset($offset);
+        $result['page'] = intval($pagination['page']);
+        $result['page_size'] = intval($pagination['page_size']);
+
+        $outFieldNames = [
+            'id' => 'id',
+            'name' => 'name',
+            'des' => 'des',
+        ];
+
+        // $query -> groupBy(['kc.keyword_id']);
+
+        // $sort = ApiHelper::getSort($completedData, array_keys($outFieldNames), '+id');
+        // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
+
+        $query->select(array_values($outFieldNames));
+
+        //  var_dump($query->createCommand()->getRawSql());exit;
+
+        $items = $query->all();
+        $result['items'] = $items;
+
+        return $result;
+        */
+        
+        /*
+        $input['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
+        $input['page'] = ApiHelper::EXPORT_PAGE;
+
+        $index = new Index();
+        $items = $index->processing($completedData);
+
+        $exportParams = [
+            'dataProvider' => new \yii\data\ArrayDataProvider([
+                'allModels' => $items['data']['items'],
+            ]),
+            // 'columns' => [
+            //     [
+            //         'attribute' => 'name',
+            //         'label' => 'name',
+            //     ],
+            //     [
+            //         'header' => 'description',
+            //         'content' => function ($row) {
+            //             return $row['des'];
+            //         }
+            //     ],
+            // ],
+        ];
+
+        $name = sprintf('export-%s', time());
+        $filenameBase = Yii::getAlias(sprintf('@app/web/%s', $name));
+
+        ApiHelper::createXls($filenameBase, $exportParams);
+
+        return [
+            'url' => Yii::$app->urlManager->createAbsoluteUrl([sprintf('/%s.xls', $name)])
+        ];
+        */
     }
 
     /**
@@ -167,6 +244,6 @@ class Update implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return UpdateIo::egOutputData(); // for demo
+        return CustomIo::egOutputData(); // for demo
     }
 }

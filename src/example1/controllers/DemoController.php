@@ -21,7 +21,11 @@ class DemoController extends ApiController
         $parentActions = parent::actions();
 
         $overwriteActions = [
-                'create' => [
+            'index' => [
+                'class' => $this->apiActionClass,
+                'processingClass' => '\myzero1\restbyconf\example\processing\Demo\Index',
+            ],
+            'create' => [
                 'class' => $this->apiActionClass,
                 'processingClass' => '\myzero1\restbyconf\example\processing\Demo\Create',
             ],
@@ -37,17 +41,9 @@ class DemoController extends ApiController
                 'class' => $this->apiActionClass,
                 'processingClass' => '\myzero1\restbyconf\example\processing\Demo\Delete',
             ],
-            'index' => [
-                'class' => $this->apiActionClass,
-                'processingClass' => '\myzero1\restbyconf\example\processing\Demo\Index',
-            ],
             'export' => [
                 'class' => $this->apiActionClass,
                 'processingClass' => '\myzero1\restbyconf\example\processing\Demo\Export',
-            ],
-            'custom' => [
-                'class' => $this->apiActionClass,
-                'processingClass' => '\myzero1\restbyconf\example\processing\Demo\Custom',
             ],
         ];
 

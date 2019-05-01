@@ -5,18 +5,18 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace myzero1\restbyconf\example\processing\Demo;
+namespace myzero1\restbyconf\example\processing\demo;
 
 use Yii;
-use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
+use myzero1\restbyconf\example\processing\demo\io\DeleteIo;
 
 /**
- * implement the UpdateProcessing
+ * implement the ActionProcessing
  *
  * For more details and usage information on CreateAction, see the [guide article](https://github.com/myzero1/yii2-restbyconf).
  *
@@ -37,21 +37,19 @@ class Delete implements ApiActionProcessing
         $input['get'] = Yii::$app->request->queryParams;
         $input['post'] = Yii::$app->request->bodyParams;
         $validatedInput = $this->inputValidate($input);
-        if (ApiHelper::isReturning($validatedInput)) {
+        if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            
-            $in2dbData = $this->mappingInput2db($validatedInput);
+            /*$in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
-            if (ApiHelper::isReturning($handledData)) {
+            if (Helper::isReturning($handledData)) {
                 return $handledData;
             }
-            
-            $db2outData = $this->mappingDb2output($handledData);
-            
-            // $db2outData = $this->egOutputData();// for demo
+
+            $db2outData = $this->mappingDb2output($handledData);*/
+            $db2outData = DeleteIo::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -63,54 +61,7 @@ class Delete implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        $inputFields = [
-            'id',
-            'id',
-            'created_at',
-            'updated_at',
-        ];
-
-        // get
-        $modelGet = new DynamicModel($inputFields);
-
-        $modelGet->addRule($inputFields, 'trim');
-        $modelGet->addRule($inputFields, 'safe');
-
-
-        $modelGet->load($input['get'], '');
-
-        if (!$modelGet->validate()) {
-            $errors = $modelGet->errors;
-            return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
-                'msg' => Helper::getErrorMsg($errors),
-                'data' => $errors,
-            ];
-        }
-
-        // post
-        $modelPost = new DynamicModel($inputFields);
-
-        $modelPost->addRule($inputFields, 'trim');
-        $modelPost->addRule($inputFields, 'safe');
-
-
-        $modelPost->load($input['post'], '');
-
-        if (!$modelPost->validate()) {
-            $errors = $modelPost->errors;
-            return [
-                'code' => ApiCodeMsg::CLIENT_ERROR,
-                'msg' => Helper::getErrorMsg($errors),
-                'data' => $errors,
-            ];
-        }
-
-        $getAttributes = ApiHelper::inputFilter($modelGet->attributes);
-        $postAttributes = ApiHelper::inputFilter($modelPost->attributes);
-        $attributes = array_merge($postAttributes, $getAttributes);
-
-        return array_merge($modelGet->attributes, $attributes);
+        return DeleteIo::inputValidate($input); // for demo
     }
 
     /**
@@ -136,6 +87,7 @@ class Delete implements ApiActionProcessing
     {
         $time = time();
         $in2dbData['updated_at'] = $time;
+        $in2dbData['is_del'] = 1;
 
         $in2dbData = ApiHelper::inputFilter($in2dbData);
 
@@ -154,14 +106,14 @@ class Delete implements ApiActionProcessing
             return $model;
         }
 
-        $model->is_del = 1;
+        $model->load($completedData, '');
 
         $trans = Yii::$app->db->beginTransaction();
         try {
             $flag = true;
-            if ( !($flag = $model->save()) ) {
+            if (!($flag = $model->save())) {
                 $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save Model reason.');
+                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
             }
 
             if ($flag) {
@@ -171,7 +123,7 @@ class Delete implements ApiActionProcessing
                 throw new ServerErrorHttpException('Failed to save commit reason.');
             }
  
-            return ['id' => $model->id];
+            return $model->attributes;
         } catch (Exception $e) {
             $trans->rollBack();
             throw new ServerErrorHttpException('Failed to save all models reason.');
@@ -189,6 +141,9 @@ class Delete implements ApiActionProcessing
             'description' => 'demo_description',
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
+
+        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }
@@ -213,8 +168,6 @@ class Delete implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:1:{s:2:"id";i:1;}}';
-
-        return unserialize($egOutputData);
+        return DeleteIo::egOutputData(); // for demo
     }
 }
