@@ -23,7 +23,7 @@ class ApiHelper
     const EXPORT_PAGE = 1;
     const EXPORT_PAGE_SIZE = 999999;
     const DEFAULT_PAGE = 1;
-    const DEFAULT_PAGE_SIZE = 20;
+    const DEFAULT_PAGE_SIZE = 30;
 
     public static function response($data, $code = 0, $msg = '')
     {
@@ -489,15 +489,15 @@ class ApiHelper
     public static function getPagination($validatedInput)
     {
         $pagination = [];
-        if (isset($validatedInput['page'])) {
+        if (isset($validatedInput['page']) && !empty($validatedInput['page'])) {
             $pagination['page'] = $validatedInput['page'];
         } else {
-            $pagination['page'] = 1;
+            $pagination['page'] = ApiHelper::DEFAULT_PAGE;
         }
-        if (isset($validatedInput['page_size'])) {
+        if (isset($validatedInput['page_size']) && !empty($validatedInput['page_size'])) {
             $pagination['page_size'] = $validatedInput['page_size'];
         } else {
-            $pagination['page_size'] = 30;
+            $pagination['page_size'] = ApiHelper::DEFAULT_PAGE_SIZE;
         }
 
         return $pagination;
