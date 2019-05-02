@@ -104,6 +104,7 @@ class DefaultController extends Controller
                     $body_params = ApiHelper::rmNode($body_params);
                     if (count($body_params)) {
                         $schema = [];
+                        $bodyParamsRequired = false;
                         foreach ($body_params as $k2 => $v2) {
                             $schema[$k2] = [
                                 'description' => $v2['des'],
@@ -111,12 +112,16 @@ class DefaultController extends Controller
                                 'required' => $v2['required'],
                                 'example' => $v2['eg'],
                             ];
+
+                            if ($v2['required']) {
+                                $bodyParamsRequired = true;
+                            }
                         }
                         $bodyParams[] = [
                             'in' => 'body',
-                            'name' => $k2,
-                            'description' => $v2['des'],
-                            'required' => true,
+                            'name' => 'bodyParams',
+                            'description' => 'body params description',
+                            'required' => $bodyParamsRequired,
                             // 'schema' => $schema,
                             'schema' => [
                                 'title' => sprintf('bodyInputs(%s /%s%s/%s?', $v1['method'], $k, $pathTag, $k1),
