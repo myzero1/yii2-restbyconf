@@ -244,7 +244,7 @@ EOD;
                 $this->action = $action;
                 if (in_array($action, $template)) {
                     $files[] = new CodeFile(
-                        sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
+                        sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
                         $this->render(sprintf('rest/template/Api%sProcessing.php', ucfirst($action)))
                     );
                 } else {
