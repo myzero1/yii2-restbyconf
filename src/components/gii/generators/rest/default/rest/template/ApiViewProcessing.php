@@ -196,7 +196,7 @@ class <?=$actionClass?> implements ApiActionProcessing
         $result = [
             'code' => ApiCodeMsg::SUCCESS,
             'msg' => ApiCodeMsg::SUCCESS_MSG,
-            'data' => $db2outData,
+            'data' => is_null($db2outData) ? new \stdClass() : $db2outData,
         ];
 
         return $result;
