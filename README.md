@@ -77,7 +77,16 @@ return [
 Usage
 -----
 
-### Use export widget in view
+### Selectable modules
+You can use it,anywhere in view as following:
+
+```php
+
+<?= \myzero1\gdexport\helpers\Helper::createExportForm($dataProvider, $columns, $name='导出文件名', $buttonOpts = ['class' => 'btn btn-info'], $url=['/gdexport/export/export','id' => 1], $writerType='Xls', $buttonLable='导出');?>
+
+```
+
+### The other menu of restbyconfig
 You can use it,anywhere in view as following:
 
 ```php
