@@ -51,7 +51,6 @@ if (!YII_ENV_TEST) {
 ...
 ```
 
-
 `In main.php`
 
 ```php
@@ -78,19 +77,33 @@ Usage
 -----
 
 ### Selectable modules
-You can use it,anywhere in view as following:
+* Set basePath to "/v2"
+* Click the "Preview" button
+* Click the "Generate" button, to Generate the codes.
+* Set the config files
+
+`In main.php`
 
 ```php
-
-<?= \myzero1\gdexport\helpers\Helper::createExportForm($dataProvider, $columns, $name='导出文件名', $buttonOpts = ['class' => 'btn btn-info'], $url=['/gdexport/export/export','id' => 1], $writerType='Xls', $buttonLable='导出');?>
-
+return [
+    ......
+    'bootstrap' => [
+        ......
+        'v2',
+        ......
+    ],
+    ......
+    'modules' => [
+        ......
+        'v2' => '\myzero1\restbyconf\v2\RestByConfModule',
+        ......
+    ],
+    ......
+];
 ```
+* the `v2` will display to Selectable modules menu as `v2 api`
+* you can click the `v2 api` button to config the `v2`
 
 ### The other menu of restbyconfig
-You can use it,anywhere in view as following:
-
-```php
-
-<?= \myzero1\gdexport\helpers\Helper::createExportForm($dataProvider, $columns, $name='导出文件名', $buttonOpts = ['class' => 'btn btn-info'], $url=['/gdexport/export/export','id' => 1], $writerType='Xls', $buttonLable='导出');?>
-
-```
+* you can click the `Swagger` button to use it.
+* you can click the `Markdown` button to use it.
