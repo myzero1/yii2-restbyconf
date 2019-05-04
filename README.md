@@ -18,13 +18,13 @@ The preferred way to install this module is through [composer](http://getcompose
 Either run
 
 ```
-php composer.phar require myzero1/yii2-gridview-export：1.4.0
+php composer.phar require myzero1/yii2-restbyconf：~1.3.0
 ```
 
 or add
 
 ```
-"myzero1/yii2-gridview-export": "1.4.0"
+"myzero1/yii2-restbyconf": "~1.3.0"
 ```
 
 to the require section of your `composer.json` file.
@@ -45,7 +45,7 @@ if (!YII_ENV_TEST) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
-        'class' => 'myzero1\restbyconf\components\gii\Module',
+        'class' => 'myzero1\restbyconf\components\gii\Module', // use restbyconf
     ];
 }
 ...
@@ -58,12 +58,14 @@ if (!YII_ENV_TEST) {
 return [
     ......
     'bootstrap' => [
-        // 'v1',
+        ......
+        'example',
+        ......
     ],
     ......
     'modules' => [
         ......
-        // 'v1' => 'app\modules\v1\Module',
+        'example' => '\myzero1\restbyconf\example\RestByConfModule',
         'restbyconf' => 'myzero1\restbyconf\Module',
         ......
     ],
