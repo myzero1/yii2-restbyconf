@@ -186,6 +186,16 @@ EOD;
             $rules .= sprintf("        'controller' => ['%s/%s'],\n", $version, $controllerK);
             $rules .= sprintf("        'class' => '\\yii\\rest\UrlRule',\n");
             $rules .= sprintf("        'pluralize' => false,\n");
+
+            if ($controllerV['defaultIdPattern']) {
+                $idPattern = $controllerV['defaultIdPattern'];
+            } else {
+                $idPattern = '\d+';
+            }
+            $rules .= sprintf("        'tokens' => [\n");
+            $rules .= sprintf("            '{id}' => '<id:%s>',\n", $idPattern);
+            $rules .= sprintf("        ],\n");
+
             if (count($extra)) {
                 $rules .= sprintf("        'extraPatterns' => [\n");
                 foreach ($extra as $key => $value) {

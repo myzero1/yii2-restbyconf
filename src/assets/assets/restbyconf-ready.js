@@ -30,6 +30,7 @@ window.jsoneditorOldJson = {
     "controllers": {
         "demo": {
             "description": "Insert a controller node",
+            "defaultIdPattern": "\\d+",
             "actions": {
                 "create": {
                     "summary": "The create action's summary",
@@ -300,6 +301,7 @@ var templates = [
           field: '',
           value: {
               "description": "Insert a controller node",
+              "defaultIdPattern": "\\d+",
               "actions": {
                   "create": {
                       "summary": "The create action's summary",
