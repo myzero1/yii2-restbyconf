@@ -141,7 +141,7 @@ class <?=$actionClass?> implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = '<?=serialize($egOutputData)?>';
+        $egOutputData = '<?=serialize($egOutputData['data'])?>';
 
         return unserialize($egOutputData);
     }
