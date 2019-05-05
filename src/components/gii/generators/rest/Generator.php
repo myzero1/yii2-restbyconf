@@ -187,8 +187,8 @@ EOD;
             $rules .= sprintf("        'class' => '\\yii\\rest\UrlRule',\n");
             $rules .= sprintf("        'pluralize' => false,\n");
 
-            if ($controllerV['defaultIdPattern']) {
-                $idPattern = $controllerV['defaultIdPattern'];
+            if ($controllerV['defaultPathIdRule']) {
+                $idPattern = $controllerV['defaultPathIdRule'];
             } else {
                 $idPattern = '\d+';
             }

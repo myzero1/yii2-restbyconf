@@ -30,7 +30,8 @@ window.jsoneditorOldJson = {
     "controllers": {
         "demo": {
             "description": "Insert a controller node",
-            "defaultIdPattern": "\\d+",
+            "defaultPathIdRule": "\\d+",
+            "defaultPathIdErrorMsg": "Id in path is wrong",
             "actions": {
                 "create": {
                     "summary": "The create action's summary",
@@ -301,7 +302,8 @@ var templates = [
           field: '',
           value: {
               "description": "Insert a controller node",
-              "defaultIdPattern": "\\d+",
+              "defaultPathIdRule": "\\d+",
+              "defaultPathIdErrorMsg": "Id in path is wrong",
               "actions": {
                   "create": {
                       "summary": "The create action's summary",

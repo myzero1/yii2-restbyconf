@@ -19,8 +19,18 @@ $processingClassNs = sprintf('%s\processing\%s\io', dirname($moduleClass), $gene
 $getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
 $getInputs = ApiHelper::rmNode($getInputs);
 
-$pathInputs = $controllerV['actions'][$action]['inputs']['path_params'];
-$pathInputsKeys = array_keys($pathInputs);
+$exitIdPath = [
+    'view',
+    'update',
+    'delete',
+];
+
+if (!in_array($action, $exitIdPath)) {
+    $pathInputs = $controllerV['actions'][$action]['inputs']['path_params'];
+    $pathInputsKeys = array_keys($pathInputs);
+} else {
+    $pathInputs = [];
+}
 
 $getInputs = array_merge($getInputs, $pathInputs);
 $getInputsKeys = array_keys($getInputs);
