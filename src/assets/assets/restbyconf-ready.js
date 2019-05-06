@@ -92,15 +92,7 @@ window.jsoneditorOldJson = {
                                 "error_msg": "Input parameter error"
                             }
                         },
-                        "path_params": {
-                            "id": {
-                                "des": "Id",
-                                "required": true,
-                                "eg": 1,
-                                "rules": "^\\d{0,32}$",
-                                "error_msg": "Input parameter error"
-                            }
-                        },
+                        "path_params": {},
                         "query_params": {}
                     },
                     "outputs": {
@@ -121,15 +113,7 @@ window.jsoneditorOldJson = {
                     "method": "get",
                     "inputs": {
                         "body_params": {},
-                        "path_params": {
-                            "id": {
-                                "des": "Id",
-                                "required": false,
-                                "eg": 1,
-                                "rules": "^\\d{0,32}$",
-                                "error_msg": "Input parameter error"
-                            }
-                        },
+                        "path_params": {},
                         "query_params": {}
                     },
                     "outputs": {
@@ -150,15 +134,7 @@ window.jsoneditorOldJson = {
                     "method": "delete",
                     "inputs": {
                         "body_params": {},
-                        "path_params": {
-                            "id": {
-                                "des": "Id",
-                                "required": false,
-                                "eg": 1,
-                                "rules": "^\\d{0,32}$",
-                                "error_msg": "Input parameter error"
-                            }
-                        },
+                        "path_params": {},
                         "query_params": {}
                     },
                     "outputs": {
@@ -366,15 +342,7 @@ var templates = [
                                   "error_msg": "Input parameter error"
                               }
                           },
-                          "path_params": {
-                              "id": {
-                                  "des": "Id",
-                                  "required": true,
-                                  "eg": 1,
-                                  "rules": "^\\d{0,32}$",
-                                  "error_msg": "Input parameter error"
-                              }
-                          },
+                          "path_params": {},
                           "query_params": {}
                       },
                       "outputs": {
@@ -395,15 +363,7 @@ var templates = [
                       "method": "get",
                       "inputs": {
                           "body_params": {},
-                          "path_params": {
-                              "id": {
-                                  "des": "Id",
-                                  "required": false,
-                                  "eg": 1,
-                                  "rules": "^\\d{0,32}$",
-                                  "error_msg": "Input parameter error"
-                              }
-                          },
+                          "path_params": {},
                           "query_params": {}
                       },
                       "outputs": {
@@ -424,15 +384,7 @@ var templates = [
                       "method": "delete",
                       "inputs": {
                           "body_params": {},
-                          "path_params": {
-                              "id": {
-                                  "des": "Id",
-                                  "required": false,
-                                  "eg": 1,
-                                  "rules": "^\\d{0,32}$",
-                                  "error_msg": "Input parameter error"
-                              }
-                          },
+                          "path_params": {},
                           "query_params": {}
                       },
                       "outputs": {
@@ -649,15 +601,7 @@ var templates = [
                           "error_msg": "Input parameter error"
                       }
                   },
-                  "path_params": {
-                      "id": {
-                          "des": "Id",
-                          "required": true,
-                          "eg": 1,
-                          "rules": "^\\d{0,32}$",
-                          "error_msg": "Input parameter error"
-                      }
-                  },
+                  "path_params": {},
                   "query_params": {}
               },
               "outputs": {
@@ -684,15 +628,7 @@ var templates = [
               "method": "get",
               "inputs": {
                   "body_params": {},
-                  "path_params": {
-                      "id": {
-                          "des": "Id",
-                          "required": false,
-                          "eg": 1,
-                          "rules": "^\\d{0,32}$",
-                          "error_msg": "Input parameter error"
-                      }
-                  },
+                  "path_params": {},
                   "query_params": {}
               },
               "outputs": {
@@ -719,15 +655,7 @@ var templates = [
               "method": "delete",
               "inputs": {
                   "body_params": {},
-                  "path_params": {
-                      "id": {
-                          "des": "Id",
-                          "required": false,
-                          "eg": 1,
-                          "rules": "^\\d{0,32}$",
-                          "error_msg": "Input parameter error"
-                      }
-                  },
+                  "path_params": {},
                   "query_params": {}
               },
               "outputs": {
