@@ -192,8 +192,29 @@ EOD;
             } else {
                 $idPattern = '\d+';
             }
+            if ($controllerV['defaultPathIdKey']) {
+                $idKey = $controllerV['defaultPathIdKey'];
+            } else {
+                $idKey = 'id';
+            }
+            $patterns = [
+                sprintf('PUT,PATCH {%s}', $idKey) => 'update',
+                sprintf('DELETE {%s}', $idKey) => 'delete',
+                sprintf('GET,HEAD {%s}', $idKey) => 'view',
+                sprintf('{%s}', $idKey) => 'options',
+                'POST' => 'create',
+                'GET,HEAD' => 'index',
+                '' => 'options',
+            ];
+
             $rules .= sprintf("        'tokens' => [\n");
-            $rules .= sprintf("            '{id}' => '<id:%s>',\n", $idPattern);
+            $rules .= sprintf("            '{%s}' => '<%s:%s>',\n", $idKey, $idKey, $idPattern);
+            $rules .= sprintf("        ],\n");
+
+            $rules .= sprintf("        'tokens' => [\n");
+            foreach ($patterns as $k => $v) {
+                $rules .= sprintf("            '%s' => '%s',\n", $k, $v);
+            }
             $rules .= sprintf("        ],\n");
 
             if (count($extra)) {
