@@ -43,6 +43,18 @@ foreach ($getInputs as $key => $value) {
     $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
 }
 
+$vud = [
+    'view',
+    'update',
+    'delete',
+];
+if (in_array($action, $vud)) {
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", $controllerV['defaultPathIdKey']);
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'safe');", $controllerV['defaultPathIdKey']);
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $controllerV['defaultPathIdKey']);
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $controllerV['defaultPathIdKey'], $controllerV['defaultPathIdRule'], $controllerV['defaultPathIdErrorMsg']);
+}
+
 $postInputs = $controllerV['actions'][$action]['inputs']['body_params'];
 $postInputs = ApiHelper::rmNode($postInputs);
 $postInputsKeys = array_keys($postInputs);
@@ -101,7 +113,6 @@ class <?=$actionClass?> implements ApiIoProcessing
 <?php foreach ($inputsKeys as $key => $value) { ?>
             '<?=$value?>',
 <?php } ?>
-            'id',
             'sort',
             'page',
             'page_size',
