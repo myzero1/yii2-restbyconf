@@ -35,11 +35,13 @@ if (!in_array($action, $exitIdPath)) {
 $getInputs = array_merge($getInputs, $pathInputs);
 $getInputsKeys = array_keys($getInputs);
 
+$getInputRules = [];
 $vud = [
     'view',
     'update',
     'delete',
 ];
+
 if (in_array($action, $vud)) {
     $getInputsKeys[] = $controllerV['defaultPathIdKey'];
     $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", $controllerV['defaultPathIdKey']);
@@ -48,7 +50,6 @@ if (in_array($action, $vud)) {
     $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $controllerV['defaultPathIdKey'], $controllerV['defaultPathIdRule'], $controllerV['defaultPathIdErrorMsg']);
 }
 
-$getInputRules = [];
 foreach ($getInputs as $key => $value) {
     if ($value['required']) {
         $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
