@@ -65,7 +65,7 @@ class DefaultController extends Controller
                 $path = [];
                 $pathTag = '';
 
-                $pathParams = [];
+                /*$pathParams = [];
                 if (!in_array($k1, $noPath)) {
                     $path_params = $v1['inputs']['path_params'];
                     $path_params = ApiHelper::rmNode($path_params);
@@ -132,8 +132,67 @@ class DefaultController extends Controller
                     }
                 }
 
-                $inputParams = array_merge($pathParams, $queryParams, $bodyParams);
+                $inputParams = array_merge($pathParams, $queryParams, $bodyParams);*/
 
+                $pathParams = [];
+                $queryParams = [];
+                $bodyParams = [];
+                $path_params = $v1['inputs']['path_params'];
+                foreach ($path_params as $k2 => $v2) {
+                    $pathTag .= sprintf('/{%s}', $k2);
+                    $pathParams[] = [
+                        'in' => 'path',
+                        'name' => $k2,
+                        'description' => $v2['des'],
+                        'type' => 'string',
+                        'required' => $v2['required'],
+                        'default' => $v2['eg'],
+                    ];
+                }
+
+                $query_params = $v1['inputs']['query_params'];
+                foreach ($query_params as $k2 => $v2) {
+                    $queryParams[] = [
+                        'in' => 'query',
+                        'name' => $k2,
+                        'description' => $v2['des'],
+                        'type' => 'string',
+                        'required' => $v2['required'],
+                        'default' => $v2['eg'],
+                    ];
+                }
+
+                $body_params = $v1['inputs']['body_params'];
+                if (count($body_params)) {
+                    $schema = [];
+                    $bodyParamsRequired = false;
+                    foreach ($body_params as $k2 => $v2) {
+                        $schema[$k2] = [
+                            'description' => $v2['des'],
+                            'type' => 'string',
+                            'required' => $v2['required'],
+                            'example' => $v2['eg'],
+                        ];
+
+                        if ($v2['required']) {
+                            $bodyParamsRequired = true;
+                        }
+                    }
+                    $bodyParams[] = [
+                        'in' => 'body',
+                        'name' => 'bodyParams',
+                        'description' => 'body params description',
+                        'required' => $bodyParamsRequired,
+                        // 'schema' => $schema,
+                        'schema' => [
+                            'title' => sprintf('bodyInputs(%s /%s%s/%s?', $v1['method'], $k, $pathTag, $k1),
+                            "type" => "object",
+                            "properties" => $schema,
+                        ],
+                    ];
+                }
+
+                $inputParams = array_merge($pathParams, $queryParams, $bodyParams);
 
                 $vud = [
                     'view',
@@ -148,7 +207,7 @@ class DefaultController extends Controller
                         'description' => $v['defaultPathIdKey'] . ' description',
                         'type' => 'string',
                         'required' => true,
-                        'default' => 1,
+                        'default' => $v['defaultPathIdVal'],
                     ];
                     array_unshift($inputParams, $pathParam);
                 }
