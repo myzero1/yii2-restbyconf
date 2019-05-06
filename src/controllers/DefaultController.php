@@ -98,21 +98,6 @@ class DefaultController extends Controller
                     }
                 }
 
-                $vud = [
-                    'view',
-                    'update',
-                    'delete',
-                ];
-                // $controllerV['defaultPathIdKey'], $controllerV['defaultPathIdRule'], $controllerV['defaultPathIdErrorMsg']);
-                $queryParams[] = [
-                    'in' => 'path',
-                    'name' => $v['defaultPathIdKey'],
-                    'description' => $v['defaultPathIdKey'] . ' description',
-                    'type' => 'string',
-                    'required' => true,
-                    'default' => 1,
-                ];
-
                 $bodyParams = [];
                 if (!in_array($k1, $noBody)) {
                     $body_params = $v1['inputs']['body_params'];
@@ -148,6 +133,24 @@ class DefaultController extends Controller
                 }
 
                 $inputParams = array_merge($pathParams, $queryParams, $bodyParams);
+
+
+                $vud = [
+                    'view',
+                    'update',
+                    'delete',
+                ];
+                // $controllerV['defaultPathIdKey'], $controllerV['defaultPathIdRule'], $controllerV['defaultPathIdErrorMsg']);
+                if (in_array($k1, $vud)) {
+                    $inputParams[] = [
+                        'in' => 'path',
+                        'name' => $v['defaultPathIdKey'],
+                        'description' => $v['defaultPathIdKey'] . ' description',
+                        'type' => 'string',
+                        'required' => true,
+                        'default' => 1,
+                    ];
+                }
 
                 $outputParams = [];
                 $path_outputs = $v1['outputs'];

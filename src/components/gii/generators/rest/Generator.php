@@ -211,7 +211,7 @@ EOD;
             $rules .= sprintf("            '{%s}' => '<%s:%s>',\n", $idKey, $idKey, $idPattern);
             $rules .= sprintf("        ],\n");
 
-            $rules .= sprintf("        'tokens' => [\n");
+            $rules .= sprintf("        'patterns' => [\n");
             foreach ($patterns as $k => $v) {
                 $rules .= sprintf("            '%s' => '%s',\n", $k, $v);
             }

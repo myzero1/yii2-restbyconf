@@ -35,24 +35,25 @@ if (!in_array($action, $exitIdPath)) {
 $getInputs = array_merge($getInputs, $pathInputs);
 $getInputsKeys = array_keys($getInputs);
 
-$getInputRules = [];
-foreach ($getInputs as $key => $value) {
-    if ($value['required']) {
-        $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
-    }
-    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
-}
-
 $vud = [
     'view',
     'update',
     'delete',
 ];
 if (in_array($action, $vud)) {
+    $getInputsKeys[] = $controllerV['defaultPathIdKey'];
     $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", $controllerV['defaultPathIdKey']);
     $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'safe');", $controllerV['defaultPathIdKey']);
     $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $controllerV['defaultPathIdKey']);
     $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $controllerV['defaultPathIdKey'], $controllerV['defaultPathIdRule'], $controllerV['defaultPathIdErrorMsg']);
+}
+
+$getInputRules = [];
+foreach ($getInputs as $key => $value) {
+    if ($value['required']) {
+        $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
+    }
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
 }
 
 $postInputs = $controllerV['actions'][$action]['inputs']['body_params'];
