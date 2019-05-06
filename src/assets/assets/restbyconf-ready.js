@@ -32,6 +32,7 @@ window.jsoneditorOldJson = {
             "description": "Insert a controller node",
             "defaultPathIdDes": "The setting of defaultPathId will replace the path_params of view,update,delete,options",
             "defaultPathIdKey": "id",
+            "defaultPathIdVal": "1",
             "defaultPathIdRule": "\\d+",
             "defaultPathIdErrorMsg": "Id in path is wrong",
             "actions": {
@@ -282,6 +283,7 @@ var templates = [
               "description": "Insert a controller node",
               "defaultPathIdDes": "The setting of defaultPathId will replace the path_params of view,update,delete,options",
               "defaultPathIdKey": "id",
+              "defaultPathIdVal": "1",
               "defaultPathIdRule": "\\d+",
               "defaultPathIdErrorMsg": "Id in path is wrong",
               "actions": {
