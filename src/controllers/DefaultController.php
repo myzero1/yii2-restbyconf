@@ -142,7 +142,7 @@ class DefaultController extends Controller
                 ];
                 // $controllerV['defaultPathIdKey'], $controllerV['defaultPathIdRule'], $controllerV['defaultPathIdErrorMsg']);
                 if (in_array($k1, $vud)) {
-                    $inputParams[] = [
+                    $pathParam = [
                         'in' => 'path',
                         'name' => $v['defaultPathIdKey'],
                         'description' => $v['defaultPathIdKey'] . ' description',
@@ -150,6 +150,7 @@ class DefaultController extends Controller
                         'required' => true,
                         'default' => 1,
                     ];
+                    array_unshift($inputParams, $pathParam);
                 }
 
                 $outputParams = [];
