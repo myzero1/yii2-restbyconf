@@ -98,6 +98,21 @@ class DefaultController extends Controller
                     }
                 }
 
+                $vud = [
+                    'view',
+                    'update',
+                    'delete',
+                ];
+                // $controllerV['defaultPathIdKey'], $controllerV['defaultPathIdRule'], $controllerV['defaultPathIdErrorMsg']);
+                $queryParams[] = [
+                    'in' => 'path',
+                    'name' => $v['defaultPathIdKey'],
+                    'description' => $v['defaultPathIdKey'] . ' description',
+                    'type' => 'string',
+                    'required' => true,
+                    'default' => 1,
+                ];
+
                 $bodyParams = [];
                 if (!in_array($k1, $noBody)) {
                     $body_params = $v1['inputs']['body_params'];
@@ -169,13 +184,13 @@ class DefaultController extends Controller
                     $pathName = sprintf('/%s', $k);
                     $paths[$pathName]['get'] = $path[$v1['method']];
                 } else if ($k1 == 'update') {
-                    $pathName = sprintf('/%s/{id}', $k);
+                    $pathName = sprintf('/%s/{%s}', $k, $v['defaultPathIdKey']);
                     $paths[$pathName]['put'] = $path[$v1['method']];
                 } else if ($k1 == 'view') {
-                    $pathName = sprintf('/%s/{id}', $k);
+                    $pathName = sprintf('/%s/{%s}', $k, $v['defaultPathIdKey']);
                     $paths[$pathName]['get'] = $path[$v1['method']];
                 } else if ($k1 == 'delete') {
-                    $pathName = sprintf('/%s/{id}', $k);
+                    $pathName = sprintf('/%s/{%s}', $k, $v['defaultPathIdKey']);
                     $paths[$pathName]['delete'] = $path[$v1['method']];
                 } else {
                     $paths[$pathName] = $path;
