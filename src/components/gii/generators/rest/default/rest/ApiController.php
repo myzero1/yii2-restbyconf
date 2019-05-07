@@ -14,7 +14,7 @@ $actions = ApiHelper::rmNode($actions);
 
 $moduleClass = $generator->moduleClass;
 $controlerClassNs = sprintf('%s\controllers', dirname($moduleClass));
-$processingClassNs = sprintf('%s\processing\%s', dirname($moduleClass), $controller);
+$processingClassNs = sprintf('%s\processing\%s', dirname($moduleClass), $generator->controller);
 
 echo "<?php\n";
 ?>
