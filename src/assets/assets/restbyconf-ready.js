@@ -21,10 +21,18 @@ window.jsoneditorOldJson = {
     },
     "schemes": "http",
     "securityDefinitions": {
-        "api_key": {
+        "queryParamAuth": {
             "type": "apiKey",
-            "in": "header",
-            "name": "api_key"
+            "in": "query",
+            "name": "access-token"
+        },
+        "httpBasicAuth": {
+            "type": "http",
+            "scheme": "basic"
+        },
+        "httpBearerAuth": {
+            "type": "http",
+            "scheme": "bearer"
         }
     },
     "controllers": {
