@@ -22,17 +22,22 @@ window.jsoneditorOldJson = {
     "schemes": "http",
     "securityDefinitions": {
         "queryParamAuth": {
+            "description": "QueryParamAuth",
             "type": "apiKey",
             "in": "query",
-            "name": "access-token"
+            "name": "token"
         },
         "httpBasicAuth": {
-            "type": "http",
-            "scheme": "basic"
+            "description": "HttpBasicAuth: the value shold as 'Basic base64_encoded(username:password)'",
+            "type": "basic",
+            "in": "header",
+            "name": "Authorization"
         },
         "httpBearerAuth": {
-            "type": "http",
-            "scheme": "bearer"
+            "description": "HttpBearerAuth: the value shold as 'Bearer <token>'",
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
         }
     },
     "controllers": {
