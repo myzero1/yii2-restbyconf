@@ -19,13 +19,37 @@ $processingClassNs = sprintf('%s\processing\%s\io', dirname($moduleClass), $gene
 $getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
 $getInputs = ApiHelper::rmNode($getInputs);
 
-$pathInputs = $controllerV['actions'][$action]['inputs']['path_params'];
-$pathInputsKeys = array_keys($pathInputs);
+$exitIdPath = [
+    'view',
+    'update',
+    'delete',
+];
+
+if (!in_array($action, $exitIdPath)) {
+    $pathInputs = $controllerV['actions'][$action]['inputs']['path_params'];
+    $pathInputsKeys = array_keys($pathInputs);
+} else {
+    $pathInputs = [];
+}
 
 $getInputs = array_merge($getInputs, $pathInputs);
 $getInputsKeys = array_keys($getInputs);
 
 $getInputRules = [];
+$vud = [
+    'view',
+    'update',
+    'delete',
+];
+
+if (in_array($action, $vud)) {
+    $getInputsKeys[] = $controllerV['defaultPathIdKey'];
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", $controllerV['defaultPathIdKey']);
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'safe');", $controllerV['defaultPathIdKey']);
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $controllerV['defaultPathIdKey']);
+    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $controllerV['defaultPathIdKey'], $controllerV['defaultPathIdRule'], $controllerV['defaultPathIdErrorMsg']);
+}
+
 foreach ($getInputs as $key => $value) {
     if ($value['required']) {
         $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
@@ -91,7 +115,6 @@ class <?=$actionClass?> implements ApiIoProcessing
 <?php foreach ($inputsKeys as $key => $value) { ?>
             '<?=$value?>',
 <?php } ?>
-            'id',
             'sort',
             'page',
             'page_size',
@@ -141,7 +164,7 @@ class <?=$actionClass?> implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = '<?=serialize($egOutputData)?>';
+        $egOutputData = '<?=serialize($egOutputData['data'])?>';
 
         return unserialize($egOutputData);
     }
