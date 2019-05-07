@@ -51,7 +51,7 @@ $moduleId = Yii::$app->request->get('mId', '');
 
 <div class="rest-form">
 
-    <nav class="navbar navbar-default restbyconfig" role="navigation">
+    <nav class="navbar navbar-default navbar-restbyconfig" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Selectable modules</a>
@@ -71,7 +71,7 @@ $moduleId = Yii::$app->request->get('mId', '');
         </div>
     </nav>
 
-    <nav class="navbar navbar-default restbyconfig" role="navigation">
+    <nav class="navbar navbar-default navbar-restbyconfig" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">The other menu of restbyconfig</a>
@@ -116,3 +116,23 @@ $moduleId = Yii::$app->request->get('mId', '');
         <?= $position ?>
     </div>
 </div>
+
+<style type="text/css">
+    #form-fields{
+        max-width: 100%;
+    }
+    .navbar-restbyconfig{
+        position: static;
+        padding: 0;
+    }
+    .navbar-restbyconfig .navbar-brand{
+        line-height: 50px;
+        margin-left: 0 !important;
+    }
+    .navbar-restbyconfig .container-fluid, .navbar-restbyconfig .navbar-nav{
+        display: initial;
+    }
+    .navbar-restbyconfig .navbar-brand{
+        font-size: 18px;
+    }
+</style>
