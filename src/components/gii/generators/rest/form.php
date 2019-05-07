@@ -135,4 +135,7 @@ $moduleId = Yii::$app->request->get('mId', '');
     .navbar-restbyconfig .navbar-brand{
         font-size: 18px;
     }
+    h1, .h1{
+        font-size: 2.875rem;
+    }
 </style>
