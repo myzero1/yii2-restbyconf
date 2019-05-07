@@ -53,6 +53,14 @@ var isController = function(path) {
     }
 }
 
+var isSefaultPathIdDes = function(path) {
+    if (path.length == 3 && path[0] == 'controllers' && path[2] == 'defaultPathIdDes') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 var isActionLay = function(path) {
     if (path.length == 4 && path[0] == 'controllers' && path[2] == 'actions') {
         return true;

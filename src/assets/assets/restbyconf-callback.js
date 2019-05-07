@@ -188,6 +188,8 @@ var onEditable = function(node) {
                 return true;
             } else if(isDataLay(node.path)){
                 return true;
+            } else if(isSefaultPathIdDes(node.path)){
+                return false;
             } else {
                 return {
                   field: false,
