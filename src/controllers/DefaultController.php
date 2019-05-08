@@ -206,26 +206,21 @@ class DefaultController extends Controller
                         ]
                     ];
                 }
-
+                
+                $pathName = str_replace('{controller}', $k, $v1['uri']);
                 if ($k1 == 'create') {
-                    $pathName = sprintf('/%s', $k);
                     $paths[$pathName]['post'] = $path[$v1['method']];
                 } else if ($k1 == 'index') {
-                    $pathName = sprintf('/%s', $k);
                     $paths[$pathName]['get'] = $path[$v1['method']];
                 } else if ($k1 == 'update') {
-                    $pathName = sprintf('/%s/{%s}', $k, $v['defaultPathIdKey']);
                     $paths[$pathName]['put'] = $path[$v1['method']];
                 } else if ($k1 == 'view') {
-                    $pathName = sprintf('/%s/{%s}', $k, $v['defaultPathIdKey']);
                     $paths[$pathName]['get'] = $path[$v1['method']];
                 } else if ($k1 == 'delete') {
-                    $pathName = sprintf('/%s/{%s}', $k, $v['defaultPathIdKey']);
                     $paths[$pathName]['delete'] = $path[$v1['method']];
                 } else {
                     $paths[$pathName] = $path;
                 }
-
             }
         }
 
