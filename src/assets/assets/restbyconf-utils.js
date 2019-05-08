@@ -53,6 +53,15 @@ var isController = function(path) {
     }
 }
 
+var isSecurityExclude = function(path) {
+    console.log(path);
+    if (path.length == 3 && path[0] == "mySecurity" && path[1] == "exclude") {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 var isSefaultPathIdDes = function(path) {
     if (path.length == 3 && path[0] == 'controllers' && path[2] == 'defaultPathIdDes') {
         return true;

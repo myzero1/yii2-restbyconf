@@ -23,9 +23,9 @@ window.jsoneditorOldJson = {
     "mySecurity": {
         "security": "httpBearerAuth",
         "exclude": [
-          "post /demo/create",
-          "post /authentication/login",
-          "post /authentication/join"
+          // "post /demo/create",
+          // "post /authentication/login",
+          // "post /authentication/join"
         ]
     },
     "controllers": {
