@@ -40,7 +40,7 @@ window.jsoneditorOldJson = {
                     "summary": "The create action's summary",
                     "description": "The create action's description",
                     "method": "post",
-                    "uri": "{controller}",
+                    "uri": "/{controller}",
                     "inputs": {
                         "body_params": {
                             "name": {
@@ -77,7 +77,7 @@ window.jsoneditorOldJson = {
                     "summary": "The update action's summary",
                     "description": "The update action's description",
                     "method": "put",
-                    "uri": "{controller}/{id}",
+                    "uri": "/{controller}/{id}",
                     "inputs": {
                         "body_params": {
                             "name": {
@@ -122,7 +122,7 @@ window.jsoneditorOldJson = {
                     "summary": "The view action's summary",
                     "description": "The view action's description",
                     "method": "get",
-                    "uri": "{controller}/{id}",
+                    "uri": "/{controller}/{id}",
                     "inputs": {
                         "body_params": {},
                         "path_params": {
@@ -152,7 +152,7 @@ window.jsoneditorOldJson = {
                     "summary": "The delete action's summary",
                     "description": "The delete action's description",
                     "method": "delete",
-                    "uri": "{controller}/{id}",
+                    "uri": "/{controller}/{id}",
                     "inputs": {
                         "body_params": {},
                         "path_params": {
@@ -178,7 +178,7 @@ window.jsoneditorOldJson = {
                     "summary": "The index action's summary",
                     "description": "The index action's description",
                     "method": "get",
-                    "uri": "{controller}",
+                    "uri": "/{controller}",
                     "inputs": {
                         "body_params": {},
                         "path_params": {},
@@ -232,7 +232,7 @@ window.jsoneditorOldJson = {
                     "summary": "The export action's summary",
                     "description": "The export action's description",
                     "method": "get",
-                    "uri": "{controller}/export",
+                    "uri": "/{controller}/export",
                     "inputs": {
                         "body_params": {},
                         "path_params": {},
@@ -265,7 +265,7 @@ window.jsoneditorOldJson = {
                     "summary": "The custom action's summary",
                     "description": "The custom action's description",
                     "method": "patch",
-                    "uri": "{controller}/{id}/custom",
+                    "uri": "/{controller}/{id}/custom",
                     "inputs": {
                         "body_params": {
                             "name": {
@@ -322,7 +322,7 @@ var templates = [
                       "summary": "The create action's summary",
                       "description": "The action's description",
                       "method": "post",
-                      "uri": "{controller}",
+                      "uri": "/{controller}",
                       "inputs": {
                           "body_params": {
                               "name": {
@@ -359,7 +359,7 @@ var templates = [
                       "summary": "The update action's summary",
                       "description": "The action's description",
                       "method": "put",
-                      "uri": "{controller}/{id}",
+                      "uri": "/{controller}/{id}",
                       "inputs": {
                           "body_params": {
                               "name": {
@@ -404,7 +404,7 @@ var templates = [
                       "summary": "The view action's summary",
                       "description": "The action's description",
                       "method": "get",
-                      "uri": "{controller}/{id}",
+                      "uri": "/{controller}/{id}",
                       "inputs": {
                           "body_params": {},
                           "path_params": {
@@ -434,7 +434,7 @@ var templates = [
                       "summary": "The delete action's summary",
                       "description": "The action's description",
                       "method": "delete",
-                      "uri": "{controller}/{id}",
+                      "uri": "/{controller}/{id}",
                       "inputs": {
                           "body_params": {},
                           "path_params": {
@@ -460,7 +460,7 @@ var templates = [
                       "summary": "The index action's summary",
                       "description": "The action's description",
                       "method": "get",
-                      "uri": "{controller}",
+                      "uri": "/{controller}",
                       "inputs": {
                           "body_params": {},
                           "path_params": {},
@@ -514,7 +514,7 @@ var templates = [
                       "summary": "The export action's summary",
                       "description": "The action's description",
                       "method": "get",
-                      "uri": "{controller}/export",
+                      "uri": "/{controller}/export",
                       "inputs": {
                           "body_params": {},
                           "path_params": {},
@@ -547,7 +547,7 @@ var templates = [
                       "summary": "The custom action's summary",
                       "description": "The action's description",
                       "method": "patch",
-                      "uri": "{controller}/{id}/custom",
+                      "uri": "/{controller}/{id}/custom",
                       "inputs": {
                           "body_params": {
                               "name": {
@@ -606,7 +606,7 @@ var templates = [
               "summary": "The create action's summary",
               "description": "The create action's description",
               "method": "post",
-              "uri": "{controller}",
+              "uri": "/{controller}",
               "inputs": {
                   "body_params": {
                       "name": {
@@ -649,7 +649,7 @@ var templates = [
               "summary": "The update action's summary",
               "description": "The update action's description",
               "method": "put",
-              "uri": "{controller}/{id}",
+              "uri": "/{controller}/{id}",
               "inputs": {
                   "body_params": {
                       "name": {
@@ -700,7 +700,7 @@ var templates = [
               "summary": "The view action's summary",
               "description": "The view action's description",
               "method": "get",
-              "uri": "{controller}/{id}",
+              "uri": "/{controller}/{id}",
               "inputs": {
                   "body_params": {},
                   "path_params": {
@@ -736,7 +736,7 @@ var templates = [
               "summary": "The delete action's summary",
               "description": "The delete action's description",
               "method": "delete",
-              "uri": "{controller}/{id}",
+              "uri": "/{controller}/{id}",
               "inputs": {
                   "body_params": {},
                   "path_params": {
@@ -768,7 +768,7 @@ var templates = [
               "summary": "The index action's summary",
               "description": "The index action's description",
               "method": "get",
-              "uri": "{controller}",
+              "uri": "/{controller}",
               "inputs": {
                   "body_params": {},
                   "path_params": {},
@@ -828,7 +828,7 @@ var templates = [
               "summary": "The export action's summary",
               "description": "The export action's description",
               "method": "get",
-              "uri": "{controller}/export",
+              "uri": "/{controller}/export",
               "inputs": {
                   "body_params": {},
                   "path_params": {},
@@ -867,7 +867,7 @@ var templates = [
               "summary": "The custom action's summary",
               "description": "The custom action's description",
               "method": "patch",
-              "uri": "{controller}/{id}",
+              "uri": "/{controller}/{id}/custom",
               "inputs": {
                   "body_params": {
                       "name": {
