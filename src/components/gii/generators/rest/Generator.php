@@ -150,83 +150,37 @@ EOD;
         $controllers = $confAarray['json']['controllers'];
         $controllers = ApiHelper::rmNode($controllers);
         $curdi = ['create', 'update', 'view', 'delete', 'index', ];
+        $version = trim($confAarray['json']['basePath'], '/');
         $rules = "<?php\n";
+        $rules .= sprintf("\$version = '%s';\n", $version);
+        $rules .= sprintf("\$moduleName = '%s';\n", $version);
         $rules .= "return [\n";
         foreach ($controllers as $controllerK => $controllerV) {
-            $extra = [];
             $actions = $controllerV['actions'];
-            $actions = ApiHelper::rmNode($actions);
             foreach ($actions as $actionK => $actionV) {
-                if (!in_array($actionK, $curdi)) {
-                    $tmp = sprintf('%s,OPTIONS ', strtoupper($actionV['method']));
-                    $pathParams = $actionV['inputs']['path_params'];
-                    $pathParams = ApiHelper::rmNode($pathParams);
-                    $tmpIds = [];
-                    foreach ($pathParams as $pathParamK => $pathParamV) {
-                        $rulesTmp = $pathParamV['rules'];
-                        $rulesTmp = trim($rulesTmp, '^');
-                        $rulesTmp = trim($rulesTmp, '$');
-                        // $tmp = sprintf('%s<%s:%s>', $tmp, $pathParamK, $rulesTmp);
-                        $tmpIds[] = sprintf('<%s:%s>', $pathParamK, $rulesTmp);
-                    }
+                $uri = str_replace('{controller}', $controllerK, $actionV['uri']);
+                $tmp = sprintf('%s,OPTIONS %s/', strtoupper($actionV['method']), $uri);
+                $pathParams = $actionV['inputs']['path_params'];
+                $pathParams = ApiHelper::rmNode($pathParams);
+                $tmpIds = [];
+                foreach ($pathParams as $pathParamK => $pathParamV) {
+                    $rulesTmp = $pathParamV['rules'];
+                    $rulesTmp = trim($rulesTmp, '^');
+                    $rulesTmp = trim($rulesTmp, '$');
+                    $pathParam = sprintf('<%s:%s>', $pathParamK, $rulesTmp);
+                    $uri = str_replace('{'.$pathParamK.'}', $pathParam, $uri);
 
-                    $tmpIdsStr = implode('/', $tmpIds);
-                    $tmp = sprintf('%s%s', $tmp, $tmpIdsStr);
-
-                    $actionK = ApiHelper::uncamelize($actionK, '-');
-                    $tmp = sprintf("'%s/%s' => '%s'", $tmp, $actionK, $actionK);
-                    $extra[] = $tmp;
                 }
+
+                $actionK = ApiHelper::uncamelize($actionK, '-');
+                $controllerK = ApiHelper::uncamelize($controllerK, $separator = '-');
+                $uri = sprintf("'%s,OPTIONS ' . %s .' %s' => %s . '/%s/%s'", strtoupper($actionV['method']), '$version', $uri, '$moduleName', $controllerK, $actionK);
+
+                $rules .= sprintf("    %s,\n", $uri);
             }
-
-            $version = trim($confAarray['json']['basePath'], '/');
-            $controllerK = ApiHelper::uncamelize($controllerK, $separator = '-');
-
-            $rules .= sprintf("    '%s/%s' => [\n", $version, $controllerK);
-            $rules .= sprintf("        'controller' => ['%s/%s'],\n", $version, $controllerK);
-            $rules .= sprintf("        'class' => '\\yii\\rest\UrlRule',\n");
-            $rules .= sprintf("        'pluralize' => false,\n");
-
-            if ($controllerV['defaultPathIdRule']) {
-                $idPattern = $controllerV['defaultPathIdRule'];
-            } else {
-                $idPattern = '\d+';
-            }
-            if ($controllerV['defaultPathIdKey']) {
-                $idKey = $controllerV['defaultPathIdKey'];
-            } else {
-                $idKey = 'id';
-            }
-            $patterns = [
-                sprintf('PUT,PATCH {%s}', $idKey) => 'update',
-                sprintf('DELETE {%s}', $idKey) => 'delete',
-                sprintf('GET,HEAD {%s}', $idKey) => 'view',
-                sprintf('{%s}', $idKey) => 'options',
-                'POST' => 'create',
-                'GET,HEAD' => 'index',
-                '' => 'options',
-            ];
-
-            $rules .= sprintf("        'tokens' => [\n");
-            $rules .= sprintf("            '{%s}' => '<%s:%s>',\n", $idKey, $idKey, $idPattern);
-            $rules .= sprintf("        ],\n");
-
-            $rules .= sprintf("        'patterns' => [\n");
-            foreach ($patterns as $k => $v) {
-                $rules .= sprintf("            '%s' => '%s',\n", $k, $v);
-            }
-            $rules .= sprintf("        ],\n");
-
-            if (count($extra)) {
-                $rules .= sprintf("        'extraPatterns' => [\n");
-                foreach ($extra as $key => $value) {
-                    $rules .= sprintf("            %s,\n", $value);
-                }
-                $rules .= sprintf("        ],\n");
-            }
-            $rules .= sprintf("    ],\n");
         }
 
+        $rules .= "\n";
         $rules .= "];\n";
         
         $files[] = new CodeFile(
