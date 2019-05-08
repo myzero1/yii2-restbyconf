@@ -159,6 +159,8 @@ var onCreateMenu = function onCreateMenu(items, node) {
             data.push(cp);
             return data;
         } else if(isSecurityExclude(node.path)){
+            auto.push(del);
+            auto.push(cp);
             return auto;
         }
     }
@@ -196,6 +198,8 @@ var onEditable = function(node) {
                 return true;
             } else if(isSefaultPathIdDes(node.path)){
                 return false;
+            } else if(isSecurityExclude(node.path)){
+                return true;
             } else {
                 return {
                   field: false,
