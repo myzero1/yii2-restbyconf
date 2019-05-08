@@ -20,25 +20,13 @@ window.jsoneditorOldJson = {
         "url": "http://swagger.io"
     },
     "schemes": "http",
-    "securityDefinitions": {
-        "queryParamAuth": {
-            "description": "QueryParamAuth",
-            "type": "apiKey",
-            "in": "query",
-            "name": "token"
-        },
-        "httpBasicAuth": {
-            "description": "HttpBasicAuth: the value shold as 'Basic base64_encoded(username:password)'",
-            "type": "basic",
-            "in": "header",
-            "name": "Authorization"
-        },
-        "httpBearerAuth": {
-            "description": "HttpBearerAuth: the value shold as 'Bearer <token>'",
-            "type": "apiKey",
-            "in": "header",
-            "name": "Authorization"
-        }
+    "mySecurity": {
+        "security": "httpBearerAuth",
+        "exclude": [
+          "post /demo/create",
+          "post /authentication/login",
+          "post /authentication/join"
+        ]
     },
     "controllers": {
         "demo": {
