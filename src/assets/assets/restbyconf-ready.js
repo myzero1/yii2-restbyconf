@@ -911,6 +911,17 @@ var schemas = {
                 "title": "schemes",
                 "enum": ["https", "http"]
             },
+            "mySecurity": {
+                "title": "mySecurity description",
+                "type": "object",
+                "required": ["security"],
+                "properties": {
+                    "security": {
+                        "title": "security",
+                        "enum": ["queryParamAuth","httpBasicAuth", "httpBearerAuth"]
+                    }
+                }
+            },
             "securityDefinitions": {
                 "title": "securityDefinitions description",
                 "type": "object",
