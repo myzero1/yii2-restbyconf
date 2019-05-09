@@ -6,6 +6,9 @@ namespace myzero1\restbyconf\components\rest;
 
 use yii\web\Response;
 use yii\rest\ActiveController;
+use yii\filters\auth\CompositeAuth;
+use yii\filters\auth\HttpBasicAuth;
+use yii\filters\auth\QueryParamAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\RateLimiter;
 use yii\filters\Cors;
@@ -67,28 +70,35 @@ class ApiController extends ActiveController
                 'Access-Control-Allow-Credentials' => false,
             ],
         ];
-        /*
-        $behaviors['authenticator'] = [
+
+        /*$behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
-            'optional' => $this->optional,
+            'optional' => $this->optional,//认证排除
             'except'=> ['options'] //认证排除OPTIONS请求
+        ];*/
+
+        $behaviors['authenticator'] = [
+            'class' => CompositeAuth::className(),
+            'optional' => $this->optional,//认证排除
+            'except'=> ['options'], //认证排除OPTIONS请求
+            'authMethods' => [
+//                [
+//                    'class' => HttpBasicAuth::className(),
+//                    'auth' => function($username, $password){
+//                        $user = ApiAuthenticator::find()->where('username = :username', [':username' => $username])->one();
+//                        return '';
+//                        var_dump($user);exit;
+//                        return $user;
+//                    },
+//                ],
+                [
+                    'class' => QueryParamAuth::className(),
+                ],
+//                [
+//                    'class' => HttpBearerAuth::className(),
+//                ],
+            ]
         ];
-        */
-        # rate limit部分，速度的设置是在
-        #   app\models\User::getRateLimit($request, $action)
-        /*  官方文档：
-            当速率限制被激活，默认情况下每个响应将包含以下HTTP头发送 目前的速率限制信息：
-            X-Rate-Limit-Limit: 同一个时间段所允许的请求的最大数目;
-            X-Rate-Limit-Remaining: 在当前时间段内剩余的请求的数量;
-            X-Rate-Limit-Reset: 为了得到最大请求数所等待的秒数。
-            你可以禁用这些头信息通过配置 yii\filters\RateLimiter::enableRateLimitHeaders 为false, 就像在上面的代码示例所示。
-        */
-        /*
-        $behaviors['rateLimiter'] = [
-            'class' => RateLimiter::className(),
-            'enableRateLimitHeaders' => true,
-        ];
-        */
 
         return $behaviors;
     }
