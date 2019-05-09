@@ -93,10 +93,11 @@ class ApiController extends ActiveController
 //                ],
                 [
                     'class' => QueryParamAuth::className(),
+                    'tokenParam' => 'token',
                 ],
-//                [
-//                    'class' => HttpBearerAuth::className(),
-//                ],
+                [
+                    'class' => HttpBearerAuth::className(),
+                ],
             ]
         ];
 
