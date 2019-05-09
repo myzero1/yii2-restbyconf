@@ -155,8 +155,23 @@ EOD;
         $rules .= sprintf("\$version = '%s';\n", $version);
         $rules .= sprintf("\$moduleName = '%s';\n", $version);
         $rules .= "return [\n";
+        $rules .= "    // defult\n";
+        $rules .= "    [\n";
+        $rules .= "        'class' => 'yii\\rest\UrlRule',\n";
+        $rules .= "        'pluralize' => false,\n";
+        $rules .= "        'controller' => [\n";
+        $controllerKeys = array_keys($controllers);
+        foreach ($controllerKeys as $k => $v) {
+            $v = ApiHelper::uncamelize($v, $separator = '-');
+            $rules .= sprintf("            \$moduleName . '/%s',\n", $v);
+        }
+        $rules .= "        ],\n";
+        $rules .= "    ]\n\n";
+
+        $rules .= "    // custom\n";
         foreach ($controllers as $controllerK => $controllerV) {
             $actions = $controllerV['actions'];
+            $controllerK = ApiHelper::uncamelize($controllerK, $separator = '-');
             foreach ($actions as $actionK => $actionV) {
                 $uri = str_replace('{controller}', $controllerK, $actionV['uri']);
                 $tmp = sprintf('%s,OPTIONS %s/', strtoupper($actionV['method']), $uri);
@@ -173,11 +188,11 @@ EOD;
                 }
 
                 $actionK = ApiHelper::uncamelize($actionK, '-');
-                $controllerK = ApiHelper::uncamelize($controllerK, $separator = '-');
                 $uri = sprintf("'%s,OPTIONS ' . %s .' %s' => %s . '/%s/%s'", strtoupper($actionV['method']), '$version', $uri, '$moduleName', $controllerK, $actionK);
 
                 $rules .= sprintf("    %s,\n", $uri);
             }
+            $rules .= "\n";
         }
 
         $rules .= "\n";
