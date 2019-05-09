@@ -221,6 +221,7 @@ EOD;
 
         if (count($extra)) {
             $rulesExtra = sprintf("'extraPatterns' => [\n");
+            $extra = array_unique($extra);
             foreach ($extra as $key => $value) {
                 $rulesExtra .= sprintf("            %s,\n", $value);
             }
