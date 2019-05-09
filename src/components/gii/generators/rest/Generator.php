@@ -166,37 +166,68 @@ EOD;
             $rules .= sprintf("            \$moduleName . '/%s',\n", $v);
         }
         $rules .= "        ],\n";
+        $rules .= "        'extraPatterns' => extraPatterns\n";
         $rules .= "    ],\n\n";
 
         $rules .= "    // custom\n";
+        $extra = [];
         foreach ($controllers as $controllerK => $controllerV) {
             $actions = $controllerV['actions'];
             $controllerK = ApiHelper::uncamelize($controllerK, $separator = '-');
             foreach ($actions as $actionK => $actionV) {
                 $uri = str_replace('{controller}', $controllerK, $actionV['uri']);
-                $tmp = sprintf('%s,OPTIONS %s/', strtoupper($actionV['method']), $uri);
                 $pathParams = $actionV['inputs']['path_params'];
                 $pathParams = ApiHelper::rmNode($pathParams);
-                $tmpIds = [];
+//                $tmpIds = [];
                 foreach ($pathParams as $pathParamK => $pathParamV) {
                     $rulesTmp = $pathParamV['rules'];
                     $rulesTmp = trim($rulesTmp, '^');
                     $rulesTmp = trim($rulesTmp, '$');
                     $pathParam = sprintf('<%s:%s>', $pathParamK, $rulesTmp);
                     $uri = str_replace('{'.$pathParamK.'}', $pathParam, $uri);
-
                 }
 
                 $actionK = ApiHelper::uncamelize($actionK, '-');
                 $uri = sprintf("'%s,OPTIONS ' . %s .' %s' => %s . '/%s/%s'", strtoupper($actionV['method']), '$version', $uri, '$moduleName', $controllerK, $actionK);
 
                 $rules .= sprintf("    %s,\n", $uri);
+
+                if (!in_array($actionK, $curdi)) {
+                    $tmp = sprintf('%s,OPTIONS ', strtoupper($actionV['method']));
+                    $pathParams = $actionV['inputs']['path_params'];
+                    $pathParams = ApiHelper::rmNode($pathParams);
+                    $tmpIds = [];
+                    foreach ($pathParams as $pathParamK => $pathParamV) {
+                        $rulesTmp = $pathParamV['rules'];
+                        $rulesTmp = trim($rulesTmp, '^');
+                        $rulesTmp = trim($rulesTmp, '$');
+                        // $tmp = sprintf('%s<%s:%s>', $tmp, $pathParamK, $rulesTmp);
+                        $tmpIds[] = sprintf('<%s:%s>', $pathParamK, $rulesTmp);
+                    }
+
+                    $tmpIdsStr = implode('/', $tmpIds);
+                    $tmp = sprintf('%s%s', $tmp, $tmpIdsStr);
+                    $actionK = ApiHelper::uncamelize($actionK, '-');
+                    $tmp = sprintf("'%s/%s' => '%s'", $tmp, $actionK, $actionK);
+                    $extra[] = $tmp;
+                }
+
             }
             $rules .= "\n";
         }
 
         // $rules .= "\n";
         $rules .= "];\n";
+
+        if (count($extra)) {
+            $rulesExtra = sprintf("'extraPatterns' => [\n");
+            foreach ($extra as $key => $value) {
+                $rulesExtra .= sprintf("            %s,\n", $value);
+            }
+            $rulesExtra .= sprintf("        ],\n");
+        }
+
+        $rules = str_replace("'extraPatterns' => extraPatterns", $rulesExtra, $rules);
         
         $files[] = new CodeFile(
             Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $this->moduleID)),
