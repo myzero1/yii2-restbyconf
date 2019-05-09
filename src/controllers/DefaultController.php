@@ -147,7 +147,7 @@ class DefaultController extends Controller
 
                 $inputParams = array_merge($pathParams, $queryParams, $bodyParams);
 
-                $vud = [
+                /*$vud = [
                     'view',
                     'update',
                     'delete',
@@ -163,7 +163,7 @@ class DefaultController extends Controller
                         'default' => $v['defaultPathIdVal'],
                     ];
                     array_unshift($inputParams, $pathParam);
-                }
+                }*/
 
                 $outputParams = [];
                 $path_outputs = $v1['outputs'];
