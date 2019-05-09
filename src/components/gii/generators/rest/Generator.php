@@ -249,13 +249,13 @@ EOD;
                     );
                 } else {
                     $files[] = new CodeFile(
-                        sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
+                        sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
                         $this->render('rest/template/ApiCustomProcessing.php')
                     );
                 }
 
                 $files[] = new CodeFile(
-                    sprintf('%s/processing/%s/io/%sIo.php', $modulePath, ucwords($controller), ucwords($action)),
+                    sprintf('%s/processing/%s/io/%sIo.php', $modulePath, $controller, ucwords($action)),
                     $this->render('rest/ApiIoProcessing.php')
                 );
             }

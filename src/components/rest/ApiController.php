@@ -74,12 +74,6 @@ class ApiController extends ActiveController
             ],
         ];
 
-        /*$behaviors['authenticator'] = [
-            'class' => HttpBearerAuth::className(),
-            'optional' => $this->optional,//认证排除
-            'except'=> ['options'] //认证排除OPTIONS请求
-        ];*/
-
         $behaviors['authenticator'] = [
             'class' => CompositeAuth::className(),
             'optional' => $this->optional,//认证排除
