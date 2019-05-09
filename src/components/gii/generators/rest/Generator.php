@@ -166,7 +166,7 @@ EOD;
             $rules .= sprintf("            \$moduleName . '/%s',\n", $v);
         }
         $rules .= "        ],\n";
-        $rules .= "    ]\n\n";
+        $rules .= "    ],\n\n";
 
         $rules .= "    // custom\n";
         foreach ($controllers as $controllerK => $controllerV) {
@@ -195,7 +195,7 @@ EOD;
             $rules .= "\n";
         }
 
-        $rules .= "\n";
+        // $rules .= "\n";
         $rules .= "];\n";
         
         $files[] = new CodeFile(
