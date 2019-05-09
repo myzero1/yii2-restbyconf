@@ -1,7 +1,10 @@
 <?php
 /**
- * Api接口基类
+ * @link https://github.com/myzero1
+ * @copyright Copyright (c) 2019- My zero one
+ * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
+
 namespace myzero1\restbyconf\components\rest;
 
 use yii\web\Response;
@@ -19,8 +22,8 @@ class ApiController extends ActiveController
     public $apiActionClass = '\myzero1\restbyconf\components\rest\ApiAction';
     public $modelClass = '';
     public $optional = [
-       'login',
-       'join',
+        'login',
+        'join',
     ];
     //重写动作
     public $rewriteActions = [
@@ -80,17 +83,20 @@ class ApiController extends ActiveController
         $behaviors['authenticator'] = [
             'class' => CompositeAuth::className(),
             'optional' => $this->optional,//认证排除
-            'except'=> ['options'], //认证排除OPTIONS请求
+            'except' => ['options'], //认证排除OPTIONS请求
             'authMethods' => [
-//                [
-//                    'class' => HttpBasicAuth::className(),
-//                    'auth' => function($username, $password){
-//                        $user = ApiAuthenticator::find()->where('username = :username', [':username' => $username])->one();
-//                        return '';
-//                        var_dump($user);exit;
-//                        return $user;
-//                    },
-//                ],
+                [
+                    'class' => HttpBasicAuth::className(),
+                    // 如果未设置此属性，则用户名信息将被视为访问令牌。 而密码信息将被忽略。在 yii\web\User::loginByAccessToken() 将调用方法对用户进行身份验证和登录。
+                    // 如果要使用用户名和密码对用户进行身份验证，您应该提供 $auth 功能例如：
+                    'auth' => function ($username, $password) {
+                        $user = ApiAuthenticator::find()->where(['username' => $username])->one();
+                        if ($user && $user->validatePassword($password, $user->password_hash)) {
+                            return $user;
+                        }
+                        return null;
+                    },
+                ],
                 [
                     'class' => QueryParamAuth::className(),
                     'tokenParam' => 'token',
@@ -106,12 +112,11 @@ class ApiController extends ActiveController
 
     public function actions()
     {
-        $actions =  parent::actions();
+        $actions = parent::actions();
         //unset rewrite actions
-        if(!empty($this->rewriteActions)){
-            foreach ($this->rewriteActions as $actionKey)
-            {
-                if(isset($actions[$actionKey])&&$actionKey!='options') unset($actions[$actionKey]);
+        if (!empty($this->rewriteActions)) {
+            foreach ($this->rewriteActions as $actionKey) {
+                if (isset($actions[$actionKey]) && $actionKey != 'options') unset($actions[$actionKey]);
             }
         }
         //fix options action
