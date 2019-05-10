@@ -163,8 +163,8 @@ class <?=$actionClass?> implements ApiActionProcessing
     public function handling($completedData)
     {
 
-        $input['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
-        $input['page'] = ApiHelper::EXPORT_PAGE;
+        $completedData['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
+        $completedData['page'] = ApiHelper::EXPORT_PAGE;
 
         $index = new Index();
         $items = $index->processing($completedData);
