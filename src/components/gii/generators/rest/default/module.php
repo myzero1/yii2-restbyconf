@@ -13,6 +13,7 @@ $className = substr($className, $pos + 1);
 $confAarray = json_decode($generator->conf, true);
 $restbyconfUnAuthenticateActions = $confAarray['json']['mySecurity']['exclude'];
 $restbyconfAuthenticator = $confAarray['json']['mySecurity']['security'];
+$moduleName = md5($generator->moduleClass);
 
 echo "<?php\n";
 ?>
@@ -42,8 +43,8 @@ class <?= $className ?> extends BaseModule implements BootstrapInterface
     public function bootstrap($app)
     {
         if ($app instanceof \yii\web\Application) {
-            Yii::$app->params['restbyconfAuthenticator'] = '<?=$restbyconfAuthenticator?>';
-            Yii::$app->params['restbyconfUnAuthenticateActions'] = [
+            Yii::$app->params['restbyconfAuthenticator_<?=$moduleName?>'] = '<?=$restbyconfAuthenticator?>';
+            Yii::$app->params['restbyconfUnAuthenticateActions_<?=$moduleName?>'] = [
 <?php
 foreach ($restbyconfUnAuthenticateActions as $k => $v) {
         printf("                '%s',\n", $v);

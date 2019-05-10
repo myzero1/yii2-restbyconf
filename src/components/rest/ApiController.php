@@ -75,13 +75,15 @@ class ApiController extends ActiveController
             ],
         ];
 
-        $securityKey = Yii::$app->params['restbyconfAuthenticator'];
+        $moduleName = md5(get_class($this->module));
+        $securityKey = Yii::$app->params['restbyconfAuthenticator_' . $moduleName];
+        
         if ($securityKey != 'noAuthenticator') {
             $method = Yii::$app->request->method;
             $controllerId = Yii::$app->controller->id;
             $actionId = Yii::$app->controller->action->id;
             $uri  = sprintf('%s /%s/%s', strtolower($method), $controllerId, $actionId);
-            $unAuthenticateActions = Yii::$app->params['restbyconfUnAuthenticateActions'];
+            $unAuthenticateActions = Yii::$app->params['restbyconfUnAuthenticateActions_' . $moduleName];
 
             if (in_array($uri, $unAuthenticateActions)) {
                 $this->optional = [$actionId];
