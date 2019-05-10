@@ -478,7 +478,7 @@ class ApiHelper
     {
         return array_filter(
             $input,
-            function($v){
+            function ($v) {
                 return !in_array(
                     $v,
                     $invalidParams = [
@@ -552,15 +552,23 @@ class ApiHelper
      * @param   void
      * @return  string
      **/
-    public static function getRestModuleName(){
+    public static function getRestModuleName()
+    {
         foreach (\Yii::$app->modules as $key => $value) {
             if (!is_array($value)) {
-                if ('myzero1\restbyconf\Module' == $value::className()) {
-                    return $key;
+                if (is_object($value)) {
+                    if ('myzero1\restbyconf\Module' == $value::className()) {
+                        return $key;
+                    }
+                } else {
+                    if ('myzero1\restbyconf\Module' == $value) {
+                        return $key;
+                    }
                 }
             }
         }
-        return 'nRestbyconfModule';
+
+        return 'RestbyconfModule';
     }
 
     /**
@@ -571,12 +579,15 @@ class ApiHelper
      * @param   void
      * @return  string
      **/
-    public static function getRestByConfModuleId(){
+    public static function getRestByConfModuleId()
+    {
         $moduleId = [];
         foreach (\Yii::$app->modules as $key => $value) {
             if (!is_array($value)) {
-                if (stripos($value::className(), "RestByConfModule") !== false) {
-                    $moduleId[] = $key;
+                if (is_object($value)) {
+                    if (stripos($value::className(), "RestByConfModule") !== false) {
+                        $moduleId[] = $key;
+                    }
                 }
             }
         }
@@ -591,9 +602,10 @@ class ApiHelper
      * @param   obj $generator
      * @return  bool
      **/
-    public static function isRestGenerator ($generator){
+    public static function isRestGenerator($generator)
+    {
         $attributes = $generator->attributes;
-        $restAttributes = ['conf', 'position', 'confAarray', 'moduleClass', 'moduleID', 'controller', 'action', 'controllerV', ];
+        $restAttributes = ['conf', 'position', 'confAarray', 'moduleClass', 'moduleID', 'controller', 'action', 'controllerV',];
 
         foreach ($restAttributes as $k => $v) {
             if (in_array($v, $attributes)) {
@@ -613,7 +625,8 @@ class ApiHelper
      * @param   int $code
      * @return  array
      **/
-    public static function getModelError($model, $code){
+    public static function getModelError($model, $code)
+    {
         $errors = $model->errors;
         return [
             'code' => $code,
@@ -626,7 +639,8 @@ class ApiHelper
      * @param   string $className
      * @return  string
      **/
-    public static function getClassPath($className = 'myzero1\restbyconf\Module'){
+    public static function getClassPath($className = 'myzero1\restbyconf\Module')
+    {
         $reflection = new \ReflectionClass($className);
         $fileName = $reflection->getFileName();
         return $fileName;
@@ -636,7 +650,8 @@ class ApiHelper
      * @param   int $moduleId
      * @return  string
      **/
-    public static function getModuleClass($moduleId, $setDefault=false){
+    public static function getModuleClass($moduleId, $setDefault = false)
+    {
         if (isset(Yii::$app->modules[$moduleId])) {
             return Yii::$app->modules[$moduleId]->className();
         } else {
@@ -653,7 +668,8 @@ class ApiHelper
      * @param   string $filePath
      * @param   string $lineNum
      **/
-    public static function throwError($msg, $filePath, $lineNum){
+    public static function throwError($msg, $filePath, $lineNum)
+    {
         $fileMsg = sprintf('in file:%s', $filePath);
         $lineMsg = sprintf('on file:%s', $lineNum);
         $msgs = "{$msg}\n{$fileMsg}\n{$lineMsg}";
@@ -664,9 +680,10 @@ class ApiHelper
      * @param   string $moduleId
      * @return  string
      **/
-    public static function getModulePath($moduleId){
+    public static function getModulePath($moduleId)
+    {
         $moduleClass = self::getModuleClass($moduleId, true);
-        if(class_exists($moduleClass)){
+        if (class_exists($moduleClass)) {
             $moduleFilePath = self::getClassPath($moduleClass);
             $modulePath = dirname($moduleFilePath);
         } else {
