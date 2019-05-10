@@ -160,10 +160,11 @@ EOD;
         $controllers = $confAarray['json']['controllers'];
         $controllers = ApiHelper::rmNode($controllers);
         $curdi = ['create', 'update', 'view', 'delete', 'index', ];
-        $version = trim($confAarray['json']['basePath'], '/');
+        $version =  $confAarray['json']['info']['version'];
+        $moduleName = trim($confAarray['json']['basePath'], '/');
         $rules = "<?php\n";
         $rules .= sprintf("\$version = '%s';\n", $version);
-        $rules .= sprintf("\$moduleName = '%s';\n", $version);
+        $rules .= sprintf("\$moduleName = '%s';\n", $moduleName);
         $rules .= "return [\n";
         $rules .= "    // defult\n";
         $rules .= "    [\n";
@@ -198,7 +199,7 @@ EOD;
                 }
 
                 $actionK = ApiHelper::uncamelize($actionK, '-');
-                $uri = sprintf("'%s,OPTIONS ' . %s .' %s' => %s . '/%s/%s'", strtoupper($actionV['method']), '$version', $uri, '$moduleName', $controllerK, $actionK);
+                $uri = sprintf("'%s,OPTIONS ' . %s .'%s' => %s . '/%s/%s'", strtoupper($actionV['method']), '$version', $uri, '$moduleName', $controllerK, $actionK);
 
                 $rules .= sprintf("    %s,\n", $uri);
 
