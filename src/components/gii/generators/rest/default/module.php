@@ -10,6 +10,8 @@ $className = $generator->moduleClass;
 $pos = strrpos($className, '\\');
 $ns = ltrim(substr($className, 0, $pos), '\\');
 $className = substr($className, $pos + 1);
+$confAarray = json_decode($generator->conf, true);
+$exclude = $confAarray['json']['mySecurity']['exclude'];
 
 echo "<?php\n";
 ?>
@@ -37,6 +39,13 @@ class <?= $className ?> extends BaseModule implements BootstrapInterface
     public function bootstrap($app)
     {
         if ($app instanceof \yii\web\Application) {
+            Yii::$app->params['unAuthenticateActions'] = [
+<?php
+    foreach ($exclude as $k => $v) {
+        printf("                '%s',\n", $v);
+    }
+?>
+            ];
             $apiUrlRules = ApiHelper::getApiUrlRules($this->id);
             $app->getUrlManager()->addRules($apiUrlRules, false);
         }

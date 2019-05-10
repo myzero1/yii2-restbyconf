@@ -7,6 +7,7 @@
 
 namespace myzero1\restbyconf\components\rest;
 
+use Yii;
 use yii\web\Response;
 use yii\rest\ActiveController;
 use yii\filters\auth\CompositeAuth;
@@ -46,6 +47,18 @@ class ApiController extends ActiveController
 
     public function behaviors()
     {
+        $method = Yii::$app->request->method;
+        $controllerId = Yii::$app->controller->id;
+        $actionId = Yii::$app->controller->action->id;
+        $uri  = sprintf('%s /%s/%s', strtolower($method), $controllerId, $actionId);
+        $unAuthenticateActions = Yii::$app->params['unAuthenticateActions'];
+
+        if (in_array($uri, $unAuthenticateActions)) {
+            $this->optional = [$actionId];
+        } else {
+            $this->optional = [];
+        }
+
         $behaviors = parent::behaviors();
         $behaviors['contentNegotiator']['formats']['text/html'] = Response::FORMAT_JSON;
 
