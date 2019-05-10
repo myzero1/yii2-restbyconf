@@ -653,7 +653,11 @@ class ApiHelper
     public static function getModuleClass($moduleId, $setDefault = false)
     {
         if (isset(Yii::$app->modules[$moduleId])) {
-            return Yii::$app->modules[$moduleId]->className();
+            if (is_object(Yii::$app->modules[$moduleId])) {
+                return Yii::$app->modules[$moduleId]->className();
+            } else {
+                return Yii::$app->modules[$moduleId];
+            }
         } else {
             if ($setDefault) {
                 return sprintf('app\modules\%s\%s', $moduleId, 'RestByConfModule');
