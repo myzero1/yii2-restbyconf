@@ -128,8 +128,17 @@ EOD;
     public function generate()
     {
         $this->confAarray = json_decode($this->conf, true);
-        $this->moduleID = trim($this->confAarray['json']['basePath'], '/');
-        $this->moduleClass = sprintf('app\modules\%s\%s', $this->moduleID, 'RestByConfModule');
+
+        $mId = Yii::$app->request->get('mId', '');
+        if ($mId) {
+            $this->moduleID = $mId;
+        } else {
+            $this->moduleID = trim($this->confAarray['json']['basePath'], '/');
+        }
+
+//        $this->moduleClass = sprintf('app\modules\%s\%s', $this->moduleID, 'RestByConfModule');
+        $this->moduleClass = ApiHelper::getModuleClass($this->moduleID, true);
+
         $files = [];
 
         // for rest api
@@ -142,7 +151,8 @@ EOD;
 
         // save conf to file
         $files[] = new CodeFile(
-            Yii::getAlias(sprintf('@app/modules/%s/config/conf.json', $this->moduleID)),
+//            Yii::getAlias(sprintf('@app/modules/%s/config/conf.json', $this->moduleID)),
+            sprintf('%s/config/conf.json', ApiHelper::getModulePath($this->moduleID)),
             $this->conf
         );
 
@@ -231,7 +241,8 @@ EOD;
         $rules = str_replace("'extraPatterns' => extraPatterns", $rulesExtra, $rules);
         
         $files[] = new CodeFile(
-            Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $this->moduleID)),
+//            Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $this->moduleID)),
+            sprintf('%s/config/apiUrlRules.php', ApiHelper::getModulePath($this->moduleID)),
             $rules
         );
 
@@ -244,7 +255,9 @@ EOD;
     public function generateRest()
     {
         $files = [];
-        $modulePath = $this->getModulePath();
+//        $modulePath = $this->getModulePath();
+        $modulePath = ApiHelper::getModulePath($this->moduleID);
+
         $files[] = new CodeFile(
             $modulePath . '/' . StringHelper::basename($this->moduleClass) . '.php',
             $this->render("module.php")

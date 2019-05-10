@@ -8,7 +8,7 @@ use yii\base\BootstrapInterface;
 use myzero1\restbyconf\components\rest\ApiHelper;
 
 /**
- * v5 module definition class
+ * example module definition class
  */
 class RestByConfModule extends BaseModule implements BootstrapInterface
 {

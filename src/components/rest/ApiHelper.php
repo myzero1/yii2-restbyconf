@@ -636,11 +636,15 @@ class ApiHelper
      * @param   int $moduleId
      * @return  string
      **/
-    public static function getModuleClass($moduleId){
+    public static function getModuleClass($moduleId, $setDefault=false){
         if (isset(Yii::$app->modules[$moduleId])) {
             return Yii::$app->modules[$moduleId]->className();
         } else {
-            self::throwError(sprintf('Not found module "%s"', $moduleId), __FILE__, __LINE__);
+            if ($setDefault) {
+                return sprintf('app\modules\%s\%s', $moduleId, 'RestByConfModule');
+            } else {
+                self::throwError(sprintf('Not found module "%s"', $moduleId), __FILE__, __LINE__);
+            }
         }
     }
 
@@ -661,9 +665,14 @@ class ApiHelper
      * @return  string
      **/
     public static function getModulePath($moduleId){
-        $moduleClass = self::getModuleClass($moduleId);
-        $moduleFilePath = self::getClassPath($moduleClass);
-        $modulePath = dirname($moduleFilePath);
+        $moduleClass = self::getModuleClass($moduleId, true);
+        if(class_exists($moduleClass)){
+            $moduleFilePath = self::getClassPath($moduleClass);
+            $modulePath = dirname($moduleFilePath);
+        } else {
+            $modulePath = sprintf('%s/modules/%s', Yii::getAlias('@app'), $moduleId);
+        }
+
         return $modulePath;
     }
 }

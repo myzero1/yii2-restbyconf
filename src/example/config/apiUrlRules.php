@@ -1,26 +1,34 @@
 <?php
+$version = 'v1';
+$moduleName = 'v1';
 return [
-    'example/demo' => [
-        'controller' => ['example/demo'],
-        'class' => '\yii\rest\UrlRule',
+    // defult
+    [
+        'class' => 'yii\rest\UrlRule',
         'pluralize' => false,
-        'tokens' => [
-            '{id}' => '<id:\d+>',
-        ],
-        'patterns' => [
-            'PUT,PATCH {id}' => 'update',
-            'DELETE {id}' => 'delete',
-            'GET,HEAD {id}' => 'view',
-            '{id}' => 'options',
-            'POST' => 'create',
-            'GET,HEAD' => 'index',
-            '' => 'options',
+        'controller' => [
+            $moduleName . '/authenticator',
+            $moduleName . '/user',
         ],
         'extraPatterns' => [
+            'POST,OPTIONS /join' => 'join',
+            'POST,OPTIONS /login' => 'login',
             'GET,OPTIONS /export' => 'export',
-            'PATCH,OPTIONS <id:\d{0,32}>/custom' => 'custom',
+            'PATCH,OPTIONS <id:\d+>/status' => 'status',
         ],
+
     ],
-];
+
+    // custom
+    'POST,OPTIONS ' . $version .' /authenticator/join' => $moduleName . '/authenticator/join',
+    'POST,OPTIONS ' . $version .' /authenticator/login' => $moduleName . '/authenticator/login',
+
+    'POST,OPTIONS ' . $version .' /user' => $moduleName . '/user/create',
+    'PUT,OPTIONS ' . $version .' /user/<id:\d+>' => $moduleName . '/user/update',
+    'GET,OPTIONS ' . $version .' /user/<id:\d+>' => $moduleName . '/user/view',
+    'DELETE,OPTIONS ' . $version .' /user/<id:\d+>' => $moduleName . '/user/delete',
+    'GET,OPTIONS ' . $version .' /user' => $moduleName . '/user/index',
+    'GET,OPTIONS ' . $version .' /user/export' => $moduleName . '/user/export',
+    'PATCH,OPTIONS ' . $version .' /user/<id:\d+>/status' => $moduleName . '/user/status',
 
 ];
