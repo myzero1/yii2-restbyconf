@@ -27,7 +27,7 @@ class DefaultController extends Controller
      * @return string
      */
     public function actionSwagger()
-    { 
+    {
         $mId = Yii::$app->request->get('mId', '');
         $url = Url::to([sprintf('/%s/default/swagger-json', $this->module->id), 'mId' => $mId]);
         return $this->renderAjax('swagger', ['url' => $url]);
@@ -66,6 +66,7 @@ class DefaultController extends Controller
                 "in" => "header",
                 "name" => "authorization",
             ],
+            'noAuthenticator' => [],
         ];
         $securityKey = $json['mySecurity']['security'];
         $securityVal = $securities[$securityKey];
@@ -80,9 +81,9 @@ class DefaultController extends Controller
 
             $inputParams = [];
             $pathsSource = ApiHelper::rmNode($v['actions']);
-            $noPath = ['create', 'index', ];
-            $noQuery = ['create', 'update', 'view', 'delete', ];
-            $noBody = ['index', 'view', 'delete', ];
+            $noPath = ['create', 'index',];
+            $noQuery = ['create', 'update', 'view', 'delete',];
+            $noBody = ['index', 'view', 'delete',];
             foreach ($pathsSource as $k1 => $v1) {
                 $path = [];
                 $pathTag = '';
@@ -188,7 +189,7 @@ class DefaultController extends Controller
                     'tags' => [$k],
                     'description' => $v1['description'],
                     'summary' => $v1['summary'],
-                    'operationId' => $k . ''. str_replace('/', '-', str_replace('}', '', str_replace('{', '', $pathName))),
+                    'operationId' => $k . '' . str_replace('/', '-', str_replace('}', '', str_replace('{', '', $pathName))),
                     'parameters' => $inputParams,
                     'responses' => $outputParams,
                     // 'security' => [
@@ -199,14 +200,16 @@ class DefaultController extends Controller
                 ];
 
                 $mytag = sprintf('%s %s', $v1['method'], $pathName);
-                if (!in_array($mytag, $securityExclude)) {
-                    $path[$v1['method']]['security'] = [
-                        [
-                            $securityKey => $securityVal,
-                        ]
-                    ];
+                if ($securityKey != 'noAuthenticator') {
+                    if (!in_array($mytag, $securityExclude)) {
+                        $path[$v1['method']]['security'] = [
+                            [
+                                $securityKey => $securityVal,
+                            ]
+                        ];
+                    }
                 }
-                
+
                 $pathName = str_replace('{controller}', $k, $v1['uri']);
                 if ($k1 == 'create') {
                     $paths[$pathName]['post'] = $path[$v1['method']];
@@ -227,9 +230,11 @@ class DefaultController extends Controller
         unset($json['controllers']);
         $json['tags'] = $controllers;
         $json['paths'] = $paths;
-        $json['securityDefinitions'] = [
-            $securityKey => $securityVal,
-        ];
+        if ($securityKey != 'noAuthenticator') {
+            $json['securityDefinitions'] = [
+                $securityKey => $securityVal,
+            ];
+        }
 
         // var_dump($json);exit;
 
@@ -367,7 +372,7 @@ class DefaultController extends Controller
 
         // var_dump($markdown);exit;
         $markdownHtml = \yii\helpers\Markdown::process($markdown);
-        $markdownHtml = \yii\helpers\Markdown::process($markdown,'gfm');
+        $markdownHtml = \yii\helpers\Markdown::process($markdown, 'gfm');
 
         $style = <<<style
         <style>

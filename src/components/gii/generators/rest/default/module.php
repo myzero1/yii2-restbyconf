@@ -11,7 +11,8 @@ $pos = strrpos($className, '\\');
 $ns = ltrim(substr($className, 0, $pos), '\\');
 $className = substr($className, $pos + 1);
 $confAarray = json_decode($generator->conf, true);
-$exclude = $confAarray['json']['mySecurity']['exclude'];
+$restbyconfUnAuthenticateActions = $confAarray['json']['mySecurity']['exclude'];
+$restbyconfAuthenticator = $confAarray['json']['mySecurity']['security'];
 
 echo "<?php\n";
 ?>
@@ -34,14 +35,17 @@ class <?= $className ?> extends BaseModule implements BootstrapInterface
     public $controllerNamespace = '<?= $generator->getControllerNamespace() ?>';
 
     /**
+    /**
+    /**
      * {@inheritdoc}
      */
     public function bootstrap($app)
     {
         if ($app instanceof \yii\web\Application) {
-            Yii::$app->params['unAuthenticateActions'] = [
+            Yii::$app->params['restbyconfAuthenticator'] = '<?=$restbyconfAuthenticator?>';
+            Yii::$app->params['restbyconfUnAuthenticateActions'] = [
 <?php
-    foreach ($exclude as $k => $v) {
+foreach ($restbyconfUnAuthenticateActions as $k => $v) {
         printf("                '%s',\n", $v);
     }
 ?>
