@@ -16,7 +16,7 @@ window.jsoneditorOldJson = {
     "host": "restbyconf.test",
     "basePath": "/v1",
     "externalDocs": {
-        "description": "11Find out more about Swagger",
+        "description": "Find out more about Swagger",
         "url": "http://swagger.io"
     },
     "schemes": "http",
