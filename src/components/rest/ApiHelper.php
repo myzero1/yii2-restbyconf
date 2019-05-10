@@ -384,9 +384,7 @@ class ApiHelper
     public static function getApiConf($moduleId)
     {
         if ($moduleId) {
-            $moduleClass = self::getModuleClass($moduleId);
-            $fileName = self::getClassPath($moduleClass);
-            $path = dirname($fileName);
+            $path = self::getModulePath($moduleId);
         } else {
             $path = '';
         }
@@ -414,9 +412,7 @@ class ApiHelper
     public static function getApiUrlRules($moduleId)
     {
         if ($moduleId) {
-            $moduleClass = self::getModuleClass($moduleId);
-            $fileName = self::getClassPath($moduleClass);
-            $path = dirname($fileName);
+            $path = self::getModulePath($moduleId);
         } else {
             $path = '';
         }
@@ -649,13 +645,25 @@ class ApiHelper
     }
 
     /**
-     * @param   int $moduleId
-     * @return  string
+     * @param   string $msg
+     * @param   string $filePath
+     * @param   string $lineNum
      **/
     public static function throwError($msg, $filePath, $lineNum){
         $fileMsg = sprintf('in file:%s', $filePath);
         $lineMsg = sprintf('on file:%s', $lineNum);
         $msgs = "{$msg}\n{$fileMsg}\n{$lineMsg}";
         throw new ServerErrorHttpException($msgs);
+    }
+
+    /**
+     * @param   string $moduleId
+     * @return  string
+     **/
+    public static function getModulePath($moduleId){
+        $moduleClass = self::getModuleClass($moduleId);
+        $moduleFilePath = self::getClassPath($moduleClass);
+        $modulePath = dirname($moduleFilePath);
+        return $modulePath;
     }
 }
