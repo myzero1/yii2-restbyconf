@@ -43,10 +43,17 @@ Once the extension is installed, simply modify your application configuration as
 ...
 if (!YII_ENV_TEST) {
     // configuration adjustments for 'dev' environment
+    ...
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
-        'class' => 'myzero1\restbyconf\components\gii\Module', // use restbyconf
+        'class' => 'yii\gii\Module',
     ];
+    $config['modules']['gii']['generators'] = [
+        'rest' => [
+            'class' => 'myzero1\restbyconf\components\gii\generators\rest\Generator'
+        ],
+    ];
+    ...
 }
 ...
 ```
