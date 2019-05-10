@@ -84,13 +84,6 @@ $moduleId = Yii::$app->request->get('mId', '');
                             printf('<li><a target="_blank" href="%s">Markdown</a></li>',
                                 Url::to([sprintf('/%s/default/markdown', $mId), 'mId' => $moduleId]) 
                             );
-                        } else {
-                            printf('<li><a target="_blank" href="%s">Swagger</a></li>',
-                                Url::to([sprintf('/%s/default/swagger', $mId)])
-                            );
-                            printf('<li><a target="_blank" href="%s">Markdown</a></li>',
-                                Url::to([sprintf('/%s/default/markdown', $mId)]) 
-                            );
                         }
                     ?>
                 </ul>
