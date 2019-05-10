@@ -1055,7 +1055,7 @@ var schemas = {
                 "properties": {
                     "security": {
                         "title": "security",
-                        "enum": ["queryParamAuth","httpBasicAuth", "httpBearerAuth"]
+                        "enum": ["noAuthenticator","queryParamAuth","httpBasicAuth", "httpBearerAuth"]
                     }
                 }
             },

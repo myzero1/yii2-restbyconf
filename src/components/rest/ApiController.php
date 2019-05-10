@@ -47,18 +47,6 @@ class ApiController extends ActiveController
 
     public function behaviors()
     {
-        $method = Yii::$app->request->method;
-        $controllerId = Yii::$app->controller->id;
-        $actionId = Yii::$app->controller->action->id;
-        $uri  = sprintf('%s /%s/%s', strtolower($method), $controllerId, $actionId);
-        $unAuthenticateActions = Yii::$app->params['unAuthenticateActions'];
-
-        if (in_array($uri, $unAuthenticateActions)) {
-            $this->optional = [$actionId];
-        } else {
-            $this->optional = [];
-        }
-
         $behaviors = parent::behaviors();
         $behaviors['contentNegotiator']['formats']['text/html'] = Response::FORMAT_JSON;
 
@@ -87,32 +75,47 @@ class ApiController extends ActiveController
             ],
         ];
 
-        $behaviors['authenticator'] = [
-            'class' => CompositeAuth::className(),
-            'optional' => $this->optional,//认证排除
-            'except' => ['options'], //认证排除OPTIONS请求
-            'authMethods' => [
-                [
-                    'class' => HttpBasicAuth::className(),
-                    // 如果未设置此属性，则用户名信息将被视为访问令牌。 而密码信息将被忽略。在 yii\web\User::loginByAccessToken() 将调用方法对用户进行身份验证和登录。
-                    // 如果要使用用户名和密码对用户进行身份验证，您应该提供 $auth 功能例如：
-                    'auth' => function ($username, $password) {
-                        $user = ApiAuthenticator::find()->where(['username' => $username])->one();
-                        if ($user && $user->validatePassword($password, $user->password_hash)) {
-                            return $user;
-                        }
-                        return null;
-                    },
-                ],
-                [
-                    'class' => QueryParamAuth::className(),
-                    'tokenParam' => 'token',
-                ],
-                [
-                    'class' => HttpBearerAuth::className(),
-                ],
-            ]
-        ];
+        $securityKey = Yii::$app->params['restbyconfAuthenticator'];
+        if ($securityKey != 'noAuthenticator') {
+            $method = Yii::$app->request->method;
+            $controllerId = Yii::$app->controller->id;
+            $actionId = Yii::$app->controller->action->id;
+            $uri  = sprintf('%s /%s/%s', strtolower($method), $controllerId, $actionId);
+            $unAuthenticateActions = Yii::$app->params['restbyconfUnAuthenticateActions'];
+
+            if (in_array($uri, $unAuthenticateActions)) {
+                $this->optional = [$actionId];
+            } else {
+                $this->optional = [];
+            }
+
+            $behaviors['authenticator'] = [
+                'class' => CompositeAuth::className(),
+                'optional' => $this->optional,//认证排除
+                'except' => ['options'], //认证排除OPTIONS请求
+                'authMethods' => [
+                    [
+                        'class' => HttpBasicAuth::className(),
+                        // 如果未设置此属性，则用户名信息将被视为访问令牌。 而密码信息将被忽略。在 yii\web\User::loginByAccessToken() 将调用方法对用户进行身份验证和登录。
+                        // 如果要使用用户名和密码对用户进行身份验证，您应该提供 $auth 功能例如：
+                        'auth' => function ($username, $password) {
+                            $user = ApiAuthenticator::find()->where(['username' => $username])->one();
+                            if ($user && $user->validatePassword($password, $user->password_hash)) {
+                                return $user;
+                            }
+                            return null;
+                        },
+                    ],
+                    [
+                        'class' => QueryParamAuth::className(),
+                        'tokenParam' => 'token',
+                    ],
+                    [
+                        'class' => HttpBearerAuth::className(),
+                    ],
+                ]
+            ];
+        }
 
         return $behaviors;
     }
