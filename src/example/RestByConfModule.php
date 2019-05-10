@@ -23,6 +23,10 @@ class RestByConfModule extends BaseModule implements BootstrapInterface
     public function bootstrap($app)
     {
         if ($app instanceof \yii\web\Application) {
+            Yii::$app->params['unAuthenticateActions'] = [
+                'post /authenticator/login',
+                'post /authenticator/join',
+            ];
             $apiUrlRules = ApiHelper::getApiUrlRules($this->id);
             $app->getUrlManager()->addRules($apiUrlRules, false);
         }
