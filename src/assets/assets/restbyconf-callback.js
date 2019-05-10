@@ -63,7 +63,7 @@ var onError = function(error){
 }
 
 var onClassName = function(node){
-    if(isDataLay(node.path)){
+    if(isDataLay(node.path) || isSecurityExclude(node.path)){
         return 'restbyconf-outputs-data';
     }
 }
@@ -75,6 +75,7 @@ var onCreateMenu = function onCreateMenu(items, node) {
     var data = new Array();
     var del = new Array();
     var cp = new Array();
+    var auto = new Array();
 
     for (var i = 0;  i < items.length; i++) {
         var text = items[i]['text'];
@@ -86,6 +87,7 @@ var onCreateMenu = function onCreateMenu(items, node) {
                     param.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == '自动') {
                     data.push(items[i]['submenu'][j]);
+                    auto.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == '数组') {
                     data.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == '对象') {
@@ -134,6 +136,8 @@ var onCreateMenu = function onCreateMenu(items, node) {
             return param;
         } else if (selected === 'data{0}') {
             return data;
+        } else if (selected === 'exclude[0]') {
+            return auto;
         } else {
             return data;
         }
@@ -154,6 +158,10 @@ var onCreateMenu = function onCreateMenu(items, node) {
             data.push(del);
             data.push(cp);
             return data;
+        } else if(isSecurityExclude(node.path)){
+            auto.push(del);
+            auto.push(cp);
+            return auto;
         }
     }
 }
@@ -190,6 +198,8 @@ var onEditable = function(node) {
                 return true;
             } else if(isSefaultPathIdDes(node.path)){
                 return false;
+            } else if(isSecurityExclude(node.path)){
+                return true;
             } else {
                 return {
                   field: false,

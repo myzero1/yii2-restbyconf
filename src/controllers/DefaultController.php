@@ -47,7 +47,29 @@ class DefaultController extends Controller
         $controllers = [];
         $actions = [];
         $paths = [];
-
+        $securities = [
+            'queryParamAuth' => [
+                "description" => "Uri eg: 'demo?token=myzero1_123456'",
+                "type" => "apiKey",
+                "in" => "query",
+                "name" => "token",
+            ],
+            'httpBasicAuth' => [
+                "description" => "Header eg: 'authorization: Basic bXl6ZXJvMToxMjM0NTY='",
+                "type" => "basic",
+                "in" => "query",
+                "name" => "authorization",
+            ],
+            'httpBearerAuth' => [
+                "description" => "Value eg: 'Bearer 123456';Header eg: 'authorization: Bearer 123456'",
+                "type" => "apiKey",
+                "in" => "header",
+                "name" => "authorization",
+            ],
+        ];
+        $securityKey = $json['mySecurity']['security'];
+        $securityVal = $securities[$securityKey];
+        $securityExclude = $json['mySecurity']['exclude'];
 
         foreach ($oldcontrollers as $k => $v) {
             $k = ApiHelper::uncamelize($k, '-');
@@ -64,75 +86,6 @@ class DefaultController extends Controller
             foreach ($pathsSource as $k1 => $v1) {
                 $path = [];
                 $pathTag = '';
-
-                /*$pathParams = [];
-                if (!in_array($k1, $noPath)) {
-                    $path_params = $v1['inputs']['path_params'];
-                    $path_params = ApiHelper::rmNode($path_params);
-                    foreach ($path_params as $k2 => $v2) {
-                        $pathTag .= sprintf('/{%s}', $k2);
-                        $pathParams[] = [
-                            'in' => 'path',
-                            'name' => $k2,
-                            'description' => $v2['des'],
-                            'type' => 'string',
-                            'required' => $v2['required'],
-                            'default' => $v2['eg'],
-                        ];
-                    }
-                }
-
-                $queryParams = [];
-                if (!in_array($k1, $noQuery)) {
-                    $query_params = $v1['inputs']['query_params'];
-                    $query_params = ApiHelper::rmNode($query_params);
-                    foreach ($query_params as $k2 => $v2) {
-                        $queryParams[] = [
-                            'in' => 'query',
-                            'name' => $k2,
-                            'description' => $v2['des'],
-                            'type' => 'string',
-                            'required' => $v2['required'],
-                            'default' => $v2['eg'],
-                        ];
-                    }
-                }
-
-                $bodyParams = [];
-                if (!in_array($k1, $noBody)) {
-                    $body_params = $v1['inputs']['body_params'];
-                    $body_params = ApiHelper::rmNode($body_params);
-                    if (count($body_params)) {
-                        $schema = [];
-                        $bodyParamsRequired = false;
-                        foreach ($body_params as $k2 => $v2) {
-                            $schema[$k2] = [
-                                'description' => $v2['des'],
-                                'type' => 'string',
-                                'required' => $v2['required'],
-                                'example' => $v2['eg'],
-                            ];
-
-                            if ($v2['required']) {
-                                $bodyParamsRequired = true;
-                            }
-                        }
-                        $bodyParams[] = [
-                            'in' => 'body',
-                            'name' => 'bodyParams',
-                            'description' => 'body params description',
-                            'required' => $bodyParamsRequired,
-                            // 'schema' => $schema,
-                            'schema' => [
-                                'title' => sprintf('bodyInputs(%s /%s%s/%s?', $v1['method'], $k, $pathTag, $k1),
-                                "type" => "object",
-                                "properties" => $schema,
-                            ],
-                        ];
-                    }
-                }
-
-                $inputParams = array_merge($pathParams, $queryParams, $bodyParams);*/
 
                 $pathParams = [];
                 $queryParams = [];
@@ -194,7 +147,7 @@ class DefaultController extends Controller
 
                 $inputParams = array_merge($pathParams, $queryParams, $bodyParams);
 
-                $vud = [
+                /*$vud = [
                     'view',
                     'update',
                     'delete',
@@ -210,7 +163,7 @@ class DefaultController extends Controller
                         'default' => $v['defaultPathIdVal'],
                     ];
                     array_unshift($inputParams, $pathParam);
-                }
+                }*/
 
                 $outputParams = [];
                 $path_outputs = $v1['outputs'];
@@ -238,34 +191,45 @@ class DefaultController extends Controller
                     'operationId' => $k . ''. str_replace('/', '-', str_replace('}', '', str_replace('{', '', $pathName))),
                     'parameters' => $inputParams,
                     'responses' => $outputParams,
+                    // 'security' => [
+                    //     [
+                    //         'httpBearerAuth' => [],
+                    //     ]
+                    // ],
                 ];
 
+                $mytag = sprintf('%s %s', $v1['method'], $pathName);
+                if (!in_array($mytag, $securityExclude)) {
+                    $path[$v1['method']]['security'] = [
+                        [
+                            $securityKey => $securityVal,
+                        ]
+                    ];
+                }
+                
+                $pathName = str_replace('{controller}', $k, $v1['uri']);
                 if ($k1 == 'create') {
-                    $pathName = sprintf('/%s', $k);
                     $paths[$pathName]['post'] = $path[$v1['method']];
                 } else if ($k1 == 'index') {
-                    $pathName = sprintf('/%s', $k);
                     $paths[$pathName]['get'] = $path[$v1['method']];
                 } else if ($k1 == 'update') {
-                    $pathName = sprintf('/%s/{%s}', $k, $v['defaultPathIdKey']);
                     $paths[$pathName]['put'] = $path[$v1['method']];
                 } else if ($k1 == 'view') {
-                    $pathName = sprintf('/%s/{%s}', $k, $v['defaultPathIdKey']);
                     $paths[$pathName]['get'] = $path[$v1['method']];
                 } else if ($k1 == 'delete') {
-                    $pathName = sprintf('/%s/{%s}', $k, $v['defaultPathIdKey']);
                     $paths[$pathName]['delete'] = $path[$v1['method']];
                 } else {
                     $paths[$pathName] = $path;
                 }
-
             }
         }
-
 
         unset($json['controllers']);
         $json['tags'] = $controllers;
         $json['paths'] = $paths;
+        $json['securityDefinitions'] = [
+            $securityKey => $securityVal,
+        ];
 
         // var_dump($json);exit;
 

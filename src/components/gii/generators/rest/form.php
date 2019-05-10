@@ -10,10 +10,8 @@ $asset = myzero1\restbyconf\assets\php\JsonEditorAsset::register($this);
 // basePath
 if ($generator->conf) {
     $conf = json_decode($generator->conf, true);
-    $moduleId = trim($conf['json']['basePath'], '/');
-} else {
-    $moduleId = Yii::$app->request->get('mId', 'v1');
 }
+$moduleId = Yii::$app->request->get('mId', '');
 $confDataInit = ApiHelper::getApiConf($moduleId);
 // $confDataInit = '';
 
@@ -51,7 +49,7 @@ $moduleId = Yii::$app->request->get('mId', '');
 
 <div class="rest-form">
 
-    <nav class="navbar navbar-default restbyconfig" role="navigation">
+    <nav class="navbar navbar-default navbar-restbyconfig" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">Selectable modules</a>
@@ -71,7 +69,7 @@ $moduleId = Yii::$app->request->get('mId', '');
         </div>
     </nav>
 
-    <nav class="navbar navbar-default restbyconfig" role="navigation">
+    <nav class="navbar navbar-default navbar-restbyconfig" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">The other menu of restbyconfig</a>
@@ -85,13 +83,6 @@ $moduleId = Yii::$app->request->get('mId', '');
                             );
                             printf('<li><a target="_blank" href="%s">Markdown</a></li>',
                                 Url::to([sprintf('/%s/default/markdown', $mId), 'mId' => $moduleId]) 
-                            );
-                        } else {
-                            printf('<li><a target="_blank" href="%s">Swagger</a></li>',
-                                Url::to([sprintf('/%s/default/swagger', $mId)])
-                            );
-                            printf('<li><a target="_blank" href="%s">Markdown</a></li>',
-                                Url::to([sprintf('/%s/default/markdown', $mId)]) 
                             );
                         }
                     ?>
@@ -116,3 +107,26 @@ $moduleId = Yii::$app->request->get('mId', '');
         <?= $position ?>
     </div>
 </div>
+
+<style type="text/css">
+    #form-fields{
+        max-width: 100%;
+    }
+    .navbar-restbyconfig{
+        position: static;
+        padding: 0;
+    }
+    .navbar-restbyconfig .navbar-brand{
+        line-height: 50px;
+        margin-left: 0 !important;
+    }
+    .navbar-restbyconfig .container-fluid, .navbar-restbyconfig .navbar-nav{
+        display: initial;
+    }
+    .navbar-restbyconfig .navbar-brand{
+        font-size: 18px;
+    }
+    h1, .h1{
+        font-size: 2.875rem;
+    }
+</style>

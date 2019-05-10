@@ -20,40 +20,112 @@ window.jsoneditorOldJson = {
         "url": "http://swagger.io"
     },
     "schemes": "http",
-    "securityDefinitions": {
-        "api_key": {
-            "type": "apiKey",
-            "in": "header",
-            "name": "api_key"
-        }
+    "mySecurity": {
+        "security": "httpBearerAuth",
+        "exclude": ["post /authenticator/login", "post /authenticator/join"]
     },
     "controllers": {
-        "demo": {
+        "authenticator": {
             "description": "Insert a controller node",
-            "defaultPathIdDes": "The setting of defaultPathId will replace the path_params of view,update,delete,options",
-            "defaultPathIdKey": "id",
-            "defaultPathIdVal": "1",
-            "defaultPathIdRule": "\\d+",
-            "defaultPathIdErrorMsg": "Id in path is wrong",
+            "actions": {
+                "join": {
+                    "summary": "get the api token",
+                    "description": "The action's description",
+                    "method": "post",
+                    "uri": "/{controller}/join",
+                    "inputs": {
+                        "body_params": {
+                            "username": {
+                                "des": "User name",
+                                "required": true,
+                                "eg": "myzero1",
+                                "rules": "^.\\w{1,32}$",
+                                "error_msg": "invalid username"
+                            },
+                            "password": {
+                                "des": "password",
+                                "required": true,
+                                "eg": "myzero1",
+                                "rules": "^.{1,32}$",
+                                "error_msg": "invalid password"
+                            }
+                        },
+                        "path_params": {},
+                        "query_params": {}
+                    },
+                    "outputs": {
+                        "code": 200,
+                        "msg": "msg",
+                        "data": {
+                            "username": "myzero1"
+                        }
+                    }
+                },
+                "login": {
+                    "summary": "get the api token",
+                    "description": "The action's description",
+                    "method": "post",
+                    "uri": "/{controller}/login",
+                    "inputs": {
+                        "body_params": {
+                            "username": {
+                                "des": "User name",
+                                "required": true,
+                                "eg": "myzero1",
+                                "rules": "^.\\w{1,32}$",
+                                "error_msg": "invalid username"
+                            },
+                            "password": {
+                                "des": "password",
+                                "required": true,
+                                "eg": "myzero1",
+                                "rules": "^.{1,32}$",
+                                "error_msg": "invalid password"
+                            }
+                        },
+                        "path_params": {},
+                        "query_params": {}
+                    },
+                    "outputs": {
+                        "code": 200,
+                        "msg": "msg",
+                        "data": {
+                            "username": "myzero1",
+                            "api_token": "123456dsfe5w"
+                        }
+                    }
+                }
+            }
+        },
+        "user": {
+            "description": "Insert a controller node",
             "actions": {
                 "create": {
                     "summary": "The create action's summary",
-                    "description": "The create action's description",
+                    "description": "The action's description",
                     "method": "post",
+                    "uri": "/{controller}",
                     "inputs": {
                         "body_params": {
-                            "name": {
-                                "des": "Name",
+                            "username": {
+                                "des": "username",
                                 "required": true,
-                                "eg": "name",
-                                "rules": "^.{0,32}$",
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
                                 "error_msg": "Input parameter error"
                             },
-                            "des": {
-                                "des": "Description",
-                                "required": false,
-                                "eg": "description",
-                                "rules": "^.{0,32}$",
+                            "password": {
+                                "des": "password",
+                                "required": true,
+                                "eg": "myzero1",
+                                "rules": "^.{1,32}$",
+                                "error_msg": "Input parameter error"
+                            },
+                            "status": {
+                                "des": "status",
+                                "required": true,
+                                "eg": 1,
+                                "rules": "^\\d{1,1}$",
                                 "error_msg": "Input parameter error"
                             }
                         },
@@ -64,45 +136,59 @@ window.jsoneditorOldJson = {
                         "code": 200,
                         "msg": "msg",
                         "data": {
-                            "id": 1,
-                            "name": "name",
-                            "des": "description",
+                            "username": "myzero1",
+                            "status": 1,
                             "created_at": "2019-04-28 11:11:11",
                             "updated_at": "2019-04-28 11:11:11"
                         }
                     }
                 },
                 "update": {
-                    "summary": "The update action's summary",
-                    "description": "The update action's description",
+                    "summary": "The create action's summary",
+                    "description": "The action's description",
                     "method": "put",
+                    "uri": "/{controller}/{id}",
                     "inputs": {
                         "body_params": {
-                            "name": {
-                                "des": "Name",
-                                "required": false,
-                                "eg": "name",
-                                "rules": "^.{0,32}$",
+                            "username": {
+                                "des": "username",
+                                "required": true,
+                                "eg": "myzero1",
+                                "rules": "^\\w{1,32}$",
                                 "error_msg": "Input parameter error"
                             },
-                            "des": {
-                                "des": "Description",
-                                "required": false,
-                                "eg": "description",
-                                "rules": "^.{0,32}$",
+                            "password": {
+                                "des": "password",
+                                "required": true,
+                                "eg": "myzero1",
+                                "rules": "^.{1,32}$",
+                                "error_msg": "Input parameter error"
+                            },
+                            "status": {
+                                "des": "status",
+                                "required": true,
+                                "eg": 1,
+                                "rules": "^\\d{1,1}$",
                                 "error_msg": "Input parameter error"
                             }
                         },
-                        "path_params": {},
+                        "path_params": {
+                            "id": {
+                                "des": "id",
+                                "required": true,
+                                "eg": 1,
+                                "rules": "^\\d+$",
+                                "error_msg": "Input parameter error"
+                            }
+                        },
                         "query_params": {}
                     },
                     "outputs": {
                         "code": 200,
                         "msg": "msg",
                         "data": {
-                            "id": 1,
-                            "name": "name",
-                            "des": "description",
+                            "username": "myzero1",
+                            "status": 1,
                             "created_at": "2019-04-28 11:11:11",
                             "updated_at": "2019-04-28 11:11:11"
                         }
@@ -110,20 +196,29 @@ window.jsoneditorOldJson = {
                 },
                 "view": {
                     "summary": "The view action's summary",
-                    "description": "The view action's description",
+                    "description": "The action's description",
                     "method": "get",
+                    "uri": "/{controller}/{id}",
                     "inputs": {
                         "body_params": {},
-                        "path_params": {},
+                        "path_params": {
+                            "id": {
+                                "des": "Id",
+                                "required": true,
+                                "eg": 1,
+                                "rules": "^\\d+$",
+                                "error_msg": "Input parameter error"
+                            }
+                        },
                         "query_params": {}
                     },
                     "outputs": {
                         "code": 200,
                         "msg": "msg",
                         "data": {
-                            "id": 1,
-                            "name": "name",
-                            "des": "desdescription",
+                            "username": "myzero1",
+                            "status": 1,
+                            "api_token": "eHiFYAsL5DMkAiwK-iUJZEon-u42qhpH_1557385911",
                             "created_at": "2019-04-28 11:11:11",
                             "updated_at": "2019-04-28 11:11:11"
                         }
@@ -131,11 +226,20 @@ window.jsoneditorOldJson = {
                 },
                 "delete": {
                     "summary": "The delete action's summary",
-                    "description": "The delete action's description",
+                    "description": "The action's description",
                     "method": "delete",
+                    "uri": "/{controller}/{id}",
                     "inputs": {
                         "body_params": {},
-                        "path_params": {},
+                        "path_params": {
+                            "id": {
+                                "des": "Id",
+                                "required": true,
+                                "eg": 1,
+                                "rules": "^\\d+$",
+                                "error_msg": "Input parameter error"
+                            }
+                        },
                         "query_params": {}
                     },
                     "outputs": {
@@ -148,23 +252,17 @@ window.jsoneditorOldJson = {
                 },
                 "index": {
                     "summary": "The index action's summary",
-                    "description": "The index action's description",
+                    "description": "The action's description",
                     "method": "get",
+                    "uri": "/{controller}",
                     "inputs": {
                         "body_params": {},
                         "path_params": {},
                         "query_params": {
-                            "name": {
-                                "des": "Name",
+                            "username": {
+                                "des": "username",
                                 "required": false,
                                 "eg": "n1",
-                                "rules": "^.{0,32}$",
-                                "error_msg": "Input parameter error"
-                            },
-                            "des": {
-                                "des": "Description",
-                                "required": false,
-                                "eg": "description",
                                 "rules": "^.{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
@@ -178,21 +276,9 @@ window.jsoneditorOldJson = {
                             "page": 1,
                             "page_size": 20,
                             "items": [{
-                                "id": 0,
-                                "name": "n0",
-                                "des": "d0",
-                                "created_at": "2019-04-28 11:11:11",
-                                "updated_at": "2019-04-28 11:11:11"
-                            }, {
                                 "id": 1,
-                                "name": "n1",
-                                "des": "d1",
-                                "created_at": "2019-04-28 11:11:11",
-                                "updated_at": "2019-04-28 11:11:11"
-                            }, {
-                                "id": 2,
-                                "name": "n2",
-                                "des": "d2",
+                                "username": "myzero1",
+                                "status": 1,
                                 "created_at": "2019-04-28 11:11:11",
                                 "updated_at": "2019-04-28 11:11:11"
                             }]
@@ -201,23 +287,17 @@ window.jsoneditorOldJson = {
                 },
                 "export": {
                     "summary": "The export action's summary",
-                    "description": "The export action's description",
+                    "description": "It require \"yii2tech/spreadsheet\" Yii2 extension",
                     "method": "get",
+                    "uri": "/{controller}/export",
                     "inputs": {
                         "body_params": {},
                         "path_params": {},
                         "query_params": {
-                            "name": {
-                                "des": "Name",
+                            "username": {
+                                "des": "username",
                                 "required": false,
-                                "eg": "n1",
-                                "rules": "^.{0,32}$",
-                                "error_msg": "Input parameter error"
-                            },
-                            "des": {
-                                "des": "Description",
-                                "required": false,
-                                "eg": "description",
+                                "eg": "myzero1",
                                 "rules": "^.{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
@@ -231,16 +311,17 @@ window.jsoneditorOldJson = {
                         }
                     }
                 },
-                "custom": {
+                "status": {
                     "summary": "The custom action's summary",
-                    "description": "The custom action's description",
+                    "description": "The action's description",
                     "method": "patch",
+                    "uri": "/{controller}/{id}/status",
                     "inputs": {
                         "body_params": {
-                            "name": {
-                                "des": "Name",
+                            "status": {
+                                "des": "status",
                                 "required": false,
-                                "eg": "rename",
+                                "eg": 2,
                                 "rules": "^.{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
@@ -250,7 +331,7 @@ window.jsoneditorOldJson = {
                                 "des": "Id",
                                 "required": true,
                                 "eg": 1,
-                                "rules": "^\\d{0,32}$",
+                                "rules": "^\\d+$",
                                 "error_msg": "Input parameter error"
                             }
                         },
@@ -261,8 +342,8 @@ window.jsoneditorOldJson = {
                         "msg": "msg",
                         "data": {
                             "id": 1,
-                            "name": "rename",
-                            "des": "description",
+                            "username": "myzero1",
+                            "status": 2,
                             "created_at": "2019-04-28 11:11:11",
                             "updated_at": "2019-04-28 11:11:11"
                         }
@@ -281,16 +362,12 @@ var templates = [
           field: '',
           value: {
               "description": "Insert a controller node",
-              "defaultPathIdDes": "The setting of defaultPathId will replace the path_params of view,update,delete,options",
-              "defaultPathIdKey": "id",
-              "defaultPathIdVal": "1",
-              "defaultPathIdRule": "\\d+",
-              "defaultPathIdErrorMsg": "Id in path is wrong",
               "actions": {
                   "create": {
                       "summary": "The create action's summary",
                       "description": "The action's description",
                       "method": "post",
+                      "uri": "/{controller}",
                       "inputs": {
                           "body_params": {
                               "name": {
@@ -327,6 +404,7 @@ var templates = [
                       "summary": "The update action's summary",
                       "description": "The action's description",
                       "method": "put",
+                      "uri": "/{controller}/{id}",
                       "inputs": {
                           "body_params": {
                               "name": {
@@ -344,7 +422,15 @@ var templates = [
                                   "error_msg": "Input parameter error"
                               }
                           },
-                          "path_params": {},
+                          "path_params": {
+                              "id": {
+                                  "des": "Id",
+                                  "required": true,
+                                  "eg": "name",
+                                  "rules": "^\\d+$",
+                                  "error_msg": "Input parameter error"
+                              }
+                          },
                           "query_params": {}
                       },
                       "outputs": {
@@ -363,9 +449,18 @@ var templates = [
                       "summary": "The view action's summary",
                       "description": "The action's description",
                       "method": "get",
+                      "uri": "/{controller}/{id}",
                       "inputs": {
                           "body_params": {},
-                          "path_params": {},
+                          "path_params": {
+                              "id": {
+                                  "des": "Id",
+                                  "required": true,
+                                  "eg": "name",
+                                  "rules": "^\\d+$",
+                                  "error_msg": "Input parameter error"
+                              }
+                          },
                           "query_params": {}
                       },
                       "outputs": {
@@ -384,9 +479,18 @@ var templates = [
                       "summary": "The delete action's summary",
                       "description": "The action's description",
                       "method": "delete",
+                      "uri": "/{controller}/{id}",
                       "inputs": {
                           "body_params": {},
-                          "path_params": {},
+                          "path_params": {
+                              "id": {
+                                  "des": "Id",
+                                  "required": true,
+                                  "eg": "name",
+                                  "rules": "^\\d+$",
+                                  "error_msg": "Input parameter error"
+                              }
+                          },
                           "query_params": {}
                       },
                       "outputs": {
@@ -401,6 +505,7 @@ var templates = [
                       "summary": "The index action's summary",
                       "description": "The action's description",
                       "method": "get",
+                      "uri": "/{controller}",
                       "inputs": {
                           "body_params": {},
                           "path_params": {},
@@ -454,6 +559,7 @@ var templates = [
                       "summary": "The export action's summary",
                       "description": "The action's description",
                       "method": "get",
+                      "uri": "/{controller}/export",
                       "inputs": {
                           "body_params": {},
                           "path_params": {},
@@ -486,6 +592,7 @@ var templates = [
                       "summary": "The custom action's summary",
                       "description": "The action's description",
                       "method": "patch",
+                      "uri": "/{controller}/{id}/custom",
                       "inputs": {
                           "body_params": {
                               "name": {
@@ -544,6 +651,7 @@ var templates = [
               "summary": "The create action's summary",
               "description": "The create action's description",
               "method": "post",
+              "uri": "/{controller}",
               "inputs": {
                   "body_params": {
                       "name": {
@@ -586,6 +694,7 @@ var templates = [
               "summary": "The update action's summary",
               "description": "The update action's description",
               "method": "put",
+              "uri": "/{controller}/{id}",
               "inputs": {
                   "body_params": {
                       "name": {
@@ -603,7 +712,15 @@ var templates = [
                           "error_msg": "Input parameter error"
                       }
                   },
-                  "path_params": {},
+                  "path_params": {
+                      "id": {
+                          "des": "Id",
+                          "required": true,
+                          "eg": 1,
+                          "rules": "^\\d{0,32}$",
+                          "error_msg": "Input parameter error"
+                      }
+                  },
                   "query_params": {}
               },
               "outputs": {
@@ -628,9 +745,18 @@ var templates = [
               "summary": "The view action's summary",
               "description": "The view action's description",
               "method": "get",
+              "uri": "/{controller}/{id}",
               "inputs": {
                   "body_params": {},
-                  "path_params": {},
+                  "path_params": {
+                      "id": {
+                          "des": "Id",
+                          "required": true,
+                          "eg": 1,
+                          "rules": "^\\d{0,32}$",
+                          "error_msg": "Input parameter error"
+                      }
+                  },
                   "query_params": {}
               },
               "outputs": {
@@ -655,9 +781,18 @@ var templates = [
               "summary": "The delete action's summary",
               "description": "The delete action's description",
               "method": "delete",
+              "uri": "/{controller}/{id}",
               "inputs": {
                   "body_params": {},
-                  "path_params": {},
+                  "path_params": {
+                      "id": {
+                          "des": "Id",
+                          "required": true,
+                          "eg": 1,
+                          "rules": "^\\d{0,32}$",
+                          "error_msg": "Input parameter error"
+                      }
+                  },
                   "query_params": {}
               },
               "outputs": {
@@ -678,6 +813,7 @@ var templates = [
               "summary": "The index action's summary",
               "description": "The index action's description",
               "method": "get",
+              "uri": "/{controller}",
               "inputs": {
                   "body_params": {},
                   "path_params": {},
@@ -737,6 +873,7 @@ var templates = [
               "summary": "The export action's summary",
               "description": "The export action's description",
               "method": "get",
+              "uri": "/{controller}/export",
               "inputs": {
                   "body_params": {},
                   "path_params": {},
@@ -775,6 +912,7 @@ var templates = [
               "summary": "The custom action's summary",
               "description": "The custom action's description",
               "method": "patch",
+              "uri": "/{controller}/{id}/custom",
               "inputs": {
                   "body_params": {
                       "name": {
@@ -909,6 +1047,17 @@ var schemas = {
             "schemes": {
                 "title": "schemes",
                 "enum": ["https", "http"]
+            },
+            "mySecurity": {
+                "title": "mySecurity description",
+                "type": "object",
+                "required": ["security"],
+                "properties": {
+                    "security": {
+                        "title": "security",
+                        "enum": ["queryParamAuth","httpBasicAuth", "httpBearerAuth"]
+                    }
+                }
             },
             "securityDefinitions": {
                 "title": "securityDefinitions description",

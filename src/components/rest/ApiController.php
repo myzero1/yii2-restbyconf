@@ -1,11 +1,18 @@
 <?php
 /**
- * Api接口基类
+ * @link https://github.com/myzero1
+ * @copyright Copyright (c) 2019- My zero one
+ * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
+
 namespace myzero1\restbyconf\components\rest;
 
+use Yii;
 use yii\web\Response;
 use yii\rest\ActiveController;
+use yii\filters\auth\CompositeAuth;
+use yii\filters\auth\HttpBasicAuth;
+use yii\filters\auth\QueryParamAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\RateLimiter;
 use yii\filters\Cors;
@@ -16,8 +23,8 @@ class ApiController extends ActiveController
     public $apiActionClass = '\myzero1\restbyconf\components\rest\ApiAction';
     public $modelClass = '';
     public $optional = [
-       'login',
-       'join',
+        'login',
+        'join',
     ];
     //重写动作
     public $rewriteActions = [
@@ -40,6 +47,18 @@ class ApiController extends ActiveController
 
     public function behaviors()
     {
+        $method = Yii::$app->request->method;
+        $controllerId = Yii::$app->controller->id;
+        $actionId = Yii::$app->controller->action->id;
+        $uri  = sprintf('%s /%s/%s', strtolower($method), $controllerId, $actionId);
+        $unAuthenticateActions = Yii::$app->params['unAuthenticateActions'];
+
+        if (in_array($uri, $unAuthenticateActions)) {
+            $this->optional = [$actionId];
+        } else {
+            $this->optional = [];
+        }
+
         $behaviors = parent::behaviors();
         $behaviors['contentNegotiator']['formats']['text/html'] = Response::FORMAT_JSON;
 
@@ -67,40 +86,44 @@ class ApiController extends ActiveController
                 'Access-Control-Allow-Credentials' => false,
             ],
         ];
-        /*
+
         $behaviors['authenticator'] = [
-            'class' => HttpBearerAuth::className(),
-            'optional' => $this->optional,
-            'except'=> ['options'] //认证排除OPTIONS请求
+            'class' => CompositeAuth::className(),
+            'optional' => $this->optional,//认证排除
+            'except' => ['options'], //认证排除OPTIONS请求
+            'authMethods' => [
+                [
+                    'class' => HttpBasicAuth::className(),
+                    // 如果未设置此属性，则用户名信息将被视为访问令牌。 而密码信息将被忽略。在 yii\web\User::loginByAccessToken() 将调用方法对用户进行身份验证和登录。
+                    // 如果要使用用户名和密码对用户进行身份验证，您应该提供 $auth 功能例如：
+                    'auth' => function ($username, $password) {
+                        $user = ApiAuthenticator::find()->where(['username' => $username])->one();
+                        if ($user && $user->validatePassword($password, $user->password_hash)) {
+                            return $user;
+                        }
+                        return null;
+                    },
+                ],
+                [
+                    'class' => QueryParamAuth::className(),
+                    'tokenParam' => 'token',
+                ],
+                [
+                    'class' => HttpBearerAuth::className(),
+                ],
+            ]
         ];
-        */
-        # rate limit部分，速度的设置是在
-        #   app\models\User::getRateLimit($request, $action)
-        /*  官方文档：
-            当速率限制被激活，默认情况下每个响应将包含以下HTTP头发送 目前的速率限制信息：
-            X-Rate-Limit-Limit: 同一个时间段所允许的请求的最大数目;
-            X-Rate-Limit-Remaining: 在当前时间段内剩余的请求的数量;
-            X-Rate-Limit-Reset: 为了得到最大请求数所等待的秒数。
-            你可以禁用这些头信息通过配置 yii\filters\RateLimiter::enableRateLimitHeaders 为false, 就像在上面的代码示例所示。
-        */
-        /*
-        $behaviors['rateLimiter'] = [
-            'class' => RateLimiter::className(),
-            'enableRateLimitHeaders' => true,
-        ];
-        */
 
         return $behaviors;
     }
 
     public function actions()
     {
-        $actions =  parent::actions();
+        $actions = parent::actions();
         //unset rewrite actions
-        if(!empty($this->rewriteActions)){
-            foreach ($this->rewriteActions as $actionKey)
-            {
-                if(isset($actions[$actionKey])&&$actionKey!='options') unset($actions[$actionKey]);
+        if (!empty($this->rewriteActions)) {
+            foreach ($this->rewriteActions as $actionKey) {
+                if (isset($actions[$actionKey]) && $actionKey != 'options') unset($actions[$actionKey]);
             }
         }
         //fix options action

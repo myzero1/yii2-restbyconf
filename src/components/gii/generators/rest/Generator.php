@@ -128,8 +128,17 @@ EOD;
     public function generate()
     {
         $this->confAarray = json_decode($this->conf, true);
-        $this->moduleID = trim($this->confAarray['json']['basePath'], '/');
-        $this->moduleClass = sprintf('app\modules\%s\%s', $this->moduleID, 'RestByConfModule');
+
+        $mId = Yii::$app->request->get('mId', '');
+        if ($mId) {
+            $this->moduleID = $mId;
+        } else {
+            $this->moduleID = trim($this->confAarray['json']['basePath'], '/');
+        }
+
+//        $this->moduleClass = sprintf('app\modules\%s\%s', $this->moduleID, 'RestByConfModule');
+        $this->moduleClass = ApiHelper::getModuleClass($this->moduleID, true);
+
         $files = [];
 
         // for rest api
@@ -142,7 +151,8 @@ EOD;
 
         // save conf to file
         $files[] = new CodeFile(
-            Yii::getAlias(sprintf('@app/modules/%s/config/conf.json', $this->moduleID)),
+//            Yii::getAlias(sprintf('@app/modules/%s/config/conf.json', $this->moduleID)),
+            sprintf('%s/config/conf.json', ApiHelper::getModulePath($this->moduleID)),
             $this->conf
         );
 
@@ -150,13 +160,48 @@ EOD;
         $controllers = $confAarray['json']['controllers'];
         $controllers = ApiHelper::rmNode($controllers);
         $curdi = ['create', 'update', 'view', 'delete', 'index', ];
+        $version = trim($confAarray['json']['basePath'], '/');
         $rules = "<?php\n";
+        $rules .= sprintf("\$version = '%s';\n", $version);
+        $rules .= sprintf("\$moduleName = '%s';\n", $version);
         $rules .= "return [\n";
+        $rules .= "    // defult\n";
+        $rules .= "    [\n";
+        $rules .= "        'class' => 'yii\\rest\UrlRule',\n";
+        $rules .= "        'pluralize' => false,\n";
+        $rules .= "        'controller' => [\n";
+        $controllerKeys = array_keys($controllers);
+        foreach ($controllerKeys as $k => $v) {
+            $v = ApiHelper::uncamelize($v, $separator = '-');
+            $rules .= sprintf("            \$moduleName . '/%s',\n", $v);
+        }
+        $rules .= "        ],\n";
+        $rules .= "        'extraPatterns' => extraPatterns\n";
+        $rules .= "    ],\n\n";
+
+        $rules .= "    // custom\n";
+        $extra = [];
         foreach ($controllers as $controllerK => $controllerV) {
-            $extra = [];
             $actions = $controllerV['actions'];
-            $actions = ApiHelper::rmNode($actions);
+            $controllerK = ApiHelper::uncamelize($controllerK, $separator = '-');
             foreach ($actions as $actionK => $actionV) {
+                $uri = str_replace('{controller}', $controllerK, $actionV['uri']);
+                $pathParams = $actionV['inputs']['path_params'];
+                $pathParams = ApiHelper::rmNode($pathParams);
+//                $tmpIds = [];
+                foreach ($pathParams as $pathParamK => $pathParamV) {
+                    $rulesTmp = $pathParamV['rules'];
+                    $rulesTmp = trim($rulesTmp, '^');
+                    $rulesTmp = trim($rulesTmp, '$');
+                    $pathParam = sprintf('<%s:%s>', $pathParamK, $rulesTmp);
+                    $uri = str_replace('{'.$pathParamK.'}', $pathParam, $uri);
+                }
+
+                $actionK = ApiHelper::uncamelize($actionK, '-');
+                $uri = sprintf("'%s,OPTIONS ' . %s .' %s' => %s . '/%s/%s'", strtoupper($actionV['method']), '$version', $uri, '$moduleName', $controllerK, $actionK);
+
+                $rules .= sprintf("    %s,\n", $uri);
+
                 if (!in_array($actionK, $curdi)) {
                     $tmp = sprintf('%s,OPTIONS ', strtoupper($actionV['method']));
                     $pathParams = $actionV['inputs']['path_params'];
@@ -172,65 +217,32 @@ EOD;
 
                     $tmpIdsStr = implode('/', $tmpIds);
                     $tmp = sprintf('%s%s', $tmp, $tmpIdsStr);
-
                     $actionK = ApiHelper::uncamelize($actionK, '-');
                     $tmp = sprintf("'%s/%s' => '%s'", $tmp, $actionK, $actionK);
                     $extra[] = $tmp;
                 }
+
             }
-
-            $version = trim($confAarray['json']['basePath'], '/');
-            $controllerK = ApiHelper::uncamelize($controllerK, $separator = '-');
-
-            $rules .= sprintf("    '%s/%s' => [\n", $version, $controllerK);
-            $rules .= sprintf("        'controller' => ['%s/%s'],\n", $version, $controllerK);
-            $rules .= sprintf("        'class' => '\\yii\\rest\UrlRule',\n");
-            $rules .= sprintf("        'pluralize' => false,\n");
-
-            if ($controllerV['defaultPathIdRule']) {
-                $idPattern = $controllerV['defaultPathIdRule'];
-            } else {
-                $idPattern = '\d+';
-            }
-            if ($controllerV['defaultPathIdKey']) {
-                $idKey = $controllerV['defaultPathIdKey'];
-            } else {
-                $idKey = 'id';
-            }
-            $patterns = [
-                sprintf('PUT,PATCH {%s}', $idKey) => 'update',
-                sprintf('DELETE {%s}', $idKey) => 'delete',
-                sprintf('GET,HEAD {%s}', $idKey) => 'view',
-                sprintf('{%s}', $idKey) => 'options',
-                'POST' => 'create',
-                'GET,HEAD' => 'index',
-                '' => 'options',
-            ];
-
-            $rules .= sprintf("        'tokens' => [\n");
-            $rules .= sprintf("            '{%s}' => '<%s:%s>',\n", $idKey, $idKey, $idPattern);
-            $rules .= sprintf("        ],\n");
-
-            $rules .= sprintf("        'patterns' => [\n");
-            foreach ($patterns as $k => $v) {
-                $rules .= sprintf("            '%s' => '%s',\n", $k, $v);
-            }
-            $rules .= sprintf("        ],\n");
-
-            if (count($extra)) {
-                $rules .= sprintf("        'extraPatterns' => [\n");
-                foreach ($extra as $key => $value) {
-                    $rules .= sprintf("            %s,\n", $value);
-                }
-                $rules .= sprintf("        ],\n");
-            }
-            $rules .= sprintf("    ],\n");
+            $rules .= "\n";
         }
 
+        // $rules .= "\n";
         $rules .= "];\n";
+
+        if (count($extra)) {
+            $rulesExtra = sprintf("'extraPatterns' => [\n");
+            $extra = array_unique($extra);
+            foreach ($extra as $key => $value) {
+                $rulesExtra .= sprintf("            %s,\n", $value);
+            }
+            $rulesExtra .= sprintf("        ],\n");
+        }
+
+        $rules = str_replace("'extraPatterns' => extraPatterns", $rulesExtra, $rules);
         
         $files[] = new CodeFile(
-            Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $this->moduleID)),
+//            Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $this->moduleID)),
+            sprintf('%s/config/apiUrlRules.php', ApiHelper::getModulePath($this->moduleID)),
             $rules
         );
 
@@ -243,7 +255,9 @@ EOD;
     public function generateRest()
     {
         $files = [];
-        $modulePath = $this->getModulePath();
+//        $modulePath = $this->getModulePath();
+        $modulePath = ApiHelper::getModulePath($this->moduleID);
+
         $files[] = new CodeFile(
             $modulePath . '/' . StringHelper::basename($this->moduleClass) . '.php',
             $this->render("module.php")
@@ -280,13 +294,13 @@ EOD;
                     );
                 } else {
                     $files[] = new CodeFile(
-                        sprintf('%s/processing/%s/%s.php', $modulePath, ucwords($controller), ucwords($action)),
+                        sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
                         $this->render('rest/template/ApiCustomProcessing.php')
                     );
                 }
 
                 $files[] = new CodeFile(
-                    sprintf('%s/processing/%s/io/%sIo.php', $modulePath, ucwords($controller), ucwords($action)),
+                    sprintf('%s/processing/%s/io/%sIo.php', $modulePath, $controller, ucwords($action)),
                     $this->render('rest/ApiIoProcessing.php')
                 );
             }

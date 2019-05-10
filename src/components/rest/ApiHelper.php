@@ -381,9 +381,14 @@ class ApiHelper
      * @param string $moduleId
      * @return array
      */
-    public static function getApiConf($moduleId='v1')
+    public static function getApiConf($moduleId)
     {
-        $confDataPathTmp = Yii::getAlias(sprintf('@app/modules/%s/config/conf.json', $moduleId));
+        if ($moduleId) {
+            $path = self::getModulePath($moduleId);
+        } else {
+            $path = '';
+        }
+        $confDataPathTmp = sprintf('%s/config/conf.json', $path);
         $confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/conf.json');
 
         if (is_file($confDataPathTmp)) {
@@ -404,9 +409,14 @@ class ApiHelper
      * @param string $moduleId
      * @return array
      */
-    public static function getApiUrlRules($moduleId='v1')
+    public static function getApiUrlRules($moduleId)
     {
-        $confDataPathTmp = Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $moduleId));
+        if ($moduleId) {
+            $path = self::getModulePath($moduleId);
+        } else {
+            $path = '';
+        }
+        $confDataPathTmp = sprintf('%s/config/apiUrlRules.php', $path);
         $confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/apiUrlRules.php');
 
         if (is_file($confDataPathTmp)) {
@@ -468,7 +478,7 @@ class ApiHelper
     {
         return array_filter(
             $input,
-            function($v){
+            function ($v) {
                 return !in_array(
                     $v,
                     $invalidParams = [
@@ -542,15 +552,23 @@ class ApiHelper
      * @param   void
      * @return  string
      **/
-    public static function getRestModuleName(){
+    public static function getRestModuleName()
+    {
         foreach (\Yii::$app->modules as $key => $value) {
             if (!is_array($value)) {
-                if ('myzero1\restbyconf\Module' == $value::className()) {
-                    return $key;
+                if (is_object($value)) {
+                    if ('myzero1\restbyconf\Module' == $value::className()) {
+                        return $key;
+                    }
+                } else {
+                    if ('myzero1\restbyconf\Module' == $value) {
+                        return $key;
+                    }
                 }
             }
         }
-        return 'nRestbyconfModule';
+
+        return 'RestbyconfModule';
     }
 
     /**
@@ -561,12 +579,15 @@ class ApiHelper
      * @param   void
      * @return  string
      **/
-    public static function getRestByConfModuleId(){
+    public static function getRestByConfModuleId()
+    {
         $moduleId = [];
         foreach (\Yii::$app->modules as $key => $value) {
             if (!is_array($value)) {
-                if (stripos($value::className(), "RestByConfModule") !== false) {
-                    $moduleId[] = $key;
+                if (is_object($value)) {
+                    if (stripos($value::className(), "RestByConfModule") !== false) {
+                        $moduleId[] = $key;
+                    }
                 }
             }
         }
@@ -581,9 +602,10 @@ class ApiHelper
      * @param   obj $generator
      * @return  bool
      **/
-    public static function isRestGenerator ($generator){
+    public static function isRestGenerator($generator)
+    {
         $attributes = $generator->attributes;
-        $restAttributes = ['conf', 'position', 'confAarray', 'moduleClass', 'moduleID', 'controller', 'action', 'controllerV', ];
+        $restAttributes = ['conf', 'position', 'confAarray', 'moduleClass', 'moduleID', 'controller', 'action', 'controllerV',];
 
         foreach ($restAttributes as $k => $v) {
             if (in_array($v, $attributes)) {
@@ -603,12 +625,75 @@ class ApiHelper
      * @param   int $code
      * @return  array
      **/
-    public static function getModelError($model, $code){
+    public static function getModelError($model, $code)
+    {
         $errors = $model->errors;
         return [
             'code' => $code,
             'msg' => Helper::getErrorMsg($errors),
             'data' => $errors,
         ];
+    }
+
+    /**
+     * @param   string $className
+     * @return  string
+     **/
+    public static function getClassPath($className = 'myzero1\restbyconf\Module')
+    {
+        $reflection = new \ReflectionClass($className);
+        $fileName = $reflection->getFileName();
+        return $fileName;
+    }
+
+    /**
+     * @param   int $moduleId
+     * @return  string
+     **/
+    public static function getModuleClass($moduleId, $setDefault = false)
+    {
+        if (isset(Yii::$app->modules[$moduleId])) {
+            if (is_object(Yii::$app->modules[$moduleId])) {
+                return Yii::$app->modules[$moduleId]->className();
+            } else {
+                return Yii::$app->modules[$moduleId];
+            }
+        } else {
+            if ($setDefault) {
+                return sprintf('app\modules\%s\%s', $moduleId, 'RestByConfModule');
+            } else {
+                self::throwError(sprintf('Not found module "%s"', $moduleId), __FILE__, __LINE__);
+            }
+        }
+    }
+
+    /**
+     * @param   string $msg
+     * @param   string $filePath
+     * @param   string $lineNum
+     **/
+    public static function throwError($msg, $filePath, $lineNum)
+    {
+        $fileMsg = sprintf('in file:%s', $filePath);
+        $lineMsg = sprintf('on file:%s', $lineNum);
+        $msgs = "{$msg}\n{$fileMsg}\n{$lineMsg}";
+        throw new ServerErrorHttpException($msgs);
+    }
+
+    /**
+     * @param   string $moduleId
+     * @return  string
+     **/
+    public static function getModulePath($moduleId)
+    {
+        $moduleClass = self::getModuleClass($moduleId, true);
+        if (class_exists($moduleClass)) {
+            $moduleFilePath = self::getClassPath($moduleClass);
+            $modulePath = dirname($moduleFilePath);
+        } else {
+            $modulePath = sprintf('%s/modules/%s', Yii::getAlias('@app'), $moduleId);
+        }
+
+        return $modulePath;
     }
 }
