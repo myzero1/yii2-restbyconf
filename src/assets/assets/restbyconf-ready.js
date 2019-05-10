@@ -973,8 +973,7 @@ var schemas = {
                     "version": {
                         "title": "The api version",
                         "type": ["number", "string"],
-                        "pattern": "^[0-9][0-9.]{0,}[0-9]$",
-                        "examples": ["1.0.0", "1.0.1"]
+                        "examples": ["1.0.0", "1.0.1", "v1"]
                     },
                     "title": {
                         "title": "Api title",
