@@ -1,6 +1,6 @@
 <?php
-$version = 'v1';
-$moduleName = 'v1';
+$version = 'example';
+$moduleName = 'example';
 return [
     // defult
     [
