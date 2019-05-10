@@ -10,10 +10,8 @@ $asset = myzero1\restbyconf\assets\php\JsonEditorAsset::register($this);
 // basePath
 if ($generator->conf) {
     $conf = json_decode($generator->conf, true);
-    $moduleId = trim($conf['json']['basePath'], '/');
-} else {
-    $moduleId = Yii::$app->request->get('mId', 'v1');
 }
+$moduleId = Yii::$app->request->get('mId', '');
 $confDataInit = ApiHelper::getApiConf($moduleId);
 // $confDataInit = '';
 

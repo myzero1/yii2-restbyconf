@@ -381,9 +381,16 @@ class ApiHelper
      * @param string $moduleId
      * @return array
      */
-    public static function getApiConf($moduleId='v1')
+    public static function getApiConf($moduleId)
     {
-        $confDataPathTmp = Yii::getAlias(sprintf('@app/modules/%s/config/conf.json', $moduleId));
+        if ($moduleId) {
+            $moduleClass = self::getModuleClass($moduleId);
+            $fileName = self::getClassPath($moduleClass);
+            $path = dirname($fileName);
+        } else {
+            $path = '';
+        }
+        $confDataPathTmp = sprintf('%s/config/conf.json', $path);
         $confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/conf.json');
 
         if (is_file($confDataPathTmp)) {
@@ -404,9 +411,16 @@ class ApiHelper
      * @param string $moduleId
      * @return array
      */
-    public static function getApiUrlRules($moduleId='v1')
+    public static function getApiUrlRules($moduleId)
     {
-        $confDataPathTmp = Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $moduleId));
+        if ($moduleId) {
+            $moduleClass = self::getModuleClass($moduleId);
+            $fileName = self::getClassPath($moduleClass);
+            $path = dirname($fileName);
+        } else {
+            $path = '';
+        }
+        $confDataPathTmp = sprintf('%s/config/apiUrlRules.php', $path);
         $confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/apiUrlRules.php');
 
         if (is_file($confDataPathTmp)) {
@@ -610,5 +624,38 @@ class ApiHelper
             'msg' => Helper::getErrorMsg($errors),
             'data' => $errors,
         ];
+    }
+
+    /**
+     * @param   string $className
+     * @return  string
+     **/
+    public static function getClassPath($className = 'myzero1\restbyconf\Module'){
+        $reflection = new \ReflectionClass($className);
+        $fileName = $reflection->getFileName();
+        return $fileName;
+    }
+
+    /**
+     * @param   int $moduleId
+     * @return  string
+     **/
+    public static function getModuleClass($moduleId){
+        if (isset(Yii::$app->modules[$moduleId])) {
+            return Yii::$app->modules[$moduleId]->className();
+        } else {
+            self::throwError(sprintf('Not found module "%s"', $moduleId), __FILE__, __LINE__);
+        }
+    }
+
+    /**
+     * @param   int $moduleId
+     * @return  string
+     **/
+    public static function throwError($msg, $filePath, $lineNum){
+        $fileMsg = sprintf('in file:%s', $filePath);
+        $lineMsg = sprintf('on file:%s', $lineNum);
+        $msgs = "{$msg}\n{$fileMsg}\n{$lineMsg}";
+        throw new ServerErrorHttpException($msgs);
     }
 }
