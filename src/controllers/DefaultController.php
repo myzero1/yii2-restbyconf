@@ -236,6 +236,7 @@ class DefaultController extends Controller
             ];
         }
 
+        $json['basePath'] = '/' . $json['info']['version'];
         // var_dump($json);exit;
 
         return json_encode($json);
