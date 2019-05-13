@@ -29,7 +29,8 @@ class DefaultController extends Controller
     public function actionSwagger()
     {
         $mId = Yii::$app->request->get('mId', '');
-        $url = Url::to([sprintf('/%s/default/swagger-json', $this->module->id), 'mId' => $mId]);
+        $host = Yii::$app->request->get('host', '');
+        $url = Url::to([sprintf('/%s/default/swagger-json', $this->module->id), 'mId' => $mId, 'host' => $host]);
         return $this->renderAjax('swagger', ['url' => $url]);
     }
 
@@ -237,10 +238,13 @@ class DefaultController extends Controller
         }
 
         $json['basePath'] = '/' . $json['info']['version'];
-        // var_dump($json);exit;
+
+        $host = Yii::$app->request->get('host');
+        if (!empty($host)) {
+            $json['host'] = $host;
+        }
 
         return json_encode($json);
-        return $swaggerData;
     }
 
     /**
