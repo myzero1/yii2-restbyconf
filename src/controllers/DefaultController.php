@@ -138,7 +138,6 @@ class DefaultController extends Controller
                         'name' => 'bodyParams',
                         'description' => 'body params description',
                         'required' => $bodyParamsRequired,
-                        // 'schema' => $schema,
                         'schema' => [
                             'title' => sprintf('bodyInputs(%s /%s%s/%s?', $v1['method'], $k, $pathTag, $k1),
                             "type" => "object",
@@ -149,29 +148,10 @@ class DefaultController extends Controller
 
                 $inputParams = array_merge($pathParams, $queryParams, $bodyParams);
 
-                /*$vud = [
-                    'view',
-                    'update',
-                    'delete',
-                ];
-                // $controllerV['defaultPathIdKey'], $controllerV['defaultPathIdRule'], $controllerV['defaultPathIdErrorMsg']);
-                if (in_array($k1, $vud)) {
-                    $pathParam = [
-                        'in' => 'path',
-                        'name' => $v['defaultPathIdKey'],
-                        'description' => $v['defaultPathIdKey'] . ' description',
-                        'type' => 'string',
-                        'required' => true,
-                        'default' => $v['defaultPathIdVal'],
-                    ];
-                    array_unshift($inputParams, $pathParam);
-                }*/
-
                 $outputParams = [];
                 $path_outputs = $v1['outputs'];
                 $path_outputs = ApiHelper::rmNode($path_outputs);
 
-                // $dataStr = json_encode($path_outputs);
                 $dataStr = json_encode($path_outputs, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
 
                 $outputParams['200'] = [
@@ -180,12 +160,9 @@ class DefaultController extends Controller
                     'example' => $dataStr,
                 ];
 
-                // var_dump($inputParams);exit;
-
                 // $pathName = '/demo/{id}';
                 $k1 = ApiHelper::uncamelize($k1, '-');
                 $pathName = sprintf('/%s%s/%s', $k, $pathTag, $k1);
-                // var_dump($pathName);exit;
                 $path[$v1['method']] = [
                     'tags' => [$k],
                     'description' => $v1['description'],
@@ -193,11 +170,6 @@ class DefaultController extends Controller
                     'operationId' => $k . '' . str_replace('/', '-', str_replace('}', '', str_replace('{', '', $pathName))),
                     'parameters' => $inputParams,
                     'responses' => $outputParams,
-                    // 'security' => [
-                    //     [
-                    //         'httpBearerAuth' => [],
-                    //     ]
-                    // ],
                 ];
 
                 $mytag = sprintf('%s %s', $v1['method'], $pathName);
@@ -212,19 +184,7 @@ class DefaultController extends Controller
                 }
 
                 $pathName = str_replace('{controller}', $k, $v1['uri']);
-                if ($k1 == 'create') {
-                    $paths[$pathName]['post'] = $path[$v1['method']];
-                } else if ($k1 == 'index') {
-                    $paths[$pathName]['get'] = $path[$v1['method']];
-                } else if ($k1 == 'update') {
-                    $paths[$pathName]['put'] = $path[$v1['method']];
-                } else if ($k1 == 'view') {
-                    $paths[$pathName]['get'] = $path[$v1['method']];
-                } else if ($k1 == 'delete') {
-                    $paths[$pathName]['delete'] = $path[$v1['method']];
-                } else {
-                    $paths[$pathName] = $path;
-                }
+                $paths[$pathName][$v1['method']] = $path[$v1['method']];
             }
         }
 
@@ -296,10 +256,6 @@ class DefaultController extends Controller
                 $content .= sprintf("\n<a name='1.2.%s.%s' ></a> \n", $i, $j);
                 $content .= sprintf("#### 1.2.%s.%s. %s \n", $i, $j, $action);
                 $content .= sprintf("> [Go table](#1.1) \n\n");
-                // $content .= sprintf("&nbsp;`summary` \n\n");
-                // $content .= sprintf("%s \n\n", $actionsV['summary']);
-                // $content .= sprintf("&nbsp;`description` \n\n");
-                // $content .= sprintf("%s \n", $actionsV['description']);
                 $content .= sprintf("\n&nbsp;`Basic info` \n\n");
                 $content .= sprintf("| Items | Detail | \n");
                 $content .= sprintf("|-------|:---------:| \n");
@@ -396,7 +352,6 @@ class DefaultController extends Controller
 style;
         $markdownHtml = $markdownHtml . $style;
 
-        // return $this->render('markdown', ['markdownHtml' => $markdownHtml]);
         return $this->renderAjax('markdown', ['markdownHtml' => $markdownHtml]);
     }
 
