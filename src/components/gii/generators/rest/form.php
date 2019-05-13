@@ -7,10 +7,6 @@ use yii\helpers\Url;
 
 $asset = myzero1\restbyconf\assets\php\JsonEditorAsset::register($this);
 
-// basePath
-if ($generator->conf) {
-    $conf = json_decode($generator->conf, true);
-}
 $moduleId = Yii::$app->request->get('mId', '');
 $confDataInit = ApiHelper::getApiConf($moduleId);
 // $confDataInit = '';
@@ -77,9 +73,13 @@ $moduleId = Yii::$app->request->get('mId', '');
             <div>
                 <ul class="nav navbar-nav">
                     <?php 
+                        $confDataArry = json_decode($confData, true);
+                        $host = $confDataArry['json']['host'];
+
                         if ($moduleId != '') {
+                            $host = 
                             printf('<li><a target="_blank" href="%s">Swagger</a></li>',
-                                Url::to([sprintf('/%s/default/swagger', $mId), 'mId' => $moduleId]) 
+                                Url::to([sprintf('/%s/default/swagger', $mId), 'mId' => $moduleId, 'host' => $host]) 
                             );
                             printf('<li><a target="_blank" href="%s">Markdown</a></li>',
                                 Url::to([sprintf('/%s/default/markdown', $mId), 'mId' => $moduleId]) 
