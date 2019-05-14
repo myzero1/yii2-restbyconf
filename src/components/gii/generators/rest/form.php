@@ -111,6 +111,7 @@ $moduleId = Yii::$app->request->get('mId', '');
 <style type="text/css">
     #form-fields{
         max-width: 100%;
+        width: 100%;
     }
     .navbar-restbyconfig{
         position: static;
