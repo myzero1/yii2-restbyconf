@@ -81,11 +81,11 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
             return false;
         }
         $timestamp = (int)substr($token, strrpos($token, '_') + 1);
-        if (isset($app->params['apiTokenExpire'])) {
-            $expire = Yii::$app->params['apiTokenExpire'];
-        } else {
+        $expire = Yii::$app->user->authTimeout;
+        if (is_null($expire)) {
             $expire = self::API_TOKEN_EXPIRE;
         }
+
         return $timestamp + $expire >= time();
     }
 
