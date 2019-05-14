@@ -75,6 +75,7 @@ echo "<?php\n";
 namespace <?=$processingClassNs?>;
 
 use Yii;
+use yii\db\Query;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
