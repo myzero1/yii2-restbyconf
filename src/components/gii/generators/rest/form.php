@@ -119,14 +119,18 @@ $moduleId = Yii::$app->request->get('mId', '');
     .navbar-restbyconfig .navbar-brand{
         line-height: 50px;
         margin-left: 0 !important;
+        padding-left: 15px;
+    }
+    .navbar-restbyconfig .container-fluid{
+        padding: 0;
     }
     .navbar-restbyconfig .container-fluid, .navbar-restbyconfig .navbar-nav{
-        display: initial;
+    display: initial;
     }
     .navbar-restbyconfig .navbar-brand{
-        font-size: 18px;
+    font-size: 18px;
     }
     h1, .h1{
-        font-size: 2.875rem;
+    font-size: 2.875rem;
     }
 </style>
