@@ -237,10 +237,10 @@ EOD;
                 $rulesExtra .= sprintf("            %s,\n", $value);
             }
             $rulesExtra .= sprintf("        ],\n");
+
+            $rules = str_replace("'extraPatterns' => extraPatterns", $rulesExtra, $rules);
         }
 
-        $rules = str_replace("'extraPatterns' => extraPatterns", $rulesExtra, $rules);
-        
         $files[] = new CodeFile(
 //            Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $this->moduleID)),
             sprintf('%s/config/apiUrlRules.php', ApiHelper::getModulePath($this->moduleID)),
