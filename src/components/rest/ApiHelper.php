@@ -696,4 +696,22 @@ class ApiHelper
 
         return $modulePath;
     }
+
+    /**
+     * @param   array $array
+     * @param   mixed $key
+     * @param   mixed $defafult
+     * @return  mixed
+     **/
+    public static function getArrayVal($array, $key, $defafult='')
+    {
+        $result = '';
+        if (isset($array[$key])) {
+            $result = $array[$key];
+        } else {
+            $result = $defafult;
+        }
+
+        return $result;
+    }
 }

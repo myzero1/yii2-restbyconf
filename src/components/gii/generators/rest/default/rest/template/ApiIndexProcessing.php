@@ -194,7 +194,8 @@ class <?=$actionClass?> implements ApiActionProcessing
 
         // $query -> groupBy(['kc.keyword_id']);
 
-        // $sort = ApiHelper::getSort($completedData['sort'], array_keys($outFieldNames), '+id');
+        // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
+        // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');
         // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
         $query->select(array_values($outFieldNames));
