@@ -78,7 +78,7 @@ class ApiHelper
      */
     public static function db2OutputField($db, $outputFieldMap = [])
     {
-        if (count($outputFieldMap)) {
+        if (count($outputFieldMap) === 0) {
             return $db;
         } else {
             foreach ($db as $k => $v) {
