@@ -24,7 +24,7 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
 {
     public $authKey;
     public $accessToken;
-    const API_TOKEN_EXPIRE = 86400;
+    const API_TOKEN_EXPIRE = 86400; // 24h
 
     public function behaviors()
     {
