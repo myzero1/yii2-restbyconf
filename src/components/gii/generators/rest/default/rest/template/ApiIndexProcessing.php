@@ -176,7 +176,7 @@ class <?=$actionClass?> implements ApiActionProcessing
                 ['=', 'is_del', 0],
             ]);
 
-        $query->select(['id']);
+        $query->select(['1']);
 
         $result['total'] = intval($query->count());
         $pagination = ApiHelper::getPagination($completedData);
