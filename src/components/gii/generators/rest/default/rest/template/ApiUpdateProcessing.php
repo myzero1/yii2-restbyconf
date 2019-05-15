@@ -154,7 +154,7 @@ class <?=$actionClass?> implements ApiActionProcessing
     {
         $in2dbData['updated_at'] = time();
 
-        $in2dbData = ApiHelper::inputFilter($in2dbData);
+        $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
         return $in2dbData;
     }

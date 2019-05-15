@@ -152,6 +152,8 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
+        $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
+
         return $in2dbData;
     }
 
