@@ -176,20 +176,20 @@ class <?=$actionClass?> implements ApiActionProcessing
             $flag = true;
             if (!($flag = $model->save())) {
                 $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
+                return ApiHelper::getModelError($model, ApiCodeMsg::DB_BAD_REQUEST);
             }
 
             if ($flag) {
                 $trans->commit();
             } else {
                 $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save commit reason.');
+                ApiHelper::throwError('Failed to commint the transaction.', __FILE__, __LINE__);
             }
 
             return $model->attributes;
         } catch (Exception $e) {
             $trans->rollBack();
-            throw new ServerErrorHttpException('Failed to save all models reason.');
+            ApiHelper::throwError('Unknown error.', __FILE__, __LINE__);
         }
 
         /*
@@ -202,7 +202,6 @@ class <?=$actionClass?> implements ApiActionProcessing
 <?php foreach ($inputsKeys as $key => $value) { ?>
                 <?=sprintf("['=', '%s', \$completedData['%s']],\n", $value, $value)?>
 <?php } ?>
-                ['=', 'is_del', 0],
             ]);
 
         $query->select(['1']);
@@ -221,7 +220,8 @@ class <?=$actionClass?> implements ApiActionProcessing
             'des' => 'des',
         ];
 
-        // $query -> groupBy(['kc.keyword_id']);
+        // $query->groupBy(['kc.keyword_id']);
+        // $query->join('INNER JOIN', 'sj_enterprise_ext ext', 'ext.enterprise_id = t.id');
 
         // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
         // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');

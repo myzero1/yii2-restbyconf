@@ -171,9 +171,9 @@ class <?=$actionClass?> implements ApiActionProcessing
             ->from('demo')
             ->andFilterWhere([
                 'and',
-                ['=', 'name', $completedData['name']],
-                ['=', 'des', $completedData['des']],
-                ['=', 'is_del', 0],
+<?php foreach ($inputsKeys as $key => $value) { ?>
+                <?=sprintf("['=', '%s', \$completedData['%s']],\n", $value, $value)?>
+<?php } ?>
             ]);
 
         $query->select(['1']);
@@ -194,7 +194,8 @@ class <?=$actionClass?> implements ApiActionProcessing
             'updated_at' => 'updated_at',
         ];
 
-        // $query -> groupBy(['kc.keyword_id']);
+        // $query->groupBy(['kc.keyword_id']);
+        // $query->join('INNER JOIN', 'sj_enterprise_ext ext', 'ext.enterprise_id = t.id');
 
         // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
         // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');

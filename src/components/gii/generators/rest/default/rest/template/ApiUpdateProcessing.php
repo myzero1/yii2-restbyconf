@@ -175,20 +175,20 @@ class <?=$actionClass?> implements ApiActionProcessing
             $flag = true;
             if (!($flag = $model->save())) {
                 $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
+                return ApiHelper::getModelError($model, ApiCodeMsg::DB_BAD_REQUEST);
             }
 
             if ($flag) {
                 $trans->commit();
             } else {
                 $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save commit reason.');
+                ApiHelper::throwError('Failed to commint the transaction.', __FILE__, __LINE__);
             }
  
             return $model->attributes;
         } catch (Exception $e) {
             $trans->rollBack();
-            throw new ServerErrorHttpException('Failed to save all models reason.');
+            ApiHelper::throwError('Unknown error.', __FILE__, __LINE__);
         }
     }
 

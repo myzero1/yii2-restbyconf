@@ -60,4 +60,6 @@ class ApiCodeMsg
     const INTERNAL_SERVER_MSG = 'Internal Server Error';
     const UNKNOWN_ERROR= 735735;
     const UNKNOWN_ERROR_MSG = 'Unknown';
+    const DB_BAD_REQUEST= 735440;
+    const DB_BAD_REQUEST_MSG = 'Database storage validation error';
 }

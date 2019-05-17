@@ -674,9 +674,14 @@ class ApiHelper
      **/
     public static function throwError($msg, $filePath, $lineNum)
     {
-        $fileMsg = sprintf('in file:%s', $filePath);
-        $lineMsg = sprintf('on file:%s', $lineNum);
-        $msgs = "{$msg}\n{$fileMsg}\n{$lineMsg}";
+        if (defined('YII_ENV') && YII_ENV == 'dev') {
+            $fileMsg = sprintf('in file:%s', $filePath);
+            $lineMsg = sprintf('on file:%s', $lineNum);
+            $msgs = "{$msg}\n{$fileMsg}\n{$lineMsg}";
+        } else {
+            $msgs = $msg;
+        }
+        
         throw new ServerErrorHttpException($msgs);
     }
 
