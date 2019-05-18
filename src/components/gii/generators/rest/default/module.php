@@ -52,7 +52,7 @@ foreach ($restbyconfUnAuthenticateActions as $k => $v) {
 ?>
             ];
             $apiUrlRules = ApiHelper::getApiUrlRules($this->id);
-            $app->getUrlManager()->addRules($apiUrlRules, false);
+            $app->getUrlManager()->addRules($apiUrlRules, $append = true);
         }
     }
 

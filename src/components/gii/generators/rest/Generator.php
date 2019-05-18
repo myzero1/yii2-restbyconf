@@ -171,6 +171,7 @@ EOD;
         $rules .= "        'class' => 'yii\\rest\UrlRule',\n";
         $rules .= "        'pluralize' => false,\n";
         $rules .= "        'controller' => [\n";
+        $rules .= "            'placeholder',\n";
         $controllerKeys = array_keys($controllers);
         foreach ($controllerKeys as $k => $v) {
             $v = ApiHelper::uncamelize($v, $separator = '-');
@@ -237,10 +238,12 @@ EOD;
                 $rulesExtra .= sprintf("            %s,\n", $value);
             }
             $rulesExtra .= sprintf("        ],\n");
+
+            $rules = str_replace("'extraPatterns' => extraPatterns", $rulesExtra, $rules);
+        } else {
+            $rules = str_replace("'extraPatterns' => extraPatterns", "'extraPatterns' => []", $rules);
         }
 
-        $rules = str_replace("'extraPatterns' => extraPatterns", $rulesExtra, $rules);
-        
         $files[] = new CodeFile(
 //            Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $this->moduleID)),
             sprintf('%s/config/apiUrlRules.php', ApiHelper::getModulePath($this->moduleID)),

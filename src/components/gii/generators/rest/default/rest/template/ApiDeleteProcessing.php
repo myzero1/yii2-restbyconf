@@ -155,7 +155,7 @@ class <?=$actionClass?> implements ApiActionProcessing
         $in2dbData['updated_at'] = time();
         $in2dbData['is_del'] = 1;
 
-        $in2dbData = ApiHelper::inputFilter($in2dbData);
+        $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
         return $in2dbData;
     }
@@ -176,20 +176,20 @@ class <?=$actionClass?> implements ApiActionProcessing
             $flag = true;
             if (!($flag = $model->save())) {
                 $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
+                return ApiHelper::getModelError($model, ApiCodeMsg::DB_BAD_REQUEST);
             }
 
             if ($flag) {
                 $trans->commit();
             } else {
                 $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save commit reason.');
+                ApiHelper::throwError('Failed to commint the transaction.', __FILE__, __LINE__);
             }
  
             return $model->attributes;
         } catch (Exception $e) {
             $trans->rollBack();
-            throw new ServerErrorHttpException('Failed to save all models reason.');
+            ApiHelper::throwError('Unknown error.', __FILE__, __LINE__);
         }
     }
 

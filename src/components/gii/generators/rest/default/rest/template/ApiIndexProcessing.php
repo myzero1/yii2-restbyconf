@@ -49,6 +49,8 @@ foreach ($pathInputs as $key => $value) {
 }
 
 $inputsKeys = array_merge($postInputsKeys, $getInputsKeys, $pathInputsKeys);
+$inputsKeysWhere = array_diff($inputsKeys, ['page', 'page_size', 'sort', ]);
+
 
 if (count($postInputs)) {
     $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'trim');", implode("','", $postInputsKeys));
@@ -153,6 +155,8 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
+        // $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
+
         return $in2dbData;
     }
 
@@ -169,12 +173,12 @@ class <?=$actionClass?> implements ApiActionProcessing
             ->from('demo')
             ->andFilterWhere([
                 'and',
-                ['=', 'name', $completedData['name']],
-                ['=', 'des', $completedData['des']],
-                ['=', 'is_del', 0],
+<?php foreach ($inputsKeysWhere as $key => $value) { ?>
+                <?=sprintf("['=', '%s', \$completedData['%s']],\n", $value, $value)?>
+<?php } ?>
             ]);
 
-        $query->select(['id']);
+        $query->select(['1']);
 
         $result['total'] = intval($query->count());
         $pagination = ApiHelper::getPagination($completedData);
@@ -192,9 +196,11 @@ class <?=$actionClass?> implements ApiActionProcessing
             'updated_at' => 'updated_at',
         ];
 
-        // $query -> groupBy(['kc.keyword_id']);
+        // $query->groupBy(['kc.keyword_id']);
+        // $query->join('INNER JOIN', 'sj_enterprise_ext ext', 'ext.enterprise_id = t.id');
 
-        // $sort = ApiHelper::getSort($completedData['sort'], array_keys($outFieldNames), '+id');
+        // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
+        // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');
         // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
         $query->select(array_values($outFieldNames));

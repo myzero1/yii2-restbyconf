@@ -81,6 +81,7 @@ return [
         'user' => [
             'identityClass' => 'myzero1\restbyconf\components\rest\ApiAuthenticator',
             'enableSession' => false,
+            'authTimeout' => 3600 * 24, // defafult 24h
         ],
         ......
     ]
