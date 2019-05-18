@@ -116,7 +116,7 @@ class ApiHelper
     public static function string2time($string)
     {
         if (empty($string)) {
-            return 0;
+            return '';
         } else {
             return strtotime($string);
         }

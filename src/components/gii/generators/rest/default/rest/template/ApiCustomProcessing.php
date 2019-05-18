@@ -49,6 +49,7 @@ foreach ($pathInputs as $key => $value) {
 }
 
 $inputsKeys = array_merge($postInputsKeys, $getInputsKeys, $pathInputsKeys);
+$inputsKeysWhere = array_diff($inputsKeys, ['page', 'page_size', 'sort', ]);
 
 if (count($postInputs)) {
     $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'trim');", implode("','", $postInputsKeys));
@@ -199,7 +200,7 @@ class <?=$actionClass?> implements ApiActionProcessing
             ->from('demo')
             ->andFilterWhere([
                 'and',
-<?php foreach ($inputsKeys as $key => $value) { ?>
+<?php foreach ($inputsKeysWhere as $key => $value) { ?>
                 <?=sprintf("['=', '%s', \$completedData['%s']],\n", $value, $value)?>
 <?php } ?>
             ]);
