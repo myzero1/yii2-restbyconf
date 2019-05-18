@@ -78,7 +78,7 @@ class ApiHelper
      */
     public static function db2OutputField($db, $outputFieldMap = [])
     {
-        if (count($outputFieldMap)) {
+        if (count($outputFieldMap) === 0) {
             return $db;
         } else {
             foreach ($db as $k => $v) {
@@ -116,7 +116,7 @@ class ApiHelper
     public static function string2time($string)
     {
         if (empty($string)) {
-            return 0;
+            return '';
         } else {
             return strtotime($string);
         }
@@ -674,9 +674,14 @@ class ApiHelper
      **/
     public static function throwError($msg, $filePath, $lineNum)
     {
-        $fileMsg = sprintf('in file:%s', $filePath);
-        $lineMsg = sprintf('on file:%s', $lineNum);
-        $msgs = "{$msg}\n{$fileMsg}\n{$lineMsg}";
+        if (defined('YII_ENV') && YII_ENV == 'dev') {
+            $fileMsg = sprintf('in file:%s', $filePath);
+            $lineMsg = sprintf('on file:%s', $lineNum);
+            $msgs = "{$msg}\n{$fileMsg}\n{$lineMsg}";
+        } else {
+            $msgs = $msg;
+        }
+        
         throw new ServerErrorHttpException($msgs);
     }
 
@@ -695,5 +700,23 @@ class ApiHelper
         }
 
         return $modulePath;
+    }
+
+    /**
+     * @param   array $array
+     * @param   mixed $key
+     * @param   mixed $defafult
+     * @return  mixed
+     **/
+    public static function getArrayVal($array, $key, $defafult='')
+    {
+        $result = '';
+        if (isset($array[$key])) {
+            $result = $array[$key];
+        } else {
+            $result = $defafult;
+        }
+
+        return $result;
     }
 }

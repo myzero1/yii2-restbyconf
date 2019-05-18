@@ -49,6 +49,7 @@ foreach ($pathInputs as $key => $value) {
 }
 
 $inputsKeys = array_merge($postInputsKeys, $getInputsKeys, $pathInputsKeys);
+$inputsKeysWhere = array_diff($inputsKeys, ['page', 'page_size', 'sort', ]);
 
 if (count($postInputs)) {
     $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'trim');", implode("','", $postInputsKeys));
@@ -75,6 +76,7 @@ echo "<?php\n";
 namespace <?=$processingClassNs?>;
 
 use Yii;
+use yii\db\Query;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
@@ -154,7 +156,7 @@ class <?=$actionClass?> implements ApiActionProcessing
     {
         $in2dbData['updated_at'] = time();
 
-        $in2dbData = ApiHelper::inputFilter($in2dbData);
+        $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
         return $in2dbData;
     }
@@ -175,20 +177,20 @@ class <?=$actionClass?> implements ApiActionProcessing
             $flag = true;
             if (!($flag = $model->save())) {
                 $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
+                return ApiHelper::getModelError($model, ApiCodeMsg::DB_BAD_REQUEST);
             }
 
             if ($flag) {
                 $trans->commit();
             } else {
                 $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save commit reason.');
+                ApiHelper::throwError('Failed to commint the transaction.', __FILE__, __LINE__);
             }
 
             return $model->attributes;
         } catch (Exception $e) {
             $trans->rollBack();
-            throw new ServerErrorHttpException('Failed to save all models reason.');
+            ApiHelper::throwError('Unknown error.', __FILE__, __LINE__);
         }
 
         /*
@@ -198,13 +200,12 @@ class <?=$actionClass?> implements ApiActionProcessing
             ->from('demo')
             ->andFilterWhere([
                 'and',
-<?php foreach ($inputsKeys as $key => $value) { ?>
+<?php foreach ($inputsKeysWhere as $key => $value) { ?>
                 <?=sprintf("['=', '%s', \$completedData['%s']],\n", $value, $value)?>
 <?php } ?>
-                ['=', 'is_del', 0],
             ]);
 
-        $query->select(['id']);
+        $query->select(['1']);
 
         $result['total'] = intval($query->count());
         $pagination = ApiHelper::getPagination($completedData);
@@ -220,9 +221,11 @@ class <?=$actionClass?> implements ApiActionProcessing
             'des' => 'des',
         ];
 
-        // $query -> groupBy(['kc.keyword_id']);
+        // $query->groupBy(['kc.keyword_id']);
+        // $query->join('INNER JOIN', 'sj_enterprise_ext ext', 'ext.enterprise_id = t.id');
 
-        // $sort = ApiHelper::getSort($completedData['sort'], array_keys($outFieldNames), '+id');
+        // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
+        // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');
         // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
         $query->select(array_values($outFieldNames));

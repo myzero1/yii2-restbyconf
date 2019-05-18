@@ -16,6 +16,7 @@ $actions = array_keys($controllerV['actions']);
 $moduleClass = $generator->moduleClass;
 $processingClassNs = sprintf('%s\processing\%s', dirname($moduleClass), $generator->controller);
 $ioClass = sprintf('%s\processing\%s\io\%sIo', dirname($moduleClass), $generator->controller, $actionClass);
+$indexClass = sprintf('%s\processing\%s\Index', dirname($moduleClass), $generator->controller);
 $ioClassName = sprintf('%sIo', $actionClass);
 
 $getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
@@ -81,6 +82,7 @@ use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
 use <?=$ioClass?>;
+use <?=$indexClass?>;
 
 /**
  * implement the ActionProcessing
@@ -152,6 +154,8 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
+        $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
+
         return $in2dbData;
     }
 

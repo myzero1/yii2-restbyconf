@@ -1264,7 +1264,10 @@ var schemas = {
             },
             "rules": {
                 "type": ["number", "string"],
-                "examples": ["^\\w{1,32}$"]
+                "examples": [
+                    "input `regular expression` will use `math` validator, eg:^\\w{1,32}$",
+                    "input `safe` will use `safe` validator"
+                ]
             },
             "error_msg": {
                 "type": ["number", "string"],

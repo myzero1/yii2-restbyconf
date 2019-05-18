@@ -30,7 +30,12 @@ foreach ($getInputs as $key => $value) {
     if ($value['required']) {
         $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
     }
-    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
+
+    if ($value['rules'] == 'safe') {
+        $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'safe');", $key, $value['rules']);
+    } else {
+        $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
+    }
 }
 
 $postInputs = $controllerV['actions'][$action]['inputs']['body_params'];
@@ -42,7 +47,12 @@ foreach ($postInputs as $key => $value) {
     if ($value['required']) {
         $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'required');", $key);
     }
-    $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
+
+    if ($value['rules'] == 'safe') {
+        $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'safe');", $key, $value['rules']);
+    } else {
+        $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
+    }
 }
 
 $inputsKeys = array_merge($postInputsKeys, $getInputsKeys);
