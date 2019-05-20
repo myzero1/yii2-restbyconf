@@ -139,8 +139,8 @@ class <?=$actionClass?> implements ApiActionProcessing
     public function mappingInput2db($validatedInput)
     {
         $inputFieldMap = [
-            'demo_name' => 'name',
-            'demo_description' => 'description',
+            'demo_name' => 'name735',
+            'demo_description' => 'description735',
         ];
         $in2dbData = ApiHelper::input2DbField($validatedInput, $inputFieldMap);
 
@@ -214,8 +214,8 @@ class <?=$actionClass?> implements ApiActionProcessing
     public function mappingDb2output($handledData)
     {
         $outputFieldMap = [
-            'name' => 'demo_name',
-            'description' => 'demo_description',
+            'name735' => 'demo_name',
+            'description735' => 'demo_description',
         ];
 
         $db2outData = $handledData;

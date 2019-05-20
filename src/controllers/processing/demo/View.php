@@ -48,8 +48,8 @@ class View implements ViewProcessing
     public function mappingDb2output($savedData)
     {
         $outputFieldMap = [
-            'name' => 'demo_name',
-            'description' => 'demo_description',
+            'name735' => 'demo_name',
+            'description735' => 'demo_description',
         ];
         $db2outData = Helper::db2OutputField($savedData, $outputFieldMap);
 
