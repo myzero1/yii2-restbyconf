@@ -314,6 +314,14 @@ EOD;
     }
 
     /**
+     * @return string the controller namespace of the module.
+     */
+    public function getControllerNamespace()
+    {
+        return substr($this->moduleClass, 0, strrpos($this->moduleClass, '\\')) . '\controllers';
+    }
+
+    /**
      * @return bool the directory that contains the module class
      */
     public function getModulePath()
@@ -322,10 +330,40 @@ EOD;
     }
 
     /**
-     * @return string the controller namespace of the module.
+     * @return string the module namespace of the module.
      */
-    public function getControllerNamespace()
+    public function getModuleNamespace()
     {
-        return substr($this->moduleClass, 0, strrpos($this->moduleClass, '\\')) . '\controllers';
+        $className = $this->moduleClass;
+        $pos = strrpos($className, '\\');
+        $ns = ltrim(substr($className, 0, $pos), '\\');
+
+        return $ns;
     }
+
+    /**
+     * @return string the module namespace of the module.
+     */
+    public function getModuleNameMd5()
+    {
+        return md5($this->moduleClass);
+    }
+
+    /**
+     * @return string the module namespace of the module.
+     */
+    public function getModuleClassName()
+    {
+        return substr($this->moduleClass, $pos + 1);
+    }
+
+    /**
+     * @return string the module namespace of the module.
+     */
+    public function getRestConf()
+    {
+        return json_decode($this->conf, true);;
+    }
+
+
 }

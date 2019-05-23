@@ -20,7 +20,7 @@ $restModuleAlias = $confAarray['json']['restModuleAlias'];
 echo "<?php\n";
 ?>
 
-namespace <?= $ns ?>;
+namespace <?= $generator->getModuleNamespace() ?>;
 
 use Yii;
 use yii\base\Module as BaseModule;
@@ -30,7 +30,7 @@ use myzero1\restbyconf\components\rest\ApiHelper;
 /**
  * <?= $generator->moduleID ?> module definition class
  */
-class <?= $className ?> extends BaseModule implements BootstrapInterface
+class <?= $generator->getModuleClassName() ?> extends BaseModule implements BootstrapInterface
 {
     /**
      * {@inheritdoc}
