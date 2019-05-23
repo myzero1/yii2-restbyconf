@@ -6,15 +6,16 @@ use myzero1\restbyconf\components\rest\ApiHelper;
 
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\module\Generator */
+$confAarray = json_decode($generator->conf, true);
+$restModuleAlias = $confAarray['json']['restModuleAlias'];
 
 $controller = ucwords($generator->controller);
 $controllerV = $generator->controllerV;
 $actions = array_keys($controllerV['actions']);
-$actions = ApiHelper::rmNode($actions);
 
 $moduleClass = $generator->moduleClass;
-$controlerClassNs = sprintf('%s\controllers', dirname($moduleClass));
-$processingClassNs = sprintf('%s\processing\%s', dirname($moduleClass), $generator->controller);
+$controlerClassNs = sprintf('%s\controllers', $restModuleAlias);
+$processingClassNs = sprintf('%s\processing\%s', $restModuleAlias, $generator->controller);
 
 echo "<?php\n";
 ?>
