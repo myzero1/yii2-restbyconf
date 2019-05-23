@@ -15,6 +15,8 @@ window.jsoneditorOldJson = {
     },
     "host": "restbyconf.test",
     "basePath": "/v1",
+    "restModuleName": "v1",
+    "restModuleAlias": "v1",
     "externalDocs": {
         "description": "11Find out more about Swagger",
         "url": "http://swagger.io"
@@ -1023,9 +1025,19 @@ var schemas = {
                 "examples": ["petstore.swagger.io", "github.com"]
             },
             "basePath": {
-                "type": ["number", "string"],
+                "type": ["string"],
                 "pattern": "^/",
                 "examples": ["/v1", "/v2"]
+            },
+            "restModuleName": {
+                "type": ["string"],
+                "pattern": "^\\w[\\w\\d]*$",
+                "examples": ["v1", "v2"]
+            },
+            "restModuleAlias": {
+                "type": ["string"],
+                "pattern": "^\\w[\\w\\d]*$",
+                "examples": ["v1", "v2"]
             },
             "externalDocs": {
                 "title": "externalDocs description",

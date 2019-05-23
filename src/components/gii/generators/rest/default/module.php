@@ -14,6 +14,8 @@ $confAarray = json_decode($generator->conf, true);
 $restbyconfUnAuthenticateActions = $confAarray['json']['mySecurity']['exclude'];
 $restbyconfAuthenticator = $confAarray['json']['mySecurity']['security'];
 $moduleName = md5($generator->moduleClass);
+$restModuleName = $confAarray['json']['restModuleName'];
+$restModuleAlias = $confAarray['json']['restModuleAlias'];
 
 echo "<?php\n";
 ?>
@@ -54,6 +56,8 @@ foreach ($restbyconfUnAuthenticateActions as $k => $v) {
             $apiUrlRules = ApiHelper::getApiUrlRules($this->id);
             $app->getUrlManager()->addRules($apiUrlRules, $append = true);
         }
+
+        Yii::setAlias('@<?=$restModuleAlias?>', '@app/modules/<?=$restModuleName?>');
     }
 
     /**
