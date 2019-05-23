@@ -9,12 +9,15 @@ use myzero1\restbyconf\components\rest\ApiHelper;
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\module\Generator */
 
+$confAarray = json_decode($generator->conf, true);
+$restModuleAlias = $confAarray['json']['restModuleAlias'];
+
 $action = $generator->action;
 $actionClass = ucwords($action) . 'Io';
 $controllerV = $generator->controllerV;
 $actions = array_keys($controllerV['actions']);
 $moduleClass = $generator->moduleClass;
-$processingClassNs = sprintf('%s\processing\%s\io', dirname($moduleClass), $generator->controller);
+$processingClassNs = sprintf('%s\processing\%s\io', $restModuleAlias, $generator->controller);
 
 $getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
 $getInputs = ApiHelper::rmNode($getInputs);
