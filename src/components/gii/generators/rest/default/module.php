@@ -6,21 +6,12 @@
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\module\Generator */
 
-$className = $generator->moduleClass;
-$pos = strrpos($className, '\\');
-$ns = ltrim(substr($className, 0, $pos), '\\');
-$className = substr($className, $pos + 1);
-$confAarray = json_decode($generator->conf, true);
-$restbyconfUnAuthenticateActions = $confAarray['json']['mySecurity']['exclude'];
-$restbyconfAuthenticator = $confAarray['json']['mySecurity']['security'];
-$moduleName = md5($generator->moduleClass);
-$restModuleName = $confAarray['json']['restModuleName'];
-$restModuleAlias = $confAarray['json']['restModuleAlias'];
+$templateParams = $generator->getModuleTemplateParams();
 
 echo "<?php\n";
 ?>
 
-namespace <?= $generator->getModuleNamespace() ?>;
+namespace <?= $templateParams['namespace'] ?>;
 
 use Yii;
 use yii\base\Module as BaseModule;
@@ -28,14 +19,14 @@ use yii\base\BootstrapInterface;
 use myzero1\restbyconf\components\rest\ApiHelper;
 
 /**
- * <?= $generator->moduleID ?> module definition class
+ * <?= $templateParams['moduleID'] ?> module definition class
  */
-class <?= $generator->getModuleClassName() ?> extends BaseModule implements BootstrapInterface
+class <?= $templateParams['className'] ?> extends BaseModule implements BootstrapInterface
 {
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = '<?= $generator->getControllerNamespace() ?>';
+    public $controllerNamespace = '<?= $templateParams['controllerNamespace'] ?>';
 
     /**
     /**
@@ -45,10 +36,10 @@ class <?= $generator->getModuleClassName() ?> extends BaseModule implements Boot
     public function bootstrap($app)
     {
         if ($app instanceof \yii\web\Application) {
-            Yii::$app->params['restbyconfAuthenticator_<?=$moduleName?>'] = '<?=$restbyconfAuthenticator?>';
-            Yii::$app->params['restbyconfUnAuthenticateActions_<?=$moduleName?>'] = [
+            Yii::$app->params['restbyconfAuthenticator_<?= $templateParams['classNameMd5'] ?>'] = '<?= $templateParams['restbyconfAuthenticator'] ?>';
+            Yii::$app->params['restbyconfUnAuthenticateActions_<?= $templateParams['classNameMd5'] ?>'] = [
 <?php
-foreach ($restbyconfUnAuthenticateActions as $k => $v) {
+foreach ($templateParams['restbyconfUnAuthenticateActions'] as $k => $v) {
         printf("                '%s',\n", $v);
     }
 ?>
@@ -57,7 +48,7 @@ foreach ($restbyconfUnAuthenticateActions as $k => $v) {
             $app->getUrlManager()->addRules($apiUrlRules, $append = true);
         }
 
-        Yii::setAlias('@<?=$restModuleAlias?>', '@app/modules/<?=$restModuleName?>');
+        Yii::setAlias('@<?= $templateParams['restModuleAlias'] ?>', '@app/modules/<?= $templateParams['restModuleName'] ?>');
     }
 
     /**

@@ -354,6 +354,8 @@ EOD;
      */
     public function getModuleClassName()
     {
+        $className = $this->moduleClass;
+        $pos = strrpos($className, '\\');
         return substr($this->moduleClass, $pos + 1);
     }
 
@@ -362,7 +364,24 @@ EOD;
      */
     public function getRestConf()
     {
-        return json_decode($this->conf, true);;
+        return json_decode($this->conf, true);
+    }
+
+    public function getModuleTemplateParams()
+    {
+        $params = [];
+        $params['namespace'] = $this->getModuleNamespace();
+        $params['moduleID'] = $this->moduleID;
+        $params['className'] = $this->getModuleClassName();
+        $params['classNameMd5'] = md5($params['className']);
+        $params['controllerNamespace'] = $this->getControllerNamespace();
+        $params['restbyconfAuthenticator'] = $this->confAarray['json']['mySecurity']['security'];
+        // var_dump($this->confAarray['json']['mySecurity']['exclude']);exit;
+        $params['restbyconfUnAuthenticateActions'] = $this->confAarray['json']['mySecurity']['exclude'];
+        $params['restModuleAlias'] = $this->confAarray['json']['restModuleAlias'];
+        $params['restModuleName'] = $this->confAarray['json']['restModuleName'];
+
+        return $params;
     }
 
 
