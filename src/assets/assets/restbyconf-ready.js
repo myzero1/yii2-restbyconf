@@ -15,8 +15,8 @@ window.jsoneditorOldJson = {
     },
     "host": "restbyconf.test",
     "basePath": "/v1",
-    "restModuleName": "v1",
     "restModuleAlias": "v1",
+    "restModuleAliasPath": "@backend/modules/v1",
     "externalDocs": {
         "description": "11Find out more about Swagger",
         "url": "http://swagger.io"
