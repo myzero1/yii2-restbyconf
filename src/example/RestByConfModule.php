@@ -15,24 +15,24 @@ class RestByConfModule extends BaseModule implements BootstrapInterface
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = 'myzero1\restbyconf\example\controllers';
+    public $controllerNamespace = 'example\controllers';
 
-    /**
-    /**
     /**
      * {@inheritdoc}
      */
     public function bootstrap($app)
     {
         if ($app instanceof \yii\web\Application) {
-            Yii::$app->params['restbyconfAuthenticator_ab6446ae49cf579a847bfab947702375'] = 'httpBearerAuth';
-            Yii::$app->params['restbyconfUnAuthenticateActions_ab6446ae49cf579a847bfab947702375'] = [
+            Yii::$app->params['restbyconfAuthenticator_49691b7bb0de44ca6b0c53a8a0f4878e'] = 'httpBearerAuth';
+            Yii::$app->params['restbyconfUnAuthenticateActions_49691b7bb0de44ca6b0c53a8a0f4878e'] = [
                 'post /authenticator/login',
                 'post /authenticator/join',
             ];
             $apiUrlRules = ApiHelper::getApiUrlRules($this->id);
-            $app->getUrlManager()->addRules($apiUrlRules, false);
+            $app->getUrlManager()->addRules($apiUrlRules, $append = true);
         }
+
+        Yii::setAlias('@example', '@vendor/myzero1/yii2-restbyconf/src/example');
     }
 
     /**

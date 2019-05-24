@@ -4,14 +4,14 @@
  * @copyright Copyright (c) 2019- My zero one
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
-namespace myzero1\restbyconf\example\controllers;
+namespace example\controllers;
 
-use \myzero1\restbyconf\components\rest\ApiController;
+use example\controllers\BasicController;
 
 /**
  * AuthenticatorController implements the CRUDI actions for the module.
  */
-class AuthenticatorController extends ApiController
+class AuthenticatorController extends BasicController
 {
     /**
      * {@inheritdoc}
@@ -23,11 +23,11 @@ class AuthenticatorController extends ApiController
         $overwriteActions = [
                 'join' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\myzero1\restbyconf\example\processing\authenticator\Join',
+                'processingClass' => '\example\processing\authenticator\Join',
             ],
             'login' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\myzero1\restbyconf\example\processing\authenticator\Login',
+                'processingClass' => '\example\processing\authenticator\Login',
             ],
         ];
 

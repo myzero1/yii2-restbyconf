@@ -5,7 +5,7 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace myzero1\restbyconf\example\processing\user;
+namespace example\processing\user;
 
 use Yii;
 use yii\web\ServerErrorHttpException;
@@ -13,7 +13,8 @@ use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use myzero1\restbyconf\example\processing\user\io\ExportIo;
+use example\processing\user\io\ExportIo;
+use example\processing\user\Index;
 
 /**
  * implement the ActionProcessing
@@ -71,8 +72,8 @@ class Export implements ApiActionProcessing
     public function mappingInput2db($validatedInput)
     {
         $inputFieldMap = [
-            'demo_name' => 'name',
-            'demo_description' => 'description',
+            'demo_name' => 'name735',
+            'demo_description' => 'description735',
         ];
         $in2dbData = ApiHelper::input2DbField($validatedInput, $inputFieldMap);
 
@@ -85,6 +86,8 @@ class Export implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
+        $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
+
         return $in2dbData;
     }
 
