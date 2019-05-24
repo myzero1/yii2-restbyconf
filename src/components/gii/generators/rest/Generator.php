@@ -323,7 +323,7 @@ EOD;
         $params['namespace'] = $this->getModuleNamespace();
         $params['moduleID'] = $this->moduleID;
         $params['className'] = $this->getModuleClassName();
-        $params['classNameMd5'] = md5($params['className']);
+        $params['moduleClassMd5'] = md5($this->moduleClass);
         $params['controllerNamespace'] = $this->getControllerNamespace();
         $params['restbyconfAuthenticator'] = $this->confAarray['json']['mySecurity']['security'];
         // var_dump($this->confAarray['json']['mySecurity']['exclude']);exit;

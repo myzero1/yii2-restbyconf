@@ -34,8 +34,8 @@ class <?= $templateParams['className'] ?> extends BaseModule implements Bootstra
     public function bootstrap($app)
     {
         if ($app instanceof \yii\web\Application) {
-            Yii::$app->params['restbyconfAuthenticator_<?= $templateParams['classNameMd5'] ?>'] = '<?= $templateParams['restbyconfAuthenticator'] ?>';
-            Yii::$app->params['restbyconfUnAuthenticateActions_<?= $templateParams['classNameMd5'] ?>'] = [
+            Yii::$app->params['restbyconfAuthenticator_<?= $templateParams['moduleClassMd5'] ?>'] = '<?= $templateParams['restbyconfAuthenticator'] ?>';
+            Yii::$app->params['restbyconfUnAuthenticateActions_<?= $templateParams['moduleClassMd5'] ?>'] = [
 <?php
 foreach ($templateParams['restbyconfUnAuthenticateActions'] as $k => $v) {
         printf("                '%s',\n", $v);
