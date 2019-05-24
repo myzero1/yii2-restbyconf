@@ -386,8 +386,7 @@ EOD;
         $inputsKeys = array_merge($postInputsKeys, $getInputsKeys);
 
         $params['namespace'] = sprintf('%s\processing\%s\io',  $this->getRestModuleAlias(), $this->controller);
-        $params['className'] = ucwords($this->action);
-        $params['ioClass'] = $params['className'] . 'Io';
+        $params['className'] = ucwords($this->action) . 'Io';
         $params['egOutputData'] = $outputs = $controllerV['actions'][$action]['outputs']['data'];
         $params['inputsKeys'] = $inputsKeys;
         $params['getInputRules'] = $getInputRules;
@@ -399,10 +398,22 @@ EOD;
     public function getApiActionProcessingParams()
     {
         $params = [];
+        $action = $this->action;
+        $controllerV = $this->controllerV;
+        $postInputsKeys = array_keys($controllerV['actions'][$action]['inputs']['body_params']);
+        $pathInputsKeys = array_keys($controllerV['actions'][$action]['inputs']['path_params']);
+        $getInputsKeys = array_keys($controllerV['actions'][$action]['inputs']['query_params']);
+        $controllerV['actions'][$action]['inputs']['body_params'];
+        $inputsKeys = array_merge($postInputsKeys, $getInputsKeys, $pathInputsKeys);
+        $inputsKeysWhere = array_diff($inputsKeys, ['page', 'page_size', 'sort', ]);
+
         $params['namespace'] = sprintf('%s\processing\%s', $this->getRestModuleAlias(), $this->controller);;
         $params['className'] = ucwords($this->action);
         $params['ioClass'] = sprintf('%s\processing\%s\io\%sIo', $this->getRestModuleAlias(), $this->controller, $params['className']);
-        $params['ioClassName'] = $ioClassName = sprintf('%sIo', $params['className']);;
+        $params['ioClassName'] = $ioClassName = sprintf('%sIo', $params['className']);
+        $params['inputsKeysWhere'] = $inputsKeysWhere;
+        $params['indexClass'] = sprintf('%s\processing\%s\Index', $this->getRestModuleAlias(), $this->controller);
+
         return $params;
     }
 
