@@ -5,7 +5,7 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace myzero1\restbyconf\example\processing\user;
+namespace example\processing\user;
 
 use Yii;
 use yii\web\ServerErrorHttpException;
@@ -13,7 +13,7 @@ use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use myzero1\restbyconf\example\processing\user\io\CreateIo;
+use example\processing\user\io\CreateIo;
 
 /**
  * implement the ActionProcessing
@@ -40,7 +40,7 @@ class Create implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            $in2dbData = $this->mappingInput2db($validatedInput);
+            /*$in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
@@ -48,8 +48,8 @@ class Create implements ApiActionProcessing
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);
-            /*$db2outData = CreateIo::egOutputData(); // for demo*/
+            $db2outData = $this->mappingDb2output($handledData);*/
+            $db2outData = CreateIo::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -71,8 +71,8 @@ class Create implements ApiActionProcessing
     public function mappingInput2db($validatedInput)
     {
         $inputFieldMap = [
-            'demo_name' => 'name',
-            'demo_description' => 'description',
+            'demo_name' => 'name735',
+            'demo_description' => 'description735',
         ];
         $in2dbData = ApiHelper::input2DbField($validatedInput, $inputFieldMap);
 
@@ -88,10 +88,7 @@ class Create implements ApiActionProcessing
         $in2dbData['created_at'] = $in2dbData['updated_at'] = time();
         $in2dbData['is_del'] = 0;
 
-        $in2dbData['api_token'] = 'api_token';
-        $in2dbData['password_hash'] = Yii::$app->security->generatePasswordHash($in2dbData['password']);
-
-        $in2dbData = ApiHelper::inputFilter($in2dbData);
+        $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
         return $in2dbData;
     }
@@ -113,20 +110,20 @@ class Create implements ApiActionProcessing
             $flag = true;
             if (!($flag = $model->save())) {
                 $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
+                return ApiHelper::getModelError($model, ApiCodeMsg::DB_BAD_REQUEST);
             }
 
             if ($flag) {
                 $trans->commit();
             } else {
                 $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save commit reason.');
+                ApiHelper::throwError('Failed to commint the transaction.', __FILE__, __LINE__);
             }
  
             return $model->attributes;
         } catch (Exception $e) {
             $trans->rollBack();
-            throw new ServerErrorHttpException('Failed to save all models reason.');
+            ApiHelper::throwError('Unknown error.', __FILE__, __LINE__);
         }
     }
 
@@ -137,18 +134,13 @@ class Create implements ApiActionProcessing
     public function mappingDb2output($handledData)
     {
         $outputFieldMap = [
-            'name' => 'demo_name',
-            'description' => 'demo_description',
+            'name735' => 'demo_name',
+            'description735' => 'demo_description',
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
         $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
         $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
-
-        unset($db2outData['id']);
-        unset($db2outData['password_hash']);
-        unset($db2outData['api_token']);
-        unset($db2outData['is_del']);
 
         return $db2outData;
     }

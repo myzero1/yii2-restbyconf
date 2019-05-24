@@ -1,5 +1,5 @@
 <?php
-$version = 'v1';
+$version = 'example';
 $moduleName = 'example';
 return [
     // defult
@@ -7,6 +7,7 @@ return [
         'class' => 'yii\rest\UrlRule',
         'pluralize' => false,
         'controller' => [
+            'placeholder',
             $moduleName . '/authenticator',
             $moduleName . '/user',
         ],

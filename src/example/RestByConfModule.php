@@ -15,10 +15,8 @@ class RestByConfModule extends BaseModule implements BootstrapInterface
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = 'myzero1\restbyconf\example\controllers';
+    public $controllerNamespace = 'example\controllers';
 
-    /**
-    /**
     /**
      * {@inheritdoc}
      */
@@ -31,8 +29,10 @@ class RestByConfModule extends BaseModule implements BootstrapInterface
                 'post /authenticator/join',
             ];
             $apiUrlRules = ApiHelper::getApiUrlRules($this->id);
-            $app->getUrlManager()->addRules($apiUrlRules, false);
+            $app->getUrlManager()->addRules($apiUrlRules, $append = true);
         }
+
+        Yii::setAlias('@example', '@vendor/myzero1/yii2-restbyconf/src/example');
     }
 
     /**

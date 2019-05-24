@@ -9,7 +9,7 @@
 echo "<?php\n";
 ?>
 
-namespace <?= $generator->getControllerNamespace() ?>;
+namespace <?= $generator->confAarray['json']['restModuleAlias'] . '\controllers' ?>;
 
 use yii\web\Controller;
 

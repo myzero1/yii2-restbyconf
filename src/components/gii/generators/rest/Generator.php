@@ -133,7 +133,7 @@ EOD;
         if ($mId) {
             $this->moduleID = $mId;
         } else {
-            $this->moduleID = trim($this->confAarray['json']['basePath'], '/');
+            $this->moduleID = $this->confAarray['json']['restModuleName'];
         }
 
 //        $this->moduleClass = sprintf('app\modules\%s\%s', $this->moduleID, 'RestByConfModule');
@@ -161,7 +161,7 @@ EOD;
         $controllers = ApiHelper::rmNode($controllers);
         $curdi = ['create', 'update', 'view', 'delete', 'index', ];
         $version =  $confAarray['json']['info']['version'];
-        $moduleName = trim($confAarray['json']['basePath'], '/');
+        $moduleName = $confAarray['json']['restModuleName'];
         $rules = "<?php\n";
         $rules .= sprintf("\$version = '%s';\n", $version);
         $rules .= sprintf("\$moduleName = '%s';\n", $moduleName);
@@ -267,6 +267,10 @@ EOD;
             $this->render("module.php")
         );
         $files[] = new CodeFile(
+            $modulePath . '/controllers/BasicController.php',
+            $this->render("rest/BasicController.php")
+        );
+        $files[] = new CodeFile(
             $modulePath . '/controllers/DefaultController.php',
             $this->render("controller.php")
         );
@@ -313,19 +317,149 @@ EOD;
         return $files;
     }
 
+    public function getModuleTemplateParams()
+    {
+        $params = [];
+        $params['namespace'] = $this->getModuleNamespace();
+        $params['moduleID'] = $this->moduleID;
+        $params['className'] = $this->getModuleClassName();
+        $params['moduleClassMd5'] = md5($this->moduleClass);
+        $params['controllerNamespace'] = $this->getControllerNamespace();
+        $params['restbyconfAuthenticator'] = $this->confAarray['json']['mySecurity']['security'];
+        // var_dump($this->confAarray['json']['mySecurity']['exclude']);exit;
+        $params['restbyconfUnAuthenticateActions'] = $this->confAarray['json']['mySecurity']['exclude'];
+        $params['restModuleAlias'] = $this->getRestModuleAlias();
+        $params['restModuleAliasPath'] = $this->confAarray['json']['restModuleAliasPath'];
+
+        return $params;
+    }
+
+    public function getApiControllerParams()
+    {
+        $params = [];
+        $params['namespace'] = sprintf('%s\controllers', $this->getRestModuleAlias());
+        $params['className'] = ucwords($this->controller);
+        $params['basicControllerClass'] = $this->getBasicControllerClass();
+        $params['actions'] = array_keys($this->controllerV['actions']);
+        $params['processingClassNs'] = sprintf('%s\processing\%s', $this->getRestModuleAlias(), $this->controller);
+
+        return $params;
+    }
+
+    public function getApiIoProcessingParams()
+    {
+        $params = [];
+        $action = $this->action;
+        $controllerV = $this->controllerV;
+
+        $getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
+        $pathInputs = $controllerV['actions'][$action]['inputs']['path_params'];
+        $pathInputsKeys = array_keys($pathInputs);
+        $getInputs = array_merge($getInputs, $pathInputs);
+        $getInputsKeys = array_keys($getInputs);
+        $getInputRules = [];
+        foreach ($getInputs as $key => $value) {
+            if ($value['required']) {
+                $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
+            }
+            if ($value['rules'] == 'safe') {
+                $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'safe');", $key, $value['rules']);
+            } else {
+                $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
+            }
+        }
+
+        $postInputs = $controllerV['actions'][$action]['inputs']['body_params'];
+        $postInputsKeys = array_keys($postInputs);
+        $postInputRules = [];
+        foreach ($postInputs as $key => $value) {
+            if ($value['required']) {
+                $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'required');", $key);
+            }
+            if ($value['rules'] == 'safe') {
+                $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'safe');", $key, $value['rules']);
+            } else {
+                $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
+            }
+        }
+
+        $inputsKeys = array_merge($postInputsKeys, $getInputsKeys);
+
+        $params['namespace'] = sprintf('%s\processing\%s\io',  $this->getRestModuleAlias(), $this->controller);
+        $params['className'] = ucwords($this->action) . 'Io';
+        $params['egOutputData'] = $outputs = $controllerV['actions'][$action]['outputs']['data'];
+        $params['inputsKeys'] = $inputsKeys;
+        $params['getInputRules'] = $getInputRules;
+        $params['postInputRules'] = $postInputRules;
+
+        return $params;
+    }
+
+    public function getApiActionProcessingParams()
+    {
+        $params = [];
+        $action = $this->action;
+        $controllerV = $this->controllerV;
+        $postInputsKeys = array_keys($controllerV['actions'][$action]['inputs']['body_params']);
+        $pathInputsKeys = array_keys($controllerV['actions'][$action]['inputs']['path_params']);
+        $getInputsKeys = array_keys($controllerV['actions'][$action]['inputs']['query_params']);
+        $controllerV['actions'][$action]['inputs']['body_params'];
+        $inputsKeys = array_merge($postInputsKeys, $getInputsKeys, $pathInputsKeys);
+        $inputsKeysWhere = array_diff($inputsKeys, ['page', 'page_size', 'sort', ]);
+
+        $params['namespace'] = sprintf('%s\processing\%s', $this->getRestModuleAlias(), $this->controller);;
+        $params['className'] = ucwords($this->action);
+        $params['ioClass'] = sprintf('%s\processing\%s\io\%sIo', $this->getRestModuleAlias(), $this->controller, $params['className']);
+        $params['ioClassName'] = $ioClassName = sprintf('%sIo', $params['className']);
+        $params['inputsKeysWhere'] = $inputsKeysWhere;
+        $params['indexClass'] = sprintf('%s\processing\%s\Index', $this->getRestModuleAlias(), $this->controller);
+
+        return $params;
+    }
+
+    public function getModuleNamespace()
+    {
+        $className = $this->moduleClass;
+        $pos = strrpos($className, '\\');
+        $ns = ltrim(substr($className, 0, $pos), '\\');
+
+        return $ns;
+    }
+
+    public function getModuleClassName()
+    {
+        $className = $this->moduleClass;
+        $pos = strrpos($className, '\\');
+        return substr($this->moduleClass, $pos + 1);
+    }
+
+    public function getControllerNamespace()
+    {
+        return $this->getRestModuleAlias() . '\controllers';
+    }
+
+    public function getBasicControllerClass()
+    {
+        return $this->getControllerNamespace() . '\BasicController';
+    }
+
+    public function getRestModuleAlias()
+    {
+        return $this->confAarray['json']['restModuleAlias'];
+    }
+
+
+
+
+
+
+
+
     /**
      * @return bool the directory that contains the module class
      */
     public function getModulePath()
     {
         return Yii::getAlias('@' . str_replace('\\', '/', substr($this->moduleClass, 0, strrpos($this->moduleClass, '\\'))));
-    }
-
-    /**
-     * @return string the controller namespace of the module.
-     */
-    public function getControllerNamespace()
-    {
-        return substr($this->moduleClass, 0, strrpos($this->moduleClass, '\\')) . '\controllers';
     }
 }

@@ -1,20 +1,7 @@
 <?php
 use myzero1\restbyconf\components\rest\ApiHelper;
-/**
- * This is the template for generating a controller class within a module.
- */
 
-/* @var $this yii\web\View */
-/* @var $generator yii\gii\generators\module\Generator */
-
-$controller = ucwords($generator->controller);
-$controllerV = $generator->controllerV;
-$actions = array_keys($controllerV['actions']);
-$actions = ApiHelper::rmNode($actions);
-
-$moduleClass = $generator->moduleClass;
-$controlerClassNs = sprintf('%s\controllers', dirname($moduleClass));
-$processingClassNs = sprintf('%s\processing\%s', dirname($moduleClass), $generator->controller);
+$templateParams = $generator->getApiControllerParams();
 
 echo "<?php\n";
 ?>
@@ -23,14 +10,14 @@ echo "<?php\n";
  * @copyright Copyright (c) 2019- My zero one
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
-namespace <?=$controlerClassNs?>;
+namespace <?= $templateParams['namespace'] ?>;
 
-use \myzero1\restbyconf\components\rest\ApiController;
+use <?= $templateParams['basicControllerClass'] ?>;
 
 /**
- * <?=$controller?>Controller implements the CRUDI actions for the module.
+ * <?= $templateParams['className'] ?>Controller implements the CRUDI actions for the module.
  */
-class <?=$controller?>Controller extends ApiController
+class <?= $templateParams['className'] ?>Controller extends BasicController
 {
     /**
      * {@inheritdoc}
@@ -41,12 +28,12 @@ class <?=$controller?>Controller extends ApiController
 
         $overwriteActions = [
     <?php
-        foreach ($actions as $key => $action) {
+        foreach ($templateParams['actions'] as $key => $action) {
             $actionNew = ApiHelper::uncamelize($action, '-');
     ?>
             '<?=$actionNew?>' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\<?=$processingClassNs?>\<?=ucwords($action)?>',
+                'processingClass' => '\<?= $templateParams['processingClassNs'] ?>\<?=ucwords($action)?>',
             ],
 <?php } ?>
         ];

@@ -1,6 +1,6 @@
 <?php
 
-namespace myzero1\restbyconf\example\controllers;
+namespace example\controllers;
 
 use yii\web\Controller;
 

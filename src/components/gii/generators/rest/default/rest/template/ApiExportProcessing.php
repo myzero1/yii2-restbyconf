@@ -1,69 +1,5 @@
 <?php
-
-use myzero1\restbyconf\components\rest\ApiHelper;
-
-/**
- * This is the template for generating a controller class within a module.
- */
-
-/* @var $this yii\web\View */
-/* @var $generator yii\gii\generators\module\Generator */
-
-$action = $generator->action;
-$actionClass = ucwords($action);
-$controllerV = $generator->controllerV;
-$actions = array_keys($controllerV['actions']);
-$moduleClass = $generator->moduleClass;
-$processingClassNs = sprintf('%s\processing\%s', dirname($moduleClass), $generator->controller);
-$ioClass = sprintf('%s\processing\%s\io\%sIo', dirname($moduleClass), $generator->controller, $actionClass);
-$indexClass = sprintf('%s\processing\%s\Index', dirname($moduleClass), $generator->controller);
-$ioClassName = sprintf('%sIo', $actionClass);
-
-$getInputs = $controllerV['actions'][$action]['inputs']['query_params'];
-$getInputsKeys = array_keys($getInputs);
-$getInputRules = [];
-if (count($getInputs)) {
-    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", implode("','", $getInputsKeys));
-}
-foreach ($getInputs as $key => $value) {
-    if ($value['required']) {
-        $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
-    }
-    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
-}
-
-$postInputs = $controllerV['actions'][$action]['inputs']['body_params'];
-$postInputsKeys = array_keys($postInputs);
-$postInputRules = [];
-
-$pathInputs = $controllerV['actions'][$action]['inputs']['path_params'];
-$pathInputsKeys = array_keys($pathInputs);
-//var_dump($pathInputs);exit;
-if (count($pathInputs)) {
-    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'trim');", implode("','", $pathInputsKeys));
-}
-foreach ($pathInputs as $key => $value) {
-    if ($value['required']) {
-        $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'required');", $key);
-    }
-    $getInputRules[] = sprintf("\$modelGet->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
-}
-
-$inputsKeys = array_merge($postInputsKeys, $getInputsKeys, $pathInputsKeys);
-
-if (count($postInputs)) {
-    $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'trim');", implode("','", $postInputsKeys));
-}
-foreach ($postInputs as $key => $value) {
-    if ($value['required']) {
-        $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'required');", $key);
-    }
-    $postInputRules[] = sprintf("\$modelPost->addRule(['%s'], 'match', ['pattern' => '/%s/i', 'message' => '\'{attribute}\':%s']);", $key, $value['rules'], $value['error_msg']);
-}
-
-$outputs = $controllerV['actions'][$action]['outputs'];
-$egOutputData = $outputs;
-
+$templateParams = $generator->getApiActionProcessingParams();
 
 echo "<?php\n";
 ?>
@@ -73,7 +9,7 @@ echo "<?php\n";
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace <?=$processingClassNs?>;
+namespace <?= $templateParams['namespace'] ?>;
 
 use Yii;
 use yii\web\ServerErrorHttpException;
@@ -81,8 +17,8 @@ use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use <?=$ioClass?>;
-use <?=$indexClass?>;
+use <?= $templateParams['ioClass'] ?>;
+use <?= $templateParams['indexClass'] ?>;
 
 /**
  * implement the ActionProcessing
@@ -92,7 +28,7 @@ use <?=$indexClass?>;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class <?=$actionClass?> implements ApiActionProcessing
+class <?= $templateParams['className'] ?> implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -118,7 +54,7 @@ class <?=$actionClass?> implements ApiActionProcessing
             }
 
             $db2outData = $this->mappingDb2output($handledData);*/
-            $db2outData = <?=$ioClassName?>::egOutputData(); // for demo
+            $db2outData = <?= $templateParams['ioClassName'] ?>::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -130,7 +66,7 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        return <?=$ioClassName?>::inputValidate($input); // for demo
+        return <?= $templateParams['ioClassName'] ?>::inputValidate($input); // for demo
     }
 
     /**
@@ -234,6 +170,6 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return <?=$ioClassName?>::egOutputData(); // for demo
+        return <?= $templateParams['ioClassName'] ?>::egOutputData(); // for demo
     }
 }

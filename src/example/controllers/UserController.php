@@ -4,14 +4,14 @@
  * @copyright Copyright (c) 2019- My zero one
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
-namespace myzero1\restbyconf\example\controllers;
+namespace example\controllers;
 
-use \myzero1\restbyconf\components\rest\ApiController;
+use example\controllers\BasicController;
 
 /**
  * UserController implements the CRUDI actions for the module.
  */
-class UserController extends ApiController
+class UserController extends BasicController
 {
     /**
      * {@inheritdoc}
@@ -23,31 +23,31 @@ class UserController extends ApiController
         $overwriteActions = [
                 'create' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\myzero1\restbyconf\example\processing\user\Create',
+                'processingClass' => '\example\processing\user\Create',
             ],
             'update' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\myzero1\restbyconf\example\processing\user\Update',
+                'processingClass' => '\example\processing\user\Update',
             ],
             'view' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\myzero1\restbyconf\example\processing\user\View',
+                'processingClass' => '\example\processing\user\View',
             ],
             'delete' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\myzero1\restbyconf\example\processing\user\Delete',
+                'processingClass' => '\example\processing\user\Delete',
             ],
             'index' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\myzero1\restbyconf\example\processing\user\Index',
+                'processingClass' => '\example\processing\user\Index',
             ],
             'export' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\myzero1\restbyconf\example\processing\user\Export',
+                'processingClass' => '\example\processing\user\Export',
             ],
             'status' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\myzero1\restbyconf\example\processing\user\Status',
+                'processingClass' => '\example\processing\user\Status',
             ],
         ];
 

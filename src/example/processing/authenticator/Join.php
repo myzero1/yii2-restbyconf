@@ -5,16 +5,17 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace myzero1\restbyconf\example\processing\authenticator;
+namespace example\processing\authenticator;
 
 use Yii;
+use yii\db\Query;
 use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use myzero1\restbyconf\example\processing\authenticator\io\JoinIo;
+use example\processing\authenticator\io\JoinIo;
 use myzero1\restbyconf\components\rest\ApiAuthenticator;
 
 /**
@@ -105,8 +106,8 @@ class Join implements ApiActionProcessing
     public function mappingInput2db($validatedInput)
     {
         $inputFieldMap = [
-            'demo_name' => 'name',
-            'demo_description' => 'description',
+            'demo_name' => 'name735',
+            'demo_description' => 'description735',
         ];
         $in2dbData = ApiHelper::input2DbField($validatedInput, $inputFieldMap);
 
@@ -119,9 +120,9 @@ class Join implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        $in2dbData = ApiHelper::inputFilter($in2dbData);
+        $in2dbData['created_at'] = $in2dbData['updated_at'] = time();
 
-        $in2dbData['api_token'] = 'api_token';
+        $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
         return $in2dbData;
     }
@@ -137,28 +138,28 @@ class Join implements ApiActionProcessing
 
         $model->load($completedData, '');
 
-        // $model->generateAuthKey();
         $model->setPassword($completedData['password']);
+        $model->generateApiToken();
 
         $trans = Yii::$app->db->beginTransaction();
         try {
             $flag = true;
             if (!($flag = $model->save())) {
                 $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
+                return ApiHelper::getModelError($model, ApiCodeMsg::DB_BAD_REQUEST);
             }
 
             if ($flag) {
                 $trans->commit();
             } else {
                 $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save commit reason.');
+                ApiHelper::throwError('Failed to commint the transaction.', __FILE__, __LINE__);
             }
 
             return $model->attributes;
         } catch (Exception $e) {
             $trans->rollBack();
-            throw new ServerErrorHttpException('Failed to save all models reason.');
+            ApiHelper::throwError('Unknown error.', __FILE__, __LINE__);
         }
     }
 
@@ -169,11 +170,10 @@ class Join implements ApiActionProcessing
     public function mappingDb2output($handledData)
     {
         $outputFieldMap = [
-            'name' => 'demo_name',
-            'description' => 'demo_description',
+            'name735' => 'demo_name',
+            'description735' => 'demo_description',
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
-
         $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
 
         $output['username'] = $db2outData['username'];

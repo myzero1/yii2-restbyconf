@@ -5,7 +5,7 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace myzero1\restbyconf\example\processing\user;
+namespace example\processing\user;
 
 use Yii;
 use yii\db\Query;
@@ -14,7 +14,7 @@ use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use myzero1\restbyconf\example\processing\user\io\IndexIo;
+use example\processing\user\io\IndexIo;
 
 /**
  * implement the ActionProcessing
@@ -41,7 +41,7 @@ class Index implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            $in2dbData = $this->mappingInput2db($validatedInput);
+            /*$in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
@@ -49,8 +49,8 @@ class Index implements ApiActionProcessing
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);
-            /*$db2outData = IndexIo::egOutputData(); // for demo*/
+            $db2outData = $this->mappingDb2output($handledData);*/
+            $db2outData = IndexIo::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -72,8 +72,8 @@ class Index implements ApiActionProcessing
     public function mappingInput2db($validatedInput)
     {
         $inputFieldMap = [
-            'demo_name' => 'name',
-            'demo_description' => 'description',
+            'demo_name' => 'name735',
+            'demo_description' => 'description735',
         ];
         $in2dbData = ApiHelper::input2DbField($validatedInput, $inputFieldMap);
 
@@ -86,6 +86,8 @@ class Index implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
+        // $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
+
         return $in2dbData;
     }
 
@@ -103,10 +105,9 @@ class Index implements ApiActionProcessing
             ->andFilterWhere([
                 'and',
                 ['=', 'username', $completedData['username']],
-                ['=', 'is_del', 0],
             ]);
 
-        $query->select(['id']);
+        $query->select(['1']);
 
         $result['total'] = intval($query->count());
         $pagination = ApiHelper::getPagination($completedData);
@@ -118,15 +119,17 @@ class Index implements ApiActionProcessing
 
         $outFieldNames = [
             'id' => 'id',
-            'username' => 'username',
-            'status' => 'status',
+            'name' => 'name',
+            'des' => 'des',
             'created_at' => 'created_at',
             'updated_at' => 'updated_at',
         ];
 
-        // $query -> groupBy(['kc.keyword_id']);
+        // $query->groupBy(['kc.keyword_id']);
+        // $query->join('INNER JOIN', 'sj_enterprise_ext ext', 'ext.enterprise_id = t.id');
 
-        // $sort = ApiHelper::getSort($completedData['sort'], array_keys($outFieldNames), '+id');
+        // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
+        // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');
         // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
         $query->select(array_values($outFieldNames));
@@ -146,8 +149,8 @@ class Index implements ApiActionProcessing
     public function mappingDb2output($handledData)
     {
         $outputFieldMap = [
-            'name' => 'demo_name',
-            'description' => 'demo_description',
+            'name735' => 'demo_name',
+            'description735' => 'demo_description',
         ];
 
         $db2outData = $handledData;
