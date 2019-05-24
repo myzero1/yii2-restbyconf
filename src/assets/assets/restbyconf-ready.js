@@ -1029,10 +1029,10 @@ var schemas = {
                 "pattern": "^/",
                 "examples": ["/v1", "/v2"]
             },
-            "restModuleName": {
+            "restModuleAliasPath": {
                 "type": ["string"],
-                "pattern": "^\\w[\\w\\d]*$",
-                "examples": ["v1", "v2"]
+                "pattern": "^@\\w[\\w\\d\/\-]*$",
+                "examples": ["@vendor/myzero1/yii2-restbyconf/src/example"]
             },
             "restModuleAlias": {
                 "type": ["string"],

@@ -6,13 +6,10 @@
 /* @var $this yii\web\View */
 /* @var $generator yii\gii\generators\module\Generator */
 
-$confAarray = json_decode($generator->conf, true);
-$restModuleAlias = $confAarray['json']['restModuleAlias'];
-
 echo "<?php\n";
 ?>
 
-namespace <?= $restModuleAlias ?>\controllers;
+namespace <?= $generator->confAarray['json']['restModuleAlias'] ?>\controllers;
 
 use yii\web\Controller;
 

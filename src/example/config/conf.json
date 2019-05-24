@@ -16,8 +16,8 @@
         },
         "host": "restbyconf.test",
         "basePath": "/example",
-        "restModuleName": "example",
         "restModuleAlias": "example",
+        "restModuleAliasPath": "@vendor/myzero1/yii2-restbyconf/src/example",
         "externalDocs": {
             "description": "11Find out more about Swagger",
             "url": "http://swagger.io"

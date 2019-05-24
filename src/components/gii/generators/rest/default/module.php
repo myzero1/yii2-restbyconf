@@ -48,7 +48,7 @@ foreach ($templateParams['restbyconfUnAuthenticateActions'] as $k => $v) {
             $app->getUrlManager()->addRules($apiUrlRules, $append = true);
         }
 
-        Yii::setAlias('@<?= $templateParams['restModuleAlias'] ?>', '@app/modules/<?= $templateParams['restModuleName'] ?>');
+        Yii::setAlias('@<?= $templateParams['restModuleAlias'] ?>', '<?= $templateParams['restModuleAliasPath'] ?>');
     }
 
     /**

@@ -325,7 +325,7 @@ EOD;
         // var_dump($this->confAarray['json']['mySecurity']['exclude']);exit;
         $params['restbyconfUnAuthenticateActions'] = $this->confAarray['json']['mySecurity']['exclude'];
         $params['restModuleAlias'] = $this->confAarray['json']['restModuleAlias'];
-        $params['restModuleName'] = $this->confAarray['json']['restModuleName'];
+        $params['restModuleAliasPath'] = $this->confAarray['json']['restModuleAliasPath'];
 
         return $params;
     }
