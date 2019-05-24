@@ -67,9 +67,13 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
     /**
      * 生成 api_token
      */
-    public function generateApiToken()
+    public function generateApiToken($outPut = false)
     {
         $this->api_token = Yii::$app->security->generateRandomString() . '_' . time();
+
+        if ($outPut) {
+            return $this->api_token;
+        }
     }
 
     /**
