@@ -64,6 +64,7 @@ $outputs = $controllerV['actions'][$action]['outputs'];
 $outputs = ApiHelper::rmNode($outputs);
 $egOutputData = $outputs;
 
+$templateParams = $generator->getApiIoProcessingParams();
 
 echo "<?php\n";
 ?>
@@ -73,7 +74,7 @@ echo "<?php\n";
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace <?=$processingClassNs?>;
+namespace <?= $templateParams['namespace'] ?>;
 
 use Yii;
 use yii\base\DynamicModel;
@@ -91,7 +92,7 @@ use myzero1\restbyconf\components\rest\ApiIoProcessing;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class <?=$actionClass?> implements ApiIoProcessing
+class <?= $templateParams['className'] ?> implements ApiIoProcessing
 {
 
     /**
@@ -101,7 +102,7 @@ class <?=$actionClass?> implements ApiIoProcessing
     public static function inputValidate($input)
     {
         $inputFields = [
-<?php foreach ($inputsKeys as $key => $value) { ?>
+<?php foreach ($templateParams['inputsKeys'] as $key => $value) { ?>
             '<?=$value?>',
 <?php } ?>
             'sort',
@@ -115,7 +116,7 @@ class <?=$actionClass?> implements ApiIoProcessing
         $modelGet->addRule($inputFields, 'trim');
         $modelGet->addRule($inputFields, 'safe');
 
-<?php foreach ($getInputRules as $key => $value) { ?>
+<?php foreach ($templateParams['getInputRules'] as $key => $value) { ?>
         <?=$value."\n"?>
 <?php } ?>
 
@@ -131,7 +132,7 @@ class <?=$actionClass?> implements ApiIoProcessing
         $modelPost->addRule($inputFields, 'trim');
         $modelPost->addRule($inputFields, 'safe');
 
-<?php foreach ($postInputRules as $key => $value) { ?>
+<?php foreach ($templateParams['postInputRules'] as $key => $value) { ?>
         <?=$value."\n"?>
 <?php } ?>
 
@@ -153,7 +154,7 @@ class <?=$actionClass?> implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = '<?=serialize($egOutputData['data'])?>';
+        $egOutputData = '<?=serialize($templateParams['egOutputData'])?>';
 
         return unserialize($egOutputData);
     }

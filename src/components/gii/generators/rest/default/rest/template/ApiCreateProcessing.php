@@ -66,6 +66,8 @@ $outputs = $controllerV['actions'][$action]['outputs'];
 $egOutputData = $outputs;
 
 
+$templateParams = $generator->getApiActionProcessingParams();
+
 echo "<?php\n";
 ?>
 /**
@@ -74,7 +76,7 @@ echo "<?php\n";
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace <?=$processingClassNs?>;
+namespace <?= $templateParams['namespace'] ?>;
 
 use Yii;
 use yii\web\ServerErrorHttpException;
@@ -82,7 +84,7 @@ use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use <?=$ioClass?>;
+use <?= $templateParams['ioClass'] ?>;
 
 /**
  * implement the ActionProcessing
@@ -92,7 +94,7 @@ use <?=$ioClass?>;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class <?=$actionClass?> implements ApiActionProcessing
+class <?= $templateParams['className'] ?> implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -130,7 +132,7 @@ class <?=$actionClass?> implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        return <?=$ioClassName?>::inputValidate($input); // for demo
+        return <?= $templateParams['ioClassName'] ?>::inputValidate($input); // for demo
     }
 
     /**

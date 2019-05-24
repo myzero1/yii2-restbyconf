@@ -29,8 +29,6 @@ class <?= $templateParams['className'] ?> extends BaseModule implements Bootstra
     public $controllerNamespace = '<?= $templateParams['controllerNamespace'] ?>';
 
     /**
-    /**
-    /**
      * {@inheritdoc}
      */
     public function bootstrap($app)
