@@ -14,7 +14,6 @@ use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
 use example\processing\user\io\CreateIo;
-use myzero1\restbyconf\components\rest\ApiAuthenticator;
 
 /**
  * implement the ActionProcessing
@@ -41,7 +40,7 @@ class Create implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            $in2dbData = $this->mappingInput2db($validatedInput);
+            /*$in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
@@ -49,8 +48,8 @@ class Create implements ApiActionProcessing
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);
-            // $db2outData = CreateIo::egOutputData(); // for demo
+            $db2outData = $this->mappingDb2output($handledData);*/
+            $db2outData = CreateIo::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
             return $result;
         }
@@ -89,11 +88,7 @@ class Create implements ApiActionProcessing
         $in2dbData['created_at'] = $in2dbData['updated_at'] = time();
         $in2dbData['is_del'] = 0;
 
-        $authenticator = new ApiAuthenticator();
-        $in2dbData['api_token'] = $authenticator->generateApiToken(true);
-        $in2dbData['password_hash'] = Yii::$app->security->generatePasswordHash($in2dbData['password']);
-
-        $in2dbData = ApiHelper::inputFilter($in2dbData);
+        $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
         return $in2dbData;
     }
@@ -146,11 +141,6 @@ class Create implements ApiActionProcessing
 
         $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
         $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
-
-        unset($db2outData['id']);
-        unset($db2outData['password_hash']);
-        unset($db2outData['api_token']);
-        unset($db2outData['is_del']);
 
         return $db2outData;
     }
