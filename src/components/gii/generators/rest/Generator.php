@@ -133,7 +133,7 @@ EOD;
         if ($mId) {
             $this->moduleID = $mId;
         } else {
-            $this->moduleID = trim($this->confAarray['json']['basePath'], '/');
+            $this->moduleID = $this->confAarray['json']['restModuleName'];
         }
 
 //        $this->moduleClass = sprintf('app\modules\%s\%s', $this->moduleID, 'RestByConfModule');
@@ -161,7 +161,7 @@ EOD;
         $controllers = ApiHelper::rmNode($controllers);
         $curdi = ['create', 'update', 'view', 'delete', 'index', ];
         $version =  $confAarray['json']['info']['version'];
-        $moduleName = trim($confAarray['json']['basePath'], '/');
+        $moduleName = $confAarray['json']['restModuleName'];
         $rules = "<?php\n";
         $rules .= sprintf("\$version = '%s';\n", $version);
         $rules .= sprintf("\$moduleName = '%s';\n", $moduleName);

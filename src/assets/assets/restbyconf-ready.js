@@ -2,7 +2,7 @@ window.jsoneditorOldJson = {
     "swagger": "2.0",
     "info": {
         "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
-        "version": "1.0.0",
+        "version": "v1",
         "title": "Swagger Petstore",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
@@ -14,7 +14,7 @@ window.jsoneditorOldJson = {
         }
     },
     "host": "restbyconf.test",
-    "basePath": "/v1",
+    "restModuleName": "v1",
     "restModuleAlias": "v1",
     "restModuleAliasPath": "@backend/modules/v1",
     "externalDocs": {
@@ -1024,20 +1024,20 @@ var schemas = {
                 "format": "hostname",
                 "examples": ["petstore.swagger.io", "github.com"]
             },
-            "basePath": {
+            "restModuleName": {
                 "type": ["string"],
-                "pattern": "^/",
-                "examples": ["/v1", "/v2"]
+                "pattern": "^[a-zA-Z]\\w*$",
+                "examples": ["v1"]
             },
             "restModuleAliasPath": {
                 "type": ["string"],
-                "pattern": "^@\\w[\\w\\d\/\-]*$",
-                "examples": ["@vendor/myzero1/yii2-restbyconf/src/example"]
+                "pattern": "^@[a-zA-Z][\\w\\/-]*$",
+                "examples": ["@backend/modules/v1"]
             },
             "restModuleAlias": {
                 "type": ["string"],
-                "pattern": "^\\w[\\w\\d]*$",
-                "examples": ["v1", "v2"]
+                "pattern": "^[a-zA-Z]\\w*$",
+                "examples": ["v1"]
             },
             "externalDocs": {
                 "title": "externalDocs description",
