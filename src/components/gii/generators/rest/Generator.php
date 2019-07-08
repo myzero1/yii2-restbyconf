@@ -150,10 +150,11 @@ EOD;
         // for md
 
         // save conf to file
+        $confJsonStr = json_encode(json_decode($this->conf), JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
         $files[] = new CodeFile(
 //            Yii::getAlias(sprintf('@app/modules/%s/config/conf.json', $this->moduleID)),
             sprintf('%s/config/conf.json', ApiHelper::getModulePath($this->moduleID)),
-            $this->conf
+            $confJsonStr
         );
 
         $confAarray = $this->confAarray;
