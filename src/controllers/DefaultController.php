@@ -216,6 +216,7 @@ class DefaultController extends Controller
         $mId = Yii::$app->request->get('mId', '');
         $swaggerData = ApiHelper::getApiConf($mId);
         $json = json_decode($swaggerData, true)['json'];
+        $json['basePath'] = '/' . $json['info']['version'];
         $oldcontrollers = $json['controllers'];
         $oldcontrollers = ApiHelper::rmNode($json['controllers']);
 
