@@ -263,7 +263,11 @@ class DefaultController extends Controller
                 $content .= sprintf("| Summary | %s | \n", $actionsV['summary']);
                 $content .= sprintf("| Description | %s | \n", $actionsV['description']);
                 $content .= sprintf("| Method | %s | \n", strtoupper($actionsV['method']));
-                $content .= sprintf("| Uri | %s/%s | \n", $json['basePath'], $action);
+                
+                $controllerTmp = ApiHelper::uncamelize($oldcontroller, '-');
+                $uriTmp = str_replace('{controller}', $controllerTmp, $actionsV['uri']);
+                $content .= sprintf("| Uri | %s%s | \n", $json['basePath'], $uriTmp);
+                
                 $content .= sprintf("| ContentType | application/json | \n");
                 $content .= sprintf("\n");
 
