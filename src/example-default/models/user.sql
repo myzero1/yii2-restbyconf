@@ -39,4 +39,8 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
+/*
+username:api
+password:123456
+*/
 INSERT INTO `user` VALUES ('1', 'api', '$2y$13$DvDUk.R6GdniDKQuCe8hdeR6nSqusRf4yc0cOOKmCqcKMbgyrn7Oq', '5T4Fr4xcwk15RwyzBdFuT7ngFCYarwt-_1557489871', '0', '1', '1552886962', '1552886962');
