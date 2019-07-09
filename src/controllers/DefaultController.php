@@ -292,7 +292,7 @@ class DefaultController extends Controller
                 if (count($actionsV['inputs']['path_params'])) {
                     $content .= sprintf("&nbsp; \n\n");
                     $content .= sprintf("***Path params*** \n\n");
-                    $content .= sprintf("| Name | Des | Required | Eg | Rules | Rrror msg | \n");
+                    $content .= sprintf("| Name | Des | Required | Eg | Rules | Error msg | \n");
                     $content .= sprintf("|-|:-:|:-:|:-:|:-:|:-:| \n");
                     foreach ($actionsV['inputs']['path_params'] as $k => $v) {
                         $content .= sprintf("| %s | %s | %s | %s | %s | %s | \n",
@@ -309,7 +309,7 @@ class DefaultController extends Controller
                 if (count($actionsV['inputs']['query_params'])) {
                     $content .= sprintf("&nbsp; \n\n");
                     $content .= sprintf("***Query params*** \n\n");
-                    $content .= sprintf("| Name | Des | Required | Eg | Rules | Rrror msg | \n");
+                    $content .= sprintf("| Name | Des | Required | Eg | Rules | Error msg | \n");
                     $content .= sprintf("|-|:-:|:-:|:-:|:-:|:-:| \n");
                     foreach ($actionsV['inputs']['query_params'] as $k => $v) {
                         $content .= sprintf("| %s | %s | %s | %s | %s | %s | \n",
