@@ -310,10 +310,10 @@ style;
             $j = 0;
             foreach ($oldcontrollerV['actions'] as $action => $actionsV) {
                 $j += 1;
-                $table .= sprintf("    - [1.2.%s.%s. %s](#1.2.%s.%s) \n", $i, $j, $action, $i, $j);
+                $table .= sprintf("    - [1.2.%s.%s. %s](#1.2.%s.%s) \n", $i, $j, $action.'('.$actionsV['summary'].')', $i, $j);
 
                 $content .= sprintf("\n<a name='1.2.%s.%s' ></a> \n", $i, $j);
-                $content .= sprintf("#### 1.2.%s.%s. %s \n", $i, $j, $action);
+                $content .= sprintf("#### 1.2.%s.%s. %s \n", $i, $j, $action.'('.$actionsV['summary'].')');
                 $content .= sprintf("> [Go table](#1.1) \n\n");
                 $content .= sprintf("\n&nbsp;`Basic info` \n\n");
                 $content .= sprintf("| Items | Detail | \n");
