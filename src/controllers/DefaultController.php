@@ -211,8 +211,65 @@ class DefaultController extends Controller
      * Renders the index view for the module
      * @return string
      */
+    public function actionMarkdownFile()
+    {
+        $mId = Yii::$app->request->get('mId', '');
+        $host = Yii::$app->request->get('host', '');
+        $markdown = $this->getMarkdown($mId,$host);
+
+        $response = Yii::$app->getResponse();
+        $response->format = $response::FORMAT_RAW;
+
+        $response->getHeaders()->set('Content-Type', 'application/md');
+        $response->getHeaders()->set('Content-Disposition', 'attachment;filename="api_'.time().'.md"');
+        $response->getHeaders()->set('Cache-Control', 'max-age=0');
+
+        return $markdown;
+    }
+
+    /**
+     * Renders the index view for the module
+     * @return string
+     */
     public function actionMarkdown()
     {
+        
+        $mId = Yii::$app->request->get('mId', '');
+        $host = Yii::$app->request->get('host', '');
+        $markdown = $this->getMarkdown($mId,$host);
+
+        // var_dump($markdown);exit;
+        $markdownHtml = \yii\helpers\Markdown::process($markdown);
+        $markdownHtml = \yii\helpers\Markdown::process($markdown, 'gfm');
+
+        $style = <<<style
+        <style>
+            table {
+                border: 1px solid #ddd;
+                width: 100%;
+            }
+            table>tbody>tr>td, table>tbody>tr>th, table>tfoot>tr>td, table>tfoot>tr>th, table>thead>tr>td, table>thead>tr>th{
+                border: 1px solid #ddd;
+                padding: 8px;
+                line-height: 1.42857143;
+                vertical-align: top;
+            }
+        </style>
+
+style;
+        $markdownHtml = $markdownHtml . $style;
+
+        return $this->renderAjax('markdown', ['markdownHtml' => $markdownHtml]);
+    }
+
+    /**
+     * Renders the index view for the module
+     * @return string
+     */
+    public function getMarkdown($mId, $host)
+    {
+        $markdownUrl = Url::to([sprintf('/%s/default/markdown-file', $this->module->id), 'mId' => $mId, 'host' => $host]);
+
         $mId = Yii::$app->request->get('mId', '');
         $swaggerData = ApiHelper::getApiConf($mId);
         $json = json_decode($swaggerData, true)['json'];
@@ -230,7 +287,8 @@ class DefaultController extends Controller
 
         $info .= sprintf("> * version:%s \n", $json['info']['version']);
         $info .= sprintf("> * email:%s \n", $json['info']['contact']['email']);
-        $info .= sprintf("> * license:[%s](%s) \n\n", $json['info']['license']['name'], $json['info']['license']['url']);
+        $info .= sprintf("> * license:[%s](%s) \n", $json['info']['license']['name'], $json['info']['license']['url']);
+        $info .= sprintf("> * download:[%s](%s) \n\n", 'Markdown', $markdownUrl);
         $info .= sprintf("****** \n");
 
         $table .= sprintf("\n<a name='1.1' ></a> \n");
@@ -263,11 +321,11 @@ class DefaultController extends Controller
                 $content .= sprintf("| Summary | %s | \n", $actionsV['summary']);
                 $content .= sprintf("| Description | %s | \n", $actionsV['description']);
                 $content .= sprintf("| Method | %s | \n", strtoupper($actionsV['method']));
-                
+
                 $controllerTmp = ApiHelper::uncamelize($oldcontroller, '-');
                 $uriTmp = str_replace('{controller}', $controllerTmp, $actionsV['uri']);
                 $content .= sprintf("| Uri | %s%s | \n", $json['basePath'], $uriTmp);
-                
+
                 $content .= sprintf("| ContentType | application/json | \n");
                 $content .= sprintf("\n");
 
@@ -292,7 +350,7 @@ class DefaultController extends Controller
                 if (count($actionsV['inputs']['path_params'])) {
                     $content .= sprintf("&nbsp; \n\n");
                     $content .= sprintf("***Path params*** \n\n");
-                    $content .= sprintf("| Name | Des | Required | Eg | Rules | Error msg | \n");
+                    $content .= sprintf("| Name | Des | Required | Eg | Rules | Rrror msg | \n");
                     $content .= sprintf("|-|:-:|:-:|:-:|:-:|:-:| \n");
                     foreach ($actionsV['inputs']['path_params'] as $k => $v) {
                         $content .= sprintf("| %s | %s | %s | %s | %s | %s | \n",
@@ -309,7 +367,7 @@ class DefaultController extends Controller
                 if (count($actionsV['inputs']['query_params'])) {
                     $content .= sprintf("&nbsp; \n\n");
                     $content .= sprintf("***Query params*** \n\n");
-                    $content .= sprintf("| Name | Des | Required | Eg | Rules | Error msg | \n");
+                    $content .= sprintf("| Name | Des | Required | Eg | Rules | Rrror msg | \n");
                     $content .= sprintf("|-|:-:|:-:|:-:|:-:|:-:| \n");
                     foreach ($actionsV['inputs']['query_params'] as $k => $v) {
                         $content .= sprintf("| %s | %s | %s | %s | %s | %s | \n",
@@ -335,29 +393,7 @@ class DefaultController extends Controller
 
         $markdown = $info . $table . $content;
 
-
-        // var_dump($markdown);exit;
-        $markdownHtml = \yii\helpers\Markdown::process($markdown);
-        $markdownHtml = \yii\helpers\Markdown::process($markdown, 'gfm');
-
-        $style = <<<style
-        <style>
-            table {
-                border: 1px solid #ddd;
-                width: 100%;
-            }
-            table>tbody>tr>td, table>tbody>tr>th, table>tfoot>tr>td, table>tfoot>tr>th, table>thead>tr>td, table>thead>tr>th{
-                border: 1px solid #ddd;
-                padding: 8px;
-                line-height: 1.42857143;
-                vertical-align: top;
-            }
-        </style>
-
-style;
-        $markdownHtml = $markdownHtml . $style;
-
-        return $this->renderAjax('markdown', ['markdownHtml' => $markdownHtml]);
+        return $markdown;
     }
 
     /**
