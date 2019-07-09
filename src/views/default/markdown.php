@@ -10,7 +10,7 @@
 
 <style type="text/css">
 	#doc-sidebar{
-	    width: 200px;
+	    width: 300px;
 	    border-right: 2px solid #aaa;
 	    height: 100vh;
 	    position: fixed;
@@ -18,8 +18,11 @@
 	    background: #fff;
     	padding-left: 10px;
 	}
+	#doc-sidebar a{
+		white-space: nowrap;
+	}
 	#doc-body{
-		padding-left: 220px;
+		padding-left: 320px;
 	}
 	
 </style>
