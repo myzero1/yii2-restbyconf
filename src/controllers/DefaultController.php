@@ -275,7 +275,7 @@ class DefaultController extends Controller
                 if (count($actionsV['inputs']['body_params'])) {
                     $content .= sprintf("&nbsp; \n\n");
                     $content .= sprintf("***Body params*** \n\n");
-                    $content .= sprintf("| Name | Des | Required | Eg | Rules | Rrror msg | \n");
+                    $content .= sprintf("| Name | Des | Required | Eg | Rules | Error msg | \n");
                     $content .= sprintf("|-|:-:|:-:|:-:|:-:|:-:| \n");
                     foreach ($actionsV['inputs']['body_params'] as $k => $v) {
                         $content .= sprintf("| %s | %s | %s | %s | %s | %s | \n",
