@@ -156,6 +156,6 @@ class <?= $templateParams['className'] ?> implements ApiIoProcessing
     {
         $egOutputData = '<?=serialize($templateParams['egOutputData'])?>';
 
-        return unserialize($egOutputData);
+        return ApiHelper::filterEgOutputData($egOutputData);
     }
 }
