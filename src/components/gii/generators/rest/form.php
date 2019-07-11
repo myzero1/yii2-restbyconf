@@ -135,3 +135,25 @@ $moduleId = Yii::$app->request->get('mId', '');
     font-size: 2.875rem;
     }
 </style>
+
+<?php
+
+$js = <<<'JS'
+// modules\two_v1\processing\netbar\Index.php
+    var reg = new RegExp("processing\\\w+\\\w+.php$");
+    // var txt = 'modules\two_v1\processing\authenticator\Join.php';
+
+    $('.overwrite').each(function(){
+        var filePath = $(this).children('.file').children('.preview-code').text();
+
+        if(/\\processing\\/.test(filePath)){
+            if(!/\\io\\/.test(filePath)){
+                $(this).children('.check').children('input').attr("disabled",true);
+            }
+        }
+    });
+JS;
+
+$this->registerJs($js);
+
+?>
