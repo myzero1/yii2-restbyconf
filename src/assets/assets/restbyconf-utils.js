@@ -61,6 +61,14 @@ var isSecurityExclude = function(path) {
     }
 }
 
+var isSecurityMember = function(path) {
+    if (path.length == 3 && path[0] == "myGroup" && path[1] == "member") {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 var isSefaultPathIdDes = function(path) {
     if (path.length == 3 && path[0] == 'controllers' && path[2] == 'defaultPathIdDes') {
         return true;

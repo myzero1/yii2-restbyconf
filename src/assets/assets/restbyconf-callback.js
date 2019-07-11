@@ -63,7 +63,7 @@ var onError = function(error){
 }
 
 var onClassName = function(node){
-    if(isDataLay(node.path) || isSecurityExclude(node.path)){
+    if(isDataLay(node.path) || isSecurityExclude(node.path) || isSecurityMember(node.path)){
         return 'restbyconf-outputs-data';
     }
 }
@@ -162,6 +162,10 @@ var onCreateMenu = function onCreateMenu(items, node) {
             auto.push(del);
             auto.push(cp);
             return auto;
+        } else if(isSecurityMember(node.path)){
+            auto.push(del);
+            auto.push(cp);
+            return auto;
         }
     }
 }
@@ -199,6 +203,8 @@ var onEditable = function(node) {
             } else if(isSefaultPathIdDes(node.path)){
                 return false;
             } else if(isSecurityExclude(node.path)){
+                return true;
+            } else if(isSecurityMember(node.path)){
                 return true;
             } else {
                 return {
