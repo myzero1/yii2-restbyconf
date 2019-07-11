@@ -396,6 +396,18 @@ class ApiHelper
             if (empty($confDataTmp)) {
                 $confDataInit = file_get_contents($confDataPathDefault);
             } else {
+                for ($i=1; $i < 10; $i++) { 
+                    $confDataPathTmp$i = sprintf('%s/config/conf_user%s.json', $path, $i);
+                    $confDataTmp$i = file_get_contents($confDataPathTmp$i);
+                }
+
+                $confDataTmp;
+
+                
+
+
+
+
                 $confDataInit = $confDataTmp;
             }
         } else {

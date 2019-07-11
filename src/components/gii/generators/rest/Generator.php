@@ -157,6 +157,11 @@ EOD;
             $confJsonStr
         );
 
+        for ($i=1; $i < 10; $i++) { 
+            $configPath = sprintf('%s/config/conf_user%s.json', ApiHelper::getModulePath($this->moduleID), $i);
+            $files[] = new CodeFile($configPath, $confJsonStr);
+        }
+
         $confAarray = $this->confAarray;
         $controllers = $confAarray['json']['controllers'];
         $controllers = ApiHelper::rmNode($controllers);
