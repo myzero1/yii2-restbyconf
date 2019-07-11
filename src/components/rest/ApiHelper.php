@@ -143,7 +143,7 @@ class ApiHelper
      */
     public static function isReturning($data)
     {
-        if (isset($data['code']) && isset($data['code']) && isset($data['code']) && (count($data) === 3)) {
+        if (isset($data['code']) && isset($data['msg']) && isset($data['data']) && (count($data) === 3)) {
             return true;
         } else {
             return false;
