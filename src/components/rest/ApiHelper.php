@@ -416,8 +416,7 @@ class ApiHelper
 
                         foreach ($controllers as $k1 => $v1) {
                             if (isset($dataArray['json']['controllers'][$v1])) {
-                                $configAdmin['json']['controllers'][$v1] = $dataObj->json->controllers->$v1; 
-                            var_dump($v1);
+                                $configAdmin['json']['controllers'][$v1] = $dataObj->json->controllers->$v1;
                             }
                         }
                     }
