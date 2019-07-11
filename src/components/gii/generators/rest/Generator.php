@@ -152,15 +152,13 @@ EOD;
         // save conf to file
         $confJsonStr = json_encode(json_decode($this->conf), JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
         $files[] = new CodeFile(
-//            Yii::getAlias(sprintf('@app/modules/%s/config/conf.json', $this->moduleID)),
-            sprintf('%s/config/conf.json', ApiHelper::getModulePath($this->moduleID)),
+            sprintf(
+                '%s/config/conf_%s.json', 
+                ApiHelper::getModulePath($this->moduleID),
+                json_decode($this->conf, true)['json']['myGroup']['currentUser']
+            ),
             $confJsonStr
         );
-
-        for ($i=1; $i < 10; $i++) { 
-            $configPath = sprintf('%s/config/conf_user%s.json', ApiHelper::getModulePath($this->moduleID), $i);
-            $files[] = new CodeFile($configPath, $confJsonStr);
-        }
 
         $confAarray = $this->confAarray;
         $controllers = $confAarray['json']['controllers'];
