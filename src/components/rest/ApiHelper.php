@@ -763,17 +763,23 @@ class ApiHelper
                 foreach ($v as $k1 => $v1) {
                     if (is_array($v1)) {
                         foreach ($v1 as $k2 => $v2) {
-                            $t2 = explode('---', $v2);
-                            $tmp[$k][$k1][$k2] = $t2[0];
+                            if (is_string($v2)) {
+                                $t2 = explode('---', $v2);
+                                $tmp[$k][$k1][$k2] = $t2[0];
+                            }
                         }
                     } else {
-                        $t1 = explode('---', $v1);
-                        $tmp[$k][$k1] = $t1[0];
+                        if (is_string($v1)) {
+                            $t1 = explode('---', $v1);
+                            $tmp[$k][$k1] = $t1[0];
+                        }
                     }
                 }
             } else {
-                $t = explode('---', $v);
-                $tmp[$k] = $t[0];
+                if (is_string($v)) {
+                    $t = explode('---', $v);
+                    $tmp[$k] = $t[0];
+                }
             }
         }
 
