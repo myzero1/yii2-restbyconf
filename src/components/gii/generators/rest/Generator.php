@@ -150,7 +150,15 @@ EOD;
         // for md
 
         // save conf to file
-        $confJsonStr = json_encode(json_decode($this->conf), JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
+        $confJson = json_decode($this->conf, true);
+        $confJsonObj = json_decode($this->conf);
+        $members = array_keys($confJson['json']['myGroup']['member']);
+        $members = array_merge(['admin'] ,$members);
+        $confJsonObj->schemaRefs->schema->properties->myGroup->properties->currentUser->enum = $members;
+
+        // var_dump($confJsonObj);exit;
+
+        $confJsonStr = json_encode($confJsonObj, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
         $files[] = new CodeFile(
             sprintf(
                 '%s/config/conf_%s.json', 

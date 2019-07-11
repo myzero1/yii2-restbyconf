@@ -422,10 +422,10 @@ class ApiHelper
                     }
                 }
 
-                $members = array_keys($configAdmin['json']['myGroup']['member']);
-                $members = array_merge(['admin'] ,$members);
-                $configAdmin['schemaRefs']['schema']['properties']['myGroup']['properties']['currentUser']['enum'] = $members;
-                
+                // $members = array_keys($configAdmin['json']['myGroup']['member']);
+                // $members = array_merge(['admin'] ,$members);
+                // $configAdmin['schemaRefs']['schema']['properties']['myGroup']['properties']['currentUser']['enum'] = $members;
+                // var_dump($configAdmin);exit;
                 $confDataInit = json_encode($configAdmin);
             }
         } else {
