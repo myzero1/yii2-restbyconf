@@ -13,6 +13,8 @@ if (restbyconfOptionsStr != '') {
   var schemaRefs = schemas;
 }
 
+schemas['schema']['properties']['myGroup']['properties']['currentUser']['enum'] = schemaRefs['schema']['properties']['myGroup']['properties']['currentUser']['enum'];
+
 // create the editor
 var defaultOptions = {
     schema: schemas['schema'],
