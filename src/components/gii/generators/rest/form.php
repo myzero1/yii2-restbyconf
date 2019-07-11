@@ -106,9 +106,44 @@ $moduleId = Yii::$app->request->get('mId', '');
     <div id="restbyconfposition" style="display: none;">
         <?= $position ?>
     </div>
+    <div id="overwriting-wrap">
+        <span class="overwriting-label" >Allow overwriting of logical files</span>
+        <span class="overwriting-button" id="overwriting-on">On</span>
+        <span class="overwriting-button" id="overwriting-off">Off</span>
+    </div>
 </div>
 
 <style type="text/css">
+    .overwriting-label{
+        float: left;
+        line-height: 30px;
+        font-size: 16px;
+        color: red;
+        padding-right: 20px;
+    }
+    #overwriting-wrap{
+        overflow: hidden;
+        padding: 5px 0 20px 0;
+    }
+    .overwriting-button{
+        display: inline-block;
+        height: 30px;
+        width: 50px;
+        float: left;
+        padding: 5px 15px;
+        cursor: pointer;
+        color: #fff;
+        opacity: 0.2;
+    }
+    #overwriting-on{
+        background: green;
+        border-radius: 10px 0px 0px 10px;
+    }
+    #overwriting-off{
+        background: red;
+        border-radius: 0px 10px 10px 0px;
+        opacity: 1;
+    }
     #form-fields{
         max-width: 100%;
         width: 100%;
@@ -151,6 +186,36 @@ $js = <<<'JS'
                 $(this).children('.check').children('input').attr("disabled",true);
             }
         }
+    });
+
+    $('#overwriting-off').click(function(){
+        $('#overwriting-off').css({'opacity':1});
+        $('#overwriting-on').css({'opacity':0.2});
+
+        $('.overwrite').each(function(){
+            var filePath = $(this).children('.file').children('.preview-code').text();
+
+            if(/\\processing\\/.test(filePath)){
+                if(!/\\io\\/.test(filePath)){
+                    $(this).children('.check').children('input').attr("disabled",true);
+                }
+            }
+        });
+    });
+
+    $('#overwriting-on').click(function(){
+        $('#overwriting-on').css({'opacity':1});
+        $('#overwriting-off').css({'opacity':0.2});
+
+        $('.overwrite').each(function(){
+            var filePath = $(this).children('.file').children('.preview-code').text();
+
+            if(/\\processing\\/.test(filePath)){
+                if(!/\\io\\/.test(filePath)){
+                    $(this).children('.check').children('input').attr("disabled",false);
+                }
+            }
+        });
     });
 JS;
 
