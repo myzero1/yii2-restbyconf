@@ -29,15 +29,7 @@ window.jsoneditorOldJson = {
     "myGroup": {
         "currentUser": "admin",
         "member": {
-            "user1": "c11,c12",
-            "user2": "c21,c22",
-            "user3": "c31,c32",
-            "user4": "c41,c42",
-            "user5": "c51,c52",
-            "user6": "c61,c62",
-            "user7": "c71,c72",
-            "user8": "c81,c82",
-            "user9": "c91,c92",
+            "userA": "controllerA1,controllerA2",
         }
     },
     "controllers": {
@@ -1093,15 +1085,7 @@ var schemas = {
                         "title": "currentUser",
                         "enum": [
                             "admin",
-                            "user1",
-                            "user2",
-                            "user3",
-                            "user4",
-                            "user5",
-                            "user6",
-                            "user7",
-                            "user8",
-                            "user9",
+                            "userA",
                         ]
                     }
                 }
