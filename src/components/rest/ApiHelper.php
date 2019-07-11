@@ -388,7 +388,7 @@ class ApiHelper
         } else {
             $path = '';
         }
-        $confDataPathTmp = sprintf('%s/config/conf.json', $path);
+        $confDataPathTmp = sprintf('%s/config/conf_admin.json', $path);
         $confDataPathDefault = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src/components/conf/conf.json');
 
         if (is_file($confDataPathTmp)) {
@@ -396,17 +396,34 @@ class ApiHelper
             if (empty($confDataTmp)) {
                 $confDataInit = file_get_contents($confDataPathDefault);
             } else {
-                // for ($i=1; $i < 10; $i++) { 
-                //     $confDataPathTmp$i = sprintf('%s/config/conf_user%s.json', $path, $i);
-                //     $confDataTmp$i = file_get_contents($confDataPathTmp$i);
-                // }
+                $configAdmin = json_decode($confDataTmp, true);
+                $configAdminObj = json_decode($confDataTmp);
+                $member = $configAdmin['json']['myGroup']['member'];
 
+                $adminControllers = array_keys($configAdmin['json']['controllers']);
+                foreach ($adminControllers as $k2 => $v2) {
+                    $configAdmin['json']['controllers'][$v2] = $configAdminObj->json->controllers->$v2;
+                }
+
+                foreach (array_keys($member) as $k => $v) {
+                    $fileName = sprintf('%s/config/conf_%s.json', $path, $v);
+                    if (is_file($fileName)) {
+                        $data = file_get_contents($fileName);
+                        $dataArray = json_decode($data, true);
+                        $dataObj = json_decode($data);
+
+                        $controllers = explode(',', $member[$v]);
+
+                        foreach ($controllers as $k1 => $v1) {
+                            if (isset($dataArray['json']['controllers'][$v1])) {
+                                $configAdmin['json']['controllers'][$v1] = $dataObj->json->controllers->$v1; 
+                            var_dump($v1);
+                            }
+                        }
+                    }
+                }
                 
-
-
-
-
-                $confDataInit = $confDataTmp;
+                $confDataInit = json_encode($configAdmin);
             }
         } else {
             $confDataInit = file_get_contents($confDataPathDefault);
