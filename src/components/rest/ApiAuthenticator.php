@@ -126,15 +126,15 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
      * @inheritdoc
      */
     public static function findIdentityByAccessToken($token, $type = null)
-    {
-        var_dump(\Yii::$app->controller->module->fixedUser);exit;
-        if (\Yii::$app->controller->module->fixedUser) {
-            $fixedUserData = \Yii::$app->controller->module->fixedUser;
-            $fixedUserKeys = array_keys($fixedUserData);
-            $fixedUserModel = new DynamicModel($fixedUserKeys);
-            $fixedUserModel->load($fixedUserData, '');
-            return $fixedUserModel;
-        }
+    // {
+    //     // var_dump(\Yii::$app);exit;
+    //     if (\Yii::$app->controller->module->fixedUser) {
+    //         $fixedUserData = \Yii::$app->controller->module->fixedUser;
+    //         $fixedUserKeys = array_keys($fixedUserData);
+    //         $fixedUserModel = new DynamicModel($fixedUserKeys);
+    //         $fixedUserModel->load($fixedUserData, '');
+    //         return $fixedUserModel;
+    //     }
 
         // 如果token无效的话
         if (!static::apiTokenIsValid($token)) {
