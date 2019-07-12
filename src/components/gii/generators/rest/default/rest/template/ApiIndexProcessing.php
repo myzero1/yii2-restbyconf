@@ -109,7 +109,9 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         $result = [];
 
         $query = (new Query())
-            ->from('user')
+            ->from('user t')
+            // ->groupBy(['t.id'])
+            // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
             ->andFilterWhere([
                 'and',
 <?php foreach ($templateParams['inputsKeysWhere'] as $key => $value) { ?>
@@ -117,9 +119,13 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
 <?php } ?>
             ]);
 
-        $query->select(['1']);
+        $outFieldNames = [
+            't.id as id',
+        ];
 
+        $query->select(['1']);
         $result['total'] = intval($query->count());
+
         $pagination = ApiHelper::getPagination($completedData);
         $query->limit($pagination['page_size']);
         $offset = $pagination['page_size'] * ($pagination['page'] - 1);
@@ -127,22 +133,11 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         $result['page'] = intval($pagination['page']);
         $result['page_size'] = intval($pagination['page_size']);
 
-        $outFieldNames = [
-            'id' => 'id',
-            'name' => 'name',
-            'des' => 'des',
-            'created_at' => 'created_at',
-            'updated_at' => 'updated_at',
-        ];
-
-        // $query->groupBy(['kc.keyword_id']);
-        // $query->join('INNER JOIN', 'sj_enterprise_ext ext', 'ext.enterprise_id = t.id');
-
         // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
         // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');
         // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
-        $query->select(array_values($outFieldNames));
+        $query->select($outFieldNames);
 
         //  var_dump($query->createCommand()->getRawSql());exit;
 

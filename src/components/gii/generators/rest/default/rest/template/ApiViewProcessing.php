@@ -12,6 +12,7 @@ echo "<?php\n";
 namespace <?= $templateParams['namespace'] ?>;
 
 use Yii;
+use yii\db\Query;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
@@ -105,9 +106,29 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\User', $completedData['id']);
+        $result = (new Query())
+            ->from('user t')
+            // ->groupBy(['t.id'])
+            // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
+            ->andFilterWhere([
+                'and',
+                ['=', 't.id', $completedData['id']],
+            ])
+            ->select([
+                't.id',
+            ])
+            ->one()
+            ;
 
-        return $model->attributes;
+        if(!$result){
+            $result = [
+                'code' => ApiCodeMsg::NOT_FOUND,
+                'msg' => ApiCodeMsg::NOT_FOUND_MSG,
+                'data' => new \StdClass(),
+            ];
+        }
+
+        return $result;
     }
 
     /**
