@@ -124,3 +124,10 @@ return [
 ### The other menu of restbyconfig
 * you can click the `Swagger` button to use it.
 * you can click the `Markdown` button to use it.
+
+
+'two_v1' => [
+    'class' => 'app\modules\two_v1\RestByConfModule',
+    'runModel' => 'doc'
+],
+
