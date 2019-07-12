@@ -114,6 +114,13 @@ $moduleId = Yii::$app->request->get('mId', '');
 </div>
 
 <style type="text/css">
+    .default-view-files, #jsoneditor {
+        height: 60vh;
+        overflow: auto;
+        border: solid 1px #aaa;
+        padding: 10px;
+    }
+
     .overwriting-label{
         float: left;
         line-height: 30px;
