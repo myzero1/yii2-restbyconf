@@ -112,7 +112,15 @@ return [
     ......
     'modules' => [
         ......
-        'v2' => '\myzero1\restbyconf\v2\RestByConfModule',
+        // 'v2' => '\myzero1\restbyconf\v2\RestByConfModule',
+        'v2' => [
+            'class' => '\myzero1\restbyconf\v2\RestByConfModule',
+            'runModel' => 'doc', // default doc,you can set as code
+            'fixedUser' => [ //
+                'id' => 1,
+                'username' => 'myzero1',
+            ],
+        ],
         ......
     ],
     ......
@@ -124,10 +132,4 @@ return [
 ### The other menu of restbyconfig
 * you can click the `Swagger` button to use it.
 * you can click the `Markdown` button to use it.
-
-
-'two_v1' => [
-    'class' => 'app\modules\two_v1\RestByConfModule',
-    'runModel' => 'doc'
-],
 
