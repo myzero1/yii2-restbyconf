@@ -120,6 +120,21 @@ $moduleId = Yii::$app->request->get('mId', '');
         border: solid 1px #aaa;
         padding: 10px;
     }
+    .default-view-files p{
+        position: absolute;
+        background: #fff;
+        height: 80px;
+        margin-top: -10px;
+        padding-top: 10px;
+        width: 790px;
+    }
+    .default-view-files .form-group{
+        position: absolute;
+        margin-top: 30px;
+    }
+    .default-view-files table{
+        margin-top: 80px;
+    }
 
     .overwriting-label{
         float: left;
