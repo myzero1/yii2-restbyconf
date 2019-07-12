@@ -17,7 +17,7 @@ use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use <?= $templateParams['ioClass'] ?>;
+use <?= $templateParams['ioClass'] ?> as Io;
 use <?= $templateParams['indexClass'] ?>;
 
 /**
@@ -45,7 +45,11 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*$in2dbData = $this->mappingInput2db($validatedInput);
+            if (\Yii::$app->controller->module->runModel == 'doc') {
+                return Io::egOutputData(); // for demo
+            }
+
+            $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             $handledData = $this->handling($completedData);
 
@@ -53,9 +57,9 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);*/
-            $db2outData = <?= $templateParams['ioClassName'] ?>::egOutputData(); // for demo
+            $db2outData = $this->mappingDb2output($handledData);
             $result = $this->completeResult($db2outData);
+            
             return $result;
         }
     }
@@ -66,7 +70,7 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        return <?= $templateParams['ioClassName'] ?>::inputValidate($input); // for demo
+        return Io::inputValidate($input); // for demo
     }
 
     /**
@@ -170,6 +174,6 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return <?= $templateParams['ioClassName'] ?>::egOutputData(); // for demo
+        return Io::egOutputData(); // for demo
     }
 }
