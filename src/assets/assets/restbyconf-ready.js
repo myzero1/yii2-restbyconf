@@ -17,6 +17,7 @@ window.jsoneditorOldJson = {
     "restModuleName": "v1",
     "restModuleAlias": "v1",
     "restModuleAliasPath": "@backend/modules/v1",
+    "restModuleNamespace": "backend\\modules\\v1",
     "externalDocs": {
         "description": "11Find out more about Swagger",
         "url": "http://swagger.io"
@@ -1034,6 +1035,11 @@ var schemas = {
                 "type": ["string"],
                 "pattern": "^[a-zA-Z]\\w*$",
                 "examples": ["v1"]
+            },
+            "restModuleNamespace": {
+                "type": ["string"],
+                "pattern": "^[a-zA-Z][\\w\\\\]*$",
+                "examples": ["backend\\modules\\v1"]
             },
             "restModuleAliasPath": {
                 "type": ["string"],
