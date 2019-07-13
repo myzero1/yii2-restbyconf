@@ -120,6 +120,16 @@ return [
                 'id' => 1,
                 'username' => 'myzero1',
             ],
+            'docToken' => 'docTokenAsMyzero1',
+            'runningAsDocActions' => [
+                // '*' => '*', // all ations, as default
+                // 'controllerA' => [
+                //     '*', // all actons in controllerA
+                // ],
+                // 'controllerB' => [
+                //     'actionB',
+                // ],
+            ],
         ],
         ......
     ],
