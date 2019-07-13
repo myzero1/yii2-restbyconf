@@ -106,15 +106,14 @@ return [
     ......
     'bootstrap' => [
         ......
-        'v2',
+        'v1',
         ......
     ],
     ......
     'modules' => [
         ......
-        // 'v2' => '\myzero1\restbyconf\v2\RestByConfModule',
-        'v2' => [
-            'class' => 'app\modules\v2\RestByConfModule',
+        'v1' => [
+            'class' => 'backend\modules\v1\RestByConfModule',
             'docToken' => 'docTokenAsMyzero1',
             'apiTokenExpire' => 24 * 3600 * 365,
             'fixedUser' => [
@@ -147,4 +146,8 @@ return [
 ### The other menu of restbyconfig
 * you can click the `Swagger` button to use it.
 * you can click the `Markdown` button to use it.
+
+### change logs
+* Add my group
+* Carding code
 
