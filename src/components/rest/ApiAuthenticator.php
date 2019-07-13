@@ -24,8 +24,7 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
 {
     public $authKey;
     public $accessToken;
-    public $docToken = 'docTokenAsMyzero1';
-    public $fixedUser = ['id' => 1,'username' => 'myzero1'];
+    const API_TOKEN_EXPIRE = 86400; // 24h
 
     public function behaviors()
     {
@@ -88,7 +87,7 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
         $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->user->authTimeout;
         if (is_null($expire)) {
-            $expire = \Yii::$app->controller->module->apiTokenExpire;
+            $expire = self::API_TOKEN_EXPIRE;
         }
 
         return $timestamp + $expire >= time();
@@ -126,17 +125,7 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
      * @inheritdoc
      */
     public static function findIdentityByAccessToken($token, $type = null)
-    // {
-    //     // var_dump(\Yii::$app);exit;
-    //     if (\Yii::$app->controller->module->fixedUser) {
-    //         $fixedUserData = \Yii::$app->controller->module->fixedUser;
-    //         $fixedUserKeys = array_keys($fixedUserData);
-    //         $fixedUserModel = new DynamicModel($fixedUserKeys);
-    //         $fixedUserModel->load($fixedUserData, '');
-    //         return $fixedUserModel;
-    //     }
-
-
+    {
         // 如果token无效的话
         if (!static::apiTokenIsValid($token)) {
             throw new \yii\web\UnauthorizedHttpException("token is invalid.");
