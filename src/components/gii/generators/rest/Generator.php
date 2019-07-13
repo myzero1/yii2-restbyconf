@@ -162,7 +162,8 @@ EOD;
         $files[] = new CodeFile(
             sprintf(
                 '%s/config/conf_%s.json', 
-                ApiHelper::getModulePath($this->moduleID),
+                ApiHelper::getModulePath($this->moduleID, 
+                json_decode($this->conf, true)['json']),
                 json_decode($this->conf, true)['json']['myGroup']['currentUser']
             ),
             $confJsonStr
@@ -258,7 +259,8 @@ EOD;
 
         $files[] = new CodeFile(
 //            Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $this->moduleID)),
-            sprintf('%s/config/apiUrlRules.php', ApiHelper::getModulePath($this->moduleID)),
+            sprintf('%s/config/apiUrlRules.php', ApiHelper::getModulePath($this->moduleID, 
+                json_decode($this->conf, true)['json'])),
             $rules
         );
 
@@ -272,7 +274,8 @@ EOD;
     {
         $files = [];
 //        $modulePath = $this->getModulePath();
-        $modulePath = ApiHelper::getModulePath($this->moduleID);
+        $modulePath = ApiHelper::getModulePath($this->moduleID, 
+                json_decode($this->conf, true)['json']);
 
         $files[] = new CodeFile(
             $modulePath . '/' . StringHelper::basename($this->moduleClass) . '.php',
