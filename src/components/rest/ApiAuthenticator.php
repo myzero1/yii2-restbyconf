@@ -24,8 +24,8 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
 {
     public $authKey;
     public $accessToken;
-    // public $fixedUser = false;
-    const API_TOKEN_EXPIRE = 86400; // 24h
+    public $docToken = 'docTokenAsMyzero1';
+    public $fixedUser = ['id' => 1,'username' => 'myzero1'];
 
     public function behaviors()
     {
@@ -88,7 +88,7 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
         $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->user->authTimeout;
         if (is_null($expire)) {
-            $expire = self::API_TOKEN_EXPIRE;
+            $expire = \Yii::$app->controller->module->apiTokenExpire;
         }
 
         return $timestamp + $expire >= time();
@@ -135,6 +135,7 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
     //         $fixedUserModel->load($fixedUserData, '');
     //         return $fixedUserModel;
     //     }
+
 
         // 如果token无效的话
         if (!static::apiTokenIsValid($token)) {
