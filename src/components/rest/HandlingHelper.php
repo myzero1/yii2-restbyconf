@@ -8,6 +8,7 @@
 namespace myzero1\restbyconf\components\rest;
 
 use yii\web\ServerErrorHttpException;
+use Yii;
 
 /**
  * Some Helpful function
@@ -72,21 +73,34 @@ class HandlingHelper
 
         $runningAsDocActions = \Yii::$app->controller->module->runningAsDocActions;
         $controllerIds = array_keys($runningAsDocActions);
+        $isReturn = false;
 
         if (self::isAll($controllerIds)) {
-            return $ioClassName::egOutputData();
+            $isReturn = true;
         } else {
             $cid = \Yii::$app->controller->id;
             if (isset($runningAsDocActions[$cid])) {
                 if (self::isAll($runningAsDocActions[$cid])) {
-                    return $ioClassName::egOutputData();
+                    $isReturn = true;
                 } else {
                     $aid = \Yii::$app->controller->action->id;
                     if (in_array($aid, $runningAsDocActions[$cid])) {
-                        return $ioClassName::egOutputData();
+                        $isReturn = true;
                     }
                 }
             }
+        }
+
+        if ($isReturn) {
+            $data = [
+                'code' => ApiCodeMsg::SUCCESS,
+                'msg' => ApiCodeMsg::SUCCESS_MSG,
+                'data' => $ioClassName::egOutputData(),
+            ];
+
+            Yii::$app->response->data = $data;
+            Yii::$app->response->send();
+            exit;
         }
     }
 }

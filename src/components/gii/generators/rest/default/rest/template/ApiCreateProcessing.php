@@ -47,8 +47,8 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         } else {
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
-
-            $completedData = HandlingHelper::before($completedData);
+            
+            $completedData = HandlingHelper::before($completedData, Io::class);
             $handledData = $this->handling($completedData);
             $handledData = HandlingHelper::after($handledData);
 
