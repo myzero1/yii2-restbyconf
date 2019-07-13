@@ -114,13 +114,12 @@ return [
         ......
         // 'v2' => '\myzero1\restbyconf\v2\RestByConfModule',
         'v2' => [
-            'class' => '\myzero1\restbyconf\v2\RestByConfModule',
-            'runModel' => 'doc', // default doc,you can set as code
+            'class' => 'app\modules\v2\RestByConfModule',
+            'docToken' => 'docTokenAsMyzero1',
             'fixedUser' => [ //
                 'id' => 1,
                 'username' => 'myzero1',
             ],
-            'docToken' => 'docTokenAsMyzero1',
             'runningAsDocActions' => [
                 // '*' => '*', // all ations, as default
                 // 'controllerA' => [
@@ -129,6 +128,10 @@ return [
                 // 'controllerB' => [
                 //     'actionB',
                 // ],
+                'user' => [
+                    'create',
+                    'index',
+                ],
             ],
         ],
         ......
