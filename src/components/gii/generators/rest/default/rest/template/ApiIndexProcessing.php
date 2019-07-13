@@ -163,8 +163,8 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         foreach ($db2outData['items'] as $k => $v) {
             $db2outData['items'][$k] = ApiHelper::db2OutputField($db2outData['items'][$k], $outputFieldMap);
 
-            $db2outData['items'][$k]['created_at'] = ApiHelper::time2string($db2outData['items'][$k]['created_at']);
-            $db2outData['items'][$k]['updated_at'] = ApiHelper::time2string($db2outData['items'][$k]['updated_at']);
+            // $db2outData['items'][$k]['created_at'] = ApiHelper::time2string($db2outData['items'][$k]['created_at']);
+            // $db2outData['items'][$k]['updated_at'] = ApiHelper::time2string($db2outData['items'][$k]['updated_at']);
         }
 
         return $db2outData;

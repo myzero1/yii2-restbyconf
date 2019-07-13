@@ -94,7 +94,7 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        $in2dbData['updated_at'] = time();
+        // $in2dbData['updated_at'] = time();
 
         $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
@@ -137,17 +137,23 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         $result = [];
 
         $query = (new Query())
-            ->from('user')
+            ->from('user t')
+            // ->groupBy(['t.id'])
+            // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
             ->andFilterWhere([
                 'and',
-<?php foreach ( $templateParams['inputsKeysWhere'] as $key => $value) { ?>
+<?php foreach ($templateParams['inputsKeysWhere'] as $key => $value) { ?>
                 <?=sprintf("['=', '%s', \$completedData['%s']],\n", $value, $value)?>
 <?php } ?>
             ]);
 
-        $query->select(['1']);
+        $outFieldNames = [
+            't.id as id',
+        ];
 
+        $query->select(['1']);
         $result['total'] = intval($query->count());
+
         $pagination = ApiHelper::getPagination($completedData);
         $query->limit($pagination['page_size']);
         $offset = $pagination['page_size'] * ($pagination['page'] - 1);
@@ -155,20 +161,11 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         $result['page'] = intval($pagination['page']);
         $result['page_size'] = intval($pagination['page_size']);
 
-        $outFieldNames = [
-            'id' => 'id',
-            'name' => 'name',
-            'des' => 'des',
-        ];
-
-        // $query->groupBy(['kc.keyword_id']);
-        // $query->join('INNER JOIN', 'sj_enterprise_ext ext', 'ext.enterprise_id = t.id');
-
         // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
         // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');
         // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
-        $query->select(array_values($outFieldNames));
+        $query->select($outFieldNames);
 
         //  var_dump($query->createCommand()->getRawSql());exit;
 
@@ -179,8 +176,8 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         */
         
         /*
-        $input['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
-        $input['page'] = ApiHelper::EXPORT_PAGE;
+        $completedData['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
+        $completedData['page'] = ApiHelper::EXPORT_PAGE;
 
         $index = new Index();
         $items = $index->processing($completedData);
@@ -189,18 +186,20 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
             'dataProvider' => new \yii\data\ArrayDataProvider([
                 'allModels' => $items['data']['items'],
             ]),
-            // 'columns' => [
-            //     [
-            //         'attribute' => 'name',
-            //         'label' => 'name',
-            //     ],
-            //     [
-            //         'header' => 'description',
-            //         'content' => function ($row) {
-            //             return $row['des'];
-            //         }
-            //     ],
-            // ],
+            /*
+            'columns' => [
+                [
+                    'attribute' => 'name',
+                    'label' => 'name',
+                ],
+                [
+                    'header' => 'description',
+                    'content' => function ($row) {
+                        return $row['des'];
+                    }
+                ],
+            ],
+            */
         ];
 
         $name = sprintf('export-%s', time());
@@ -226,8 +225,8 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
-        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
+        // $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        // $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }
