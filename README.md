@@ -116,9 +116,11 @@ return [
         'v2' => [
             'class' => 'app\modules\v2\RestByConfModule',
             'docToken' => 'docTokenAsMyzero1',
-            'fixedUser' => [ //
-                'id' => 1,
+            'apiTokenExpire' => 24 * 3600 * 365,
+            'fixedUser' => [
+                'id' => '1',
                 'username' => 'myzero1',
+                'api_token' => 'myzero1Token',
             ],
             'runningAsDocActions' => [
                 // '*' => '*', // all ations, as default
