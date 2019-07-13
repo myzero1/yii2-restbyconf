@@ -9,6 +9,7 @@ namespace myzero1\restbyconf\components\rest;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\base\DynamicModel;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 
@@ -126,6 +127,22 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
+        // check docToken
+        if (\Yii::$app->controller->module->docToken == $token) {
+
+
+
+
+            $fixedUser = \Yii::$app->controller->module->fixedUser;
+            $fixedUserKeys = array_keys($fixedUser);
+            $identityModel = new DynamicModel($fixedUserKeys);
+            $identityModel->addRule($fixedUserKeys, 'trim');
+            $identityModel->addRule($fixedUserKeys, 'safe');
+            $identityModel->load($fixedUser, '');
+
+            return $identityModel;
+        }
+
         // 如果token无效的话
         if (!static::apiTokenIsValid($token)) {
             throw new \yii\web\UnauthorizedHttpException("token is invalid.");
