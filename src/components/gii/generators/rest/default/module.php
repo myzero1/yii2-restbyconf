@@ -11,7 +11,7 @@ $templateParams = $generator->getModuleTemplateParams();
 echo "<?php\n";
 ?>
 
-namespace <?= $templateParams['namespace'] ?>;
+namespace <?= json_decode($generator->conf, true)['json']['restModuleNamespace'] ?>;
 
 use Yii;
 use yii\base\Module as BaseModule;
