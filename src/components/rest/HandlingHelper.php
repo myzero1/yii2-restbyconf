@@ -23,28 +23,9 @@ class HandlingHelper
      * @param mixed $completedData
      * @return mixed
      */
-    public static function before($completedData)
+    public static function before($completedData, $ioClassName)
     {
-        /*
-            [
-                '*' => '*', // all ations, as default
-                'controllerA' => [
-                    '*', // all actons in controllerA
-                ],
-                'controllerB' => [
-                    'actionB',
-                ],
-            ],
-        */
-
-        $runningAsDocActions = \Yii::$app->controller->module->runningAsDocActions;
-        $controllerIds = array_keys($runningAsDocActions);
-
-        if (self::isAll($controllerIds)) {
-            return Io::egOutputData();
-        } else {
-
-        }
+        self::checkReturnDoc($completedData, $ioClassName);
 
         return $completedData;
     }
@@ -68,5 +49,44 @@ class HandlingHelper
     public static function isAll($inArray, $allFlag = '*')
     {
         return boolval(in_array($allFlag, $inArray));
+    }
+
+    /**
+     * @param string $ioClassName
+     * @param array $completedData
+     * @return bool
+     */
+    public static function checkReturnDoc($completedData, $ioClassName)
+    {
+        /*
+            [
+                '*' => '*', // all ations, as default
+                'controllerA' => [
+                    '*', // all actons in controllerA
+                ],
+                'controllerB' => [
+                    'actionB',
+                ],
+            ],
+        */
+
+        $runningAsDocActions = \Yii::$app->controller->module->runningAsDocActions;
+        $controllerIds = array_keys($runningAsDocActions);
+
+        if (self::isAll($controllerIds)) {
+            return $ioClassName::egOutputData();
+        } else {
+            $cid = \Yii::$app->controller->id;
+            if (isset($runningAsDocActions[$cid])) {
+                if (self::isAll($runningAsDocActions[$cid])) {
+                    return $ioClassName::egOutputData();
+                } else {
+                    $aid = \Yii::$app->controller->action->id;
+                    if (in_array($aid, $runningAsDocActions[$cid])) {
+                        return $ioClassName::egOutputData();
+                    }
+                }
+            }
+        }
     }
 }

@@ -27,6 +27,8 @@ class <?= $templateParams['className'] ?> extends BaseModule implements Bootstra
      * {@inheritdoc}
      */
     public $controllerNamespace = '<?= $templateParams['controllerNamespace'] ?>';
+    public $runningAsDocActions = ['*' => '*']; // all action
+    public $docToken = 'docTokenAsMyzero1';
     public $runModel = 'doc';
 
     /**

@@ -15,6 +15,7 @@ use Yii;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
+use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
 use <?= $templateParams['ioClass'] ?> as Io;
@@ -44,13 +45,12 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            if (\Yii::$app->controller->module->runModel == 'doc') {
-                return Io::egOutputData(); // for demo
-            }
-            
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
+
+            $completedData = HandlingHelper::before($completedData);
             $handledData = $this->handling($completedData);
+            $handledData = HandlingHelper::after($handledData);
 
             if (Helper::isReturning($handledData)) {
                 return $handledData;
