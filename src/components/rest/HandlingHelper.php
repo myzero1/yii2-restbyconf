@@ -25,6 +25,27 @@ class HandlingHelper
      */
     public static function before($completedData)
     {
+        /*
+            [
+                '*' => '*', // all ations, as default
+                'controllerA' => [
+                    '*', // all actons in controllerA
+                ],
+                'controllerB' => [
+                    'actionB',
+                ],
+            ],
+        */
+
+        $runningAsDocActions = \Yii::$app->controller->module->runningAsDocActions;
+        $controllerIds = array_keys($runningAsDocActions);
+
+        if (self::isAll($controllerIds)) {
+            return Io::egOutputData();
+        } else {
+
+        }
+
         return $completedData;
     }
 
@@ -35,5 +56,17 @@ class HandlingHelper
     public static function after($handledData)
     {
         return $handledData;
+    }
+
+    /**
+     * ['*', 'c1', 'c2'],
+     *
+     * @param string $allFlag *
+     * @param array $handledData
+     * @return bool
+     */
+    public static function isAll($inArray, $allFlag = '*')
+    {
+        return boolval(in_array($allFlag, $inArray));
     }
 }
