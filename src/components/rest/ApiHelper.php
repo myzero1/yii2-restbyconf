@@ -798,6 +798,50 @@ class ApiHelper
      * @param mixed $customDic
      * @return string
      */
+    public static function saveConfJsonStr($confJsonStr)
+    {
+        $confJson = json_decode($confJsonStr, true);
+        $confJsonObj = json_decode($confJsonStr);
+        $members = array_keys($confJson['json']['myGroup']['member']);
+        $currentUser = $confJson['json']['myGroup']['currentUser'];
+        $members = array_merge(['admin'] ,$members);
+        $userControllers = [];
+        $controllers = [];
+        foreach ($members as $k => $v) {
+            $userControllers[$k] = explode(',', $v);
+            $controllers = array_merge($controllers, $userControllers[$k]);
+        }
+        $oldControllers = array_keys($confJson['json']['controllers']);
+        $adminControllers = array_diff($oldControllers, $controllers);
+        $adminControllersObj = [];
+        $userControllersObj = [];
+        foreach ($oldControllers as $k => $v) {
+            if (in_array($v, $adminControllers)) {
+                $adminControllersObj[] = $confJsonObj->json->controllers->$v;
+            } else if (in_array($v, $userControllers[$currentUser])) {
+                $userControllersObj[] = $confJsonObj->json->controllers->$v;
+            }
+            
+        }
+
+        $confJsonObj->schemaRefs->schema->properties->myGroup->properties->currentUser->enum = $members;
+
+        
+        
+
+
+        $confJsonStr = json_encode($confJsonObj, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
+
+        return $confJsonStr;
+    }
+    
+    /**
+     * filter EgOutputData
+     * @param string $type
+     * @param string $item
+     * @param mixed $customDic
+     * @return string
+     */
     public static function filterEgOutputData($egOutputDataEncode)
     {
         $tmp =  unserialize($egOutputDataEncode);
