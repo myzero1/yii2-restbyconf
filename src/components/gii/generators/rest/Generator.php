@@ -308,36 +308,62 @@ EOD;
         $controllers = $this->confAarray['json']['controllers'];
         $controllers = ApiHelper::rmNode($controllers);
 
-       foreach ($controllers as $controller => $controllerV) {
-            $this->controller = $controller;
-            $controllerV['actions'] = ApiHelper::rmNode($controllerV['actions']);
-            $this->controllerV = $controllerV;
-            $files[] = new CodeFile(
-                sprintf('%s/controllers/%sController.php', $modulePath, ucwords($controller)),
-                $this->render('rest/ApiController.php')
-            );
-            $actions = array_keys($controllerV['actions']);
+        // filter controllers
+        $confJson = json_decode($this->conf, true);
+        $members = $confJson['json']['myGroup']['member'];
+        $currentUser = $confJson['json']['myGroup']['currentUser'];
+        $members = array_merge(['admin'] ,$members);
+        $userControllers = [];
+        $allControllers = [];
+        foreach ($members as $k => $v) {
+            $userControllers[$k] = explode(',', $v);
+            $allControllers = array_merge($allControllers, $userControllers[$k]);
+        }
+        $oldControllers = array_keys($confJson['json']['controllers']);
+        $adminControllers = array_diff($oldControllers, $allControllers);
 
-            $template = ['create', 'update', 'delete', 'view', 'index', 'export', ];
-            foreach ($actions as $k => $action) {
-                $this->action = $action;
-                if (in_array($action, $template)) {
+        $currentControllers = [];
+        if ($currentUser == 'admin') {
+            $currentControllers = $adminControllers;
+        } else {
+            $currentControllers = $userControllers[$currentUser];
+        }
+
+        // var_dump($currentControllers);exit;
+
+       foreach ($controllers as $controller => $controllerV) {
+            if (in_array($controller, $currentControllers)) {
+                $this->controller = $controller;
+                $controllerV['actions'] = ApiHelper::rmNode($controllerV['actions']);
+                $this->controllerV = $controllerV;
+                $files[] = new CodeFile(
+                    sprintf('%s/controllers/%sController.php', $modulePath, ucwords($controller)),
+                    $this->render('rest/ApiController.php')
+                );
+                $actions = array_keys($controllerV['actions']);
+
+                $template = ['create', 'update', 'delete', 'view', 'index', 'export', ];
+                foreach ($actions as $k => $action) {
+                    $this->action = $action;
+                    if (in_array($action, $template)) {
+                        $files[] = new CodeFile(
+                            sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
+                            $this->render(sprintf('rest/template/Api%sProcessing.php', ucfirst($action)))
+                        );
+                    } else {
+                        $files[] = new CodeFile(
+                            sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
+                            $this->render('rest/template/ApiCustomProcessing.php')
+                        );
+                    }
+
                     $files[] = new CodeFile(
-                        sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
-                        $this->render(sprintf('rest/template/Api%sProcessing.php', ucfirst($action)))
-                    );
-                } else {
-                    $files[] = new CodeFile(
-                        sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
-                        $this->render('rest/template/ApiCustomProcessing.php')
+                        sprintf('%s/processing/%s/io/%sIo.php', $modulePath, $controller, ucwords($action)),
+                        $this->render('rest/ApiIoProcessing.php')
                     );
                 }
-
-                $files[] = new CodeFile(
-                    sprintf('%s/processing/%s/io/%sIo.php', $modulePath, $controller, ucwords($action)),
-                    $this->render('rest/ApiIoProcessing.php')
-                );
             }
+
         }
 
         return $files;
