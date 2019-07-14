@@ -422,9 +422,9 @@ class ApiHelper
                     }
                 }
 
-                // $members = array_keys($configAdmin['json']['myGroup']['member']);
-                // $members = array_merge(['admin'] ,$members);
-                // $configAdmin['schemaRefs']['schema']['properties']['myGroup']['properties']['currentUser']['enum'] = $members;
+                $members = array_keys($configAdmin['json']['myGroup']['member']);
+                $members = array_merge(['admin'] ,$members);
+                $configAdmin['schemaRefs']['schema']['properties']['myGroup']['properties']['currentUser']['enum'] = $members;
                 // var_dump($configAdmin);exit;
                 $confDataInit = json_encode($configAdmin);
             }
@@ -802,7 +802,7 @@ class ApiHelper
     {
         $confJson = json_decode($confJsonStr, true);
         $confJsonObj = json_decode($confJsonStr);
-        $members = array_keys($confJson['json']['myGroup']['member']);
+        $members = $confJson['json']['myGroup']['member'];
         $currentUser = $confJson['json']['myGroup']['currentUser'];
         $members = array_merge(['admin'] ,$members);
         $userControllers = [];
@@ -817,9 +817,9 @@ class ApiHelper
         $userControllersObj = [];
         foreach ($oldControllers as $k => $v) {
             if (in_array($v, $adminControllers)) {
-                $adminControllersObj[] = $confJsonObj->json->controllers->$v;
+                $adminControllersObj[$v] = $confJsonObj->json->controllers->$v;
             } else if (isset($userControllers[$currentUser]) && in_array($v, $userControllers[$currentUser])) {
-                $userControllersObj[] = $confJsonObj->json->controllers->$v;
+                $userControllersObj[$v] = $confJsonObj->json->controllers->$v;
             }
             
         }
@@ -834,11 +834,16 @@ class ApiHelper
         );
 
         $currentConfStr = '';
-        if (is_file($currentPath)) {
-            $currentConfStr = file_get_contents($currentPath);
-        } else {
+        if ($currentUser == 'admin') {
             $currentConfStr = $confJsonStr;
+        } else {
+            if (is_file($currentPath)) {
+                $currentConfStr = file_get_contents($currentPath);
+            } else {
+                $currentConfStr = $confJsonStr;
+            }
         }
+        
         $currentConfObj = json_decode($currentConfStr);
 
         if ($currentUser == 'admin') {
