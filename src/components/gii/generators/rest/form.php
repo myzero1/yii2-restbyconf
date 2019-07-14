@@ -111,6 +111,11 @@ $moduleId = Yii::$app->request->get('mId', '');
         <span class="overwriting-button" id="overwriting-on">On</span>
         <span class="overwriting-button" id="overwriting-off">Off</span>
     </div>
+    <div id="overwriting-wrap">
+        <span class="overwriting-label" >Rewrite IO files</span>
+        <span class="overwriting-button" id="rewrite-io-on">On</span>
+        <span class="overwriting-button" id="rewrite-io-off">Off</span>
+    </div>
 </div>
 
 <style type="text/css">
@@ -157,11 +162,11 @@ $moduleId = Yii::$app->request->get('mId', '');
         color: #fff;
         opacity: 0.2;
     }
-    #overwriting-on{
+    #overwriting-on, #rewrite-io-on{
         background: green;
         border-radius: 10px 0px 0px 10px;
     }
-    #overwriting-off{
+    #overwriting-off, #rewrite-io-off{
         background: red;
         border-radius: 0px 10px 10px 0px;
         opacity: 1;
@@ -235,6 +240,36 @@ $js = <<<'JS'
             if(/\\processing\\/.test(filePath)){
                 if(!/\\io\\/.test(filePath)){
                     $(this).children('.check').children('input').attr("disabled",false);
+                }
+            }
+        });
+    });
+
+    $('#rewrite-io-on').click(function(){
+        $('#rewrite-io-on').css({'opacity':1});
+        $('#rewrite-io-off').css({'opacity':0.2});
+
+        $('.overwrite').each(function(){
+            var filePath = $(this).children('.file').children('.preview-code').text();
+
+            if(/\\processing\\/.test(filePath)){
+                if(/\\io\\/.test(filePath)){
+                    $(this).children('.check').children('input').prop("checked",true);
+                }
+            }
+        });
+    });
+
+    $('#rewrite-io-off').click(function(){
+        $('#rewrite-io-on').css({'opacity':0.2});
+        $('#rewrite-io-off').css({'opacity':1});
+
+        $('.overwrite').each(function(){
+            var filePath = $(this).children('.file').children('.preview-code').text();
+
+            if(/\\processing\\/.test(filePath)){
+                if(/\\io\\/.test(filePath)){
+                    $(this).children('.check').children('input').prop("checked",false);
                 }
             }
         });
