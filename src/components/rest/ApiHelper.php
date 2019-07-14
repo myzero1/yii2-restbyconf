@@ -798,7 +798,7 @@ class ApiHelper
      * @param mixed $customDic
      * @return string
      */
-    public static function saveConfJsonStr($confJsonStr)
+    public static function saveConfJsonStr($confJsonStr, $moduleId)
     {
         $confJson = json_decode($confJsonStr, true);
         $confJsonObj = json_decode($confJsonStr);
@@ -826,13 +826,30 @@ class ApiHelper
 
         $confJsonObj->schemaRefs->schema->properties->myGroup->properties->currentUser->enum = $members;
 
+        $currentPath = sprintf(
+            '%s/config/conf_%s.json', 
+            ApiHelper::getModulePath($moduleId, 
+            json_decode($confJsonStr, true)['json']),
+            json_decode($confJsonStr, true)['json']['myGroup']['currentUser']
+        );
+
+        $currentConfStr = '';
+        if (is_file($currentPath)) {
+            $currentConfStr = file_get_contents($currentPath);
+        } else {
+            $currentConfStr = $confJsonStr;
+        }
+        $currentConfObj = json_decode($currentConfStr);
+
+        if ($currentUser == 'admin') {
+            $currentConfObj->json->controllers = $adminControllersObj;
+        } else {
+            $currentConfObj->json->controllers = $userControllersObj;
+        }
         
-        
+        $currentConfStrEnd = json_encode($currentConfObj, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
 
-
-        $confJsonStr = json_encode($confJsonObj, JSON_UNESCAPED_UNICODE + JSON_PRETTY_PRINT);
-
-        return $confJsonStr;
+        return $currentConfStrEnd;
     }
     
     /**
