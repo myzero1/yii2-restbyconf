@@ -818,7 +818,7 @@ class ApiHelper
         foreach ($oldControllers as $k => $v) {
             if (in_array($v, $adminControllers)) {
                 $adminControllersObj[] = $confJsonObj->json->controllers->$v;
-            } else if (in_array($v, $userControllers[$currentUser])) {
+            } else if (isset($userControllers[$currentUser]) && in_array($v, $userControllers[$currentUser])) {
                 $userControllersObj[] = $confJsonObj->json->controllers->$v;
             }
             

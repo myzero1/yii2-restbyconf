@@ -166,7 +166,7 @@ EOD;
                 json_decode($this->conf, true)['json']),
                 json_decode($this->conf, true)['json']['myGroup']['currentUser']
             ),
-            $confJsonStr
+            ApiHelper::saveConfJsonStr($this->conf, $this->moduleID)
         );
 
         $confAarray = $this->confAarray;
