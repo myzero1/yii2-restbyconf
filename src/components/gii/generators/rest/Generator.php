@@ -256,14 +256,32 @@ EOD;
         } else {
             $rules = str_replace("'extraPatterns' => extraPatterns", "'extraPatterns' => []", $rules);
         }
-
+/*
         $files[] = new CodeFile(
 //            Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $this->moduleID)),
             sprintf('%s/config/apiUrlRules.php', ApiHelper::getModulePath($this->moduleID, 
                 json_decode($this->conf, true)['json'])),
             $rules
         );
-
+*/
+        $files[] = new CodeFile(
+//            Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $this->moduleID)),
+            sprintf(
+                '%s/config/apiUrlRules_%s.php', 
+                ApiHelper::getModulePath($this->moduleID, 
+                json_decode($this->conf, true)['json']),
+                json_decode($this->conf, true)['json']['myGroup']['currentUser']
+            ),
+            $rules
+        );
+/*
+            sprintf(
+                '%s/config/conf_%s.json', 
+                ApiHelper::getModulePath($this->moduleID, 
+                json_decode($this->conf, true)['json']),
+                json_decode($this->conf, true)['json']['myGroup']['currentUser']
+            ),
+*/
         return $files;
     }
 
