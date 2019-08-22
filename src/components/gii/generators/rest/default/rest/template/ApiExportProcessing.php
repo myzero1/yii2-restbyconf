@@ -111,11 +111,11 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         $completedData['page'] = ApiHelper::EXPORT_PAGE;
 
         $index = new Index();
-        $items = $index->processing($completedData);
+        $items = $index->handling($completedData);
 
         $exportParams = [
             'dataProvider' => new \yii\data\ArrayDataProvider([
-                'allModels' => $items['data']['items'],
+                'allModels' => $items['items'],
             ]),
             /*
             'columns' => [
