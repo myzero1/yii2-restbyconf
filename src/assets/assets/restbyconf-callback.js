@@ -39,6 +39,13 @@ var onEvent = function(node, event){
             };
             editor.setSchema(this.schema,schemaRefs);
         }
+        if (isOutputLay(node.path)) {
+            var schemaRefs = this.schemaRefs;
+            schemaRefs[node.path[4]]['properties'][node.field] = {
+              "$ref": "output"
+            };
+            editor.setSchema(this.schema,schemaRefs);
+        }
         // update the validation of output
         // if (isOutputLay(node.path)) {
         //     var schemaRefs = this.schemaRefs;
