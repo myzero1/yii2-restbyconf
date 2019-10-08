@@ -728,6 +728,19 @@ var templates = [
           }
       },
       {
+          text: 'output',
+          title: 'Insert a output node',
+          className: 'jsoneditor-append jsoneditor-default',
+          field: '',
+          value: {
+                "code": "735200",
+                "msg": "Ok",
+                "data": {
+                    "msg": "Ok"
+                }
+          }
+      },
+      {
           text: 'create',
           title: 'Insert a action node',
           className: 'jsoneditor-append jsoneditor-default',

@@ -76,6 +76,7 @@ var onCreateMenu = function onCreateMenu(items, node) {
     var del = new Array();
     var cp = new Array();
     var auto = new Array();
+    var output = new Array();
 
     for (var i = 0;  i < items.length; i++) {
         var text = items[i]['text'];
@@ -106,6 +107,8 @@ var onCreateMenu = function onCreateMenu(items, node) {
                     action.push(items[i]['submenu'][j]);
                 } else if (items[i]['submenu'][j]['text'] == 'export') {
                     action.push(items[i]['submenu'][j]);
+                } else if (items[i]['submenu'][j]['text'] == 'output') {
+                    output.push(items[i]['submenu'][j]);
                 }
             }
         } else if (text=='移除') {
@@ -166,6 +169,10 @@ var onCreateMenu = function onCreateMenu(items, node) {
             auto.push(del);
             auto.push(cp);
             return auto;
+        } else if(isOutputLay(node.path)){
+            output.push(del);
+            output.push(cp);
+            return output;
         }
     }
 }
