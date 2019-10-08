@@ -12,7 +12,7 @@ var onValidate = function onValidate(json) {
 }
 
 var onEvent = function(node, event){
-    // console.log(node);
+    console.log(node);
     // console.log(event.type);
     if (event.type == 'blur') {
         // update the validation of tag
@@ -197,6 +197,8 @@ var onEditable = function(node) {
             } else if(isActionLay(node.path)){
                 return true;
             } else if(isInputLay(node.path)){
+                return true;
+            } else if(isOutputLay(node.path)){
                 return true;
             } else if(isDataLay(node.path)){
                 return true;
