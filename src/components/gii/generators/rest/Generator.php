@@ -439,7 +439,7 @@ EOD;
 
         $params['namespace'] = sprintf('%s\processing\%s\io',  $this->getRestModuleAlias(), $this->controller);
         $params['className'] = ucwords($this->action) . 'Io';
-        $params['egOutputData'] = $outputs = $controllerV['actions'][$action]['outputs']['data'];
+        $params['egOutputData'] = $outputs = $controllerV['actions'][$action]['outputs'];
         $params['inputsKeys'] = $inputsKeys;
         $params['getInputRules'] = $getInputRules;
         $params['postInputRules'] = $postInputRules;
