@@ -903,7 +903,12 @@ class ApiHelper
             }
         }
 
-        // var_dump($tmp);
-        return $tmp;
+        $code = isset($_GET['response_code']) ? $_GET['response_code'] : 735200;
+
+        if (isset($tmp[$code])) {
+            return $tmp[$code];
+        } else {
+            return "no this response code '{$code}'";
+        }
     }
 }
