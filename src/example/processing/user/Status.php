@@ -139,6 +139,7 @@ class Status implements ApiActionProcessing
             ->andFilterWhere([
                 'and',
                 ['=', 'status', $completedData['status']],
+                ['=', 'response_code', $completedData['response_code']],
                 ['=', 'id', $completedData['id']],
             ]);
 
@@ -181,7 +182,7 @@ class Status implements ApiActionProcessing
             'dataProvider' => new \yii\data\ArrayDataProvider([
                 'allModels' => $items['data']['items'],
             ]),
-            /*
+            
             'columns' => [
                 [
                     'attribute' => 'name',
@@ -194,8 +195,8 @@ class Status implements ApiActionProcessing
                     }
                 ],
             ],
-            */
         ];
+        */
 
         $name = sprintf('export-%s', time());
         $filenameBase = Yii::getAlias(sprintf('@app/web/%s', $name));
@@ -205,7 +206,6 @@ class Status implements ApiActionProcessing
         return [
             'url' => Yii::$app->urlManager->createAbsoluteUrl([sprintf('/%s.xls', $name)])
         ];
-        */
     }
 
     /**

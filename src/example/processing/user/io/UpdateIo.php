@@ -36,6 +36,7 @@ class UpdateIo implements ApiIoProcessing
             'username',
             'password',
             'status',
+            'response_code',
             'id',
             'sort',
             'page',
@@ -48,6 +49,7 @@ class UpdateIo implements ApiIoProcessing
         $modelGet->addRule($inputFields, 'trim');
         $modelGet->addRule($inputFields, 'safe');
 
+        $modelGet->addRule(['response_code'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
         $modelGet->addRule(['id'], 'required');
         $modelGet->addRule(['id'], 'match', ['pattern' => '/^\d+$/i', 'message' => '\'{attribute}\':Input parameter error']);
 
@@ -88,7 +90,7 @@ class UpdateIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:4:{s:8:"username";s:7:"myzero1";s:6:"status";i:1;s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}';
+        $egOutputData = 'a:2:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:4:{s:8:"username";s:7:"myzero1";s:6:"status";i:1;s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }

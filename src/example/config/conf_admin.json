@@ -25,7 +25,7 @@
         },
         "schemes": "http",
         "mySecurity": {
-            "security": "noAuthenticator",
+            "security": "httpBearerAuth",
             "exclude": [
                 "post \/authenticator\/login",
                 "post \/authenticator\/join"
@@ -64,13 +64,30 @@
                                 }
                             },
                             "path_params": {},
-                            "query_params": {}
+                            "query_params": {
+                                "response_code": {
+                                    "des": "返回状态码",
+                                    "required": false,
+                                    "eg": 735401,
+                                    "rules": "^.{0,32}$",
+                                    "error_msg": "Input parameter error"
+                                }
+                            }
                         },
                         "outputs": {
-                            "code": 200,
-                            "msg": "msg",
-                            "data": {
-                                "username": "myzero1"
+                            "735200": {
+                                "code": 735200,
+                                "msg": "Ok",
+                                "data": {
+                                    "username": "myzero1"
+                                }
+                            },
+                            "735401": {
+                                "code": 735401,
+                                "msg": "Unauthorized",
+                                "data": {
+                                    "msg": "Unauthorized"
+                                }
                             }
                         }
                     },
@@ -97,14 +114,31 @@
                                 }
                             },
                             "path_params": {},
-                            "query_params": {}
+                            "query_params": {
+                                "response_code": {
+                                    "des": "返回状态码",
+                                    "required": false,
+                                    "eg": 735401,
+                                    "rules": "^.{0,32}$",
+                                    "error_msg": "Input parameter error"
+                                }
+                            }
                         },
                         "outputs": {
-                            "code": 200,
-                            "msg": "msg",
-                            "data": {
-                                "username": "myzero1",
-                                "api_token": "123456dsfe5w"
+                            "735200": {
+                                "code": 735200,
+                                "msg": "Ok",
+                                "data": {
+                                    "username": "myzero1",
+                                    "api_token": "123456dsfe5w"
+                                }
+                            },
+                            "735401": {
+                                "code": 735401,
+                                "msg": "Unauthorized",
+                                "data": {
+                                    "msg": "Unauthorized"
+                                }
                             }
                         }
                     }
@@ -143,16 +177,33 @@
                                 }
                             },
                             "path_params": {},
-                            "query_params": {}
+                            "query_params": {
+                                "response_code": {
+                                    "des": "返回状态码",
+                                    "required": false,
+                                    "eg": 735401,
+                                    "rules": "^.{0,32}$",
+                                    "error_msg": "Input parameter error"
+                                }
+                            }
                         },
                         "outputs": {
-                            "code": 200,
-                            "msg": "msg",
-                            "data": {
-                                "username": "myzero1",
-                                "status": 1,
-                                "created_at": "2019-04-28 11:11:11",
-                                "updated_at": "2019-04-28 11:11:11"
+                            "735200": {
+                                "code": 735200,
+                                "msg": "Ok",
+                                "data": {
+                                    "username": "myzero1",
+                                    "status": 1,
+                                    "created_at": "2019-04-28 11:11:11",
+                                    "updated_at": "2019-04-28 11:11:11"
+                                }
+                            },
+                            "735401": {
+                                "code": 735401,
+                                "msg": "Unauthorized",
+                                "data": {
+                                    "msg": "Unauthorized"
+                                }
                             }
                         }
                     },
@@ -194,16 +245,33 @@
                                     "error_msg": "Input parameter error"
                                 }
                             },
-                            "query_params": {}
+                            "query_params": {
+                                "response_code": {
+                                    "des": "返回状态码",
+                                    "required": false,
+                                    "eg": 735401,
+                                    "rules": "^.{0,32}$",
+                                    "error_msg": "Input parameter error"
+                                }
+                            }
                         },
                         "outputs": {
-                            "code": 200,
-                            "msg": "msg",
-                            "data": {
-                                "username": "myzero1",
-                                "status": 1,
-                                "created_at": "2019-04-28 11:11:11",
-                                "updated_at": "2019-04-28 11:11:11"
+                            "735200": {
+                                "code": 735200,
+                                "msg": "Ok",
+                                "data": {
+                                    "username": "myzero1",
+                                    "status": 1,
+                                    "created_at": "2019-04-28 11:11:11",
+                                    "updated_at": "2019-04-28 11:11:11"
+                                }
+                            },
+                            "735401": {
+                                "code": 735401,
+                                "msg": "Unauthorized",
+                                "data": {
+                                    "msg": "Unauthorized"
+                                }
                             }
                         }
                     },
@@ -223,17 +291,34 @@
                                     "error_msg": "Input parameter error"
                                 }
                             },
-                            "query_params": {}
+                            "query_params": {
+                                "response_code": {
+                                    "des": "返回状态码",
+                                    "required": false,
+                                    "eg": 735401,
+                                    "rules": "^.{0,32}$",
+                                    "error_msg": "Input parameter error"
+                                }
+                            }
                         },
                         "outputs": {
-                            "code": 200,
-                            "msg": "msg",
-                            "data": {
-                                "username": "myzero1",
-                                "status": 1,
-                                "api_token": "eHiFYAsL5DMkAiwK-iUJZEon-u42qhpH_1557385911",
-                                "created_at": "2019-04-28 11:11:11",
-                                "updated_at": "2019-04-28 11:11:11"
+                            "735200": {
+                                "code": 735200,
+                                "msg": "Ok",
+                                "data": {
+                                    "username": "myzero1",
+                                    "status": 1,
+                                    "api_token": "eHiFYAsL5DMkAiwK-iUJZEon-u42qhpH_1557385911",
+                                    "created_at": "2019-04-28 11:11:11",
+                                    "updated_at": "2019-04-28 11:11:11"
+                                }
+                            },
+                            "735401": {
+                                "code": 735401,
+                                "msg": "Unauthorized",
+                                "data": {
+                                    "msg": "Unauthorized"
+                                }
                             }
                         }
                     },
@@ -253,13 +338,30 @@
                                     "error_msg": "Input parameter error"
                                 }
                             },
-                            "query_params": {}
+                            "query_params": {
+                                "response_code": {
+                                    "des": "返回状态码",
+                                    "required": false,
+                                    "eg": 735401,
+                                    "rules": "^.{0,32}$",
+                                    "error_msg": "Input parameter error"
+                                }
+                            }
                         },
                         "outputs": {
-                            "code": 200,
-                            "msg": "msg",
-                            "data": {
-                                "id": 1
+                            "735200": {
+                                "code": 735200,
+                                "msg": "Ok",
+                                "data": {
+                                    "id": 1
+                                }
+                            },
+                            "735401": {
+                                "code": 735401,
+                                "msg": "Unauthorized",
+                                "data": {
+                                    "msg": "Unauthorized"
+                                }
                             }
                         }
                     },
@@ -272,6 +374,13 @@
                             "body_params": {},
                             "path_params": {},
                             "query_params": {
+                                "response_code": {
+                                    "des": "返回状态码",
+                                    "required": false,
+                                    "eg": 735401,
+                                    "rules": "^.{0,32}$",
+                                    "error_msg": "Input parameter error"
+                                },
                                 "username": {
                                     "des": "username",
                                     "required": false,
@@ -282,21 +391,23 @@
                             }
                         },
                         "outputs": {
-                            "code": 200,
-                            "msg": "msg",
-                            "data": {
-                                "total": 9,
-                                "page": 1,
-                                "page_size": 20,
-                                "items": [
-                                    {
-                                        "id": 1,
-                                        "username": "myzero1",
-                                        "status": 1,
-                                        "created_at": "2019-04-28 11:11:11",
-                                        "updated_at": "2019-04-28 11:11:11"
-                                    }
-                                ]
+                            "735200": {
+                                "code": 735200,
+                                "msg": "Ok",
+                                "data": {
+                                    "id": 1,
+                                    "username": "myzero1",
+                                    "status": 1,
+                                    "created_at": "2019-04-28 11:11:11",
+                                    "updated_at": "2019-04-28 11:11:11"
+                                }
+                            },
+                            "735401": {
+                                "code": 735401,
+                                "msg": "Unauthorized",
+                                "data": {
+                                    "msg": "Unauthorized"
+                                }
                             }
                         }
                     },
@@ -309,6 +420,13 @@
                             "body_params": {},
                             "path_params": {},
                             "query_params": {
+                                "response_code": {
+                                    "des": "返回状态码",
+                                    "required": false,
+                                    "eg": 735401,
+                                    "rules": "^.{0,32}$",
+                                    "error_msg": "Input parameter error"
+                                },
                                 "username": {
                                     "des": "username",
                                     "required": false,
@@ -319,10 +437,19 @@
                             }
                         },
                         "outputs": {
-                            "code": 200,
-                            "msg": "msg",
-                            "data": {
-                                "url": "\/export.xsl"
+                            "735200": {
+                                "code": 735200,
+                                "msg": "Ok",
+                                "data": {
+                                    "url": "\/export.xsl"
+                                }
+                            },
+                            "735401": {
+                                "code": 735401,
+                                "msg": "Unauthorized",
+                                "data": {
+                                    "msg": "Unauthorized"
+                                }
                             }
                         }
                     },
@@ -350,17 +477,34 @@
                                     "error_msg": "Input parameter error"
                                 }
                             },
-                            "query_params": {}
+                            "query_params": {
+                                "response_code": {
+                                    "des": "返回状态码",
+                                    "required": false,
+                                    "eg": 735401,
+                                    "rules": "^.{0,32}$",
+                                    "error_msg": "Input parameter error"
+                                }
+                            }
                         },
                         "outputs": {
-                            "code": 200,
-                            "msg": "msg",
-                            "data": {
-                                "id": 1,
-                                "username": "myzero1",
-                                "status": 2,
-                                "created_at": "2019-04-28 11:11:11",
-                                "updated_at": "2019-04-28 11:11:11"
+                            "735200": {
+                                "code": 735200,
+                                "msg": "Ok",
+                                "data": {
+                                    "id": 1,
+                                    "username": "myzero1",
+                                    "status": 2,
+                                    "created_at": "2019-04-28 11:11:11",
+                                    "updated_at": "2019-04-28 11:11:11"
+                                }
+                            },
+                            "735401": {
+                                "code": 735401,
+                                "msg": "Unauthorized",
+                                "data": {
+                                    "msg": "Unauthorized"
+                                }
                             }
                         }
                     }
@@ -847,6 +991,9 @@
                 },
                 "updated_at": {
                     "$ref": "param"
+                },
+                "response_code": {
+                    "$ref": "param"
                 }
             }
         },
@@ -906,6 +1053,19 @@
         },
         "outputs": {
             "title": "restbyconf-obj-outputs",
+            "type": "object",
+            "required": [],
+            "properties": {
+                "735200": {
+                    "$ref": "output"
+                },
+                "735401": {
+                    "$ref": "output"
+                }
+            }
+        },
+        "output": {
+            "title": "restbyconf-obj-output",
             "type": "object",
             "required": [
                 "code",

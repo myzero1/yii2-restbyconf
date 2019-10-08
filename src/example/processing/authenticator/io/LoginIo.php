@@ -35,6 +35,7 @@ class LoginIo implements ApiIoProcessing
         $inputFields = [
             'username',
             'password',
+            'response_code',
             'sort',
             'page',
             'page_size',
@@ -46,6 +47,7 @@ class LoginIo implements ApiIoProcessing
         $modelGet->addRule($inputFields, 'trim');
         $modelGet->addRule($inputFields, 'safe');
 
+        $modelGet->addRule(['response_code'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
 
         $modelGet->load($input['get'], '');
 
@@ -82,7 +84,7 @@ class LoginIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:2:{s:8:"username";s:7:"myzero1";s:9:"api_token";s:12:"123456dsfe5w";}}';
+        $egOutputData = 'a:2:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:2:{s:8:"username";s:7:"myzero1";s:9:"api_token";s:12:"123456dsfe5w";}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }

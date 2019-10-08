@@ -33,6 +33,7 @@ class DeleteIo implements ApiIoProcessing
     public static function inputValidate($input)
     {
         $inputFields = [
+            'response_code',
             'id',
             'sort',
             'page',
@@ -45,6 +46,7 @@ class DeleteIo implements ApiIoProcessing
         $modelGet->addRule($inputFields, 'trim');
         $modelGet->addRule($inputFields, 'safe');
 
+        $modelGet->addRule(['response_code'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
         $modelGet->addRule(['id'], 'required');
         $modelGet->addRule(['id'], 'match', ['pattern' => '/^\d+$/i', 'message' => '\'{attribute}\':Input parameter error']);
 
@@ -79,7 +81,7 @@ class DeleteIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:1:{s:2:"id";i:1;}}';
+        $egOutputData = 'a:2:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:1:{s:2:"id";i:1;}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }

@@ -140,6 +140,7 @@ class Join implements ApiActionProcessing
                 'and',
                 ['=', 'username', $completedData['username']],
                 ['=', 'password', $completedData['password']],
+                ['=', 'response_code', $completedData['response_code']],
             ]);
 
         $outFieldNames = [
@@ -181,7 +182,7 @@ class Join implements ApiActionProcessing
             'dataProvider' => new \yii\data\ArrayDataProvider([
                 'allModels' => $items['data']['items'],
             ]),
-            /*
+            
             'columns' => [
                 [
                     'attribute' => 'name',
@@ -194,8 +195,8 @@ class Join implements ApiActionProcessing
                     }
                 ],
             ],
-            */
         ];
+        */
 
         $name = sprintf('export-%s', time());
         $filenameBase = Yii::getAlias(sprintf('@app/web/%s', $name));
@@ -205,7 +206,6 @@ class Join implements ApiActionProcessing
         return [
             'url' => Yii::$app->urlManager->createAbsoluteUrl([sprintf('/%s.xls', $name)])
         ];
-        */
     }
 
     /**
