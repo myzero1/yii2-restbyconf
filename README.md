@@ -142,6 +142,7 @@ return [
 ```
 * the `v2` will display to Selectable modules menu as `v2 api`
 * you can click the `v2 api` button to config the `v2`
+* you can add `response_code` param to return characteristic return
 
 ### The other menu of restbyconfig
 * you can click the `Swagger` button to use it.
@@ -150,4 +151,5 @@ return [
 ### change logs
 * Add my group
 * Carding code
+* Multiple responses
 
