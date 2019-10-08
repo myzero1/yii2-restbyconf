@@ -103,7 +103,7 @@ var isOutputLay = function(path) {
 }
 
 var isDataLay = function(path) {
-    if (path.length > 6 && path[0] == 'controllers' && path[2] == 'actions' && path[4] == 'outputs') {
+    if (path.length > 7 && path[0] == 'controllers' && path[2] == 'actions' && path[4] == 'outputs') {
         return true;
     } else {
         return false;

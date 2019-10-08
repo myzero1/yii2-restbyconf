@@ -148,6 +148,8 @@ var onCreateMenu = function onCreateMenu(items, node) {
             return data;
         } else if (selected === 'exclude[0]') {
             return auto;
+        } else if (selected === 'outputs{0}') {
+            return output;
         } else {
             return data;
         }
