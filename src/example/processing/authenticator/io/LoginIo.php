@@ -82,7 +82,7 @@ class LoginIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:2:{s:8:"username";s:7:"myzero1";s:9:"api_token";s:12:"123456dsfe5w";}';
+        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:2:{s:8:"username";s:7:"myzero1";s:9:"api_token";s:12:"123456dsfe5w";}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }

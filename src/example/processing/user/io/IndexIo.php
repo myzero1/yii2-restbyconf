@@ -78,7 +78,7 @@ class IndexIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:4:{s:5:"total";i:9;s:4:"page";i:1;s:9:"page_size";i:20;s:5:"items";a:1:{i:0;a:5:{s:2:"id";i:1;s:8:"username";s:7:"myzero1";s:6:"status";i:1;s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}}';
+        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:4:{s:5:"total";i:9;s:4:"page";i:1;s:9:"page_size";i:20;s:5:"items";a:1:{i:0;a:5:{s:2:"id";i:1;s:8:"username";s:7:"myzero1";s:6:"status";i:1;s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }

@@ -79,7 +79,7 @@ class DeleteIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:1:{s:2:"id";i:1;}';
+        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:1:{s:2:"id";i:1;}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }

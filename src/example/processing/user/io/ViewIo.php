@@ -79,7 +79,7 @@ class ViewIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:5:{s:8:"username";s:7:"myzero1";s:6:"status";i:1;s:9:"api_token";s:43:"eHiFYAsL5DMkAiwK-iUJZEon-u42qhpH_1557385911";s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}';
+        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:5:{s:8:"username";s:7:"myzero1";s:6:"status";i:1;s:9:"api_token";s:43:"eHiFYAsL5DMkAiwK-iUJZEon-u42qhpH_1557385911";s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }

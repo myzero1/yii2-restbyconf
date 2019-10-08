@@ -25,7 +25,7 @@
         },
         "schemes": "http",
         "mySecurity": {
-            "security": "httpBearerAuth",
+            "security": "noAuthenticator",
             "exclude": [
                 "post \/authenticator\/login",
                 "post \/authenticator\/join"
@@ -67,19 +67,10 @@
                             "query_params": {}
                         },
                         "outputs": {
-                            "735200": {
-                                "code": 735200,
-                                "msg": "Ok",
-                                "data": {
-                                    "username": "myzero1"
-                                }
-                            },
-                            "735401": {
-                                "code": 735401,
-                                "msg": "Unauthorized",
-                                "data": {
-                                    "msg": "Unauthorized"
-                                }
+                            "code": 200,
+                            "msg": "msg",
+                            "data": {
+                                "username": "myzero1"
                             }
                         }
                     },
@@ -109,20 +100,11 @@
                             "query_params": {}
                         },
                         "outputs": {
-                            "735200": {
-                                "code": 735200,
-                                "msg": "Ok",
-                                "data": {
-                                    "username": "myzero1",
-                                    "api_token": "123456dsfe5w"
-                                }
-                            },
-                            "735401": {
-                                "code": 735401,
-                                "msg": "Unauthorized",
-                                "data": {
-                                    "msg": "Unauthorized"
-                                }
+                            "code": 200,
+                            "msg": "msg",
+                            "data": {
+                                "username": "myzero1",
+                                "api_token": "123456dsfe5w"
                             }
                         }
                     }

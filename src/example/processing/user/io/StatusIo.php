@@ -81,7 +81,7 @@ class StatusIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:5:{s:2:"id";i:1;s:8:"username";s:7:"myzero1";s:6:"status";i:2;s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}';
+        $egOutputData = 'a:3:{s:4:"code";i:200;s:3:"msg";s:3:"msg";s:4:"data";a:5:{s:2:"id";i:1;s:8:"username";s:7:"myzero1";s:6:"status";i:2;s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }
