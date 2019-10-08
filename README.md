@@ -71,8 +71,30 @@ return [
     ......
     'modules' => [
         ......
-        'example' => '\myzero1\restbyconf\example\RestByConfModule',// should add table to db by 'example/models/user.sql'
         'restbyconf' => 'myzero1\restbyconf\Module',
+        'example' => [
+            'class' => 'myzero1\restbyconf\example\RestByConfModule',// should add table to db by 'yii2-restbyconf/src/user.sql'
+            'docToken' => 'docTokenAsMyzero1',
+            'apiTokenExpire' => 24 * 3600 * 365,
+            'fixedUser' => [
+                'id' => '1',
+                'username' => 'myzero1',
+                'api_token' => 'myzero1Token',
+            ],
+            'runningAsDocActions' => [
+                '*' => '*', // all ations, as default
+                // 'controllerA' => [
+                //     '*', // all actons in controllerA
+                // ],
+                // 'controllerB' => [
+                //     'actionB',
+                // ],
+                // 'user' => [
+                //     'create',
+                //     'index',
+                // ],
+            ],
+        ],
         ......
     ],
     ......
