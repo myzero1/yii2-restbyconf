@@ -8,12 +8,14 @@
 namespace example\processing\user;
 
 use Yii;
+use yii\db\Query;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
+use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use example\processing\user\io\ViewIo;
+use example\processing\user\io\ViewIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -40,17 +42,20 @@ class View implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*$in2dbData = $this->mappingInput2db($validatedInput);
+            $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
+            
+            $completedData = HandlingHelper::before($completedData, Io::class);
             $handledData = $this->handling($completedData);
+            $handledData = HandlingHelper::after($handledData);
 
             if (Helper::isReturning($handledData)) {
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);*/
-            $db2outData = ViewIo::egOutputData(); // for demo
+            $db2outData = $this->mappingDb2output($handledData);
             $result = $this->completeResult($db2outData);
+            
             return $result;
         }
     }
@@ -61,7 +66,7 @@ class View implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        return ViewIo::inputValidate($input); // for demo
+        return Io::inputValidate($input); // for demo
     }
 
     /**
@@ -97,9 +102,29 @@ class View implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\User', $completedData['id']);
+        $result = (new Query())
+            ->from('user t')
+            // ->groupBy(['t.id'])
+            // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
+            ->andFilterWhere([
+                'and',
+                ['=', 't.id', $completedData['id']],
+            ])
+            ->select([
+                't.id',
+            ])
+            ->one()
+            ;
 
-        return $model->attributes;
+        if(!$result){
+            $result = [
+                'code' => ApiCodeMsg::NOT_FOUND,
+                'msg' => ApiCodeMsg::NOT_FOUND_MSG,
+                'data' => new \StdClass(),
+            ];
+        }
+
+        return $result;
     }
 
     /**
@@ -114,8 +139,8 @@ class View implements ApiActionProcessing
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
-        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
+        // $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        // $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }
@@ -140,6 +165,6 @@ class View implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return ViewIo::egOutputData(); // for demo
+        return Io::egOutputData(); // for demo
     }
 }

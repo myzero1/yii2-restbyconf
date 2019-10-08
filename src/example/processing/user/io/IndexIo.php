@@ -33,6 +33,7 @@ class IndexIo implements ApiIoProcessing
     public static function inputValidate($input)
     {
         $inputFields = [
+            'response_code',
             'username',
             'sort',
             'page',
@@ -45,6 +46,7 @@ class IndexIo implements ApiIoProcessing
         $modelGet->addRule($inputFields, 'trim');
         $modelGet->addRule($inputFields, 'safe');
 
+        $modelGet->addRule(['response_code'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
         $modelGet->addRule(['username'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
 
         $modelGet->load($input['get'], '');
@@ -78,8 +80,8 @@ class IndexIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:4:{s:5:"total";i:9;s:4:"page";i:1;s:9:"page_size";i:20;s:5:"items";a:1:{i:0;a:5:{s:2:"id";i:1;s:8:"username";s:7:"myzero1";s:6:"status";i:1;s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}}';
+        $egOutputData = 'a:2:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:5:{s:2:"id";i:1;s:8:"username";s:7:"myzero1";s:6:"status";i:1;s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
 
-        return unserialize($egOutputData);
+        return ApiHelper::filterEgOutputData($egOutputData);
     }
 }

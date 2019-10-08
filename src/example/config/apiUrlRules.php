@@ -1,5 +1,5 @@
 <?php
-$version = 'example';
+$version = 'v1';
 $moduleName = 'example';
 return [
     // defult

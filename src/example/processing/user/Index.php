@@ -12,9 +12,10 @@ use yii\db\Query;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
+use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use example\processing\user\io\IndexIo;
+use example\processing\user\io\IndexIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -41,17 +42,20 @@ class Index implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*$in2dbData = $this->mappingInput2db($validatedInput);
+            $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
+            
+            $completedData = HandlingHelper::before($completedData, Io::class);
             $handledData = $this->handling($completedData);
+            $handledData = HandlingHelper::after($handledData);
 
             if (Helper::isReturning($handledData)) {
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);*/
-            $db2outData = IndexIo::egOutputData(); // for demo
+            $db2outData = $this->mappingDb2output($handledData);
             $result = $this->completeResult($db2outData);
+            
             return $result;
         }
     }
@@ -62,7 +66,7 @@ class Index implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        return IndexIo::inputValidate($input); // for demo
+        return Io::inputValidate($input); // for demo
     }
 
     /**
@@ -101,15 +105,22 @@ class Index implements ApiActionProcessing
         $result = [];
 
         $query = (new Query())
-            ->from('user')
+            ->from('user t')
+            // ->groupBy(['t.id'])
+            // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
             ->andFilterWhere([
                 'and',
+                ['=', 'response_code', $completedData['response_code']],
                 ['=', 'username', $completedData['username']],
             ]);
 
-        $query->select(['1']);
+        $outFieldNames = [
+            't.id as id',
+        ];
 
+        $query->select(['1']);
         $result['total'] = intval($query->count());
+
         $pagination = ApiHelper::getPagination($completedData);
         $query->limit($pagination['page_size']);
         $offset = $pagination['page_size'] * ($pagination['page'] - 1);
@@ -117,22 +128,11 @@ class Index implements ApiActionProcessing
         $result['page'] = intval($pagination['page']);
         $result['page_size'] = intval($pagination['page_size']);
 
-        $outFieldNames = [
-            'id' => 'id',
-            'name' => 'name',
-            'des' => 'des',
-            'created_at' => 'created_at',
-            'updated_at' => 'updated_at',
-        ];
-
-        // $query->groupBy(['kc.keyword_id']);
-        // $query->join('INNER JOIN', 'sj_enterprise_ext ext', 'ext.enterprise_id = t.id');
-
         // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
         // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');
         // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
-        $query->select(array_values($outFieldNames));
+        $query->select($outFieldNames);
 
         //  var_dump($query->createCommand()->getRawSql());exit;
 
@@ -158,8 +158,8 @@ class Index implements ApiActionProcessing
         foreach ($db2outData['items'] as $k => $v) {
             $db2outData['items'][$k] = ApiHelper::db2OutputField($db2outData['items'][$k], $outputFieldMap);
 
-            $db2outData['items'][$k]['created_at'] = ApiHelper::time2string($db2outData['items'][$k]['created_at']);
-            $db2outData['items'][$k]['updated_at'] = ApiHelper::time2string($db2outData['items'][$k]['updated_at']);
+            // $db2outData['items'][$k]['created_at'] = ApiHelper::time2string($db2outData['items'][$k]['created_at']);
+            // $db2outData['items'][$k]['updated_at'] = ApiHelper::time2string($db2outData['items'][$k]['updated_at']);
         }
 
         return $db2outData;
@@ -185,6 +185,6 @@ class Index implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return IndexIo::egOutputData(); // for demo
+        return Io::egOutputData(); // for demo
     }
 }

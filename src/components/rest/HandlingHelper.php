@@ -92,13 +92,14 @@ class HandlingHelper
         }
 
         if ($isReturn) {
-            $data = [
-                'code' => ApiCodeMsg::SUCCESS,
-                'msg' => ApiCodeMsg::SUCCESS_MSG,
-                'data' => $ioClassName::egOutputData(),
-            ];
-
-            Yii::$app->response->data = $data;
+            // $data = [
+            //     'code' => ApiCodeMsg::SUCCESS,
+            //     'msg' => ApiCodeMsg::SUCCESS_MSG,
+            //     'data' => $ioClassName::egOutputData(),
+            // ];
+            // Yii::$app->response->data = $data;
+            
+            Yii::$app->response->data = $ioClassName::egOutputData();
             Yii::$app->response->send();
             exit;
         }

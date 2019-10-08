@@ -11,9 +11,10 @@ use Yii;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
+use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use example\processing\user\io\UpdateIo;
+use example\processing\user\io\UpdateIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -40,17 +41,20 @@ class Update implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*$in2dbData = $this->mappingInput2db($validatedInput);
+            $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
+            
+            $completedData = HandlingHelper::before($completedData, Io::class);
             $handledData = $this->handling($completedData);
+            $handledData = HandlingHelper::after($handledData);
 
             if (Helper::isReturning($handledData)) {
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);*/
-            $db2outData = UpdateIo::egOutputData(); // for demo
+            $db2outData = $this->mappingDb2output($handledData);
             $result = $this->completeResult($db2outData);
+            
             return $result;
         }
     }
@@ -61,7 +65,7 @@ class Update implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        return UpdateIo::inputValidate($input); // for demo
+        return Io::inputValidate($input); // for demo
     }
 
     /**
@@ -85,7 +89,7 @@ class Update implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        $in2dbData['updated_at'] = time();
+        // $in2dbData['updated_at'] = time();
 
         $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
@@ -137,8 +141,8 @@ class Update implements ApiActionProcessing
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
-        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
+        // $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        // $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }
@@ -163,6 +167,6 @@ class Update implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return UpdateIo::egOutputData(); // for demo
+        return Io::egOutputData(); // for demo
     }
 }

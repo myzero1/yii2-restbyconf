@@ -1,36 +1,39 @@
 window.jsoneditorOldJson = {
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
+        "description": "This is a sample server Petstore server.  You can find out more about Swagger at [http:\/\/swagger.io](http:\/\/swagger.io) or on [irc.freenode.net, #swagger](http:\/\/swagger.io\/irc\/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
         "version": "v1",
         "title": "Swagger Petstore",
-        "termsOfService": "http://swagger.io/terms/",
+        "termsOfService": "http:\/\/swagger.io\/terms\/",
         "contact": {
             "email": "apiteam@swagger.io"
         },
         "license": {
             "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+            "url": "http:\/\/www.apache.org\/licenses\/LICENSE-2.0.html"
         }
     },
     "host": "restbyconf.test",
     "restModuleName": "v1",
     "restModuleAlias": "v1",
-    "restModuleAliasPath": "@backend/modules/v1",
+    "restModuleAliasPath": "@backend\/modules\/v1",
     "restModuleNamespace": "backend\\modules\\v1",
     "externalDocs": {
         "description": "11Find out more about Swagger",
-        "url": "http://swagger.io"
+        "url": "http:\/\/swagger.io"
     },
     "schemes": "http",
     "mySecurity": {
         "security": "httpBearerAuth",
-        "exclude": ["post /authenticator/login", "post /authenticator/join"]
+        "exclude": [
+            "post \/authenticator\/login",
+            "post \/authenticator\/join"
+        ]
     },
     "myGroup": {
         "currentUser": "admin",
         "member": {
-            "userA": "controllerA1,controllerA2",
+            "userA": "controllerA1,controllerA2"
         }
     },
     "controllers": {
@@ -41,7 +44,7 @@ window.jsoneditorOldJson = {
                     "summary": "get the api token",
                     "description": "The action's description",
                     "method": "post",
-                    "uri": "/{controller}/join",
+                    "uri": "\/{controller}\/join",
                     "inputs": {
                         "body_params": {
                             "username": {
@@ -60,13 +63,30 @@ window.jsoneditorOldJson = {
                             }
                         },
                         "path_params": {},
-                        "query_params": {}
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735401,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "username": "myzero1"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "username": "myzero1"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -74,7 +94,7 @@ window.jsoneditorOldJson = {
                     "summary": "get the api token",
                     "description": "The action's description",
                     "method": "post",
-                    "uri": "/{controller}/login",
+                    "uri": "\/{controller}\/login",
                     "inputs": {
                         "body_params": {
                             "username": {
@@ -93,14 +113,31 @@ window.jsoneditorOldJson = {
                             }
                         },
                         "path_params": {},
-                        "query_params": {}
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735401,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "username": "myzero1",
-                            "api_token": "123456dsfe5w"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "username": "myzero1",
+                                "api_token": "123456dsfe5w"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 }
@@ -113,7 +150,7 @@ window.jsoneditorOldJson = {
                     "summary": "The create action's summary",
                     "description": "The action's description",
                     "method": "post",
-                    "uri": "/{controller}",
+                    "uri": "\/{controller}",
                     "inputs": {
                         "body_params": {
                             "username": {
@@ -139,16 +176,33 @@ window.jsoneditorOldJson = {
                             }
                         },
                         "path_params": {},
-                        "query_params": {}
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735401,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "username": "myzero1",
-                            "status": 1,
-                            "created_at": "2019-04-28 11:11:11",
-                            "updated_at": "2019-04-28 11:11:11"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "username": "myzero1",
+                                "status": 1,
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -156,7 +210,7 @@ window.jsoneditorOldJson = {
                     "summary": "The create action's summary",
                     "description": "The action's description",
                     "method": "put",
-                    "uri": "/{controller}/{id}",
+                    "uri": "\/{controller}\/{id}",
                     "inputs": {
                         "body_params": {
                             "username": {
@@ -190,16 +244,33 @@ window.jsoneditorOldJson = {
                                 "error_msg": "Input parameter error"
                             }
                         },
-                        "query_params": {}
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735401,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "username": "myzero1",
-                            "status": 1,
-                            "created_at": "2019-04-28 11:11:11",
-                            "updated_at": "2019-04-28 11:11:11"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "username": "myzero1",
+                                "status": 1,
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -207,7 +278,7 @@ window.jsoneditorOldJson = {
                     "summary": "The view action's summary",
                     "description": "The action's description",
                     "method": "get",
-                    "uri": "/{controller}/{id}",
+                    "uri": "\/{controller}\/{id}",
                     "inputs": {
                         "body_params": {},
                         "path_params": {
@@ -219,17 +290,34 @@ window.jsoneditorOldJson = {
                                 "error_msg": "Input parameter error"
                             }
                         },
-                        "query_params": {}
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735401,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "username": "myzero1",
-                            "status": 1,
-                            "api_token": "eHiFYAsL5DMkAiwK-iUJZEon-u42qhpH_1557385911",
-                            "created_at": "2019-04-28 11:11:11",
-                            "updated_at": "2019-04-28 11:11:11"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "username": "myzero1",
+                                "status": 1,
+                                "api_token": "eHiFYAsL5DMkAiwK-iUJZEon-u42qhpH_1557385911",
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -237,7 +325,7 @@ window.jsoneditorOldJson = {
                     "summary": "The delete action's summary",
                     "description": "The action's description",
                     "method": "delete",
-                    "uri": "/{controller}/{id}",
+                    "uri": "\/{controller}\/{id}",
                     "inputs": {
                         "body_params": {},
                         "path_params": {
@@ -249,13 +337,30 @@ window.jsoneditorOldJson = {
                                 "error_msg": "Input parameter error"
                             }
                         },
-                        "query_params": {}
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735401,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "id": 1
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "id": 1
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -263,11 +368,18 @@ window.jsoneditorOldJson = {
                     "summary": "The index action's summary",
                     "description": "The action's description",
                     "method": "get",
-                    "uri": "/{controller}",
+                    "uri": "\/{controller}",
                     "inputs": {
                         "body_params": {},
                         "path_params": {},
                         "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735401,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            },
                             "username": {
                                 "des": "username",
                                 "required": false,
@@ -278,31 +390,42 @@ window.jsoneditorOldJson = {
                         }
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "total": 9,
-                            "page": 1,
-                            "page_size": 20,
-                            "items": [{
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
                                 "id": 1,
                                 "username": "myzero1",
                                 "status": 1,
                                 "created_at": "2019-04-28 11:11:11",
                                 "updated_at": "2019-04-28 11:11:11"
-                            }]
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
                 "export": {
                     "summary": "The export action's summary",
-                    "description": "It require \"yii2tech/spreadsheet\" Yii2 extension",
+                    "description": "It require \"yii2tech\/spreadsheet\" Yii2 extension",
                     "method": "get",
-                    "uri": "/{controller}/export",
+                    "uri": "\/{controller}\/export",
                     "inputs": {
                         "body_params": {},
                         "path_params": {},
                         "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735401,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            },
                             "username": {
                                 "des": "username",
                                 "required": false,
@@ -313,10 +436,19 @@ window.jsoneditorOldJson = {
                         }
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "url": "/export.xsl"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "url": "\/export.xsl"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -324,7 +456,7 @@ window.jsoneditorOldJson = {
                     "summary": "The custom action's summary",
                     "description": "The action's description",
                     "method": "patch",
-                    "uri": "/{controller}/{id}/status",
+                    "uri": "\/{controller}\/{id}\/status",
                     "inputs": {
                         "body_params": {
                             "status": {
@@ -344,17 +476,34 @@ window.jsoneditorOldJson = {
                                 "error_msg": "Input parameter error"
                             }
                         },
-                        "query_params": {}
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735401,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "id": 1,
-                            "username": "myzero1",
-                            "status": 2,
-                            "created_at": "2019-04-28 11:11:11",
-                            "updated_at": "2019-04-28 11:11:11"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "id": 1,
+                                "username": "myzero1",
+                                "status": 2,
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 }
@@ -649,6 +798,19 @@ var templates = [
               "eg": "myzero1",
               "rules": "^.{0,32}$",
               "error_msg": "Input parameter error"
+          }
+      },
+      {
+          text: 'output',
+          title: 'Insert a output node',
+          className: 'jsoneditor-append jsoneditor-default',
+          field: '',
+          value: {
+                "code": "735200",
+                "msg": "Ok",
+                "data": {
+                    "msg": "Ok"
+                }
           }
       },
       {
@@ -962,136 +1124,243 @@ var schemas = {
     "schema": {
         "title": "Restfull api configuration",
         "type": "object",
-        "required": ["swagger", "info"],
+        "required": [
+            "swagger",
+            "info"
+        ],
         "properties": {
             "swagger": {
                 "title": "swagger version",
                 "description": "It can not edit.",
-                "type": ["number", "string"],
-                "examples": ["2.0"]
+                "type": [
+                    "number",
+                    "string"
+                ],
+                "examples": [
+                    "2.0"
+                ]
             },
             "info": {
                 "title": "Info description",
                 "type": "object",
-                "required": ["description", "version", "title", "termsOfService", "contact", "license"],
+                "required": [
+                    "description",
+                    "version",
+                    "title",
+                    "termsOfService",
+                    "contact",
+                    "license"
+                ],
                 "properties": {
                     "description": {
-                        "type": ["number", "string"],
-                        "examples": ["This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters."]
+                        "type": [
+                            "number",
+                            "string"
+                        ],
+                        "examples": [
+                            "This is a sample server Petstore server. You can find out more about Swagger at [http:\/\/swagger.io](http:\/\/swagger.io) or on [irc.freenode.net, #swagger](http:\/\/swagger.io\/irc\/).  For this sample, you can use the api key `special-key` to test the authorization filters."
+                        ]
                     },
                     "version": {
                         "title": "The api version",
-                        "type": ["number", "string"],
-                        "examples": ["1.0.0", "1.0.1", "v1"]
+                        "type": [
+                            "number",
+                            "string"
+                        ],
+                        "examples": [
+                            "1.0.0",
+                            "1.0.1",
+                            "v1"
+                        ]
                     },
                     "title": {
                         "title": "Api title",
-                        "type": ["number", "string"],
-                        "examples": ["Create restfull api by conf.", "Swagger Petstore"]
+                        "type": [
+                            "number",
+                            "string"
+                        ],
+                        "examples": [
+                            "Create restfull api by conf.",
+                            "Swagger Petstore"
+                        ]
                     },
                     "termsOfService": {
                         "title": "The terms of service",
-                        "type": ["number", "string"],
-                        "examples": ["https://github.com/myzero1/yii2-restbyconf", "http://swagger.io/terms/"]
+                        "type": [
+                            "number",
+                            "string"
+                        ],
+                        "examples": [
+                            "https:\/\/github.com\/myzero1\/yii2-restbyconf",
+                            "http:\/\/swagger.io\/terms\/"
+                        ]
                     },
                     "contact": {
                         "title": "contact description",
                         "type": "object",
-                        "required": ["email"],
+                        "required": [
+                            "email"
+                        ],
                         "properties": {
                             "email": {
                                 "title": "email",
                                 "description": "The contact email",
-                                "type": ["number", "string"],
+                                "type": [
+                                    "number",
+                                    "string"
+                                ],
                                 "format": "email",
-                                "examples": ["myzero1@sina.com", "apiteam@swagger.io"]
+                                "examples": [
+                                    "myzero1@sina.com",
+                                    "apiteam@swagger.io"
+                                ]
                             }
                         }
                     },
                     "license": {
                         "title": "contact description",
                         "type": "object",
-                        "required": ["name", "url"],
+                        "required": [
+                            "name",
+                            "url"
+                        ],
                         "properties": {
                             "name": {
-                                "type": ["number", "string"],
-                                "examples": ["Apache 2.0"]
+                                "type": [
+                                    "number",
+                                    "string"
+                                ],
+                                "examples": [
+                                    "Apache 2.0"
+                                ]
                             },
                             "url": {
-                                "type": ["number", "string"],
-                                "pattern": "[a-zA-z]+://[^\\s]*",
-                                "examples": ["http://www.apache.org/licenses/LICENSE-2.0.html"]
+                                "type": [
+                                    "number",
+                                    "string"
+                                ],
+                                "pattern": "[a-zA-z]+:\/\/[^\\s]*",
+                                "examples": [
+                                    "http:\/\/www.apache.org\/licenses\/LICENSE-2.0.html"
+                                ]
                             }
                         }
                     }
                 }
             },
             "host": {
-                "type": ["number", "string"],
+                "type": [
+                    "number",
+                    "string"
+                ],
                 "format": "hostname",
-                "examples": ["petstore.swagger.io", "github.com"]
+                "examples": [
+                    "petstore.swagger.io",
+                    "github.com"
+                ]
             },
             "restModuleName": {
-                "type": ["string"],
+                "type": [
+                    "string"
+                ],
                 "pattern": "^[a-zA-Z]\\w*$",
-                "examples": ["v1"]
+                "examples": [
+                    "v1"
+                ]
             },
             "restModuleNamespace": {
-                "type": ["string"],
+                "type": [
+                    "string"
+                ],
                 "pattern": "^[a-zA-Z][\\w\\\\]*$",
-                "examples": ["backend\\modules\\v1"]
+                "examples": [
+                    "backend\\modules\\v1"
+                ]
             },
             "restModuleAliasPath": {
-                "type": ["string"],
-                "pattern": "^@[a-zA-Z][\\w\\/-]*$",
-                "examples": ["@backend/modules/v1"]
+                "type": [
+                    "string"
+                ],
+                "pattern": "^@[a-zA-Z][\\w\\\/-]*$",
+                "examples": [
+                    "@backend\/modules\/v1"
+                ]
             },
             "restModuleAlias": {
-                "type": ["string"],
+                "type": [
+                    "string"
+                ],
                 "pattern": "^[a-zA-Z]\\w*$",
-                "examples": ["v1"]
+                "examples": [
+                    "v1"
+                ]
             },
             "externalDocs": {
                 "title": "externalDocs description",
                 "type": "object",
-                "required": ["description", "url"],
+                "required": [
+                    "description",
+                    "url"
+                ],
                 "properties": {
                     "description": {
-                        "type": ["number", "string"],
-                        "examples": ["e about Swagger"]
+                        "type": [
+                            "number",
+                            "string"
+                        ],
+                        "examples": [
+                            "e about Swagger"
+                        ]
                     },
                     "url": {
-                        "type": ["number", "string"],
-                        "pattern": "[a-zA-z]+://[^\\s]*",
-                        "examples": ["http://www.apache.org/licenses/LICENSE-2.0.html"]
+                        "type": [
+                            "number",
+                            "string"
+                        ],
+                        "pattern": "[a-zA-z]+:\/\/[^\\s]*",
+                        "examples": [
+                            "http:\/\/www.apache.org\/licenses\/LICENSE-2.0.html"
+                        ]
                     }
                 }
             },
             "schemes": {
                 "title": "schemes",
-                "enum": ["https", "http"]
+                "enum": [
+                    "https",
+                    "http"
+                ]
             },
             "mySecurity": {
                 "title": "mySecurity description",
                 "type": "object",
-                "required": ["security"],
+                "required": [
+                    "security"
+                ],
                 "properties": {
                     "security": {
                         "title": "security",
-                        "enum": ["noAuthenticator","queryParamAuth","httpBasicAuth", "httpBearerAuth"]
+                        "enum": [
+                            "noAuthenticator",
+                            "queryParamAuth",
+                            "httpBasicAuth",
+                            "httpBearerAuth"
+                        ]
                     }
                 }
             },
             "myGroup": {
                 "title": "myGroup description",
                 "type": "object",
-                "required": ["currentUser"],
+                "required": [
+                    "currentUser"
+                ],
                 "properties": {
                     "currentUser": {
                         "title": "currentUser",
                         "enum": [
                             "admin",
-                            "userA",
+                            "userA"
                         ]
                     }
                 }
@@ -1099,24 +1368,44 @@ var schemas = {
             "securityDefinitions": {
                 "title": "securityDefinitions description",
                 "type": "object",
-                "required": ["api_key"],
+                "required": [
+                    "api_key"
+                ],
                 "properties": {
                     "api_key": {
                         "title": "api_key description",
                         "type": "object",
-                        "required": ["type", "name"],
+                        "required": [
+                            "type",
+                            "name"
+                        ],
                         "properties": {
                             "type": {
-                                "type": ["number", "string"],
-                                "examples": ["apiKey"]
+                                "type": [
+                                    "number",
+                                    "string"
+                                ],
+                                "examples": [
+                                    "apiKey"
+                                ]
                             },
                             "in": {
-                                "type": ["number", "string"],
-                                "examples": ["header"]
+                                "type": [
+                                    "number",
+                                    "string"
+                                ],
+                                "examples": [
+                                    "header"
+                                ]
                             },
                             "name": {
-                                "type": ["number", "string"],
-                                "examples": ["api_key"]
+                                "type": [
+                                    "number",
+                                    "string"
+                                ],
+                                "examples": [
+                                    "api_key"
+                                ]
                             }
                         }
                     }
@@ -1143,11 +1432,20 @@ var schemas = {
     "controller": {
         "title": "restbyconf-obj-controller",
         "type": "object",
-        "required": ["description", "actions"],
+        "required": [
+            "description",
+            "actions"
+        ],
         "properties": {
             "description": {
-                "type": ["number", "string"],
-                "examples": ["user", "log"]
+                "type": [
+                    "number",
+                    "string"
+                ],
+                "examples": [
+                    "user",
+                    "log"
+                ]
             },
             "actions": {
                 "$ref": "actions"
@@ -1188,16 +1486,33 @@ var schemas = {
         "required": [],
         "properties": {
             "summary": {
-                "type": ["number", "string"],
-                "examples": ["action's summary"]
+                "type": [
+                    "number",
+                    "string"
+                ],
+                "examples": [
+                    "action's summary"
+                ]
             },
             "description": {
-                "type": ["number", "string"],
-                "examples": ["description's summary"]
+                "type": [
+                    "number",
+                    "string"
+                ],
+                "examples": [
+                    "description's summary"
+                ]
             },
             "method": {
                 "title": "method",
-                "enum": ["post", "get", "put", "delete", "patch", "options"]
+                "enum": [
+                    "post",
+                    "get",
+                    "put",
+                    "delete",
+                    "patch",
+                    "options"
+                ]
             },
             "inputs": {
                 "$ref": "inputs"
@@ -1210,7 +1525,11 @@ var schemas = {
     "inputs": {
         "title": "restbyconf-obj-inputs",
         "type": "object",
-        "required": ["body_params", "path_params", "query_params"],
+        "required": [
+            "body_params",
+            "path_params",
+            "query_params"
+        ],
         "properties": {
             "query_params": {
                 "$ref": "query_params"
@@ -1280,51 +1599,104 @@ var schemas = {
             },
             "updated_at": {
                 "$ref": "param"
+            },
+            "response_code": {
+                "$ref": "param"
             }
         }
     },
     "param": {
         "title": "restbyconf-obj-input",
         "type": "object",
-        "required": ["des", "required", "eg", "rules", "error_msg"],
+        "required": [
+            "des",
+            "required",
+            "eg",
+            "rules",
+            "error_msg"
+        ],
         "properties": {
             "des": {
-                "type": ["string", "number"],
-                "examples": ["user name"]
+                "type": [
+                    "string",
+                    "number"
+                ],
+                "examples": [
+                    "user name"
+                ]
             },
             "required": {
                 "type": "boolean",
                 "default": false
             },
             "eg": {
-                "type": ["string", "number"],
-                "examples": ["myzero1"]
+                "type": [
+                    "string",
+                    "number"
+                ],
+                "examples": [
+                    "myzero1"
+                ]
             },
             "rules": {
-                "type": ["number", "string"],
+                "type": [
+                    "number",
+                    "string"
+                ],
                 "examples": [
                     "input `regular expression` will use `math` validator, eg:^\\w{1,32}$",
                     "input `safe` will use `safe` validator"
                 ]
             },
             "error_msg": {
-                "type": ["number", "string"],
-                "examples": ["Input parameter error"]
+                "type": [
+                    "number",
+                    "string"
+                ],
+                "examples": [
+                    "Input parameter error"
+                ]
             }
         }
     },
     "outputs": {
         "title": "restbyconf-obj-outputs",
         "type": "object",
-        "required": ["code", "msg", "data"],
+        "required": [],
+        "properties": {
+            "735200": {
+                "$ref": "output"
+            },
+            "735401": {
+                "$ref": "output"
+            }
+        }
+    },
+    "output": {
+        "title": "restbyconf-obj-output",
+        "type": "object",
+        "required": [
+            "code",
+            "msg",
+            "data"
+        ],
         "properties": {
             "code": {
-                "type": ["number", "string"],
-                "examples": ["200 success"]
+                "type": [
+                    "number",
+                    "string"
+                ],
+                "examples": [
+                    "200 success"
+                ]
             },
             "msg": {
-                "type": ["string"],
-                "examples": ["myzero1"]
+                "type": [
+                    "string"
+                ],
+                "examples": [
+                    "myzero1"
+                ]
             },
             "data": {
                 "type": "object"
