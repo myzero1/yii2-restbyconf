@@ -12,9 +12,10 @@ use yii\db\Query;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
+use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use example\processing\user\io\StatusIo;
+use example\processing\user\io\StatusIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -41,17 +42,20 @@ class Status implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            /*$in2dbData = $this->mappingInput2db($validatedInput);
+            $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
+            
+            $completedData = HandlingHelper::before($completedData, Io::class);
             $handledData = $this->handling($completedData);
+            $handledData = HandlingHelper::after($handledData);
 
             if (Helper::isReturning($handledData)) {
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);*/
-            $db2outData = StatusIo::egOutputData(); // for demo
+            $db2outData = $this->mappingDb2output($handledData);
             $result = $this->completeResult($db2outData);
+            
             return $result;
         }
     }
@@ -62,7 +66,7 @@ class Status implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        return StatusIo::inputValidate($input); // for demo
+        return Io::inputValidate($input); // for demo
     }
 
     /**
@@ -86,7 +90,7 @@ class Status implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        $in2dbData['updated_at'] = time();
+        // $in2dbData['updated_at'] = time();
 
         $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
@@ -129,16 +133,22 @@ class Status implements ApiActionProcessing
         $result = [];
 
         $query = (new Query())
-            ->from('user')
+            ->from('user t')
+            // ->groupBy(['t.id'])
+            // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
             ->andFilterWhere([
                 'and',
                 ['=', 'status', $completedData['status']],
                 ['=', 'id', $completedData['id']],
             ]);
 
-        $query->select(['1']);
+        $outFieldNames = [
+            't.id as id',
+        ];
 
+        $query->select(['1']);
         $result['total'] = intval($query->count());
+
         $pagination = ApiHelper::getPagination($completedData);
         $query->limit($pagination['page_size']);
         $offset = $pagination['page_size'] * ($pagination['page'] - 1);
@@ -146,20 +156,11 @@ class Status implements ApiActionProcessing
         $result['page'] = intval($pagination['page']);
         $result['page_size'] = intval($pagination['page_size']);
 
-        $outFieldNames = [
-            'id' => 'id',
-            'name' => 'name',
-            'des' => 'des',
-        ];
-
-        // $query->groupBy(['kc.keyword_id']);
-        // $query->join('INNER JOIN', 'sj_enterprise_ext ext', 'ext.enterprise_id = t.id');
-
         // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
         // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');
         // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
-        $query->select(array_values($outFieldNames));
+        $query->select($outFieldNames);
 
         //  var_dump($query->createCommand()->getRawSql());exit;
 
@@ -170,8 +171,8 @@ class Status implements ApiActionProcessing
         */
         
         /*
-        $input['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
-        $input['page'] = ApiHelper::EXPORT_PAGE;
+        $completedData['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
+        $completedData['page'] = ApiHelper::EXPORT_PAGE;
 
         $index = new Index();
         $items = $index->processing($completedData);
@@ -180,18 +181,20 @@ class Status implements ApiActionProcessing
             'dataProvider' => new \yii\data\ArrayDataProvider([
                 'allModels' => $items['data']['items'],
             ]),
-            // 'columns' => [
-            //     [
-            //         'attribute' => 'name',
-            //         'label' => 'name',
-            //     ],
-            //     [
-            //         'header' => 'description',
-            //         'content' => function ($row) {
-            //             return $row['des'];
-            //         }
-            //     ],
-            // ],
+            /*
+            'columns' => [
+                [
+                    'attribute' => 'name',
+                    'label' => 'name',
+                ],
+                [
+                    'header' => 'description',
+                    'content' => function ($row) {
+                        return $row['des'];
+                    }
+                ],
+            ],
+            */
         ];
 
         $name = sprintf('export-%s', time());
@@ -217,8 +220,8 @@ class Status implements ApiActionProcessing
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
-        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
+        // $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        // $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }
@@ -243,6 +246,6 @@ class Status implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return StatusIo::egOutputData(); // for demo
+        return Io::egOutputData(); // for demo
     }
 }

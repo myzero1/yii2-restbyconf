@@ -5,7 +5,7 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\user\io;
+namespace example\processing\authenticator\io;
 
 use Yii;
 use yii\base\DynamicModel;
@@ -23,7 +23,7 @@ use myzero1\restbyconf\components\rest\ApiIoProcessing;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class IndexIo implements ApiIoProcessing
+class LoginIo implements ApiIoProcessing
 {
 
     /**
@@ -34,6 +34,7 @@ class IndexIo implements ApiIoProcessing
     {
         $inputFields = [
             'username',
+            'password',
             'sort',
             'page',
             'page_size',
@@ -45,7 +46,6 @@ class IndexIo implements ApiIoProcessing
         $modelGet->addRule($inputFields, 'trim');
         $modelGet->addRule($inputFields, 'safe');
 
-        $modelGet->addRule(['username'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
 
         $modelGet->load($input['get'], '');
 
@@ -59,6 +59,10 @@ class IndexIo implements ApiIoProcessing
         $modelPost->addRule($inputFields, 'trim');
         $modelPost->addRule($inputFields, 'safe');
 
+        $modelPost->addRule(['username'], 'required');
+        $modelPost->addRule(['username'], 'match', ['pattern' => '/^.\w{1,32}$/i', 'message' => '\'{attribute}\':invalid username']);
+        $modelPost->addRule(['password'], 'required');
+        $modelPost->addRule(['password'], 'match', ['pattern' => '/^.{1,32}$/i', 'message' => '\'{attribute}\':invalid password']);
 
         $modelPost->load($input['post'], '');
 
@@ -78,8 +82,8 @@ class IndexIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:4:{s:5:"total";i:9;s:4:"page";i:1;s:9:"page_size";i:20;s:5:"items";a:1:{i:0;a:5:{s:2:"id";i:1;s:8:"username";s:7:"myzero1";s:6:"status";i:1;s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}}';
+        $egOutputData = 'a:2:{s:8:"username";s:7:"myzero1";s:9:"api_token";s:12:"123456dsfe5w";}';
 
-        return ApiHelper::filterEgOutputData($egOutputData);
+        return unserialize($egOutputData);
     }
 }

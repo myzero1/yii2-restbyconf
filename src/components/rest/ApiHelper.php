@@ -723,8 +723,18 @@ class ApiHelper
     {
         $moduleClass = self::getModuleClass($moduleId, true);
 
-        $moduleClass = self::getModuleClass($moduleId, true);
-        $moduleClassPath = Yii::getAlias(str_replace('\\', '/', '@'.$moduleClass)) . '.php';
+        if (strpos($moduleClass, 'myzero1\restbyconf') === 0) {
+            $tmp = str_replace('myzero1\restbyconf', '', $moduleClass);
+            $tmp = str_replace('\\', '/', $tmp);
+            $tmp = Yii::getAlias('@vendor/myzero1/yii2-restbyconf/src') . $tmp;
+
+            $moduleClassPath = $tmp . '.php';
+        } else {
+            $moduleClassPath = Yii::getAlias(str_replace('\\', '/', '@'.$moduleClass)) . '.php';
+        }
+
+
+
         
         if (is_file($moduleClassPath)) {
         // if (class_exists($moduleClass)) {

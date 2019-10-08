@@ -80,6 +80,6 @@ class ExportIo implements ApiIoProcessing
     {
         $egOutputData = 'a:1:{s:3:"url";s:11:"/export.xsl";}';
 
-        return unserialize($egOutputData);
+        return ApiHelper::filterEgOutputData($egOutputData);
     }
 }

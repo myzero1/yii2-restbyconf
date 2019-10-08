@@ -84,6 +84,6 @@ class LoginIo implements ApiIoProcessing
     {
         $egOutputData = 'a:2:{s:8:"username";s:7:"myzero1";s:9:"api_token";s:12:"123456dsfe5w";}';
 
-        return unserialize($egOutputData);
+        return ApiHelper::filterEgOutputData($egOutputData);
     }
 }

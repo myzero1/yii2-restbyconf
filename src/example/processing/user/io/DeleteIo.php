@@ -81,6 +81,6 @@ class DeleteIo implements ApiIoProcessing
     {
         $egOutputData = 'a:1:{s:2:"id";i:1;}';
 
-        return unserialize($egOutputData);
+        return ApiHelper::filterEgOutputData($egOutputData);
     }
 }

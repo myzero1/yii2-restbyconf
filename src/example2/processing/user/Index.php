@@ -5,17 +5,16 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\authenticator;
+namespace example\processing\user;
 
 use Yii;
 use yii\db\Query;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
-use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use example\processing\authenticator\io\JoinIo as Io;
+use example\processing\user\io\IndexIo;
 
 /**
  * implement the ActionProcessing
@@ -25,7 +24,7 @@ use example\processing\authenticator\io\JoinIo as Io;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Join implements ApiActionProcessing
+class Index implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -42,20 +41,17 @@ class Join implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            $in2dbData = $this->mappingInput2db($validatedInput);
+            /*$in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
-            
-            $completedData = HandlingHelper::before($completedData, Io::class);
             $handledData = $this->handling($completedData);
-            $handledData = HandlingHelper::after($handledData);
 
             if (Helper::isReturning($handledData)) {
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);
+            $db2outData = $this->mappingDb2output($handledData);*/
+            $db2outData = IndexIo::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
-            
             return $result;
         }
     }
@@ -66,7 +62,7 @@ class Join implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        return Io::inputValidate($input); // for demo
+        return IndexIo::inputValidate($input); // for demo
     }
 
     /**
@@ -90,9 +86,7 @@ class Join implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        // $in2dbData['updated_at'] = time();
-
-        $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
+        // $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
         return $in2dbData;
     }
@@ -104,51 +98,18 @@ class Join implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\User', $completedData['id']);
-        
-        $model->load($completedData, '');
-
-        $trans = Yii::$app->db->beginTransaction();
-        try {
-            $flag = true;
-            if (!($flag = $model->save())) {
-                $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::DB_BAD_REQUEST);
-            }
-
-            if ($flag) {
-                $trans->commit();
-            } else {
-                $trans->rollBack();
-                ApiHelper::throwError('Failed to commint the transaction.', __FILE__, __LINE__);
-            }
-
-            return $model->attributes;
-        } catch (Exception $e) {
-            $trans->rollBack();
-            ApiHelper::throwError('Unknown error.', __FILE__, __LINE__);
-        }
-
-        /*
         $result = [];
 
         $query = (new Query())
-            ->from('user t')
-            // ->groupBy(['t.id'])
-            // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
+            ->from('user')
             ->andFilterWhere([
                 'and',
                 ['=', 'username', $completedData['username']],
-                ['=', 'password', $completedData['password']],
             ]);
 
-        $outFieldNames = [
-            't.id as id',
-        ];
-
         $query->select(['1']);
-        $result['total'] = intval($query->count());
 
+        $result['total'] = intval($query->count());
         $pagination = ApiHelper::getPagination($completedData);
         $query->limit($pagination['page_size']);
         $offset = $pagination['page_size'] * ($pagination['page'] - 1);
@@ -156,11 +117,22 @@ class Join implements ApiActionProcessing
         $result['page'] = intval($pagination['page']);
         $result['page_size'] = intval($pagination['page_size']);
 
+        $outFieldNames = [
+            'id' => 'id',
+            'name' => 'name',
+            'des' => 'des',
+            'created_at' => 'created_at',
+            'updated_at' => 'updated_at',
+        ];
+
+        // $query->groupBy(['kc.keyword_id']);
+        // $query->join('INNER JOIN', 'sj_enterprise_ext ext', 'ext.enterprise_id = t.id');
+
         // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
         // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');
         // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
-        $query->select($outFieldNames);
+        $query->select(array_values($outFieldNames));
 
         //  var_dump($query->createCommand()->getRawSql());exit;
 
@@ -168,44 +140,6 @@ class Join implements ApiActionProcessing
         $result['items'] = $items;
 
         return $result;
-        */
-        
-        /*
-        $completedData['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
-        $completedData['page'] = ApiHelper::EXPORT_PAGE;
-
-        $index = new Index();
-        $items = $index->processing($completedData);
-
-        $exportParams = [
-            'dataProvider' => new \yii\data\ArrayDataProvider([
-                'allModels' => $items['data']['items'],
-            ]),
-            /*
-            'columns' => [
-                [
-                    'attribute' => 'name',
-                    'label' => 'name',
-                ],
-                [
-                    'header' => 'description',
-                    'content' => function ($row) {
-                        return $row['des'];
-                    }
-                ],
-            ],
-            */
-        ];
-
-        $name = sprintf('export-%s', time());
-        $filenameBase = Yii::getAlias(sprintf('@app/web/%s', $name));
-
-        ApiHelper::createXls($filenameBase, $exportParams);
-
-        return [
-            'url' => Yii::$app->urlManager->createAbsoluteUrl([sprintf('/%s.xls', $name)])
-        ];
-        */
     }
 
     /**
@@ -218,10 +152,15 @@ class Join implements ApiActionProcessing
             'name735' => 'demo_name',
             'description735' => 'demo_description',
         ];
-        $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        // $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
-        // $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
+        $db2outData = $handledData;
+
+        foreach ($db2outData['items'] as $k => $v) {
+            $db2outData['items'][$k] = ApiHelper::db2OutputField($db2outData['items'][$k], $outputFieldMap);
+
+            $db2outData['items'][$k]['created_at'] = ApiHelper::time2string($db2outData['items'][$k]['created_at']);
+            $db2outData['items'][$k]['updated_at'] = ApiHelper::time2string($db2outData['items'][$k]['updated_at']);
+        }
 
         return $db2outData;
     }
@@ -246,6 +185,6 @@ class Join implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return Io::egOutputData(); // for demo
+        return IndexIo::egOutputData(); // for demo
     }
 }

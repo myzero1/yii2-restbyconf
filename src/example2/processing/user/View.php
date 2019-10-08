@@ -11,10 +11,9 @@ use Yii;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
-use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use example\processing\user\io\DeleteIo as Io;
+use example\processing\user\io\ViewIo;
 
 /**
  * implement the ActionProcessing
@@ -24,7 +23,7 @@ use example\processing\user\io\DeleteIo as Io;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Delete implements ApiActionProcessing
+class View implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -41,20 +40,17 @@ class Delete implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            $in2dbData = $this->mappingInput2db($validatedInput);
+            /*$in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
-            
-            $completedData = HandlingHelper::before($completedData, Io::class);
             $handledData = $this->handling($completedData);
-            $handledData = HandlingHelper::after($handledData);
 
             if (Helper::isReturning($handledData)) {
                 return $handledData;
             }
 
-            $db2outData = $this->mappingDb2output($handledData);
+            $db2outData = $this->mappingDb2output($handledData);*/
+            $db2outData = ViewIo::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
-            
             return $result;
         }
     }
@@ -65,7 +61,7 @@ class Delete implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        return Io::inputValidate($input); // for demo
+        return ViewIo::inputValidate($input); // for demo
     }
 
     /**
@@ -89,9 +85,6 @@ class Delete implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        // $in2dbData['updated_at'] = time();
-        // $in2dbData['is_del'] = 1;
-
         $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
         return $in2dbData;
@@ -106,28 +99,7 @@ class Delete implements ApiActionProcessing
     {
         $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\User', $completedData['id']);
 
-        $model->load($completedData, '');
-
-        $trans = Yii::$app->db->beginTransaction();
-        try {
-            $flag = true;
-            if (!($flag = $model->save())) {
-                $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::DB_BAD_REQUEST);
-            }
-
-            if ($flag) {
-                $trans->commit();
-            } else {
-                $trans->rollBack();
-                ApiHelper::throwError('Failed to commint the transaction.', __FILE__, __LINE__);
-            }
- 
-            return $model->attributes;
-        } catch (Exception $e) {
-            $trans->rollBack();
-            ApiHelper::throwError('Unknown error.', __FILE__, __LINE__);
-        }
+        return $model->attributes;
     }
 
     /**
@@ -142,8 +114,8 @@ class Delete implements ApiActionProcessing
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        // $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
-        // $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
+        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }
@@ -168,6 +140,6 @@ class Delete implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return Io::egOutputData(); // for demo
+        return ViewIo::egOutputData(); // for demo
     }
 }
