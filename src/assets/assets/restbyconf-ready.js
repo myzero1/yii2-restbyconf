@@ -1392,6 +1392,16 @@ var schemas = {
     "outputs": {
         "title": "restbyconf-obj-outputs",
         "type": "object",
+        "required": [],
+        "properties": {
+            "735200": {
+                "$ref": "output"
+            }
+        }
+    },
+    "output": {
+        "title": "restbyconf-obj-output",
+        "type": "object",
         "required": ["code", "msg", "data"],
         "properties": {
             "code": {
