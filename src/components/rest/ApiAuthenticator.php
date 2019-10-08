@@ -135,13 +135,14 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
             $identityDoc->id = $fixedUser['id'];
 
             return $identityDoc;
+        } else {
+            $identity = static::find()->where(['api_token' => $token])->one();
+            return $identity;
         }
 
-        // 如果token无效的话
         if (!static::apiTokenIsValid($token)) {
             throw new \yii\web\UnauthorizedHttpException("token is invalid.");
         }
-        return static::findOne(['api_token' => $token]);
     }
 
     /**

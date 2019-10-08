@@ -71,8 +71,30 @@ return [
     ......
     'modules' => [
         ......
-        'example' => '\myzero1\restbyconf\example\RestByConfModule',// should add table to db by 'example/models/user.sql'
         'restbyconf' => 'myzero1\restbyconf\Module',
+        'example' => [
+            'class' => 'myzero1\restbyconf\example\RestByConfModule',// should add table to db by 'yii2-restbyconf/src/user.sql'
+            'docToken' => 'docTokenAsMyzero1',
+            'apiTokenExpire' => 24 * 3600 * 365,
+            'fixedUser' => [
+                'id' => '1',
+                'username' => 'myzero1',
+                'api_token' => 'myzero1Token',
+            ],
+            'runningAsDocActions' => [
+                '*' => '*', // all ations, as default
+                // 'controllerA' => [
+                //     '*', // all actons in controllerA
+                // ],
+                // 'controllerB' => [
+                //     'actionB',
+                // ],
+                // 'user' => [
+                //     'create',
+                //     'index',
+                // ],
+            ],
+        ],
         ......
     ],
     ......
@@ -142,6 +164,7 @@ return [
 ```
 * the `v2` will display to Selectable modules menu as `v2 api`
 * you can click the `v2 api` button to config the `v2`
+* you can add `response_code` param to return characteristic return
 
 ### The other menu of restbyconfig
 * you can click the `Swagger` button to use it.
@@ -150,4 +173,5 @@ return [
 ### change logs
 * Add my group
 * Carding code
+* Multiple responses
 

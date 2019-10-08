@@ -12,10 +12,10 @@ use yii\db\Query;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
+use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use example\processing\authenticator\io\LoginIo;
-use myzero1\restbyconf\components\rest\ApiAuthenticator;
+use example\processing\authenticator\io\LoginIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -44,15 +44,18 @@ class Login implements ApiActionProcessing
         } else {
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
+            
+            $completedData = HandlingHelper::before($completedData, Io::class);
             $handledData = $this->handling($completedData);
+            $handledData = HandlingHelper::after($handledData);
 
             if (Helper::isReturning($handledData)) {
                 return $handledData;
             }
 
             $db2outData = $this->mappingDb2output($handledData);
-            // $db2outData = LoginIo::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
+            
             return $result;
         }
     }
@@ -63,7 +66,7 @@ class Login implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        return LoginIo::inputValidate($input); // for demo
+        return Io::inputValidate($input); // for demo
     }
 
     /**
@@ -87,7 +90,7 @@ class Login implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        $in2dbData['updated_at'] = time();
+        // $in2dbData['updated_at'] = time();
 
         $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
@@ -101,11 +104,9 @@ class Login implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $model = ApiAuthenticator::findByUsername($completedData['username']);
-
-        if (!ApiAuthenticator::apiTokenIsValid($model->api_token)) {
-            $model->generateApiToken();
-        }
+        $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\User', $completedData['id']);
+        
+        $model->load($completedData, '');
 
         $trans = Yii::$app->db->beginTransaction();
         try {
@@ -127,6 +128,84 @@ class Login implements ApiActionProcessing
             $trans->rollBack();
             ApiHelper::throwError('Unknown error.', __FILE__, __LINE__);
         }
+
+        /*
+        $result = [];
+
+        $query = (new Query())
+            ->from('user t')
+            // ->groupBy(['t.id'])
+            // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
+            ->andFilterWhere([
+                'and',
+                ['=', 'username', $completedData['username']],
+                ['=', 'password', $completedData['password']],
+                ['=', 'response_code', $completedData['response_code']],
+            ]);
+
+        $outFieldNames = [
+            't.id as id',
+        ];
+
+        $query->select(['1']);
+        $result['total'] = intval($query->count());
+
+        $pagination = ApiHelper::getPagination($completedData);
+        $query->limit($pagination['page_size']);
+        $offset = $pagination['page_size'] * ($pagination['page'] - 1);
+        $query->offset($offset);
+        $result['page'] = intval($pagination['page']);
+        $result['page_size'] = intval($pagination['page_size']);
+
+        // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
+        // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');
+        // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
+
+        $query->select($outFieldNames);
+
+        //  var_dump($query->createCommand()->getRawSql());exit;
+
+        $items = $query->all();
+        $result['items'] = $items;
+
+        return $result;
+        */
+        
+        /*
+        $completedData['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
+        $completedData['page'] = ApiHelper::EXPORT_PAGE;
+
+        $index = new Index();
+        $items = $index->processing($completedData);
+
+        $exportParams = [
+            'dataProvider' => new \yii\data\ArrayDataProvider([
+                'allModels' => $items['data']['items'],
+            ]),
+            
+            'columns' => [
+                [
+                    'attribute' => 'name',
+                    'label' => 'name',
+                ],
+                [
+                    'header' => 'description',
+                    'content' => function ($row) {
+                        return $row['des'];
+                    }
+                ],
+            ],
+        ];
+        */
+
+        $name = sprintf('export-%s', time());
+        $filenameBase = Yii::getAlias(sprintf('@app/web/%s', $name));
+
+        ApiHelper::createXls($filenameBase, $exportParams);
+
+        return [
+            'url' => Yii::$app->urlManager->createAbsoluteUrl([sprintf('/%s.xls', $name)])
+        ];
     }
 
     /**
@@ -141,11 +220,10 @@ class Login implements ApiActionProcessing
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        $output['username'] = $db2outData['username'];
-        $output['api_token'] = $db2outData['api_token'];
-        $output['updated_at'] = $db2outData['updated_at'];
+        // $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        // $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
-        return $output;
+        return $db2outData;
     }
 
     /**
@@ -168,6 +246,6 @@ class Login implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return LoginIo::egOutputData(); // for demo
+        return Io::egOutputData(); // for demo
     }
 }

@@ -3,14 +3,14 @@ Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
 Source Server Version : 50505
-Source Host           : 127.0.0.1:3306
+Source Host           : localhost:3306
 Source Database       : yii2advanced
 
 Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-05-09 18:55:10
+Date: 2019-10-08 17:15:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,3 +31,8 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES ('1', 'admin', '$2y$13$OI.DKfRnS3JWVn0oEiHRe.zTzuFali/ZJ5PAD8.dYtWyUpWOA.Mfq', '123456', '0', '1', '1551621771', '1551621771');

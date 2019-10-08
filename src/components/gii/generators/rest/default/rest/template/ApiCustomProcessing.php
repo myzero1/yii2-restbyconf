@@ -186,7 +186,7 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
             'dataProvider' => new \yii\data\ArrayDataProvider([
                 'allModels' => $items['data']['items'],
             ]),
-            /*
+            
             'columns' => [
                 [
                     'attribute' => 'name',
@@ -199,8 +199,8 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
                     }
                 ],
             ],
-            */
         ];
+        */
 
         $name = sprintf('export-%s', time());
         $filenameBase = Yii::getAlias(sprintf('@app/web/%s', $name));
@@ -210,7 +210,6 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         return [
             'url' => Yii::$app->urlManager->createAbsoluteUrl([sprintf('/%s.xls', $name)])
         ];
-        */
     }
 
     /**

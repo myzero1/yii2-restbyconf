@@ -9,14 +9,13 @@ namespace example\processing\authenticator;
 
 use Yii;
 use yii\db\Query;
-use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
+use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use example\processing\authenticator\io\JoinIo;
-use myzero1\restbyconf\components\rest\ApiAuthenticator;
+use example\processing\authenticator\io\JoinIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -45,15 +44,18 @@ class Join implements ApiActionProcessing
         } else {
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
+            
+            $completedData = HandlingHelper::before($completedData, Io::class);
             $handledData = $this->handling($completedData);
+            $handledData = HandlingHelper::after($handledData);
 
             if (Helper::isReturning($handledData)) {
                 return $handledData;
             }
 
             $db2outData = $this->mappingDb2output($handledData);
-            // $db2outData = JoinIo::egOutputData(); // for demo
             $result = $this->completeResult($db2outData);
+            
             return $result;
         }
     }
@@ -64,39 +66,7 @@ class Join implements ApiActionProcessing
      */
     public function inputValidate($input)
     {
-        $input = JoinIo::inputValidate($input); // for demo
-
-        if (ApiHelper::isReturning($input)) {
-            return $input;
-        }
-
-        // more Validate
-        $inputFields = [
-            'username',
-        ];
-        $moreValidate = new DynamicModel($inputFields);
-
-        $moreValidate->addRule($inputFields, 'trim');
-        $moreValidate->addRule($inputFields, 'safe');
-        $moreValidate->addRule(
-            ['username'],
-            function ($attribute) use ($moreValidate) {
-                $user  = ApiAuthenticator::findByUsername($moreValidate->$attribute);
-                if ($user != null) {
-                    $moreValidate->addError($attribute, $attribute . ' has been used');
-                }
-            },
-            [
-                'skipOnEmpty' => false,
-            ]
-        );
-
-        $moreValidate->load($input, '');
-
-        if (!$moreValidate->validate()) {
-            return ApiHelper::getModelError($moreValidate, ApiCodeMsg::BAD_REQUEST);
-        }
-        return $input;
+        return Io::inputValidate($input); // for demo
     }
 
     /**
@@ -120,7 +90,7 @@ class Join implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        $in2dbData['created_at'] = $in2dbData['updated_at'] = time();
+        // $in2dbData['updated_at'] = time();
 
         $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
@@ -134,12 +104,9 @@ class Join implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $model = new ApiAuthenticator();
-
+        $model = ApiHelper::findModel('\myzero1\restbyconf\example\models\User', $completedData['id']);
+        
         $model->load($completedData, '');
-
-        $model->setPassword($completedData['password']);
-        $model->generateApiToken();
 
         $trans = Yii::$app->db->beginTransaction();
         try {
@@ -161,6 +128,84 @@ class Join implements ApiActionProcessing
             $trans->rollBack();
             ApiHelper::throwError('Unknown error.', __FILE__, __LINE__);
         }
+
+        /*
+        $result = [];
+
+        $query = (new Query())
+            ->from('user t')
+            // ->groupBy(['t.id'])
+            // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
+            ->andFilterWhere([
+                'and',
+                ['=', 'username', $completedData['username']],
+                ['=', 'password', $completedData['password']],
+                ['=', 'response_code', $completedData['response_code']],
+            ]);
+
+        $outFieldNames = [
+            't.id as id',
+        ];
+
+        $query->select(['1']);
+        $result['total'] = intval($query->count());
+
+        $pagination = ApiHelper::getPagination($completedData);
+        $query->limit($pagination['page_size']);
+        $offset = $pagination['page_size'] * ($pagination['page'] - 1);
+        $query->offset($offset);
+        $result['page'] = intval($pagination['page']);
+        $result['page_size'] = intval($pagination['page_size']);
+
+        // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
+        // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');
+        // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
+
+        $query->select($outFieldNames);
+
+        //  var_dump($query->createCommand()->getRawSql());exit;
+
+        $items = $query->all();
+        $result['items'] = $items;
+
+        return $result;
+        */
+        
+        /*
+        $completedData['page_size'] = ApiHelper::EXPORT_PAGE_SIZE;
+        $completedData['page'] = ApiHelper::EXPORT_PAGE;
+
+        $index = new Index();
+        $items = $index->processing($completedData);
+
+        $exportParams = [
+            'dataProvider' => new \yii\data\ArrayDataProvider([
+                'allModels' => $items['data']['items'],
+            ]),
+            
+            'columns' => [
+                [
+                    'attribute' => 'name',
+                    'label' => 'name',
+                ],
+                [
+                    'header' => 'description',
+                    'content' => function ($row) {
+                        return $row['des'];
+                    }
+                ],
+            ],
+        ];
+        */
+
+        $name = sprintf('export-%s', time());
+        $filenameBase = Yii::getAlias(sprintf('@app/web/%s', $name));
+
+        ApiHelper::createXls($filenameBase, $exportParams);
+
+        return [
+            'url' => Yii::$app->urlManager->createAbsoluteUrl([sprintf('/%s.xls', $name)])
+        ];
     }
 
     /**
@@ -174,12 +219,11 @@ class Join implements ApiActionProcessing
             'description735' => 'demo_description',
         ];
         $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
-        $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
 
-        $output['username'] = $db2outData['username'];
-        $output['created_at'] = $db2outData['created_at'];
+        // $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        // $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
-        return $output;
+        return $db2outData;
     }
 
     /**
@@ -202,6 +246,6 @@ class Join implements ApiActionProcessing
      */
     public function egOutputData()
     {
-        return JoinIo::egOutputData(); // for demo
+        return Io::egOutputData(); // for demo
     }
 }
