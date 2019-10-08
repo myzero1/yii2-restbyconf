@@ -63,10 +63,19 @@ window.jsoneditorOldJson = {
                         "query_params": {}
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "username": "myzero1"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "username": "myzero1"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -96,11 +105,20 @@ window.jsoneditorOldJson = {
                         "query_params": {}
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "username": "myzero1",
-                            "api_token": "123456dsfe5w"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "username": "myzero1",
+                                "api_token": "123456dsfe5w"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 }
@@ -142,13 +160,22 @@ window.jsoneditorOldJson = {
                         "query_params": {}
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "username": "myzero1",
-                            "status": 1,
-                            "created_at": "2019-04-28 11:11:11",
-                            "updated_at": "2019-04-28 11:11:11"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "username": "myzero1",
+                                "status": 1,
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -193,13 +220,22 @@ window.jsoneditorOldJson = {
                         "query_params": {}
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "username": "myzero1",
-                            "status": 1,
-                            "created_at": "2019-04-28 11:11:11",
-                            "updated_at": "2019-04-28 11:11:11"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "username": "myzero1",
+                                "status": 1,
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -222,14 +258,23 @@ window.jsoneditorOldJson = {
                         "query_params": {}
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "username": "myzero1",
-                            "status": 1,
-                            "api_token": "eHiFYAsL5DMkAiwK-iUJZEon-u42qhpH_1557385911",
-                            "created_at": "2019-04-28 11:11:11",
-                            "updated_at": "2019-04-28 11:11:11"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "username": "myzero1",
+                                "status": 1,
+                                "api_token": "eHiFYAsL5DMkAiwK-iUJZEon-u42qhpH_1557385911",
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -252,10 +297,19 @@ window.jsoneditorOldJson = {
                         "query_params": {}
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "id": 1
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "id": 1
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -278,19 +332,23 @@ window.jsoneditorOldJson = {
                         }
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "total": 9,
-                            "page": 1,
-                            "page_size": 20,
-                            "items": [{
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
                                 "id": 1,
                                 "username": "myzero1",
                                 "status": 1,
                                 "created_at": "2019-04-28 11:11:11",
                                 "updated_at": "2019-04-28 11:11:11"
-                            }]
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -313,10 +371,19 @@ window.jsoneditorOldJson = {
                         }
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "url": "/export.xsl"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "url": "/export.xsl"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -347,14 +414,23 @@ window.jsoneditorOldJson = {
                         "query_params": {}
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "id": 1,
-                            "username": "myzero1",
-                            "status": 2,
-                            "created_at": "2019-04-28 11:11:11",
-                            "updated_at": "2019-04-28 11:11:11"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "id": 1,
+                                "username": "myzero1",
+                                "status": 2,
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 }
