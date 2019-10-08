@@ -78,7 +78,7 @@
                                 "code": 735401,
                                 "msg": "Unauthorized",
                                 "data": {
-                                    "username": "myzero1"
+                                    "msg": "Unauthorized"
                                 }
                             }
                         }
@@ -109,11 +109,20 @@
                             "query_params": {}
                         },
                         "outputs": {
-                            "code": 200,
-                            "msg": "msg",
-                            "data": {
-                                "username": "myzero1",
-                                "api_token": "123456dsfe5w"
+                            "735200": {
+                                "code": 735200,
+                                "msg": "Ok",
+                                "data": {
+                                    "username": "myzero1",
+                                    "api_token": "123456dsfe5w"
+                                }
+                            },
+                            "735401": {
+                                "code": 735401,
+                                "msg": "Unauthorized",
+                                "data": {
+                                    "msg": "Unauthorized"
+                                }
                             }
                         }
                     }
