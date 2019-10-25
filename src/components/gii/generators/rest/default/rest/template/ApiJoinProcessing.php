@@ -19,6 +19,7 @@ use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
 use myzero1\restbyconf\components\rest\ApiAuthenticator;
+use myzero1\restbyconf\components\rest\HandlingHelper;
 use <?= $templateParams['ioClass'] ?> as Io;
 
 /**
