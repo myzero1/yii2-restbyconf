@@ -513,611 +513,629 @@ window.jsoneditorOldJson = {
 };
 
 var templates = [
-      {
-          text: 'controller',
-          title: 'Insert a controller Node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: '',
-          value: {
-              "description": "Insert a controller node",
-              "actions": {
-                  "create": {
-                      "summary": "The create action's summary",
-                      "description": "The action's description",
-                      "method": "post",
-                      "uri": "/{controller}",
-                      "inputs": {
-                          "body_params": {
-                              "name": {
-                                  "des": "Name",
-                                  "required": true,
-                                  "eg": "name",
-                                  "rules": "^.{0,32}$",
-                                  "error_msg": "Input parameter error"
-                              },
-                              "des": {
-                                  "des": "Description",
-                                  "required": false,
-                                  "eg": "description",
-                                  "rules": "^.{0,32}$",
-                                  "error_msg": "Input parameter error"
-                              }
-                          },
-                          "path_params": {},
-                          "query_params": {}
-                      },
-                      "outputs": {
-                          "code": 200,
-                          "msg": "msg",
-                          "data": {
-                              "id": 1,
-                              "name": "name",
-                              "des": "description",
+    {
+        text: 'controller',
+        title: 'Insert a controller Node',
+        className: 'jsoneditor-append jsoneditor-default',
+        field: '',
+        value: {
+            "description": "Insert a controller node",
+            "actions": {
+                "create": {
+                    "summary": "The create action's summary",
+                    "description": "The action's description",
+                    "method": "post",
+                    "uri": "/{controller}",
+                    "inputs": {
+                        "body_params": {
+                            "name": {
+                                "des": "Name",
+                                "required": true,
+                                "eg": "name",
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            },
+                            "des": {
+                                "des": "Description",
+                                "required": false,
+                                "eg": "description",
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        },
+                        "path_params": {},
+                        "query_params": {}
+                    },
+                    "outputs": {
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "id": 1,
+                                "name": "name",
+                                "des": "description",
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
+                        }
+                    }
+                },
+                "update": {
+                    "summary": "The update action's summary",
+                    "description": "The action's description",
+                    "method": "put",
+                    "uri": "/{controller}/{id}",
+                    "inputs": {
+                        "body_params": {
+                            "name": {
+                                "des": "Name",
+                                "required": false,
+                                "eg": "name",
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            },
+                            "des": {
+                                "des": "Description",
+                                "required": false,
+                                "eg": "description",
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        },
+                        "path_params": {
+                            "id": {
+                                "des": "Id",
+                                "required": true,
+                                "eg": "name",
+                                "rules": "^\\d+$",
+                                "error_msg": "Input parameter error"
+                            }
+                        },
+                        "query_params": {}
+                    },
+                    "outputs": {
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "id": 1,
+                                "name": "name",
+                                "des": "description",
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
+                        }
+                    }
+                },
+                "view": {
+                    "summary": "The view action's summary",
+                    "description": "The action's description",
+                    "method": "get",
+                    "uri": "/{controller}/{id}",
+                    "inputs": {
+                        "body_params": {},
+                        "path_params": {
+                            "id": {
+                                "des": "Id",
+                                "required": true,
+                                "eg": "name",
+                                "rules": "^\\d+$",
+                                "error_msg": "Input parameter error"
+                            }
+                        },
+                        "query_params": {}
+                    },
+                    "outputs": {
+                        "code": 200,
+                        "msg": "msg",
+                        "data": {
+                            "id": 1,
+                            "name": "name",
+                            "des": "desdescription",
+                            "created_at": "2019-04-28 11:11:11",
+                            "updated_at": "2019-04-28 11:11:11"
+                        }
+                    }
+                },
+                "delete": {
+                    "summary": "The delete action's summary",
+                    "description": "The action's description",
+                    "method": "delete",
+                    "uri": "/{controller}/{id}",
+                    "inputs": {
+                        "body_params": {},
+                        "path_params": {
+                            "id": {
+                                "des": "Id",
+                                "required": true,
+                                "eg": "name",
+                                "rules": "^\\d+$",
+                                "error_msg": "Input parameter error"
+                            }
+                        },
+                        "query_params": {}
+                    },
+                  "outputs": {
+                      "code": 200,
+                      "msg": "msg",
+                      "data": {
+                          "id": 1
+                      }
+                  }
+                },
+                "index": {
+                    "summary": "The index action's summary",
+                    "description": "The action's description",
+                    "method": "get",
+                    "uri": "/{controller}",
+                    "inputs": {
+                        "body_params": {},
+                        "path_params": {},
+                        "query_params": {
+                            "name": {
+                                "des": "Name",
+                                "required": false,
+                                "eg": "n1",
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            },
+                            "des": {
+                                "des": "Description",
+                                "required": false,
+                                "eg": "description",
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
+                    },
+                  "outputs": {
+                      "code": 200,
+                      "msg": "msg",
+                      "data": {
+                          "total": 9,
+                          "page": 1,
+                          "page_size": 20,
+                          "items": [{
+                              "id": 0,
+                              "name": "n0",
+                              "des": "d0",
                               "created_at": "2019-04-28 11:11:11",
                               "updated_at": "2019-04-28 11:11:11"
-                          }
-                      }
-                  },
-                  "update": {
-                      "summary": "The update action's summary",
-                      "description": "The action's description",
-                      "method": "put",
-                      "uri": "/{controller}/{id}",
-                      "inputs": {
-                          "body_params": {
-                              "name": {
-                                  "des": "Name",
-                                  "required": false,
-                                  "eg": "name",
-                                  "rules": "^.{0,32}$",
-                                  "error_msg": "Input parameter error"
-                              },
-                              "des": {
-                                  "des": "Description",
-                                  "required": false,
-                                  "eg": "description",
-                                  "rules": "^.{0,32}$",
-                                  "error_msg": "Input parameter error"
-                              }
-                          },
-                          "path_params": {
-                              "id": {
-                                  "des": "Id",
-                                  "required": true,
-                                  "eg": "name",
-                                  "rules": "^\\d+$",
-                                  "error_msg": "Input parameter error"
-                              }
-                          },
-                          "query_params": {}
-                      },
-                      "outputs": {
-                          "code": 200,
-                          "msg": "msg",
-                          "data": {
+                          }, {
                               "id": 1,
-                              "name": "name",
-                              "des": "description",
+                              "name": "n1",
+                              "des": "d1",
                               "created_at": "2019-04-28 11:11:11",
                               "updated_at": "2019-04-28 11:11:11"
-                          }
-                      }
-                  },
-                  "view": {
-                      "summary": "The view action's summary",
-                      "description": "The action's description",
-                      "method": "get",
-                      "uri": "/{controller}/{id}",
-                      "inputs": {
-                          "body_params": {},
-                          "path_params": {
-                              "id": {
-                                  "des": "Id",
-                                  "required": true,
-                                  "eg": "name",
-                                  "rules": "^\\d+$",
-                                  "error_msg": "Input parameter error"
-                              }
-                          },
-                          "query_params": {}
-                      },
-                      "outputs": {
-                          "code": 200,
-                          "msg": "msg",
-                          "data": {
-                              "id": 1,
-                              "name": "name",
-                              "des": "desdescription",
+                          }, {
+                              "id": 2,
+                              "name": "n2",
+                              "des": "d2",
                               "created_at": "2019-04-28 11:11:11",
                               "updated_at": "2019-04-28 11:11:11"
-                          }
-                      }
-                  },
-                  "delete": {
-                      "summary": "The delete action's summary",
-                      "description": "The action's description",
-                      "method": "delete",
-                      "uri": "/{controller}/{id}",
-                      "inputs": {
-                          "body_params": {},
-                          "path_params": {
-                              "id": {
-                                  "des": "Id",
-                                  "required": true,
-                                  "eg": "name",
-                                  "rules": "^\\d+$",
-                                  "error_msg": "Input parameter error"
-                              }
-                          },
-                          "query_params": {}
-                      },
-                      "outputs": {
-                          "code": 200,
-                          "msg": "msg",
-                          "data": {
-                              "id": 1
-                          }
-                      }
-                  },
-                  "index": {
-                      "summary": "The index action's summary",
-                      "description": "The action's description",
-                      "method": "get",
-                      "uri": "/{controller}",
-                      "inputs": {
-                          "body_params": {},
-                          "path_params": {},
-                          "query_params": {
-                              "name": {
-                                  "des": "Name",
-                                  "required": false,
-                                  "eg": "n1",
-                                  "rules": "^.{0,32}$",
-                                  "error_msg": "Input parameter error"
-                              },
-                              "des": {
-                                  "des": "Description",
-                                  "required": false,
-                                  "eg": "description",
-                                  "rules": "^.{0,32}$",
-                                  "error_msg": "Input parameter error"
-                              }
-                          }
-                      },
-                      "outputs": {
-                          "code": 200,
-                          "msg": "msg",
-                          "data": {
-                              "total": 9,
-                              "page": 1,
-                              "page_size": 20,
-                              "items": [{
-                                  "id": 0,
-                                  "name": "n0",
-                                  "des": "d0",
-                                  "created_at": "2019-04-28 11:11:11",
-                                  "updated_at": "2019-04-28 11:11:11"
-                              }, {
-                                  "id": 1,
-                                  "name": "n1",
-                                  "des": "d1",
-                                  "created_at": "2019-04-28 11:11:11",
-                                  "updated_at": "2019-04-28 11:11:11"
-                              }, {
-                                  "id": 2,
-                                  "name": "n2",
-                                  "des": "d2",
-                                  "created_at": "2019-04-28 11:11:11",
-                                  "updated_at": "2019-04-28 11:11:11"
-                              }]
-                          }
-                      }
-                  },
-                  "export": {
-                      "summary": "The export action's summary",
-                      "description": "The action's description",
-                      "method": "get",
-                      "uri": "/{controller}/export",
-                      "inputs": {
-                          "body_params": {},
-                          "path_params": {},
-                          "query_params": {
-                              "name": {
-                                  "des": "Name",
-                                  "required": false,
-                                  "eg": "n1",
-                                  "rules": "^.{0,32}$",
-                                  "error_msg": "Input parameter error"
-                              },
-                              "des": {
-                                  "des": "Description",
-                                  "required": false,
-                                  "eg": "description",
-                                  "rules": "^.{0,32}$",
-                                  "error_msg": "Input parameter error"
-                              }
-                          }
-                      },
-                      "outputs": {
-                          "code": 200,
-                          "msg": "msg",
-                          "data": {
-                              "url": "/export.xsl"
-                          }
-                      }
-                  },
-                  "custom": {
-                      "summary": "The custom action's summary",
-                      "description": "The action's description",
-                      "method": "patch",
-                      "uri": "/{controller}/{id}/custom",
-                      "inputs": {
-                          "body_params": {
-                              "name": {
-                                  "des": "Name",
-                                  "required": false,
-                                  "eg": "rename",
-                                  "rules": "^.{0,32}$",
-                                  "error_msg": "Input parameter error"
-                              }
-                          },
-                          "path_params": {
-                              "id": {
-                                  "des": "Id",
-                                  "required": true,
-                                  "eg": 1,
-                                  "rules": "^\\d{0,32}$",
-                                  "error_msg": "Input parameter error"
-                              }
-                          },
-                          "query_params": {}
-                      },
-                      "outputs": {
-                          "code": 200,
-                          "msg": "msg",
-                          "data": {
-                              "id": 1,
-                              "name": "rename",
-                              "des": "description",
-                              "created_at": "2019-04-28 11:11:11",
-                              "updated_at": "2019-04-28 11:11:11"
-                          }
+                          }]
                       }
                   }
-              }
-          }
-      },
-      {
-          text: 'param',
-          title: 'Insert a param node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: '',
-          value: {
-              "des": "user name",
-              "required": false,
-              "eg": "myzero1",
-              "rules": "^.{0,32}$",
-              "error_msg": "Input parameter error"
-          }
-      },
-      {
-          text: 'output',
-          title: 'Insert a output node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: '',
-          value: {
-                "code": "735200",
-                "msg": "Ok",
-                "data": {
-                    "msg": "Ok"
-                }
-          }
-      },
-      {
-          text: 'create',
-          title: 'Insert a action node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: '',
-          value: {
-              "summary": "The create action's summary",
-              "description": "The create action's description",
-              "method": "post",
-              "uri": "/{controller}",
-              "inputs": {
-                  "body_params": {
-                      "name": {
-                          "des": "Name",
-                          "required": true,
-                          "eg": "name",
-                          "rules": "^.{0,32}$",
-                          "error_msg": "Input parameter error"
-                      },
-                      "des": {
-                          "des": "Description",
-                          "required": false,
-                          "eg": "description",
-                          "rules": "^.{0,32}$",
-                          "error_msg": "Input parameter error"
-                      }
-                  },
-                  "path_params": {},
-                  "query_params": {}
-              },
-              "outputs": {
-                  "code": 200,
-                  "msg": "msg",
-                  "data": {
-                      "id": 1,
-                      "name": "name",
-                      "des": "description",
-                      "created_at": "2019-04-28 11:11:11",
-                      "updated_at": "2019-04-28 11:11:11"
-                  }
-              }
-          }
-      },
-      {
-          text: 'update',
-          title: 'Insert a action node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: '',
-          value: {
-              "summary": "The update action's summary",
-              "description": "The update action's description",
-              "method": "put",
-              "uri": "/{controller}/{id}",
-              "inputs": {
-                  "body_params": {
-                      "name": {
-                          "des": "Name",
-                          "required": false,
-                          "eg": "name",
-                          "rules": "^.{0,32}$",
-                          "error_msg": "Input parameter error"
-                      },
-                      "des": {
-                          "des": "Description",
-                          "required": false,
-                          "eg": "description",
-                          "rules": "^.{0,32}$",
-                          "error_msg": "Input parameter error"
-                      }
-                  },
-                  "path_params": {
-                      "id": {
-                          "des": "Id",
-                          "required": true,
-                          "eg": 1,
-                          "rules": "^\\d{0,32}$",
-                          "error_msg": "Input parameter error"
-                      }
-                  },
-                  "query_params": {}
-              },
-              "outputs": {
-                  "code": 200,
-                  "msg": "msg",
-                  "data": {
-                      "id": 1,
-                      "name": "name",
-                      "des": "description",
-                      "created_at": "2019-04-28 11:11:11",
-                      "updated_at": "2019-04-28 11:11:11"
-                  }
-              }
-          }
-      },
-      {
-          text: 'view',
-          title: 'Insert a action node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: '',
-          value: {
-              "summary": "The view action's summary",
-              "description": "The view action's description",
-              "method": "get",
-              "uri": "/{controller}/{id}",
-              "inputs": {
-                  "body_params": {},
-                  "path_params": {
-                      "id": {
-                          "des": "Id",
-                          "required": true,
-                          "eg": 1,
-                          "rules": "^\\d{0,32}$",
-                          "error_msg": "Input parameter error"
-                      }
-                  },
-                  "query_params": {}
-              },
-              "outputs": {
-                  "code": 200,
-                  "msg": "msg",
-                  "data": {
-                      "id": 1,
-                      "name": "name",
-                      "des": "desdescription",
-                      "created_at": "2019-04-28 11:11:11",
-                      "updated_at": "2019-04-28 11:11:11"
-                  }
-              }
-          }
-      },
-      {
-          text: 'delete',
-          title: 'Insert a action node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: '',
-          value: {
-              "summary": "The delete action's summary",
-              "description": "The delete action's description",
-              "method": "delete",
-              "uri": "/{controller}/{id}",
-              "inputs": {
-                  "body_params": {},
-                  "path_params": {
-                      "id": {
-                          "des": "Id",
-                          "required": true,
-                          "eg": 1,
-                          "rules": "^\\d{0,32}$",
-                          "error_msg": "Input parameter error"
-                      }
-                  },
-                  "query_params": {}
-              },
-              "outputs": {
-                  "code": 200,
-                  "msg": "msg",
-                  "data": {
-                      "id": 1
-                  }
-              }
-          }
-      },
-      {
-          text: 'index',
-          title: 'Insert a action node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: '',
-          value: {
-              "summary": "The index action's summary",
-              "description": "The index action's description",
-              "method": "get",
-              "uri": "/{controller}",
-              "inputs": {
-                  "body_params": {},
-                  "path_params": {},
-                  "query_params": {
-                      "name": {
-                          "des": "Name",
-                          "required": false,
-                          "eg": "n1",
-                          "rules": "^.{0,32}$",
-                          "error_msg": "Input parameter error"
-                      },
-                      "des": {
-                          "des": "Description",
-                          "required": false,
-                          "eg": "description",
-                          "rules": "^.{0,32}$",
-                          "error_msg": "Input parameter error"
+                },
+                "export": {
+                    "summary": "The export action's summary",
+                    "description": "The action's description",
+                    "method": "get",
+                    "uri": "/{controller}/export",
+                    "inputs": {
+                        "body_params": {},
+                        "path_params": {},
+                        "query_params": {
+                            "name": {
+                                "des": "Name",
+                                "required": false,
+                                "eg": "n1",
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            },
+                            "des": {
+                                "des": "Description",
+                                "required": false,
+                                "eg": "description",
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
+                    },
+                  "outputs": {
+                      "code": 200,
+                      "msg": "msg",
+                      "data": {
+                          "url": "/export.xsl"
                       }
                   }
-              },
-              "outputs": {
-                  "code": 200,
-                  "msg": "msg",
-                  "data": {
-                      "total": 9,
-                      "page": 1,
-                      "page_size": 20,
-                      "items": [{
-                          "id": 0,
-                          "name": "n0",
-                          "des": "d0",
-                          "created_at": "2019-04-28 11:11:11",
-                          "updated_at": "2019-04-28 11:11:11"
-                      }, {
+                },
+                "custom": {
+                    "summary": "The custom action's summary",
+                    "description": "The action's description",
+                    "method": "patch",
+                    "uri": "/{controller}/{id}/custom",
+                    "inputs": {
+                        "body_params": {
+                            "name": {
+                                "des": "Name",
+                                "required": false,
+                                "eg": "rename",
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        },
+                        "path_params": {
+                            "id": {
+                                "des": "Id",
+                                "required": true,
+                                "eg": 1,
+                                "rules": "^\\d{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        },
+                        "query_params": {}
+                    },
+                  "outputs": {
+                      "code": 200,
+                      "msg": "msg",
+                      "data": {
                           "id": 1,
-                          "name": "n1",
-                          "des": "d1",
+                          "name": "rename",
+                          "des": "description",
                           "created_at": "2019-04-28 11:11:11",
                           "updated_at": "2019-04-28 11:11:11"
-                      }, {
-                          "id": 2,
-                          "name": "n2",
-                          "des": "d2",
-                          "created_at": "2019-04-28 11:11:11",
-                          "updated_at": "2019-04-28 11:11:11"
-                      }]
+                      }
                   }
+                }
+            }
+        }
+    },
+    {
+        text: 'param',
+        title: 'Insert a param node',
+        className: 'jsoneditor-append jsoneditor-default',
+        field: '',
+        value: {
+            "des": "user name",
+            "required": false,
+            "eg": "myzero1",
+            "rules": "^.{0,32}$",
+            "error_msg": "Input parameter error"
+        }
+    },
+    {
+        text: 'output',
+        title: 'Insert a output node',
+        className: 'jsoneditor-append jsoneditor-default',
+        field: '',
+        value: {
+            "code": "735200",
+            "msg": "Ok",
+            "data": {
+                "msg": "Ok"
+            }
+        }
+    },
+    {
+        text: 'create',
+        title: 'Insert a action node',
+        className: 'jsoneditor-append jsoneditor-default',
+        field: '',
+        value: {
+            "summary": "The create action's summary",
+            "description": "The create action's description",
+            "method": "post",
+            "uri": "/{controller}",
+            "inputs": {
+                "body_params": {
+                    "name": {
+                        "des": "Name",
+                        "required": true,
+                        "eg": "name",
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    },
+                    "des": {
+                        "des": "Description",
+                        "required": false,
+                        "eg": "description",
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                },
+                "path_params": {},
+                "query_params": {}
+            },
+            "outputs": {
+              "code": 200,
+              "msg": "msg",
+              "data": {
+                  "id": 1,
+                  "name": "name",
+                  "des": "description",
+                  "created_at": "2019-04-28 11:11:11",
+                  "updated_at": "2019-04-28 11:11:11"
               }
           }
-      },
-      {
-          text: 'export',
-          title: 'Insert a action node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: '',
-          value: {
-              "summary": "The export action's summary",
-              "description": "The export action's description",
-              "method": "get",
-              "uri": "/{controller}/export",
-              "inputs": {
-                  "body_params": {},
-                  "path_params": {},
-                  "query_params": {
-                      "name": {
-                          "des": "Name",
-                          "required": false,
-                          "eg": "n1",
-                          "rules": "^.{0,32}$",
-                          "error_msg": "Input parameter error"
-                      },
-                      "des": {
-                          "des": "Description",
-                          "required": false,
-                          "eg": "description",
-                          "rules": "^.{0,32}$",
-                          "error_msg": "Input parameter error"
-                      }
-                  }
-              },
-              "outputs": {
-                  "code": 200,
-                  "msg": "msg",
-                  "data": {
-                      "url": "/export.xsl"
-                  }
+        }
+    },
+    {
+        text: 'update',
+        title: 'Insert a action node',
+        className: 'jsoneditor-append jsoneditor-default',
+        field: '',
+        value: {
+            "summary": "The update action's summary",
+            "description": "The update action's description",
+            "method": "put",
+            "uri": "/{controller}/{id}",
+            "inputs": {
+                "body_params": {
+                    "name": {
+                        "des": "Name",
+                        "required": false,
+                        "eg": "name",
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    },
+                    "des": {
+                        "des": "Description",
+                        "required": false,
+                        "eg": "description",
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                },
+                "path_params": {
+                    "id": {
+                        "des": "Id",
+                        "required": true,
+                        "eg": 1,
+                        "rules": "^\\d{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                },
+                "query_params": {}
+            },
+          "outputs": {
+              "code": 200,
+              "msg": "msg",
+              "data": {
+                  "id": 1,
+                  "name": "name",
+                  "des": "description",
+                  "created_at": "2019-04-28 11:11:11",
+                  "updated_at": "2019-04-28 11:11:11"
               }
           }
-      },
-      {
-          text: 'custom',
-          title: 'Insert a action node',
-          className: 'jsoneditor-append jsoneditor-default',
-          field: '',
-          value: {
-              "summary": "The custom action's summary",
-              "description": "The custom action's description",
-              "method": "patch",
-              "uri": "/{controller}/{id}/custom",
-              "inputs": {
-                  "body_params": {
-                      "name": {
-                          "des": "Name",
-                          "required": false,
-                          "eg": "rename",
-                          "rules": "^.{0,32}$",
-                          "error_msg": "Input parameter error"
-                      }
-                  },
-                  "path_params": {
-                      "id": {
-                          "des": "Id",
-                          "required": true,
-                          "eg": 1,
-                          "rules": "^\\d{0,32}$",
-                          "error_msg": "Input parameter error"
-                      }
-                  },
-                  "query_params": {}
-              },
-              "outputs": {
-                  "code": 200,
-                  "msg": "msg",
-                  "data": {
-                      "id": 1,
-                      "name": "rename",
-                      "des": "description",
+        }
+    },
+    {
+        text: 'view',
+        title: 'Insert a action node',
+        className: 'jsoneditor-append jsoneditor-default',
+        field: '',
+        value: {
+            "summary": "The view action's summary",
+            "description": "The view action's description",
+            "method": "get",
+            "uri": "/{controller}/{id}",
+            "inputs": {
+                "body_params": {},
+                "path_params": {
+                    "id": {
+                        "des": "Id",
+                        "required": true,
+                        "eg": 1,
+                        "rules": "^\\d{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                },
+                "query_params": {}
+            },
+          "outputs": {
+              "code": 200,
+              "msg": "msg",
+              "data": {
+                  "id": 1,
+                  "name": "name",
+                  "des": "desdescription",
+                  "created_at": "2019-04-28 11:11:11",
+                  "updated_at": "2019-04-28 11:11:11"
+              }
+          }
+        }
+    },
+    {
+        text: 'delete',
+        title: 'Insert a action node',
+        className: 'jsoneditor-append jsoneditor-default',
+        field: '',
+        value: {
+            "summary": "The delete action's summary",
+            "description": "The delete action's description",
+            "method": "delete",
+            "uri": "/{controller}/{id}",
+            "inputs": {
+                "body_params": {},
+                "path_params": {
+                    "id": {
+                        "des": "Id",
+                        "required": true,
+                        "eg": 1,
+                        "rules": "^\\d{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                },
+                "query_params": {}
+            },
+          "outputs": {
+              "code": 200,
+              "msg": "msg",
+              "data": {
+                  "id": 1
+              }
+          }
+        }
+    },
+    {
+        text: 'index',
+        title: 'Insert a action node',
+        className: 'jsoneditor-append jsoneditor-default',
+        field: '',
+        value: {
+            "summary": "The index action's summary",
+            "description": "The index action's description",
+            "method": "get",
+            "uri": "/{controller}",
+            "inputs": {
+                "body_params": {},
+                "path_params": {},
+                "query_params": {
+                    "name": {
+                        "des": "Name",
+                        "required": false,
+                        "eg": "n1",
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    },
+                    "des": {
+                        "des": "Description",
+                        "required": false,
+                        "eg": "description",
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                }
+            },
+          "outputs": {
+              "code": 200,
+              "msg": "msg",
+              "data": {
+                  "total": 9,
+                  "page": 1,
+                  "page_size": 20,
+                  "items": [{
+                      "id": 0,
+                      "name": "n0",
+                      "des": "d0",
                       "created_at": "2019-04-28 11:11:11",
                       "updated_at": "2019-04-28 11:11:11"
-                  }
+                  }, {
+                      "id": 1,
+                      "name": "n1",
+                      "des": "d1",
+                      "created_at": "2019-04-28 11:11:11",
+                      "updated_at": "2019-04-28 11:11:11"
+                  }, {
+                      "id": 2,
+                      "name": "n2",
+                      "des": "d2",
+                      "created_at": "2019-04-28 11:11:11",
+                      "updated_at": "2019-04-28 11:11:11"
+                  }]
               }
           }
-      }
+        }
+    },
+    {
+        text: 'export',
+        title: 'Insert a action node',
+        className: 'jsoneditor-append jsoneditor-default',
+        field: '',
+        value: {
+            "summary": "The export action's summary",
+            "description": "The export action's description",
+            "method": "get",
+            "uri": "/{controller}/export",
+            "inputs": {
+                "body_params": {},
+                "path_params": {},
+                "query_params": {
+                    "name": {
+                        "des": "Name",
+                        "required": false,
+                        "eg": "n1",
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    },
+                    "des": {
+                        "des": "Description",
+                        "required": false,
+                        "eg": "description",
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                }
+            },
+          "outputs": {
+              "code": 200,
+              "msg": "msg",
+              "data": {
+                  "url": "/export.xsl"
+              }
+          }
+        }
+    },
+    {
+        text: 'custom',
+        title: 'Insert a action node',
+        className: 'jsoneditor-append jsoneditor-default',
+        field: '',
+        value: {
+            "summary": "The custom action's summary",
+            "description": "The custom action's description",
+            "method": "patch",
+            "uri": "/{controller}/{id}/custom",
+            "inputs": {
+                "body_params": {
+                    "name": {
+                        "des": "Name",
+                        "required": false,
+                        "eg": "rename",
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                },
+                "path_params": {
+                    "id": {
+                        "des": "Id",
+                        "required": true,
+                        "eg": 1,
+                        "rules": "^\\d{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                },
+                "query_params": {}
+          },
+          "outputs": {
+              "code": 200,
+              "msg": "msg",
+              "data": {
+                  "id": 1,
+                  "name": "rename",
+                  "des": "description",
+                  "created_at": "2019-04-28 11:11:11",
+                  "updated_at": "2019-04-28 11:11:11"
+              }
+          }
+        }
+    }
   ];
 
 var schemas = {
