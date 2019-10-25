@@ -640,14 +640,23 @@ var templates = [
                         "query_params": {}
                     },
                     "outputs": {
-                        "code": 200,
-                        "msg": "msg",
-                        "data": {
-                            "id": 1,
-                            "name": "name",
-                            "des": "desdescription",
-                            "created_at": "2019-04-28 11:11:11",
-                            "updated_at": "2019-04-28 11:11:11"
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "id": 1,
+                                "name": "name",
+                                "des": "desdescription",
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
                         }
                     }
                 },
@@ -669,13 +678,22 @@ var templates = [
                         },
                         "query_params": {}
                     },
-                  "outputs": {
-                      "code": 200,
-                      "msg": "msg",
-                      "data": {
-                          "id": 1
-                      }
-                  }
+                    "outputs": {
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "id": 1
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
+                        }
+                    }
                 },
                 "index": {
                     "summary": "The index action's summary",
@@ -702,34 +720,31 @@ var templates = [
                             }
                         }
                     },
-                  "outputs": {
-                      "code": 200,
-                      "msg": "msg",
-                      "data": {
-                          "total": 9,
-                          "page": 1,
-                          "page_size": 20,
-                          "items": [{
-                              "id": 0,
-                              "name": "n0",
-                              "des": "d0",
-                              "created_at": "2019-04-28 11:11:11",
-                              "updated_at": "2019-04-28 11:11:11"
-                          }, {
-                              "id": 1,
-                              "name": "n1",
-                              "des": "d1",
-                              "created_at": "2019-04-28 11:11:11",
-                              "updated_at": "2019-04-28 11:11:11"
-                          }, {
-                              "id": 2,
-                              "name": "n2",
-                              "des": "d2",
-                              "created_at": "2019-04-28 11:11:11",
-                              "updated_at": "2019-04-28 11:11:11"
-                          }]
-                      }
-                  }
+                    "outputs": {
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "total": 9,
+                                "page": 1,
+                                "page_size": 20,
+                                "items": [{
+                                    "id": 0,
+                                    "name": "n0",
+                                    "des": "d0",
+                                    "created_at": "2019-04-28 11:11:11",
+                                    "updated_at": "2019-04-28 11:11:11"
+                                }]
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
+                        }
+                    }
                 },
                 "export": {
                     "summary": "The export action's summary",
@@ -756,13 +771,22 @@ var templates = [
                             }
                         }
                     },
-                  "outputs": {
-                      "code": 200,
-                      "msg": "msg",
-                      "data": {
-                          "url": "/export.xsl"
-                      }
-                  }
+                    "outputs": {
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "url": "/export.xsl"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
+                        }
+                    }
                 },
                 "custom": {
                     "summary": "The custom action's summary",
@@ -790,17 +814,26 @@ var templates = [
                         },
                         "query_params": {}
                     },
-                  "outputs": {
-                      "code": 200,
-                      "msg": "msg",
-                      "data": {
-                          "id": 1,
-                          "name": "rename",
-                          "des": "description",
-                          "created_at": "2019-04-28 11:11:11",
-                          "updated_at": "2019-04-28 11:11:11"
-                      }
-                  }
+                    "outputs": {
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "id": 1,
+                                "name": "name",
+                                "des": "desdescription",
+                                "created_at": "2019-04-28 11:11:11",
+                                "updated_at": "2019-04-28 11:11:11"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -862,16 +895,25 @@ var templates = [
                 "query_params": {}
             },
             "outputs": {
-              "code": 200,
-              "msg": "msg",
-              "data": {
-                  "id": 1,
-                  "name": "name",
-                  "des": "description",
-                  "created_at": "2019-04-28 11:11:11",
-                  "updated_at": "2019-04-28 11:11:11"
-              }
-          }
+                "735200": {
+                    "code": 735200,
+                    "msg": "Ok",
+                    "data": {
+                        "id": 1,
+                        "name": "name",
+                        "des": "desdescription",
+                        "created_at": "2019-04-28 11:11:11",
+                        "updated_at": "2019-04-28 11:11:11"
+                    }
+                },
+                "735401": {
+                    "code": 735401,
+                    "msg": "Unauthorized",
+                    "data": {
+                        "msg": "Unauthorized"
+                    }
+                }
+            }
         }
     },
     {
@@ -912,17 +954,26 @@ var templates = [
                 },
                 "query_params": {}
             },
-          "outputs": {
-              "code": 200,
-              "msg": "msg",
-              "data": {
-                  "id": 1,
-                  "name": "name",
-                  "des": "description",
-                  "created_at": "2019-04-28 11:11:11",
-                  "updated_at": "2019-04-28 11:11:11"
-              }
-          }
+            "outputs": {
+                "735200": {
+                    "code": 735200,
+                    "msg": "Ok",
+                    "data": {
+                        "id": 1,
+                        "name": "name",
+                        "des": "desdescription",
+                        "created_at": "2019-04-28 11:11:11",
+                        "updated_at": "2019-04-28 11:11:11"
+                    }
+                },
+                "735401": {
+                    "code": 735401,
+                    "msg": "Unauthorized",
+                    "data": {
+                        "msg": "Unauthorized"
+                    }
+                }
+            }
         }
     },
     {
@@ -948,17 +999,26 @@ var templates = [
                 },
                 "query_params": {}
             },
-          "outputs": {
-              "code": 200,
-              "msg": "msg",
-              "data": {
-                  "id": 1,
-                  "name": "name",
-                  "des": "desdescription",
-                  "created_at": "2019-04-28 11:11:11",
-                  "updated_at": "2019-04-28 11:11:11"
-              }
-          }
+            "outputs": {
+                "735200": {
+                    "code": 735200,
+                    "msg": "Ok",
+                    "data": {
+                        "id": 1,
+                        "name": "name",
+                        "des": "desdescription",
+                        "created_at": "2019-04-28 11:11:11",
+                        "updated_at": "2019-04-28 11:11:11"
+                    }
+                },
+                "735401": {
+                    "code": 735401,
+                    "msg": "Unauthorized",
+                    "data": {
+                        "msg": "Unauthorized"
+                    }
+                }
+            }
         }
     },
     {
@@ -984,13 +1044,22 @@ var templates = [
                 },
                 "query_params": {}
             },
-          "outputs": {
-              "code": 200,
-              "msg": "msg",
-              "data": {
-                  "id": 1
-              }
-          }
+            "outputs": {
+                "735200": {
+                    "code": 735200,
+                    "msg": "Ok",
+                    "data": {
+                        "id": 1
+                    }
+                },
+                "735401": {
+                    "code": 735401,
+                    "msg": "Unauthorized",
+                    "data": {
+                        "msg": "Unauthorized"
+                    }
+                }
+            }
         }
     },
     {
@@ -1023,34 +1092,31 @@ var templates = [
                     }
                 }
             },
-          "outputs": {
-              "code": 200,
-              "msg": "msg",
-              "data": {
-                  "total": 9,
-                  "page": 1,
-                  "page_size": 20,
-                  "items": [{
-                      "id": 0,
-                      "name": "n0",
-                      "des": "d0",
-                      "created_at": "2019-04-28 11:11:11",
-                      "updated_at": "2019-04-28 11:11:11"
-                  }, {
-                      "id": 1,
-                      "name": "n1",
-                      "des": "d1",
-                      "created_at": "2019-04-28 11:11:11",
-                      "updated_at": "2019-04-28 11:11:11"
-                  }, {
-                      "id": 2,
-                      "name": "n2",
-                      "des": "d2",
-                      "created_at": "2019-04-28 11:11:11",
-                      "updated_at": "2019-04-28 11:11:11"
-                  }]
-              }
-          }
+            "outputs": {
+                "735200": {
+                    "code": 735200,
+                    "msg": "Ok",
+                    "data": {
+                        "total": 9,
+                        "page": 1,
+                        "page_size": 20,
+                        "items": [{
+                            "id": 1,
+                            "name": "n0",
+                            "des": "d0",
+                            "created_at": "2019-04-28 11:11:11",
+                            "updated_at": "2019-04-28 11:11:11"
+                        }]
+                    }
+                },
+                "735401": {
+                    "code": 735401,
+                    "msg": "Unauthorized",
+                    "data": {
+                        "msg": "Unauthorized"
+                    }
+                }
+            }
         }
     },
     {
@@ -1083,6 +1149,28 @@ var templates = [
                     }
                 }
             },
+            "outputs": {
+                "735200": {
+                    "code": 735200,
+                    "msg": "Ok",
+                    "data": {
+                        "id": 1,
+                        "name": "name",
+                        "des": "desdescription",
+                        "created_at": "2019-04-28 11:11:11",
+                        "updated_at": "2019-04-28 11:11:11"
+                    }
+                },
+                "735401": {
+                    "code": 735401,
+                    "msg": "Unauthorized",
+                    "data": {
+                        "msg": "Unauthorized"
+                    }
+                }
+            }
+
+
           "outputs": {
               "code": 200,
               "msg": "msg",
@@ -1123,6 +1211,29 @@ var templates = [
                 },
                 "query_params": {}
           },
+          "outputs": {
+                "735200": {
+                    "code": 735200,
+                    "msg": "Ok",
+                    "data": {
+                        "id": 1,
+                        "name": "name",
+                        "des": "desdescription",
+                        "created_at": "2019-04-28 11:11:11",
+                        "updated_at": "2019-04-28 11:11:11"
+                    }
+                },
+                "735401": {
+                    "code": 735401,
+                    "msg": "Unauthorized",
+                    "data": {
+                        "msg": "Unauthorized"
+                    }
+                }
+            }
+
+
+
           "outputs": {
               "code": 200,
               "msg": "msg",
