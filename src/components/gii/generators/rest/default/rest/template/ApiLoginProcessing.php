@@ -108,12 +108,11 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $model = new ApiAuthenticator();
+        $model = ApiAuthenticator::findByUsername($completedData['username']);
 
-        $model->load($completedData, '');
-
-        // $model->generateAuthKey();
-        $model->setPassword($completedData['password']);
+        if (!ApiAuthenticator::apiTokenIsValid($model->api_token)) {
+            $model->generateApiToken();
+        }
 
         $trans = Yii::$app->db->beginTransaction();
         try {
