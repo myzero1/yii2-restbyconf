@@ -1154,11 +1154,7 @@ var templates = [
                     "code": 735200,
                     "msg": "Ok",
                     "data": {
-                        "id": 1,
-                        "name": "name",
-                        "des": "desdescription",
-                        "created_at": "2019-04-28 11:11:11",
-                        "updated_at": "2019-04-28 11:11:11"
+                        "url": "/export.xsl"
                     }
                 },
                 "735401": {
@@ -1169,15 +1165,6 @@ var templates = [
                     }
                 }
             }
-
-
-          "outputs": {
-              "code": 200,
-              "msg": "msg",
-              "data": {
-                  "url": "/export.xsl"
-              }
-          }
         }
     },
     {
@@ -1231,20 +1218,6 @@ var templates = [
                     }
                 }
             }
-
-
-
-          "outputs": {
-              "code": 200,
-              "msg": "msg",
-              "data": {
-                  "id": 1,
-                  "name": "rename",
-                  "des": "description",
-                  "created_at": "2019-04-28 11:11:11",
-                  "updated_at": "2019-04-28 11:11:11"
-              }
-          }
         }
     }
   ];
