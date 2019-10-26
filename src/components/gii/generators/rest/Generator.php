@@ -345,7 +345,17 @@ EOD;
                 $template = ['create', 'update', 'delete', 'view', 'index', 'export', ];
                 foreach ($actions as $k => $action) {
                     $this->action = $action;
-                    if (in_array($action, $template)) {
+                    if ($controller=='authenticator' && $action=='join') {
+                        $files[] = new CodeFile(
+                            sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
+                            $this->render('rest/template/ApiJoinProcessing.php')
+                        );
+                    } else if ($controller=='authenticator' && $action=='login') {
+                        $files[] = new CodeFile(
+                            sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
+                            $this->render('rest/template/ApiLoginProcessing.php')
+                        );
+                    } else if (in_array($action, $template)) {
                         $files[] = new CodeFile(
                             sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
                             $this->render(sprintf('rest/template/Api%sProcessing.php', ucfirst($action)))

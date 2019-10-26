@@ -852,6 +852,10 @@ class ApiHelper
             } else {
                 $currentConfStr = $confJsonStr;
             }
+
+            $currentConfObj = json_decode($currentConfStr, true);
+            $currentConfObjTmp['json']['controllers'] = $currentConfObj['json']['controllers'];
+            $currentConfStr = json_encode($currentConfObjTmp);
         }
         
         $currentConfObj = json_decode($currentConfStr);
