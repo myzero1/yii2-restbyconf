@@ -25,6 +25,8 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
 {
     public $authKey;
     public $accessToken;
+    public $created_at;
+    public $updated_at;
 
     public function behaviors()
     {
@@ -52,7 +54,7 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
     {
         return [
             ['username', 'required'],
-            ['api_token', 'required'],
+            ['api_token', 'safe'],
         ];
     }
 
