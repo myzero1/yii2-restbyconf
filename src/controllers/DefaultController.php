@@ -119,12 +119,25 @@ class DefaultController extends Controller
 
                 $body_params = $v1['inputs']['body_params'];
                 if (count($body_params)) {
+                    $body = 'body';
+                    $type = 'string';
                     $schema = [];
                     $bodyParamsRequired = false;
                     foreach ($body_params as $k2 => $v2) {
+                        // formData_type=string
+                        // formData_type=file
+
+                        if(strpos($v2['des'], 'formData_type=string') !== false){
+                            $body = 'formData';
+                            $type = 'string';
+                        } else if(strpos($v2['des'], 'formData_type=file') !== false){
+                            $body = 'formData';
+                            $type = 'file';
+                        }
+
                         $schema[$k2] = [
                             'description' => $v2['des'],
-                            'type' => 'string',
+                            'type' => $type,
                             'required' => $v2['required'],
                             'example' => $v2['eg'],
                         ];
@@ -134,7 +147,7 @@ class DefaultController extends Controller
                         }
                     }
                     $bodyParams[] = [
-                        'in' => 'body',
+                        'in' => $body,
                         'name' => 'bodyParams',
                         'description' => 'body params description',
                         'required' => $bodyParamsRequired,
