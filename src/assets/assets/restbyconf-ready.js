@@ -67,7 +67,7 @@ window.jsoneditorOldJson = {
                             "response_code": {
                                 "des": "返回状态码",
                                 "required": false,
-                                "eg": 735401,
+                                "eg": 735200,
                                 "rules": "^.{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
@@ -117,7 +117,7 @@ window.jsoneditorOldJson = {
                             "response_code": {
                                 "des": "返回状态码",
                                 "required": false,
-                                "eg": 735401,
+                                "eg": 735200,
                                 "rules": "^.{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
@@ -180,7 +180,7 @@ window.jsoneditorOldJson = {
                             "response_code": {
                                 "des": "返回状态码",
                                 "required": false,
-                                "eg": 735401,
+                                "eg": 735200,
                                 "rules": "^.{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
@@ -248,7 +248,7 @@ window.jsoneditorOldJson = {
                             "response_code": {
                                 "des": "返回状态码",
                                 "required": false,
-                                "eg": 735401,
+                                "eg": 735200,
                                 "rules": "^.{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
@@ -294,7 +294,7 @@ window.jsoneditorOldJson = {
                             "response_code": {
                                 "des": "返回状态码",
                                 "required": false,
-                                "eg": 735401,
+                                "eg": 735200,
                                 "rules": "^.{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
@@ -341,7 +341,7 @@ window.jsoneditorOldJson = {
                             "response_code": {
                                 "des": "返回状态码",
                                 "required": false,
-                                "eg": 735401,
+                                "eg": 735200,
                                 "rules": "^.{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
@@ -376,7 +376,7 @@ window.jsoneditorOldJson = {
                             "response_code": {
                                 "des": "返回状态码",
                                 "required": false,
-                                "eg": 735401,
+                                "eg": 735200,
                                 "rules": "^.{0,32}$",
                                 "error_msg": "Input parameter error"
                             },
@@ -422,7 +422,7 @@ window.jsoneditorOldJson = {
                             "response_code": {
                                 "des": "返回状态码",
                                 "required": false,
-                                "eg": 735401,
+                                "eg": 735200,
                                 "rules": "^.{0,32}$",
                                 "error_msg": "Input parameter error"
                             },
@@ -480,7 +480,7 @@ window.jsoneditorOldJson = {
                             "response_code": {
                                 "des": "返回状态码",
                                 "required": false,
-                                "eg": 735401,
+                                "eg": 735200,
                                 "rules": "^.{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
@@ -544,7 +544,15 @@ var templates = [
                             }
                         },
                         "path_params": {},
-                        "query_params": {}
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735200,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
                     },
                     "outputs": {
                         "735200": {
@@ -598,7 +606,15 @@ var templates = [
                                 "error_msg": "Input parameter error"
                             }
                         },
-                        "query_params": {}
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735200,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
                     },
                     "outputs": {
                         "735200": {
@@ -637,7 +653,15 @@ var templates = [
                                 "error_msg": "Input parameter error"
                             }
                         },
-                        "query_params": {}
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735200,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
                     },
                     "outputs": {
                         "735200": {
@@ -676,7 +700,15 @@ var templates = [
                                 "error_msg": "Input parameter error"
                             }
                         },
-                        "query_params": {}
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735200,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
                     },
                     "outputs": {
                         "735200": {
@@ -704,6 +736,13 @@ var templates = [
                         "body_params": {},
                         "path_params": {},
                         "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735200,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            },
                             "name": {
                                 "des": "Name",
                                 "required": false,
@@ -755,6 +794,13 @@ var templates = [
                         "body_params": {},
                         "path_params": {},
                         "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735200,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            },
                             "name": {
                                 "des": "Name",
                                 "required": false,
@@ -812,7 +858,15 @@ var templates = [
                                 "error_msg": "Input parameter error"
                             }
                         },
-                        "query_params": {}
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735200,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
                     },
                     "outputs": {
                         "735200": {
@@ -892,7 +946,15 @@ var templates = [
                     }
                 },
                 "path_params": {},
-                "query_params": {}
+                "query_params": {
+                    "response_code": {
+                        "des": "返回状态码",
+                        "required": false,
+                        "eg": 735200,
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                }
             },
             "outputs": {
                 "735200": {
@@ -952,7 +1014,15 @@ var templates = [
                         "error_msg": "Input parameter error"
                     }
                 },
-                "query_params": {}
+                "query_params": {
+                    "response_code": {
+                        "des": "返回状态码",
+                        "required": false,
+                        "eg": 735200,
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                }
             },
             "outputs": {
                 "735200": {
@@ -997,7 +1067,15 @@ var templates = [
                         "error_msg": "Input parameter error"
                     }
                 },
-                "query_params": {}
+                "query_params": {
+                    "response_code": {
+                        "des": "返回状态码",
+                        "required": false,
+                        "eg": 735200,
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                }
             },
             "outputs": {
                 "735200": {
@@ -1042,7 +1120,15 @@ var templates = [
                         "error_msg": "Input parameter error"
                     }
                 },
-                "query_params": {}
+                "query_params": {
+                    "response_code": {
+                        "des": "返回状态码",
+                        "required": false,
+                        "eg": 735200,
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                }
             },
             "outputs": {
                 "735200": {
@@ -1076,6 +1162,13 @@ var templates = [
                 "body_params": {},
                 "path_params": {},
                 "query_params": {
+                    "response_code": {
+                        "des": "返回状态码",
+                        "required": false,
+                        "eg": 735200,
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    },
                     "name": {
                         "des": "Name",
                         "required": false,
@@ -1133,6 +1226,13 @@ var templates = [
                 "body_params": {},
                 "path_params": {},
                 "query_params": {
+                    "response_code": {
+                        "des": "返回状态码",
+                        "required": false,
+                        "eg": 735200,
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    },
                     "name": {
                         "des": "Name",
                         "required": false,
@@ -1196,7 +1296,15 @@ var templates = [
                         "error_msg": "Input parameter error"
                     }
                 },
-                "query_params": {}
+                "query_params": {
+                    "response_code": {
+                        "des": "返回状态码",
+                        "required": false,
+                        "eg": 735200,
+                        "rules": "^.{0,32}$",
+                        "error_msg": "Input parameter error"
+                    }
+                }
           },
           "outputs": {
                 "735200": {
