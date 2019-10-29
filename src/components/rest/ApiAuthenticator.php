@@ -27,6 +27,7 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
     public $accessToken;
     public $created_at;
     public $updated_at;
+    public $captcha;
 
     public function behaviors()
     {
@@ -54,7 +55,8 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
     {
         return [
             ['username', 'required'],
-            ['api_token', 'safe'],
+            [['email', 'mobile_phone', 'captcha', 'api_token', ], 'safe'],
+            [['username', 'email', 'mobile_phone', 'api_token', ], 'unique' ],
         ];
     }
 
@@ -112,7 +114,14 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::find()->where('username = :username', [':username' => $username])->one();
+        // var_dump(123456);exit;
+        // return static::find()->where('username = :username', [':username' => $username])->one();
+        return static::find()->where([
+            'or',
+            ['=', 'username', $username],
+            ['=', 'email', $username],
+            ['=', 'mobile_phone', $username],
+        ])->one();
     }
 
     /**
