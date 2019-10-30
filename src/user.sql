@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-10-08 17:15:45
+Date: 2019-10-30 17:39:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,11 +29,14 @@ CREATE TABLE `user` (
   `status` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1:enabled',
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `mobile_phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `captcha` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'admin', 'avatar.png', '$2y$13$OI.DKfRnS3JWVn0oEiHRe.zTzuFali/ZJ5PAD8.dYtWyUpWOA.Mfq', '123456', '0', '1', '1551621771', '1551621771');
+INSERT INTO `user` VALUES ('1', 'admin', 'avatar.png', '$2y$13$OI.DKfRnS3JWVn0oEiHRe.zTzuFali/ZJ5PAD8.dYtWyUpWOA.Mfq', '123456', '0', '1', '1551621771', '1551621771', null, null, null);

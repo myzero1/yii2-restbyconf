@@ -47,6 +47,14 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
+            if(empty($validatedInput['username']) && empty($validatedInput['email']) && empty($validatedInput['mobile_phone'])){
+                return [
+                    'code' => '73544061',
+                    'msg' => 'username,email,mobile_phone至少填写一个',
+                    'data' => 'username,email,mobile_phone至少填写一个',
+                ];
+            }
+            
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             

@@ -54,7 +54,7 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['username', 'required'],
+            // ['username', 'required'],
             [['email', 'mobile_phone', 'captcha', 'api_token', ], 'safe'],
             [['username', 'email', 'mobile_phone', 'api_token', ], 'unique' ],
         ];

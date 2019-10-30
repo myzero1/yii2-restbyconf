@@ -49,10 +49,31 @@ window.jsoneditorOldJson = {
                         "body_params": {
                             "username": {
                                 "des": "User name",
-                                "required": true,
+                                "required": false,
                                 "eg": "myzero1",
-                                "rules": "^.\\w{1,32}$",
+                                "rules": "^.{0,32}$",
                                 "error_msg": "invalid username"
+                            },
+                            "email": {
+                                "des": "email",
+                                "required": false,
+                                "eg": "myzero1@myzero1.com",
+                                "rules": "^.{0,32}$",
+                                "error_msg": "invalid email"
+                            },
+                            "mobile_phone": {
+                                "des": "mobile phone",
+                                "required": false,
+                                "eg": 15836254247,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "invalid mobile phone"
+                            },
+                            "captcha": {
+                                "des": "captcha",
+                                "required": false,
+                                "eg": 123456,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "invalid captcha"
                             },
                             "password": {
                                 "des": "password",
