@@ -118,19 +118,33 @@ window.jsoneditorOldJson = {
                     "uri": "\/{controller}\/login",
                     "inputs": {
                         "body_params": {
-                            "username": {
-                                "des": "User name",
+                            "type": {
+                                "des": "type，1为验证码登录，2为密码登录",
                                 "required": true,
-                                "eg": "myzero1",
-                                "rules": "^.\\w{1,32}$",
-                                "error_msg": "invalid username"
+                                "eg": 1,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "invalid type"
+                            },
+                            "username": {
+                                "des": "username",
+                                "required": true,
+                                "eg": 12345678901,
+                                "rules": "^\\d{11}$",
+                                "error_msg": "invalid mobile phone"
                             },
                             "password": {
-                                "des": "password",
-                                "required": true,
+                                "des": "password，type为2时必填",
+                                "required": false,
                                 "eg": "myzero1",
-                                "rules": "^.{1,32}$",
+                                "rules": "^.{0,32}$",
                                 "error_msg": "invalid password"
+                            },
+                            "captcha": {
+                                "des": "captcha，type为1时必填",
+                                "required": false,
+                                "eg": 123456,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "invalid captcha"
                             }
                         },
                         "path_params": {},
@@ -138,7 +152,7 @@ window.jsoneditorOldJson = {
                             "response_code": {
                                 "des": "返回状态码",
                                 "required": false,
-                                "eg": 735200,
+                                "eg": 735401,
                                 "rules": "^.{0,32}$",
                                 "error_msg": "Input parameter error"
                             }
@@ -149,7 +163,7 @@ window.jsoneditorOldJson = {
                             "code": 735200,
                             "msg": "Ok",
                             "data": {
-                                "username": "myzero1",
+                                "mobile_phone": 12345678901,
                                 "api_token": "123456dsfe5w"
                             }
                         },
@@ -158,6 +172,20 @@ window.jsoneditorOldJson = {
                             "msg": "Unauthorized",
                             "data": {
                                 "msg": "Unauthorized"
+                            }
+                        },
+                        "735461": {
+                            "code": 735461,
+                            "msg": "验证码错误，请输入正确的验证码",
+                            "data": {
+                                "msg": "验证码错误，请输入正确的验证码"
+                            }
+                        },
+                        "735462": {
+                            "code": 735462,
+                            "msg": "密码错误或账号不存在",
+                            "data": {
+                                "msg": "密码错误或账号不存在"
                             }
                         }
                     }
