@@ -116,9 +116,13 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         $extensions = explode(',', $completedData['extension']);
         if(!in_array($file->extension, $extensions)){
             return [
-                'code' => '735461',
-                'msg' => sprintf('只允许上传后缀为%s的文件', $completedData['extension']),
-                'data' => new \stdClass(),
+                'code' => '735400',
+                'msg' => '输入参数验证错误',
+                'data' => [
+                    "file" => [
+                        sprintf('只允许上传后缀为%s的文件', $completedData['extension'])
+                    ]
+                ],
             ];
         }           
         $file->saveAs($newName);

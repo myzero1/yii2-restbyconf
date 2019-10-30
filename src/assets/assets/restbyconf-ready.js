@@ -108,6 +108,11 @@ window.jsoneditorOldJson = {
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -174,18 +179,76 @@ window.jsoneditorOldJson = {
                                 "msg": "Unauthorized"
                             }
                         },
-                        "735461": {
-                            "code": 735461,
-                            "msg": "验证码错误，请输入正确的验证码",
-                            "data": {
-                                "msg": "验证码错误，请输入正确的验证码"
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
+                        }
+                    }
+                }
+            }
+        },
+        "tools": {
+            "description": "工具接口",
+            "actions": {
+                "upload": {
+                    "summary": "上传",
+                    "description": "上传文件",
+                    "method": "post",
+                    "uri": "\/{controller}\/upload",
+                    "inputs": {
+                        "body_params": {
+                            "directory": {
+                                "des": "文件的目录;formData_type=string",
+                                "required": true,
+                                "eg": "upload\/tools\/images",
+                                "rules": "^.{1,32}$",
+                                "error_msg": "Input parameter error"
+                            },
+                            "extension": {
+                                "des": "文件扩展名，多个用英文逗号隔开;formData_type=string",
+                                "required": true,
+                                "eg": "png,jpg",
+                                "rules": "^.{1,32}$",
+                                "error_msg": "Input parameter error"
+                            },
+                            "file": {
+                                "des": "图片文件，图片二进制内容,formData_type=file",
+                                "required": true,
+                                "eg": 1010000111,
+                                "rules": "safe",
+                                "error_msg": "Input parameter error"
                             }
                         },
-                        "735462": {
-                            "code": 735462,
-                            "msg": "密码错误或账号不存在",
+                        "path_params": {},
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735200,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
+                    },
+                    "outputs": {
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
                             "data": {
-                                "msg": "密码错误或账号不存在"
+                                "url": "http:\/\/imgsrc.baidu.com\/forum\/w=580\/sign=4d5e01bdba389b5038ffe05ab534e5f1\/8cca9b8fa0ec08fa2ab208045aee3d6d54fbda28.jpg---图片地址"
+                            }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
                             }
                         }
                     }
