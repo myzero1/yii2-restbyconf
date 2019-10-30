@@ -658,10 +658,18 @@ class ApiHelper
     public static function getModelError($model, $code)
     {
         $errors = $model->errors;
+        $errorsA = [];
+        foreach($errors as $k => $v){
+            // $errorsA[] = sprintf('`%s`:%s', $k, $v[0]);
+            $errorsA[] = $v[0];
+        }
+        $errorsStr = implode(';', $errorsA);
         return [
             'code' => $code,
-            'msg' => Helper::getErrorMsg($errors),
-            'data' => $errors,
+            // 'msg' => Helper::getErrorMsg($errors),
+            'msg' => '输入参数验证错误',
+            // 'data' => $errors,
+            'data' => $errorsStr,
         ];
     }
 
