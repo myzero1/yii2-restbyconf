@@ -19,7 +19,7 @@ class RestByConfModule extends BaseModule implements BootstrapInterface
     public $docToken = 'docTokenAsMyzero1';
     public $apiTokenExpire = 86400; // 24h
     public $runningAsDocActions = ['*' => '*']; // all action
-    public $fixedUser = [ 'id' => 1, 'username' => 'myzero1',];
+    public $fixedUser = [ 'id' => 1, 'username' => 'myzero1', 'api_token' => 'myzero1ApiToken'];
 
     /**
      * {@inheritdoc}

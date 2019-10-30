@@ -137,8 +137,7 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        // check docToken
-        if (\Yii::$app->controller->module->docToken == $token) {
+        if (\Yii::$app->controller->module->fixedUser['api_token'] == $token) {
             $fixedUser = \Yii::$app->controller->module->fixedUser;
 
             $identityDoc = new self();
