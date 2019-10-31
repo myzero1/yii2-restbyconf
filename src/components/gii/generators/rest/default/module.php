@@ -28,6 +28,8 @@ class <?= $templateParams['className'] ?> extends BaseModule implements Bootstra
      */
     public $controllerNamespace = '<?= $templateParams['controllerNamespace'] ?>';
     public $apiTokenExpire = 86400; // 24h
+    public $captchaExpire = 60 * 5; // 5m
+    public $captchaMaxTimes = 3;
     public $runningAsDocActions = ['*' => '*']; // all action
     public $fixedUser = [ 'id' => 1, 'username' => 'myzero1', 'api_token' => 'myzero1ApiToken'];
 

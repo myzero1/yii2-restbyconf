@@ -132,6 +132,16 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
                 return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
             }
 
+            if( isset($completedData['mobile_phone']) && isset($completedData['captcha']) ){
+                if(!ApiHelper::checkCaptcha($completedData['mobile_phone'], $completedData['captcha'])){
+                    return [
+                        'code' => "735465",
+                        'msg' => '验证码错误',
+                        'data' => '验证码错误',
+                    ];
+                }
+            }
+
             if ($flag) {
                 $trans->commit();
             } else {

@@ -923,4 +923,33 @@ class ApiHelper
             return "no this response code '{$code}'";
         }
     }
+
+    /**
+     * @param string    mobilePhone    12345678901
+     * @param string    createdAt    1572405213
+     * @return bool
+     */
+    public static function checkCaptcha($mobilePhone, $captcha){
+        
+        $query = (new \yii\db\Query())
+            ->from('z1_captcha t')
+            ->select('id')
+            ->andFilterWhere([
+                'and',
+                ['<', 'used_times', \Yii::$app->controller->module->captchaMaxTimes],
+                ['=', 'mobile_phone', $mobilePhone],
+                ['=', 'code', $captcha],
+                ['>', 'created_at', time()-\Yii::$app->controller->module->captchaExpire],
+            ]);
+        $captcha = $query->one();
+
+        if (!$captcha) {
+            return false;
+        } else {
+            \Yii::$app->db->createCommand()
+                ->update('z1_captcha', ['used_times' => new \yii\db\Expression('used_times + 1')], sprintf('id = %d', $captcha['id']))
+                ->execute();
+            return true;
+        }
+    }
 }
