@@ -192,6 +192,57 @@
             "tools": {
                 "description": "工具接口",
                 "actions": {
+                    "captcha": {
+                        "summary": "获取验证码",
+                        "description": "用于登录，注册，重置密码",
+                        "method": "post",
+                        "uri": "\/{controller}\/captcha",
+                        "inputs": {
+                            "body_params": {
+                                "mobile_phone": {
+                                    "des": "mobile_phone",
+                                    "required": true,
+                                    "eg": 15836458756,
+                                    "rules": "^\\d{11}$",
+                                    "error_msg": "invalid mobile phone"
+                                }
+                            },
+                            "path_params": {},
+                            "query_params": {
+                                "response_code": {
+                                    "des": "返回状态码",
+                                    "required": false,
+                                    "eg": 735401,
+                                    "rules": "^.{0,32}$",
+                                    "error_msg": "Input parameter error"
+                                }
+                            }
+                        },
+                        "outputs": {
+                            "735200": {
+                                "code": 735200,
+                                "msg": "成功",
+                                "data": {}
+                            },
+                            "735400": {
+                                "code": 735400,
+                                "msg": "输入参数验证错误",
+                                "data": {}
+                            },
+                            "735401": {
+                                "code": 735401,
+                                "msg": "Unauthorized",
+                                "data": {
+                                    "msg": "Unauthorized"
+                                }
+                            },
+                            "735561": {
+                                "code": 735561,
+                                "msg": "获取验证码失败",
+                                "data": {}
+                            }
+                        }
+                    },
                     "upload": {
                         "summary": "上传",
                         "description": "上传文件",

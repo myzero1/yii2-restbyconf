@@ -21,7 +21,11 @@ class ToolsController extends BasicController
         $parentActions = parent::actions();
 
         $overwriteActions = [
-                'upload' => [
+                'captcha' => [
+                'class' => $this->apiActionClass,
+                'processingClass' => '\example\processing\tools\Captcha',
+            ],
+            'upload' => [
                 'class' => $this->apiActionClass,
                 'processingClass' => '\example\processing\tools\Upload',
             ],
