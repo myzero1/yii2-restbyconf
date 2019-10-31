@@ -964,4 +964,13 @@ class ApiHelper
         $rands= substr($randStr,0,$length);//substr(string,start,length);返回字符串的一部分
         return $rands;
     }
+
+    /**
+     * @return obj
+     */
+    public static function getUser(){
+        $token = \Yii::$app->request->get('token');
+        return ApiAuthenticator::findIdentityByAccessToken($token);
+
+    }
 }
