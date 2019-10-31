@@ -127,8 +127,10 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         }           
         $file->saveAs($newName);
 
+        $host = 'http://<?= $templateParams['conf']['json']['host']?>';
+
         return [
-            'url' => sprintf('%s/%s', Yii::$app->params['host'], $newName),
+            'url' => sprintf('%s/%s', $host, $newName),
         ];
     }
 

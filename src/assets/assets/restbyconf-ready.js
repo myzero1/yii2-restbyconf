@@ -24,7 +24,7 @@ window.jsoneditorOldJson = {
     },
     "schemes": "http",
     "mySecurity": {
-        "security": "httpBearerAuth",
+        "security": "queryParamAuth",
         "exclude": [
             "post \/authenticator\/login",
             "post \/authenticator\/join"

@@ -480,6 +480,7 @@ EOD;
         $params['ioClassName'] = $ioClassName = sprintf('%sIo', $params['className']);
         $params['inputsKeysWhere'] = $inputsKeysWhere;
         $params['indexClass'] = sprintf('%s\processing\%s\Index', $this->getRestModuleAlias(), $this->controller);
+        $params['conf'] = json_decode($this->conf, true);
 
         return $params;
     }
