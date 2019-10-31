@@ -47,7 +47,7 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
     //表名
     public static function tableName()
     {
-        return "{{%user}}";
+        return "z1_user";
     }
 
     //规则
