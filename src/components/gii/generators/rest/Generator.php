@@ -360,6 +360,11 @@ EOD;
                             sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
                             $this->render('rest/template/ApiUploadProcessing.php')
                         );
+                    } else if ($controller=='tools' && $action=='captcha') {
+                        $files[] = new CodeFile(
+                            sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
+                            $this->render('rest/template/ApiCaptchaProcessing.php')
+                        );
                     } else if (in_array($action, $template)) {
                         $files[] = new CodeFile(
                             sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
