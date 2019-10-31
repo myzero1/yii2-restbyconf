@@ -127,11 +127,10 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         }
 
         $ignore = sprintf('%s/.gitignore', $newDirectory);
-        file_put_contents ( $ignore , "*\n!.gitignore" );
-              
-        $file->saveAs($newName);
-
         $host = 'http://<?= $templateParams['conf']['json']['host']?>';
+
+        file_put_contents ( $ignore , "*\n!.gitignore" );
+        $file->saveAs($newName);
 
         return [
             'url' => sprintf('%s/%s', $host, $newName),
