@@ -5,7 +5,7 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\user\io;
+namespace example\processing\tools\io;
 
 use Yii;
 use yii\base\DynamicModel;
@@ -23,7 +23,7 @@ use myzero1\restbyconf\components\rest\ApiIoProcessing;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class CreateIo implements ApiIoProcessing
+class UploadIo implements ApiIoProcessing
 {
 
     /**
@@ -33,9 +33,9 @@ class CreateIo implements ApiIoProcessing
     public static function inputValidate($input)
     {
         $inputFields = [
-            'username',
-            'password',
-            'status',
+            'directory',
+            'extension',
+            'file',
             'response_code',
             'sort',
             'page',
@@ -62,12 +62,12 @@ class CreateIo implements ApiIoProcessing
         $modelPost->addRule($inputFields, 'trim');
         $modelPost->addRule($inputFields, 'safe');
 
-        $modelPost->addRule(['username'], 'required');
-        $modelPost->addRule(['username'], 'match', ['pattern' => '/^\w{1,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
-        $modelPost->addRule(['password'], 'required');
-        $modelPost->addRule(['password'], 'match', ['pattern' => '/^.{1,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
-        $modelPost->addRule(['status'], 'required');
-        $modelPost->addRule(['status'], 'match', ['pattern' => '/^\d{1,1}$/i', 'message' => '\'{attribute}\':Input parameter error']);
+        $modelPost->addRule(['directory'], 'required');
+        $modelPost->addRule(['directory'], 'match', ['pattern' => '/^.{1,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
+        $modelPost->addRule(['extension'], 'required');
+        $modelPost->addRule(['extension'], 'match', ['pattern' => '/^.{1,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
+        $modelPost->addRule(['file'], 'required');
+        $modelPost->addRule(['file'], 'safe');
 
         $modelPost->load($input['post'], '');
 
@@ -87,7 +87,7 @@ class CreateIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:3:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:4:{s:8:"username";s:7:"myzero1";s:6:"status";i:1;s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}i:735400;a:3:{s:4:"code";i:735400;s:3:"msg";s:24:"输入参数验证错误";s:4:"data";a:0:{}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
+        $egOutputData = 'a:3:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:1:{s:3:"url";s:133:"http://imgsrc.baidu.com/forum/w=580/sign=4d5e01bdba389b5038ffe05ab534e5f1/8cca9b8fa0ec08fa2ab208045aee3d6d54fbda28.jpg---图片地址";}}i:735400;a:3:{s:4:"code";i:735400;s:3:"msg";s:24:"输入参数验证错误";s:4:"data";a:0:{}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }

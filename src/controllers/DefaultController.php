@@ -122,28 +122,53 @@ class DefaultController extends Controller
                     $schema = [];
                     $bodyParamsRequired = false;
                     foreach ($body_params as $k2 => $v2) {
-                        $schema[$k2] = [
-                            'description' => $v2['des'],
-                            'type' => 'string',
-                            'required' => $v2['required'],
-                            'example' => $v2['eg'],
-                        ];
-
-                        if ($v2['required']) {
-                            $bodyParamsRequired = true;
+                        // formData_type=string
+                        // formData_type=file
+                        if(strpos($v2['des'], 'formData_type=string') !== false){
+                            $queryParams[] = [
+                                'in' => 'formData',
+                                'name' => $k2,
+                                'description' => $v2['des'],
+                                'type' => 'string',
+                                'required' => $v2['required'],
+                                'default' => $v2['eg'],
+                            ];
+                        } else if(strpos($v2['des'], 'formData_type=file') !== false){
+                            $queryParams[] = [
+                                'in' => 'formData',
+                                'name' => $k2,
+                                'description' => $v2['des'],
+                                'type' => 'file',
+                                'required' => $v2['required'],
+                                'default' => $v2['eg'],
+                            ];
+                        } else {
+                            $schema[$k2] = [
+                                'description' => $v2['des'],
+                                'type' => 'string',
+                                'required' => $v2['required'],
+                                'example' => $v2['eg'],
+                            ];
+    
+                            if ($v2['required']) {
+                                $bodyParamsRequired = true;
+                            }
                         }
                     }
-                    $bodyParams[] = [
-                        'in' => 'body',
-                        'name' => 'bodyParams',
-                        'description' => 'body params description',
-                        'required' => $bodyParamsRequired,
-                        'schema' => [
-                            'title' => sprintf('bodyInputs(%s /%s%s/%s?', $v1['method'], $k, $pathTag, $k1),
-                            "type" => "object",
-                            "properties" => $schema,
-                        ],
-                    ];
+
+                    if(count($schema)){
+                        $bodyParams[] = [
+                            'in' => 'body',
+                            'name' => 'bodyParams',
+                            'description' => 'body params description',
+                            'required' => $bodyParamsRequired,
+                            'schema' => [
+                                'title' => sprintf('bodyInputs(%s /%s%s/%s?', $v1['method'], $k, $pathTag, $k1),
+                                "type" => "object",
+                                "properties" => $schema,
+                            ],
+                        ];
+                    }
                 }
 
                 $inputParams = array_merge($pathParams, $queryParams, $bodyParams);

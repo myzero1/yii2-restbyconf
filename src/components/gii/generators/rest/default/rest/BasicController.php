@@ -15,6 +15,13 @@ use \myzero1\restbyconf\components\rest\ApiController;
  */
 class BasicController extends ApiController
 {
+    public function beforeAction($action)
+    {
+        \Yii::$app->user->identity = \myzero1\restbyconf\components\rest\ApiHelper::getUser();
+
+        return parent::beforeAction($action);
+    }
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();

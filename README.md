@@ -66,6 +66,7 @@ return [
     'bootstrap' => [
         ......
         'example',
+        'v1',
         ......
     ],
     ......
@@ -74,12 +75,25 @@ return [
         'restbyconf' => 'myzero1\restbyconf\Module',
         'example' => [
             'class' => 'myzero1\restbyconf\example\RestByConfModule',// should add table to db by 'yii2-restbyconf/src/user.sql'
-            'docToken' => 'docTokenAsMyzero1',
             'apiTokenExpire' => 24 * 3600 * 365,
             'fixedUser' => [
                 'id' => '1',
                 'username' => 'myzero1',
                 'api_token' => 'myzero1Token',
+            ],
+            'smsAndCacheComponents' => [
+                'captchaCache' => [
+                    'class' => '\yii\caching\FileCache',
+                    'cachePath' => '@runtime/captchaCache',
+                ],
+                'captchaSms' => [
+                    'class' => 'myzero1\smser\QcloudsmsSmser',// 腾讯云
+                    'appid' => '1400280810', // 请替换成您的appid
+                    'appkey' => '23e167badfc804d97d454e32e258b780', // 请替换成您的apikey
+                    'smsSign' => '玩索得',
+                    'expire' => '5',//分钟
+                    'templateId' => 459670, // 请替换成您的templateId
+                ],
             ],
             'runningAsDocActions' => [
                 '*' => '*', // all ations, as default
@@ -89,10 +103,6 @@ return [
                 // 'controllerB' => [
                 //     'actionB',
                 // ],
-                // 'user' => [
-                //     'create',
-                //     'index',
-                // ],
             ],
         ],
         ......
@@ -100,6 +110,10 @@ return [
     ......
     'components' => [
         ......
+        // 'assetManager' => [
+        //     'class' => 'yii\web\AssetManager',
+        //     'forceCopy' => true,// true/false
+        // ],
         'user' => [
             'identityClass' => 'myzero1\restbyconf\components\rest\ApiAuthenticator',
             'enableSession' => false,
@@ -128,33 +142,42 @@ return [
     ......
     'bootstrap' => [
         ......
-        'v1',
+        'v2',
         ......
     ],
     ......
     'modules' => [
         ......
-        'v1' => [
-            'class' => 'backend\modules\v1\RestByConfModule',
-            'docToken' => 'docTokenAsMyzero1',
+        'v2' => [
+            'class' => 'api\modules\v2\RestByConfModule',
             'apiTokenExpire' => 24 * 3600 * 365,
             'fixedUser' => [
                 'id' => '1',
                 'username' => 'myzero1',
                 'api_token' => 'myzero1Token',
             ],
+            'smsAndCacheComponents' => [
+                'captchaCache' => [
+                    'class' => '\yii\caching\FileCache',
+                    'cachePath' => '@runtime/captchaCache',
+                ],
+                'captchaSms' => [
+                    'class' => 'myzero1\smser\QcloudsmsSmser',// 腾讯云
+                    'appid' => '1400280810', // 请替换成您的appid
+                    'appkey' => '23e167badfc804d97d454e32e258b780', // 请替换成您的apikey
+                    'smsSign' => '玩索得',
+                    'expire' => '5',//分钟
+                    'templateId' => 459670, // 请替换成您的templateId
+                ],
+            ],
             'runningAsDocActions' => [
-                // '*' => '*', // all ations, as default
+                '*' => '*', // all ations, as default
                 // 'controllerA' => [
                 //     '*', // all actons in controllerA
                 // ],
                 // 'controllerB' => [
                 //     'actionB',
                 // ],
-                'user' => [
-                    'create',
-                    'index',
-                ],
             ],
         ],
         ......

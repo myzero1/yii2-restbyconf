@@ -1,6 +1,5 @@
 <?php
 $templateParams = $generator->getApiActionProcessingParams();
-
 echo "<?php\n";
 ?>
 /**
@@ -109,58 +108,20 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $model = ApiAuthenticator::findByUsername($completedData['username']);
+        $smsResult = ApiHelper::sendCaptcha($mobile=$completedData['mobile_phone']);
 
-        if ( is_null($model) ) {
+        if($smsResult !== true){
             return [
-                'response_code' => "735461",
-                'response_msg' => '用户名或密码错误',
-                'msg' => '用户名或密码错误',
+                'code' => "735462",
+                'msg' => '发送短信失败',
+                'data' => $smsResult,
             ];
         }
-
-        if($completedData['type']==1){
-            if( !isset($completedData['captcha']) || true!==ApiHelper::checkCaptcha($completedData['username'], $completedData['captcha']) ){
-                return [
-                    'code' => "735465",
-                    'msg' => '验证码错误',
-                    'data' => '验证码错误',
-                ];
-            }
-        } else {
-            if( !isset($completedData['password']) || !$model->validatePassword($completedData['password'], $model->password_hash) ){
-                return [
-                    'code' => "735461",
-                    'msg' => '用户名或密码错误',
-                    'data' => '用户名或密码错误',
-                ];
-            }
-        }
-
-        if (!ApiAuthenticator::apiTokenIsValid($model->api_token)) {
-            $model->generateApiToken();
-        }
-
-        $trans = Yii::$app->db->beginTransaction();
-        try {
-            $flag = true;
-            if (!($flag = $model->save())) {
-                $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
-            }
-
-            if ($flag) {
-                $trans->commit();
-            } else {
-                $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save commit reason.');
-            }
-
-            return $model->attributes;
-        } catch (Exception $e) {
-            $trans->rollBack();
-            throw new ServerErrorHttpException('Failed to save all models reason.');
-        }
+        
+        return [
+            'code' => "735200",
+            'msg' => '发送短信成功',
+        ];
     }
 
     /**

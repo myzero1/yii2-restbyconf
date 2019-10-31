@@ -1,5 +1,5 @@
 <?php
-$version = 'v1';
+$version = 'example';
 $moduleName = 'example';
 return [
     // defult
@@ -9,11 +9,14 @@ return [
         'controller' => [
             'placeholder',
             $moduleName . '/authenticator',
+            $moduleName . '/tools',
             $moduleName . '/user',
         ],
         'extraPatterns' => [
             'POST,OPTIONS /join' => 'join',
             'POST,OPTIONS /login' => 'login',
+            'POST,OPTIONS /captcha' => 'captcha',
+            'POST,OPTIONS /upload' => 'upload',
             'GET,OPTIONS /export' => 'export',
             'PATCH,OPTIONS <id:\d+>/status' => 'status',
         ],
@@ -23,6 +26,9 @@ return [
     // custom
     'POST,OPTIONS ' . $version .'/authenticator/join' => $moduleName . '/authenticator/join',
     'POST,OPTIONS ' . $version .'/authenticator/login' => $moduleName . '/authenticator/login',
+
+    'POST,OPTIONS ' . $version .'/tools/captcha' => $moduleName . '/tools/captcha',
+    'POST,OPTIONS ' . $version .'/tools/upload' => $moduleName . '/tools/upload',
 
     'POST,OPTIONS ' . $version .'/user' => $moduleName . '/user/create',
     'PUT,OPTIONS ' . $version .'/user/<id:\d+>' => $moduleName . '/user/update',

@@ -47,6 +47,14 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
+            if(empty($validatedInput['username']) && empty($validatedInput['email']) && empty($validatedInput['mobile_phone'])){
+                return [
+                    'code' => '73544061',
+                    'msg' => 'username,email,mobile_phone至少填写一个',
+                    'data' => 'username,email,mobile_phone至少填写一个',
+                ];
+            }
+            
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             
@@ -122,6 +130,16 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
             if (!($flag = $model->save())) {
                 $trans->rollBack();
                 return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
+            }
+
+            if( isset($completedData['mobile_phone']) && isset($completedData['captcha']) ){
+                if(true!==ApiHelper::checkCaptcha($completedData['mobile_phone'], $completedData['captcha'])){
+                    return [
+                        'code' => "735465",
+                        'msg' => '验证码错误',
+                        'data' => '验证码错误',
+                    ];
+                }
             }
 
             if ($flag) {

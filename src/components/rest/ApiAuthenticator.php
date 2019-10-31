@@ -27,6 +27,7 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
     public $accessToken;
     public $created_at;
     public $updated_at;
+    public $captcha;
 
     public function behaviors()
     {
@@ -46,15 +47,16 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
     //表名
     public static function tableName()
     {
-        return "{{%user}}";
+        return "z1_user";
     }
 
     //规则
     public function rules()
     {
         return [
-            ['username', 'required'],
-            ['api_token', 'safe'],
+            // ['username', 'required'],
+            [['email', 'mobile_phone', 'captcha', 'api_token', ], 'safe'],
+            [['username', 'email', 'mobile_phone', 'api_token', ], 'unique' ],
         ];
     }
 
@@ -112,7 +114,14 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::find()->where('username = :username', [':username' => $username])->one();
+        // var_dump(123456);exit;
+        // return static::find()->where('username = :username', [':username' => $username])->one();
+        return static::find()->where([
+            'or',
+            ['=', 'username', $username],
+            ['=', 'email', $username],
+            ['=', 'mobile_phone', $username],
+        ])->one();
     }
 
     /**
@@ -128,8 +137,7 @@ class ApiAuthenticator extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        // check docToken
-        if (\Yii::$app->controller->module->docToken == $token) {
+        if (\Yii::$app->controller->module->fixedUser['api_token'] == $token) {
             $fixedUser = \Yii::$app->controller->module->fixedUser;
 
             $identityDoc = new self();

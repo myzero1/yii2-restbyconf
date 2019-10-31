@@ -1,15 +1,11 @@
 <?php
-$templateParams = $generator->getApiActionProcessingParams();
-
-echo "<?php\n";
-?>
 /**
  * @link https://github.com/myzero1
  * @copyright Copyright (c) 2019- My zero one
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace <?= $templateParams['namespace'] ?>;
+namespace example\processing\tools;
 
 use Yii;
 use yii\base\DynamicModel;
@@ -20,7 +16,7 @@ use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
 use myzero1\restbyconf\components\rest\ApiAuthenticator;
 use myzero1\restbyconf\components\rest\HandlingHelper;
-use <?= $templateParams['ioClass'] ?> as Io;
+use example\processing\tools\io\CaptchaIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -30,7 +26,7 @@ use <?= $templateParams['ioClass'] ?> as Io;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class <?= $templateParams['className'] ?> implements ApiActionProcessing
+class Captcha implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -109,58 +105,28 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $model = ApiAuthenticator::findByUsername($completedData['username']);
+        $randStr = ApiHelper::getrandstr('1234567890', 6);
+        $smsResult = Yii::$app->smser->send($completedData['mobile_phone'],  sprintf('【玩索得】您的验证码是: %s', $randStr));
 
-        if ( is_null($model) ) {
+        if($smsResult !== true){
             return [
-                'response_code' => "735461",
-                'response_msg' => '用户名或密码错误',
-                'msg' => '用户名或密码错误',
+                'code' => "735462",
+                'msg' => '发送短信失败',
+                'data' => $smsResult,
             ];
         }
 
-        if($completedData['type']==1){
-            if( !isset($completedData['captcha']) || true!==ApiHelper::checkCaptcha($completedData['username'], $completedData['captcha']) ){
-                return [
-                    'code' => "735465",
-                    'msg' => '验证码错误',
-                    'data' => '验证码错误',
-                ];
-            }
-        } else {
-            if( !isset($completedData['password']) || !$model->validatePassword($completedData['password'], $model->password_hash) ){
-                return [
-                    'code' => "735461",
-                    'msg' => '用户名或密码错误',
-                    'data' => '用户名或密码错误',
-                ];
-            }
-        }
-
-        if (!ApiAuthenticator::apiTokenIsValid($model->api_token)) {
-            $model->generateApiToken();
-        }
-
-        $trans = Yii::$app->db->beginTransaction();
-        try {
-            $flag = true;
-            if (!($flag = $model->save())) {
-                $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
-            }
-
-            if ($flag) {
-                $trans->commit();
-            } else {
-                $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save commit reason.');
-            }
-
-            return $model->attributes;
-        } catch (Exception $e) {
-            $trans->rollBack();
-            throw new ServerErrorHttpException('Failed to save all models reason.');
-        }
+        \Yii::$app->db->createCommand()->insert('z1_captcha', [  
+            'mobile_phone' => $completedData['mobile_phone'],  
+            'code' => $randStr,  
+            'used_times' => 0,
+            'created_at' => time(),  
+        ])->execute();
+        
+        return [
+            'code' => "735200",
+            'msg' => '发送短信成功',
+        ];
     }
 
     /**

@@ -658,10 +658,18 @@ class ApiHelper
     public static function getModelError($model, $code)
     {
         $errors = $model->errors;
+        $errorsA = [];
+        foreach($errors as $k => $v){
+            // $errorsA[] = sprintf('`%s`:%s', $k, $v[0]);
+            $errorsA[] = $v[0];
+        }
+        $errorsStr = implode(';', $errorsA);
         return [
             'code' => $code,
-            'msg' => Helper::getErrorMsg($errors),
-            'data' => $errors,
+            // 'msg' => Helper::getErrorMsg($errors),
+            'msg' => '输入参数验证错误',
+            // 'data' => $errors,
+            'data' => $errorsStr,
         ];
     }
 
@@ -914,5 +922,94 @@ class ApiHelper
         } else {
             return "no this response code '{$code}'";
         }
+    }
+
+    /**
+     * @param string    mobilePhone    12345678901
+     * @param string    createdAt    1572405213
+     * @return bool
+     */
+    public static function checkCaptchaOld($mobilePhone, $captcha){
+        
+        $query = (new \yii\db\Query())
+            ->from('z1_captcha t')
+            ->select('id')
+            ->andFilterWhere([
+                'and',
+                ['<', 'used_times', \Yii::$app->controller->module->captchaMaxTimes],
+                ['=', 'mobile_phone', $mobilePhone],
+                ['=', 'code', $captcha],
+                ['>', 'created_at', time()-\Yii::$app->controller->module->captchaExpire],
+            ]);
+        $captcha = $query->one();
+
+        if (!$captcha) {
+            return false;
+        } else {
+            \Yii::$app->db->createCommand()
+                ->update('z1_captcha', ['used_times' => new \yii\db\Expression('used_times + 1')], sprintf('id = %d', $captcha['id']))
+                ->execute();
+            return true;
+        }
+    }
+
+    /**
+     * @param string $str abcdef12345
+     * @param int $length 6
+     * @return string
+     */
+    public static function getrandstr($str='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890', $length=6){
+        // $str='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
+        $randStr = str_shuffle($str);//打乱字符串
+        $rands= substr($randStr,0,$length);//substr(string,start,length);返回字符串的一部分
+        return $rands;
+    }
+
+    /**
+     * @return obj
+     */
+    public static function getUser(){
+        $token = \Yii::$app->request->get('token');
+        return ApiAuthenticator::findIdentityByAccessToken($token);
+
+    }
+
+    /**
+     * @param string $mobilePhone 15828271234
+     * @return mixed
+     */
+    public static function sendCaptcha($mobilePhone){
+        $components = \Yii::$app->controller->module->smsAndCacheComponents;
+        $randStr = ApiHelper::getrandstr('1234567890', 6);
+
+        \Yii::$app->controller->module->setComponents($components);
+
+        $smsResult = \Yii::$app->controller->module->captchaSms->send($mobilePhone, $randStr);
+        if($smsResult !== true){
+            return [
+                'code' => "735462",
+                'msg' => '发送短信失败',
+                'data' => $smsResult,
+            ];
+        } else {
+            \Yii::$app->controller->module->captchaCache->set($mobilePhone, $randStr, 60 * $components['captchaSms']['expire']);
+            return true;
+        }
+
+    }
+
+    /**
+     * @param string $mobilePhone 15828271234
+     * @param string $code '123456'
+     * @return bool
+     */
+    public static function checkCaptcha($mobilePhone, $code){
+        $components = \Yii::$app->controller->module->smsAndCacheComponents;
+
+        \Yii::$app->controller->module->setComponents($components);
+        
+        $oldCode = \Yii::$app->controller->module->captchaCache->get($mobilePhone);
+
+        return $oldCode === $code;
     }
 }

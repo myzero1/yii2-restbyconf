@@ -1,6 +1,5 @@
 <?php
 $templateParams = $generator->getApiActionProcessingParams();
-
 echo "<?php\n";
 ?>
 /**
@@ -43,6 +42,7 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         // the path and query params will geted by queryParams,and the path params will rewrite the query params.
         $input['get'] = Yii::$app->request->queryParams;
         $input['post'] = Yii::$app->request->bodyParams;
+        $input['post']['file'] = 'file placeholder';
         $validatedInput = $this->inputValidate($input);
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
@@ -109,58 +109,32 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $model = ApiAuthenticator::findByUsername($completedData['username']);
-
-        if ( is_null($model) ) {
+        $file = \yii\web\UploadedFile::getInstanceByName('file');
+        $newDirectory = $completedData['directory'];
+        \yii\helpers\BaseFileHelper::createDirectory($newDirectory);
+        $newName = sprintf('%s/%s-%s.%s', $newDirectory, $file->baseName, time(), $file->extension);
+        $extensions = explode(',', $completedData['extension']);
+        if(!in_array($file->extension, $extensions)){
             return [
-                'response_code' => "735461",
-                'response_msg' => '用户名或密码错误',
-                'msg' => '用户名或密码错误',
+                'code' => '735400',
+                'msg' => '输入参数验证错误',
+                'data' => [
+                    "file" => [
+                        sprintf('只允许上传后缀为%s的文件', $completedData['extension'])
+                    ]
+                ],
             ];
         }
 
-        if($completedData['type']==1){
-            if( !isset($completedData['captcha']) || true!==ApiHelper::checkCaptcha($completedData['username'], $completedData['captcha']) ){
-                return [
-                    'code' => "735465",
-                    'msg' => '验证码错误',
-                    'data' => '验证码错误',
-                ];
-            }
-        } else {
-            if( !isset($completedData['password']) || !$model->validatePassword($completedData['password'], $model->password_hash) ){
-                return [
-                    'code' => "735461",
-                    'msg' => '用户名或密码错误',
-                    'data' => '用户名或密码错误',
-                ];
-            }
-        }
+        $ignore = sprintf('%s/.gitignore', $newDirectory);
+        $host = 'http://<?= $templateParams['conf']['json']['host']?>';
 
-        if (!ApiAuthenticator::apiTokenIsValid($model->api_token)) {
-            $model->generateApiToken();
-        }
+        file_put_contents ( $ignore , "*\n!.gitignore" );
+        $file->saveAs($newName);
 
-        $trans = Yii::$app->db->beginTransaction();
-        try {
-            $flag = true;
-            if (!($flag = $model->save())) {
-                $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
-            }
-
-            if ($flag) {
-                $trans->commit();
-            } else {
-                $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save commit reason.');
-            }
-
-            return $model->attributes;
-        } catch (Exception $e) {
-            $trans->rollBack();
-            throw new ServerErrorHttpException('Failed to save all models reason.');
-        }
+        return [
+            'url' => sprintf('%s/%s', $host, $newName),
+        ];
     }
 
     /**
