@@ -113,10 +113,28 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
 
         if ( is_null($model) ) {
             return [
-                'response_code' => 735461,
-                'response_msg' => 'Incorrect username or password',
-                'msg' => 'Incorrect username or password',
+                'response_code' => "735461",
+                'response_msg' => '用户名或密码错误',
+                'msg' => '用户名或密码错误',
             ];
+        }
+
+        if($completedData['type']==1){
+            if( !isset($completedData['captcha']) || !ApiHelper::checkCaptcha($completedData['username'], $completedData['captcha']) ){
+                return [
+                    'code' => "735465",
+                    'msg' => '验证码错误',
+                    'data' => '验证码错误',
+                ];
+            }
+        } else {
+            if( !isset($completedData['password']) || !$model->validatePassword($completedData['password'], $model->password_hash) ){
+                return [
+                    'code' => "735461",
+                    'msg' => '用户名或密码错误',
+                    'data' => '用户名或密码错误',
+                ];
+            }
         }
 
         if (!ApiAuthenticator::apiTokenIsValid($model->api_token)) {
