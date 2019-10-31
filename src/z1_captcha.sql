@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-10-31 10:13:32
+Date: 2019-10-31 11:30:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `z1_captcha`;
 CREATE TABLE `z1_captcha` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `mobile_phone` varchar(255) NOT NULL,
   `code` varchar(255) NOT NULL,
   `used_times` tinyint(4) NOT NULL DEFAULT 0,
