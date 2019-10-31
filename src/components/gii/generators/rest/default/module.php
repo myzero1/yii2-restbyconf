@@ -27,10 +27,25 @@ class <?= $templateParams['className'] ?> extends BaseModule implements Bootstra
      * {@inheritdoc}
      */
     public $controllerNamespace = '<?= $templateParams['controllerNamespace'] ?>';
-    public $docToken = 'docTokenAsMyzero1';
     public $apiTokenExpire = 86400; // 24h
+    public $captchaExpire = 60 * 5; // 5m
+    public $captchaMaxTimes = 3;
     public $runningAsDocActions = ['*' => '*']; // all action
-    public $fixedUser = [ 'id' => 1, 'username' => 'myzero1',];
+    public $fixedUser = [ 'id' => 1, 'username' => 'myzero1', 'api_token' => 'myzero1ApiToken'];
+    public $smsAndCacheComponents = [
+                'captchaCache' => [
+                    'class' => '\yii\caching\FileCache',
+                    'cachePath' => '@runtime/captchaCache',
+                ],
+                'captchaSms' => [
+                    // 腾讯云
+                    'class' => 'myzero1\smser\QcloudsmsSmser',
+                    'appid' => '140028081944', // appid
+                    'appkey' => '23e167badfc804d97d454e32e258b7833', // 请替换成您的apikey
+                    'smsSign' => '玩索得',
+                    'expire' => '5',//分钟
+                ],
+            ];
 
     /**
      * {@inheritdoc}

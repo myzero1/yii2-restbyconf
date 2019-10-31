@@ -103,7 +103,7 @@ class View implements ApiActionProcessing
     public function handling($completedData)
     {
         $result = (new Query())
-            ->from('user t')
+            ->from('z1_user t')
             // ->groupBy(['t.id'])
             // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
             ->andFilterWhere([
@@ -151,9 +151,23 @@ class View implements ApiActionProcessing
      */
     public function completeResult($db2outData = [])
     {
+        if ( isset($db2outData['response_code']) ) {
+            $responseCode = $db2outData['response_code'];
+            unset($db2outData['response_code']);
+        } else {
+            $responseCode = 735200;
+        }
+
+        if ( isset($db2outData['response_msg']) ) {
+            $responseMsg = $db2outData['response_msg'];
+            unset($db2outData['response_msg']);
+        } else {
+            $responseMsg = ApiCodeMsg::SUCCESS_MSG;
+        }
+        
         $result = [
-            'code' => ApiCodeMsg::SUCCESS,
-            'msg' => ApiCodeMsg::SUCCESS_MSG,
+            'code' => $responseCode,
+            'msg' => $responseMsg,
             'data' => is_null($db2outData) ? new \stdClass() : $db2outData,
         ];
 

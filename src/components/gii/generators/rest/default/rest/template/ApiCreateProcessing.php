@@ -93,7 +93,7 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        // $in2dbData['created_at'] = $in2dbData['updated_at'] = time();
+        $in2dbData['created_at'] = $in2dbData['updated_at'] = time();
         // $in2dbData['is_del'] = 0;
 
         $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.

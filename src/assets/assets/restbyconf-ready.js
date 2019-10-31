@@ -24,10 +24,11 @@ window.jsoneditorOldJson = {
     },
     "schemes": "http",
     "mySecurity": {
-        "security": "httpBearerAuth",
+        "security": "queryParamAuth",
         "exclude": [
-            "post \/authenticator\/login",
-            "post \/authenticator\/join"
+            "post \/z1authenticator\/login",
+            "post \/z1authenticator\/join",
+            "post \/z1tools\/captcha"
         ]
     },
     "myGroup": {
@@ -37,7 +38,7 @@ window.jsoneditorOldJson = {
         }
     },
     "controllers": {
-        "authenticator": {
+        "z1authenticator": {
             "description": "Insert a controller node",
             "actions": {
                 "join": {
@@ -49,10 +50,31 @@ window.jsoneditorOldJson = {
                         "body_params": {
                             "username": {
                                 "des": "User name",
-                                "required": true,
+                                "required": false,
                                 "eg": "myzero1",
-                                "rules": "^.\\w{1,32}$",
+                                "rules": "^.{0,32}$",
                                 "error_msg": "invalid username"
+                            },
+                            "email": {
+                                "des": "email",
+                                "required": false,
+                                "eg": "myzero1@myzero1.com",
+                                "rules": "^.{0,32}$",
+                                "error_msg": "invalid email"
+                            },
+                            "mobile_phone": {
+                                "des": "mobile phone",
+                                "required": false,
+                                "eg": 15836254247,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "invalid mobile phone"
+                            },
+                            "captcha": {
+                                "des": "captcha",
+                                "required": false,
+                                "eg": 123456,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "invalid captcha"
                             },
                             "password": {
                                 "des": "password",
@@ -87,6 +109,11 @@ window.jsoneditorOldJson = {
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -97,19 +124,152 @@ window.jsoneditorOldJson = {
                     "uri": "\/{controller}\/login",
                     "inputs": {
                         "body_params": {
-                            "username": {
-                                "des": "User name",
+                            "type": {
+                                "des": "type，1为验证码登录，2为密码登录",
                                 "required": true,
-                                "eg": "myzero1",
-                                "rules": "^.\\w{1,32}$",
-                                "error_msg": "invalid username"
+                                "eg": 1,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "invalid type"
+                            },
+                            "username": {
+                                "des": "username",
+                                "required": true,
+                                "eg": 12345678901,
+                                "rules": "^\\d{11}$",
+                                "error_msg": "invalid mobile phone"
                             },
                             "password": {
-                                "des": "password",
-                                "required": true,
+                                "des": "password，type为2时必填",
+                                "required": false,
                                 "eg": "myzero1",
-                                "rules": "^.{1,32}$",
+                                "rules": "^.{0,32}$",
                                 "error_msg": "invalid password"
+                            },
+                            "captcha": {
+                                "des": "captcha，type为1时必填",
+                                "required": false,
+                                "eg": 123456,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "invalid captcha"
+                            }
+                        },
+                        "path_params": {},
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735401,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
+                    },
+                    "outputs": {
+                        "735200": {
+                            "code": 735200,
+                            "msg": "Ok",
+                            "data": {
+                                "mobile_phone": 12345678901,
+                                "api_token": "123456dsfe5w"
+                            }
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
+                        }
+                    }
+                }
+            }
+        },
+        "z1tools": {
+            "description": "工具接口",
+            "actions": {
+                "captcha": {
+                    "summary": "获取验证码",
+                    "description": "用于登录，注册，重置密码",
+                    "method": "post",
+                    "uri": "\/{controller}\/captcha",
+                    "inputs": {
+                        "body_params": {
+                            "mobile_phone": {
+                                "des": "mobile_phone",
+                                "required": true,
+                                "eg": 15836458756,
+                                "rules": "^\\d{11}$",
+                                "error_msg": "invalid mobile phone"
+                            }
+                        },
+                        "path_params": {},
+                        "query_params": {
+                            "response_code": {
+                                "des": "返回状态码",
+                                "required": false,
+                                "eg": 735401,
+                                "rules": "^.{0,32}$",
+                                "error_msg": "Input parameter error"
+                            }
+                        }
+                    },
+                    "outputs": {
+                        "735200": {
+                            "code": 735200,
+                            "msg": "成功",
+                            "data": {}
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
+                        },
+                        "735401": {
+                            "code": 735401,
+                            "msg": "Unauthorized",
+                            "data": {
+                                "msg": "Unauthorized"
+                            }
+                        },
+                        "735561": {
+                            "code": 735561,
+                            "msg": "获取验证码失败",
+                            "data": {}
+                        }
+                    }
+                },
+                "upload": {
+                    "summary": "上传",
+                    "description": "上传文件",
+                    "method": "post",
+                    "uri": "\/{controller}\/upload",
+                    "inputs": {
+                        "body_params": {
+                            "directory": {
+                                "des": "文件的目录;formData_type=string",
+                                "required": true,
+                                "eg": "upload\/tools\/images",
+                                "rules": "^.{1,32}$",
+                                "error_msg": "Input parameter error"
+                            },
+                            "extension": {
+                                "des": "文件扩展名，多个用英文逗号隔开;formData_type=string",
+                                "required": true,
+                                "eg": "png,jpg",
+                                "rules": "^.{1,32}$",
+                                "error_msg": "Input parameter error"
+                            },
+                            "file": {
+                                "des": "图片文件，图片二进制内容,formData_type=file",
+                                "required": true,
+                                "eg": 1010000111,
+                                "rules": "safe",
+                                "error_msg": "Input parameter error"
                             }
                         },
                         "path_params": {},
@@ -128,9 +288,13 @@ window.jsoneditorOldJson = {
                             "code": 735200,
                             "msg": "Ok",
                             "data": {
-                                "username": "myzero1",
-                                "api_token": "123456dsfe5w"
+                                "url": "http:\/\/imgsrc.baidu.com\/forum\/w=580\/sign=4d5e01bdba389b5038ffe05ab534e5f1\/8cca9b8fa0ec08fa2ab208045aee3d6d54fbda28.jpg---图片地址"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         },
                         "735401": {
                             "code": 735401,
@@ -143,7 +307,7 @@ window.jsoneditorOldJson = {
                 }
             }
         },
-        "user": {
+        "z1user": {
             "description": "Insert a controller node",
             "actions": {
                 "create": {
@@ -203,6 +367,11 @@ window.jsoneditorOldJson = {
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -271,6 +440,11 @@ window.jsoneditorOldJson = {
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -318,6 +492,11 @@ window.jsoneditorOldJson = {
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -361,6 +540,11 @@ window.jsoneditorOldJson = {
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -407,6 +591,11 @@ window.jsoneditorOldJson = {
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -449,6 +638,11 @@ window.jsoneditorOldJson = {
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -504,6 +698,11 @@ window.jsoneditorOldJson = {
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 }
@@ -572,6 +771,11 @@ var templates = [
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -634,6 +838,11 @@ var templates = [
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -681,6 +890,11 @@ var templates = [
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -724,6 +938,11 @@ var templates = [
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -782,6 +1001,11 @@ var templates = [
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -831,6 +1055,11 @@ var templates = [
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 },
@@ -886,6 +1115,11 @@ var templates = [
                             "data": {
                                 "msg": "Unauthorized"
                             }
+                        },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
                         }
                     }
                 }

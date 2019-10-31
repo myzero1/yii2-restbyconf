@@ -345,15 +345,25 @@ EOD;
                 $template = ['create', 'update', 'delete', 'view', 'index', 'export', ];
                 foreach ($actions as $k => $action) {
                     $this->action = $action;
-                    if ($controller=='authenticator' && $action=='join') {
+                    if ($controller=='z1authenticator' && $action=='join') {
                         $files[] = new CodeFile(
                             sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
                             $this->render('rest/template/ApiJoinProcessing.php')
                         );
-                    } else if ($controller=='authenticator' && $action=='login') {
+                    } else if ($controller=='z1authenticator' && $action=='login') {
                         $files[] = new CodeFile(
                             sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
                             $this->render('rest/template/ApiLoginProcessing.php')
+                        );
+                    } else if ($controller=='z1tools' && $action=='upload') {
+                        $files[] = new CodeFile(
+                            sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
+                            $this->render('rest/template/ApiUploadProcessing.php')
+                        );
+                    } else if ($controller=='z1tools' && $action=='captcha') {
+                        $files[] = new CodeFile(
+                            sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
+                            $this->render('rest/template/ApiCaptchaProcessing.php')
                         );
                     } else if (in_array($action, $template)) {
                         $files[] = new CodeFile(
@@ -475,6 +485,7 @@ EOD;
         $params['ioClassName'] = $ioClassName = sprintf('%sIo', $params['className']);
         $params['inputsKeysWhere'] = $inputsKeysWhere;
         $params['indexClass'] = sprintf('%s\processing\%s\Index', $this->getRestModuleAlias(), $this->controller);
+        $params['conf'] = json_decode($this->conf, true);
 
         return $params;
     }

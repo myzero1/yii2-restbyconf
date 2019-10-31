@@ -109,14 +109,14 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         $result = [];
 
         $query = (new Query())
-            ->from('user t')
+            ->from('z1_user t')
             // ->groupBy(['t.id'])
             // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
             ->andFilterWhere([
                 'and',
-<?php foreach ($templateParams['inputsKeysWhere'] as $key => $value) { ?>
+<?php foreach ($templateParams['inputsKeysWhere'] as $key => $value) { if ($value !='response_code') {?>
                 <?=sprintf("['=', '%s', \$completedData['%s']],\n", $value, $value)?>
-<?php } ?>
+<?php } } ?>
             ]);
 
         $outFieldNames = [

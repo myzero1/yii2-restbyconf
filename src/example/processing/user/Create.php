@@ -89,7 +89,7 @@ class Create implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        // $in2dbData['created_at'] = $in2dbData['updated_at'] = time();
+        $in2dbData['created_at'] = $in2dbData['updated_at'] = time();
         // $in2dbData['is_del'] = 0;
 
         $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
@@ -155,9 +155,23 @@ class Create implements ApiActionProcessing
      */
     public function completeResult($db2outData = [])
     {
+        if ( isset($db2outData['response_code']) ) {
+            $responseCode = $db2outData['response_code'];
+            unset($db2outData['response_code']);
+        } else {
+            $responseCode = 735200;
+        }
+
+        if ( isset($db2outData['response_msg']) ) {
+            $responseMsg = $db2outData['response_msg'];
+            unset($db2outData['response_msg']);
+        } else {
+            $responseMsg = ApiCodeMsg::SUCCESS_MSG;
+        }
+        
         $result = [
-            'code' => ApiCodeMsg::SUCCESS,
-            'msg' => ApiCodeMsg::SUCCESS_MSG,
+            'code' => $responseCode,
+            'msg' => $responseMsg,
             'data' => is_null($db2outData) ? new \stdClass() : $db2outData,
         ];
 

@@ -16,10 +16,11 @@ class RestByConfModule extends BaseModule implements BootstrapInterface
      * {@inheritdoc}
      */
     public $controllerNamespace = 'example\controllers';
-    public $docToken = 'docTokenAsMyzero1';
     public $apiTokenExpire = 86400; // 24h
+    public $captchaExpire = 60 * 5; // 5m
+    public $captchaMaxTimes = 3;
     public $runningAsDocActions = ['*' => '*']; // all action
-    public $fixedUser = [ 'id' => 1, 'username' => 'myzero1',];
+    public $fixedUser = [ 'id' => 1, 'username' => 'myzero1', 'api_token' => 'myzero1ApiToken'];
 
     /**
      * {@inheritdoc}
@@ -27,7 +28,7 @@ class RestByConfModule extends BaseModule implements BootstrapInterface
     public function bootstrap($app)
     {
         if ($app instanceof \yii\web\Application) {
-            Yii::$app->params['restbyconfAuthenticator_ab6446ae49cf579a847bfab947702375'] = 'httpBearerAuth';
+            Yii::$app->params['restbyconfAuthenticator_ab6446ae49cf579a847bfab947702375'] = 'queryParamAuth';
             Yii::$app->params['restbyconfUnAuthenticateActions_ab6446ae49cf579a847bfab947702375'] = [
                 'post /authenticator/login',
                 'post /authenticator/join',
