@@ -1006,6 +1006,8 @@ class ApiHelper
     public static function checkCaptcha($mobilePhone, $code){
         $components = \Yii::$app->controller->module->smsAndCacheComponents;
 
+        \Yii::$app->controller->module->setComponents($components);
+        
         $oldCode = \Yii::$app->controller->module->captchaCache->get($mobilePhone);
 
         return $oldCode === $code;
