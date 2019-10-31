@@ -26,8 +26,9 @@ window.jsoneditorOldJson = {
     "mySecurity": {
         "security": "queryParamAuth",
         "exclude": [
-            "post \/authenticator\/login",
-            "post \/authenticator\/join"
+            "post \/z1authenticator\/login",
+            "post \/z1authenticator\/join",
+            "post \/z1tools\/captcha"
         ]
     },
     "myGroup": {
@@ -37,7 +38,7 @@ window.jsoneditorOldJson = {
         }
     },
     "controllers": {
-        "authenticator": {
+        "z1authenticator": {
             "description": "Insert a controller node",
             "actions": {
                 "join": {
@@ -188,7 +189,7 @@ window.jsoneditorOldJson = {
                 }
             }
         },
-        "tools": {
+        "z1tools": {
             "description": "工具接口",
             "actions": {
                 "captcha": {
@@ -306,7 +307,7 @@ window.jsoneditorOldJson = {
                 }
             }
         },
-        "user": {
+        "z1user": {
             "description": "Insert a controller node",
             "actions": {
                 "create": {
