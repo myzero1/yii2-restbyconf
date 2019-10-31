@@ -129,7 +129,7 @@ class Join implements ApiActionProcessing
             }
 
             if( isset($completedData['mobile_phone']) && isset($completedData['captcha']) ){
-                if(!ApiHelper::checkCaptcha($completedData['mobile_phone'], $completedData['captcha'])){
+                if(true!==ApiHelper::checkCaptcha($completedData['mobile_phone'], $completedData['captcha'])){
                     return [
                         'code' => "735465",
                         'msg' => '验证码错误',

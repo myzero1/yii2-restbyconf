@@ -103,7 +103,7 @@ class View implements ApiActionProcessing
     public function handling($completedData)
     {
         $result = (new Query())
-            ->from('user t')
+            ->from('z1_user t')
             // ->groupBy(['t.id'])
             // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
             ->andFilterWhere([

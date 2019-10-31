@@ -116,7 +116,7 @@ class Login implements ApiActionProcessing
         }
 
         if($completedData['type']==1){
-            if( !isset($completedData['captcha']) || !ApiHelper::checkCaptcha($completedData['username'], $completedData['captcha']) ){
+            if( !isset($completedData['captcha']) || true!==ApiHelper::checkCaptcha($completedData['username'], $completedData['captcha']) ){
                 return [
                     'code' => "735465",
                     'msg' => '验证码错误',

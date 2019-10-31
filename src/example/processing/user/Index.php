@@ -105,12 +105,11 @@ class Index implements ApiActionProcessing
         $result = [];
 
         $query = (new Query())
-            ->from('user t')
+            ->from('z1_user t')
             // ->groupBy(['t.id'])
             // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
             ->andFilterWhere([
                 'and',
-                ['=', 'response_code', $completedData['response_code']],
                 ['=', 'username', $completedData['username']],
             ]);
 
