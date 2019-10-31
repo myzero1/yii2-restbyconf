@@ -5,16 +5,18 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\user;
+namespace example\processing\tools;
 
 use Yii;
+use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
-use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use example\processing\user\io\CreateIo as Io;
+use myzero1\restbyconf\components\rest\ApiAuthenticator;
+use myzero1\restbyconf\components\rest\HandlingHelper;
+use example\processing\tools\io\UploadIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -24,7 +26,7 @@ use example\processing\user\io\CreateIo as Io;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Create implements ApiActionProcessing
+class Upload implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -37,6 +39,7 @@ class Create implements ApiActionProcessing
         // the path and query params will geted by queryParams,and the path params will rewrite the query params.
         $input['get'] = Yii::$app->request->queryParams;
         $input['post'] = Yii::$app->request->bodyParams;
+        $input['post']['file'] = 'file placeholder';
         $validatedInput = $this->inputValidate($input);
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
@@ -54,7 +57,7 @@ class Create implements ApiActionProcessing
 
             $db2outData = $this->mappingDb2output($handledData);
             $result = $this->completeResult($db2outData);
-
+            
             return $result;
         }
     }
@@ -89,8 +92,7 @@ class Create implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        // $in2dbData['created_at'] = $in2dbData['updated_at'] = time();
-        // $in2dbData['is_del'] = 0;
+        // $in2dbData['updated_at'] = time();
 
         $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
@@ -104,31 +106,32 @@ class Create implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-
-        $model = new \myzero1\restbyconf\example\models\User();// according to the current situation
-        
-        $model->load($completedData, '');
-
-        $trans = Yii::$app->db->beginTransaction();
-        try {
-            $flag = true;
-            if (!($flag = $model->save())) {
-                $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::DB_BAD_REQUEST);
-            }
-
-            if ($flag) {
-                $trans->commit();
-            } else {
-                $trans->rollBack();
-                ApiHelper::throwError('Failed to commint the transaction.', __FILE__, __LINE__);
-            }
- 
-            return $model->attributes;
-        } catch (Exception $e) {
-            $trans->rollBack();
-            ApiHelper::throwError('Unknown error.', __FILE__, __LINE__);
+        $file = \yii\web\UploadedFile::getInstanceByName('file');
+        $newDirectory = $completedData['directory'];
+        \yii\helpers\BaseFileHelper::createDirectory($newDirectory);
+        $newName = sprintf('%s/%s-%s.%s', $newDirectory, $file->baseName, time(), $file->extension);
+        $extensions = explode(',', $completedData['extension']);
+        if(!in_array($file->extension, $extensions)){
+            return [
+                'code' => '735400',
+                'msg' => '输入参数验证错误',
+                'data' => [
+                    "file" => [
+                        sprintf('只允许上传后缀为%s的文件', $completedData['extension'])
+                    ]
+                ],
+            ];
         }
+
+        $ignore = sprintf('%s/.gitignore', $newDirectory);
+        $host = 'http://restbyconf.test';
+
+        file_put_contents ( $ignore , "*\n!.gitignore" );
+        $file->saveAs($newName);
+
+        return [
+            'url' => sprintf('%s/%s', $host, $newName),
+        ];
     }
 
     /**

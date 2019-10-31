@@ -34,6 +34,9 @@ class JoinIo implements ApiIoProcessing
     {
         $inputFields = [
             'username',
+            'email',
+            'mobile_phone',
+            'captcha',
             'password',
             'response_code',
             'sort',
@@ -61,8 +64,10 @@ class JoinIo implements ApiIoProcessing
         $modelPost->addRule($inputFields, 'trim');
         $modelPost->addRule($inputFields, 'safe');
 
-        $modelPost->addRule(['username'], 'required');
-        $modelPost->addRule(['username'], 'match', ['pattern' => '/^.\w{1,32}$/i', 'message' => '\'{attribute}\':invalid username']);
+        $modelPost->addRule(['username'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid username']);
+        $modelPost->addRule(['email'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid email']);
+        $modelPost->addRule(['mobile_phone'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid mobile phone']);
+        $modelPost->addRule(['captcha'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid captcha']);
         $modelPost->addRule(['password'], 'required');
         $modelPost->addRule(['password'], 'match', ['pattern' => '/^.{1,32}$/i', 'message' => '\'{attribute}\':invalid password']);
 
@@ -84,7 +89,7 @@ class JoinIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:2:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:1:{s:8:"username";s:7:"myzero1";}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
+        $egOutputData = 'a:3:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:1:{s:8:"username";s:7:"myzero1";}}i:735400;a:3:{s:4:"code";i:735400;s:3:"msg";s:24:"输入参数验证错误";s:4:"data";a:0:{}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }

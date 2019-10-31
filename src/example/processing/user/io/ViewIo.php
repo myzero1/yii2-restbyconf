@@ -81,7 +81,7 @@ class ViewIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:2:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:5:{s:8:"username";s:7:"myzero1";s:6:"status";i:1;s:9:"api_token";s:43:"eHiFYAsL5DMkAiwK-iUJZEon-u42qhpH_1557385911";s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
+        $egOutputData = 'a:3:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:5:{s:8:"username";s:7:"myzero1";s:6:"status";i:1;s:9:"api_token";s:43:"eHiFYAsL5DMkAiwK-iUJZEon-u42qhpH_1557385911";s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}i:735400;a:3:{s:4:"code";i:735400;s:3:"msg";s:24:"输入参数验证错误";s:4:"data";a:0:{}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }
