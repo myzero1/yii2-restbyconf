@@ -108,8 +108,7 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $randStr = ApiHelper::getrandstr('1234567890', 6);
-        $smsResult = Yii::$app->smser->send($completedData['mobile_phone'],  sprintf('【玩索得】您的验证码是: %s', $randStr));
+        $smsResult = ApiHelper::sendCaptcha($mobile=$completedData['mobile_phone']);
 
         if($smsResult !== true){
             return [
@@ -118,13 +117,6 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
                 'data' => $smsResult,
             ];
         }
-
-        \Yii::$app->db->createCommand()->insert('z1_captcha', [  
-            'mobile_phone' => $completedData['mobile_phone'],  
-            'code' => $randStr,  
-            'used_times' => 0,
-            'created_at' => time(),  
-        ])->execute();
         
         return [
             'code' => "735200",

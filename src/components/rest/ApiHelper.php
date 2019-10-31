@@ -929,7 +929,7 @@ class ApiHelper
      * @param string    createdAt    1572405213
      * @return bool
      */
-    public static function checkCaptcha($mobilePhone, $captcha){
+    public static function checkCaptchaOld($mobilePhone, $captcha){
         
         $query = (new \yii\db\Query())
             ->from('z1_captcha t')
@@ -972,5 +972,42 @@ class ApiHelper
         $token = \Yii::$app->request->get('token');
         return ApiAuthenticator::findIdentityByAccessToken($token);
 
+    }
+
+    /**
+     * @param string $mobilePhone 15828271234
+     * @return mixed
+     */
+    public static function sendCaptcha($mobilePhone){
+        $components = \Yii::$app->controller->module->smsAndCacheComponents;
+        $randStr = ApiHelper::getrandstr('1234567890', 6);
+
+        \Yii::$app->controller->module->setComponents($components);
+
+        $smsResult = \Yii::$app->controller->module->captchaSms->send($mobilePhone, $randStr);
+        if($smsResult !== true){
+            return [
+                'code' => "735462",
+                'msg' => '发送短信失败',
+                'data' => $smsResult,
+            ];
+        } else {
+            \Yii::$app->controller->module->captchaCache->set($mobilePhone, $randStr, 60 * $components['captchaSms']['expire']);
+            return true;
+        }
+
+    }
+
+    /**
+     * @param string $mobilePhone 15828271234
+     * @param string $code '123456'
+     * @return bool
+     */
+    public static function checkCaptcha($mobilePhone, $code){
+        $components = \Yii::$app->controller->module->smsAndCacheComponents;
+
+        $oldCode = \Yii::$app->controller->module->captchaCache->get($mobilePhone);
+
+        return $oldCode === $code;
     }
 }
