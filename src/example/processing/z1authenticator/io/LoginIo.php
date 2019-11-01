@@ -66,7 +66,7 @@ class LoginIo implements ApiIoProcessing
         $modelPost->addRule(['type'], 'required');
         $modelPost->addRule(['type'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid type']);
         $modelPost->addRule(['username'], 'required');
-        $modelPost->addRule(['username'], 'match', ['pattern' => '/^\d{11}$/i', 'message' => '\'{attribute}\':invalid mobile phone']);
+        $modelPost->addRule(['username'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid mobile phone']);
         $modelPost->addRule(['password'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid password']);
         $modelPost->addRule(['captcha'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid captcha']);
 

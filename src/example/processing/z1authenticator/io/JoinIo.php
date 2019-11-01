@@ -64,9 +64,9 @@ class JoinIo implements ApiIoProcessing
         $modelPost->addRule($inputFields, 'trim');
         $modelPost->addRule($inputFields, 'safe');
 
-        $modelPost->addRule(['username'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid username']);
-        $modelPost->addRule(['email'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid email']);
-        $modelPost->addRule(['mobile_phone'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid mobile phone']);
+        $modelPost->addRule(['username'], 'match', ['pattern' => '/^[\w\d\_]{6,20}$/i', 'message' => '\'{attribute}\':invalid username']);
+        $modelPost->addRule(['email'], 'match', ['pattern' => '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i', 'message' => '\'{attribute}\':invalid email']);
+        $modelPost->addRule(['mobile_phone'], 'match', ['pattern' => '/^0?(13|14|15|17|18|19)[0-9]{9}$/i', 'message' => '\'{attribute}\':invalid mobile phone']);
         $modelPost->addRule(['captcha'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid captcha']);
         $modelPost->addRule(['password'], 'required');
         $modelPost->addRule(['password'], 'match', ['pattern' => '/^.{1,32}$/i', 'message' => '\'{attribute}\':invalid password']);
