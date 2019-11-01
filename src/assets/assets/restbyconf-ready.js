@@ -52,25 +52,25 @@ window.jsoneditorOldJson = {
                                 "des": "User name",
                                 "required": false,
                                 "eg": "myzero1",
-                                "rules": "^.{0,32}$",
+                                "rules": "^[\\w\\d\\_]{6,20}$",
                                 "error_msg": "invalid username"
                             },
                             "email": {
                                 "des": "email",
                                 "required": false,
                                 "eg": "myzero1@myzero1.com",
-                                "rules": "^.{0,32}$",
+                                "rules": "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,})$",
                                 "error_msg": "invalid email"
                             },
                             "mobile_phone": {
                                 "des": "mobile phone",
                                 "required": false,
-                                "eg": 15836254247,
-                                "rules": "^.{0,32}$",
+                                "eg": 15828270858,
+                                "rules": "^0?(13|14|15|17|18|19)[0-9]{9}$",
                                 "error_msg": "invalid mobile phone"
                             },
                             "captcha": {
-                                "des": "captcha",
+                                "des": "captcha,若captcha存在就需要短信验证",
                                 "required": false,
                                 "eg": 123456,
                                 "rules": "^.{0,32}$",
@@ -103,17 +103,17 @@ window.jsoneditorOldJson = {
                                 "username": "myzero1"
                             }
                         },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
+                        },
                         "735401": {
                             "code": 735401,
                             "msg": "Unauthorized",
                             "data": {
                                 "msg": "Unauthorized"
                             }
-                        },
-                        "735400": {
-                            "code": 735400,
-                            "msg": "输入参数验证错误",
-                            "data": {}
                         }
                     }
                 },
@@ -134,8 +134,8 @@ window.jsoneditorOldJson = {
                             "username": {
                                 "des": "username",
                                 "required": true,
-                                "eg": 12345678901,
-                                "rules": "^\\d{11}$",
+                                "eg": 15828270858,
+                                "rules": "^.{0,32}$",
                                 "error_msg": "invalid mobile phone"
                             },
                             "password": {
@@ -173,17 +173,17 @@ window.jsoneditorOldJson = {
                                 "api_token": "123456dsfe5w"
                             }
                         },
+                        "735400": {
+                            "code": 735400,
+                            "msg": "输入参数验证错误",
+                            "data": {}
+                        },
                         "735401": {
                             "code": 735401,
                             "msg": "Unauthorized",
                             "data": {
                                 "msg": "Unauthorized"
                             }
-                        },
-                        "735400": {
-                            "code": 735400,
-                            "msg": "输入参数验证错误",
-                            "data": {}
                         }
                     }
                 }
@@ -203,7 +203,7 @@ window.jsoneditorOldJson = {
                                 "des": "mobile_phone",
                                 "required": true,
                                 "eg": 15836458756,
-                                "rules": "^\\d{11}$",
+                                "rules": "^0?(13|14|15|17|18|19)[0-9]{9}$",
                                 "error_msg": "invalid mobile phone"
                             }
                         },
@@ -254,14 +254,14 @@ window.jsoneditorOldJson = {
                                 "des": "文件的目录;formData_type=string",
                                 "required": true,
                                 "eg": "upload\/tools\/images",
-                                "rules": "^.{1,32}$",
+                                "rules": "^[\\w\\d\\_\\-\\\/]{1,}$",
                                 "error_msg": "Input parameter error"
                             },
                             "extension": {
                                 "des": "文件扩展名，多个用英文逗号隔开;formData_type=string",
                                 "required": true,
                                 "eg": "png,jpg",
-                                "rules": "^.{1,32}$",
+                                "rules": "^[\\w\\,]{1,}$",
                                 "error_msg": "Input parameter error"
                             },
                             "file": {
