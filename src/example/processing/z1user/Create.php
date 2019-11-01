@@ -5,17 +5,16 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\user;
+namespace example\processing\z1user;
 
 use Yii;
-use yii\db\Query;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use example\processing\user\io\ViewIo as Io;
+use example\processing\z1user\io\CreateIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -25,7 +24,7 @@ use example\processing\user\io\ViewIo as Io;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class View implements ApiActionProcessing
+class Create implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -55,7 +54,7 @@ class View implements ApiActionProcessing
 
             $db2outData = $this->mappingDb2output($handledData);
             $result = $this->completeResult($db2outData);
-            
+
             return $result;
         }
     }
@@ -90,6 +89,9 @@ class View implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
+        $in2dbData['created_at'] = $in2dbData['updated_at'] = time();
+        // $in2dbData['is_del'] = 0;
+
         $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
         return $in2dbData;
@@ -102,29 +104,31 @@ class View implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $result = (new Query())
-            ->from('z1_user t')
-            // ->groupBy(['t.id'])
-            // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
-            ->andFilterWhere([
-                'and',
-                ['=', 't.id', $completedData['id']],
-            ])
-            ->select([
-                't.id',
-            ])
-            ->one()
-            ;
 
-        if(!$result){
-            $result = [
-                'code' => ApiCodeMsg::NOT_FOUND,
-                'msg' => ApiCodeMsg::NOT_FOUND_MSG,
-                'data' => new \StdClass(),
-            ];
+        $model = new \myzero1\restbyconf\example\models\User();// according to the current situation
+        
+        $model->load($completedData, '');
+
+        $trans = Yii::$app->db->beginTransaction();
+        try {
+            $flag = true;
+            if (!($flag = $model->save())) {
+                $trans->rollBack();
+                return ApiHelper::getModelError($model, ApiCodeMsg::DB_BAD_REQUEST);
+            }
+
+            if ($flag) {
+                $trans->commit();
+            } else {
+                $trans->rollBack();
+                ApiHelper::throwError('Failed to commint the transaction.', __FILE__, __LINE__);
+            }
+ 
+            return $model->attributes;
+        } catch (Exception $e) {
+            $trans->rollBack();
+            ApiHelper::throwError('Unknown error.', __FILE__, __LINE__);
         }
-
-        return $result;
     }
 
     /**

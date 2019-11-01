@@ -5,7 +5,7 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\tools\io;
+namespace example\processing\z1tools\io;
 
 use Yii;
 use yii\base\DynamicModel;
@@ -23,7 +23,7 @@ use myzero1\restbyconf\components\rest\ApiIoProcessing;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class UploadIo implements ApiIoProcessing
+class CaptchaIo implements ApiIoProcessing
 {
 
     /**
@@ -33,9 +33,7 @@ class UploadIo implements ApiIoProcessing
     public static function inputValidate($input)
     {
         $inputFields = [
-            'directory',
-            'extension',
-            'file',
+            'mobile_phone',
             'response_code',
             'sort',
             'page',
@@ -62,12 +60,8 @@ class UploadIo implements ApiIoProcessing
         $modelPost->addRule($inputFields, 'trim');
         $modelPost->addRule($inputFields, 'safe');
 
-        $modelPost->addRule(['directory'], 'required');
-        $modelPost->addRule(['directory'], 'match', ['pattern' => '/^.{1,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
-        $modelPost->addRule(['extension'], 'required');
-        $modelPost->addRule(['extension'], 'match', ['pattern' => '/^.{1,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
-        $modelPost->addRule(['file'], 'required');
-        $modelPost->addRule(['file'], 'safe');
+        $modelPost->addRule(['mobile_phone'], 'required');
+        $modelPost->addRule(['mobile_phone'], 'match', ['pattern' => '/^\d{11}$/i', 'message' => '\'{attribute}\':invalid mobile phone']);
 
         $modelPost->load($input['post'], '');
 
@@ -87,7 +81,7 @@ class UploadIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:3:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:1:{s:3:"url";s:133:"http://imgsrc.baidu.com/forum/w=580/sign=4d5e01bdba389b5038ffe05ab534e5f1/8cca9b8fa0ec08fa2ab208045aee3d6d54fbda28.jpg---图片地址";}}i:735400;a:3:{s:4:"code";i:735400;s:3:"msg";s:24:"输入参数验证错误";s:4:"data";a:0:{}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
+        $egOutputData = 'a:4:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:6:"成功";s:4:"data";a:0:{}}i:735400;a:3:{s:4:"code";i:735400;s:3:"msg";s:24:"输入参数验证错误";s:4:"data";a:0:{}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}i:735561;a:3:{s:4:"code";i:735561;s:3:"msg";s:21:"获取验证码失败";s:4:"data";a:0:{}}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }

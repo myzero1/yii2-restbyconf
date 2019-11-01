@@ -9,9 +9,9 @@ namespace example\controllers;
 use example\controllers\BasicController;
 
 /**
- * AuthenticatorController implements the CRUDI actions for the module.
+ * Z1authenticatorController implements the CRUDI actions for the module.
  */
-class AuthenticatorController extends BasicController
+class Z1authenticatorController extends BasicController
 {
     /**
      * {@inheritdoc}
@@ -23,11 +23,11 @@ class AuthenticatorController extends BasicController
         $overwriteActions = [
                 'join' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\example\processing\authenticator\Join',
+                'processingClass' => '\example\processing\z1authenticator\Join',
             ],
             'login' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\example\processing\authenticator\Login',
+                'processingClass' => '\example\processing\z1authenticator\Login',
             ],
         ];
 

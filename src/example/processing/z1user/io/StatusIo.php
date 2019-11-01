@@ -5,7 +5,7 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\user\io;
+namespace example\processing\z1user\io;
 
 use Yii;
 use yii\base\DynamicModel;
@@ -23,7 +23,7 @@ use myzero1\restbyconf\components\rest\ApiIoProcessing;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class ExportIo implements ApiIoProcessing
+class StatusIo implements ApiIoProcessing
 {
 
     /**
@@ -33,8 +33,9 @@ class ExportIo implements ApiIoProcessing
     public static function inputValidate($input)
     {
         $inputFields = [
+            'status',
             'response_code',
-            'username',
+            'id',
             'sort',
             'page',
             'page_size',
@@ -47,7 +48,8 @@ class ExportIo implements ApiIoProcessing
         $modelGet->addRule($inputFields, 'safe');
 
         $modelGet->addRule(['response_code'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
-        $modelGet->addRule(['username'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
+        $modelGet->addRule(['id'], 'required');
+        $modelGet->addRule(['id'], 'match', ['pattern' => '/^\d+$/i', 'message' => '\'{attribute}\':Input parameter error']);
 
         $modelGet->load($input['get'], '');
 
@@ -61,6 +63,7 @@ class ExportIo implements ApiIoProcessing
         $modelPost->addRule($inputFields, 'trim');
         $modelPost->addRule($inputFields, 'safe');
 
+        $modelPost->addRule(['status'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
 
         $modelPost->load($input['post'], '');
 
@@ -80,7 +83,7 @@ class ExportIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:3:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:1:{s:3:"url";s:11:"/export.xsl";}}i:735400;a:3:{s:4:"code";i:735400;s:3:"msg";s:24:"输入参数验证错误";s:4:"data";a:0:{}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
+        $egOutputData = 'a:3:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:5:{s:2:"id";i:1;s:8:"username";s:7:"myzero1";s:6:"status";i:2;s:10:"created_at";s:19:"2019-04-28 11:11:11";s:10:"updated_at";s:19:"2019-04-28 11:11:11";}}i:735400;a:3:{s:4:"code";i:735400;s:3:"msg";s:24:"输入参数验证错误";s:4:"data";a:0:{}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }
