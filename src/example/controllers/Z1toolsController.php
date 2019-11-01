@@ -9,9 +9,9 @@ namespace example\controllers;
 use example\controllers\BasicController;
 
 /**
- * ToolsController implements the CRUDI actions for the module.
+ * Z1toolsController implements the CRUDI actions for the module.
  */
-class ToolsController extends BasicController
+class Z1toolsController extends BasicController
 {
     /**
      * {@inheritdoc}
@@ -23,11 +23,11 @@ class ToolsController extends BasicController
         $overwriteActions = [
                 'captcha' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\example\processing\tools\Captcha',
+                'processingClass' => '\example\processing\z1tools\Captcha',
             ],
             'upload' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\example\processing\tools\Upload',
+                'processingClass' => '\example\processing\z1tools\Upload',
             ],
         ];
 

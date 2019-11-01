@@ -5,18 +5,17 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\authenticator;
+namespace example\processing\z1user;
 
 use Yii;
-use yii\base\DynamicModel;
+use yii\db\Query;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
+use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use myzero1\restbyconf\components\rest\ApiAuthenticator;
-use myzero1\restbyconf\components\rest\HandlingHelper;
-use example\processing\authenticator\io\JoinIo as Io;
+use example\processing\z1user\io\IndexIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -26,7 +25,7 @@ use example\processing\authenticator\io\JoinIo as Io;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Join implements ApiActionProcessing
+class Index implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -43,14 +42,6 @@ class Join implements ApiActionProcessing
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
-            if(empty($validatedInput['username']) && empty($validatedInput['email']) && empty($validatedInput['mobile_phone'])){
-                return [
-                    'code' => '73544061',
-                    'msg' => 'username,email,mobile_phone至少填写一个',
-                    'data' => 'username,email,mobile_phone至少填写一个',
-                ];
-            }
-            
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             
@@ -99,9 +90,7 @@ class Join implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        // $in2dbData['updated_at'] = time();
-
-        $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
+        // $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
         return $in2dbData;
     }
@@ -113,43 +102,43 @@ class Join implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $model = new ApiAuthenticator();
+        $result = [];
 
-        $model->load($completedData, '');
+        $query = (new Query())
+            ->from('z1_user t')
+            // ->groupBy(['t.id'])
+            // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
+            ->andFilterWhere([
+                'and',
+                ['=', 'username', $completedData['username']],
+            ]);
 
-        // $model->generateAuthKey();
-        $model->setPassword($completedData['password']);
+        $outFieldNames = [
+            't.id as id',
+        ];
 
-        $trans = Yii::$app->db->beginTransaction();
-        try {
-            $flag = true;
-            if (!($flag = $model->save())) {
-                $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
-            }
+        $query->select(['1']);
+        $result['total'] = intval($query->count());
 
-            if( isset($completedData['mobile_phone']) && isset($completedData['captcha']) ){
-                if(true!==ApiHelper::checkCaptcha($completedData['mobile_phone'], $completedData['captcha'])){
-                    return [
-                        'code' => "735465",
-                        'msg' => '验证码错误',
-                        'data' => '验证码错误',
-                    ];
-                }
-            }
+        $pagination = ApiHelper::getPagination($completedData);
+        $query->limit($pagination['page_size']);
+        $offset = $pagination['page_size'] * ($pagination['page'] - 1);
+        $query->offset($offset);
+        $result['page'] = intval($pagination['page']);
+        $result['page_size'] = intval($pagination['page_size']);
 
-            if ($flag) {
-                $trans->commit();
-            } else {
-                $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save commit reason.');
-            }
+        // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
+        // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');
+        // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
 
-            return $model->attributes;
-        } catch (Exception $e) {
-            $trans->rollBack();
-            throw new ServerErrorHttpException('Failed to save all models reason.');
-        }
+        $query->select($outFieldNames);
+
+        //  var_dump($query->createCommand()->getRawSql());exit;
+
+        $items = $query->all();
+        $result['items'] = $items;
+
+        return $result;
     }
 
     /**
@@ -162,10 +151,15 @@ class Join implements ApiActionProcessing
             'name735' => 'demo_name',
             'description735' => 'demo_description',
         ];
-        $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        // $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
-        // $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
+        $db2outData = $handledData;
+
+        foreach ($db2outData['items'] as $k => $v) {
+            $db2outData['items'][$k] = ApiHelper::db2OutputField($db2outData['items'][$k], $outputFieldMap);
+
+            // $db2outData['items'][$k]['created_at'] = ApiHelper::time2string($db2outData['items'][$k]['created_at']);
+            // $db2outData['items'][$k]['updated_at'] = ApiHelper::time2string($db2outData['items'][$k]['updated_at']);
+        }
 
         return $db2outData;
     }

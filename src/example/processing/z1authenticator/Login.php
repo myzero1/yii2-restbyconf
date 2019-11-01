@@ -5,17 +5,18 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\user;
+namespace example\processing\z1authenticator;
 
 use Yii;
-use yii\db\Query;
+use yii\base\DynamicModel;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
-use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use example\processing\user\io\IndexIo as Io;
+use myzero1\restbyconf\components\rest\ApiAuthenticator;
+use myzero1\restbyconf\components\rest\HandlingHelper;
+use example\processing\z1authenticator\io\LoginIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -25,7 +26,7 @@ use example\processing\user\io\IndexIo as Io;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Index implements ApiActionProcessing
+class Login implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -90,7 +91,9 @@ class Index implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        // $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
+        // $in2dbData['updated_at'] = time();
+
+        $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
         return $in2dbData;
     }
@@ -102,43 +105,58 @@ class Index implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $result = [];
+        $model = ApiAuthenticator::findByUsername($completedData['username']);
 
-        $query = (new Query())
-            ->from('z1_user t')
-            // ->groupBy(['t.id'])
-            // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
-            ->andFilterWhere([
-                'and',
-                ['=', 'username', $completedData['username']],
-            ]);
+        if ( is_null($model) ) {
+            return [
+                'response_code' => "735461",
+                'response_msg' => '用户名或密码错误',
+                'msg' => '用户名或密码错误',
+            ];
+        }
 
-        $outFieldNames = [
-            't.id as id',
-        ];
+        if($completedData['type']==1){
+            if( !isset($completedData['captcha']) || true!==ApiHelper::checkCaptcha($completedData['username'], $completedData['captcha']) ){
+                return [
+                    'code' => "735465",
+                    'msg' => '验证码错误',
+                    'data' => '验证码错误',
+                ];
+            }
+        } else {
+            if( !isset($completedData['password']) || !$model->validatePassword($completedData['password'], $model->password_hash) ){
+                return [
+                    'code' => "735461",
+                    'msg' => '用户名或密码错误',
+                    'data' => '用户名或密码错误',
+                ];
+            }
+        }
 
-        $query->select(['1']);
-        $result['total'] = intval($query->count());
+        if (!ApiAuthenticator::apiTokenIsValid($model->api_token)) {
+            $model->generateApiToken();
+        }
 
-        $pagination = ApiHelper::getPagination($completedData);
-        $query->limit($pagination['page_size']);
-        $offset = $pagination['page_size'] * ($pagination['page'] - 1);
-        $query->offset($offset);
-        $result['page'] = intval($pagination['page']);
-        $result['page_size'] = intval($pagination['page_size']);
+        $trans = Yii::$app->db->beginTransaction();
+        try {
+            $flag = true;
+            if (!($flag = $model->save())) {
+                $trans->rollBack();
+                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
+            }
 
-        // $sortStr = ApiHelper::getArrayVal($completedData, 'sort', '');
-        // $sort = ApiHelper::getSort($sortStr, array_keys($outFieldNames), '+id');
-        // $query->orderBy([$sort['sortFiled'] => $sort['sort']]);
+            if ($flag) {
+                $trans->commit();
+            } else {
+                $trans->rollBack();
+                throw new ServerErrorHttpException('Failed to save commit reason.');
+            }
 
-        $query->select($outFieldNames);
-
-        //  var_dump($query->createCommand()->getRawSql());exit;
-
-        $items = $query->all();
-        $result['items'] = $items;
-
-        return $result;
+            return $model->attributes;
+        } catch (Exception $e) {
+            $trans->rollBack();
+            throw new ServerErrorHttpException('Failed to save all models reason.');
+        }
     }
 
     /**
@@ -151,15 +169,10 @@ class Index implements ApiActionProcessing
             'name735' => 'demo_name',
             'description735' => 'demo_description',
         ];
+        $db2outData = ApiHelper::db2OutputField($handledData, $outputFieldMap);
 
-        $db2outData = $handledData;
-
-        foreach ($db2outData['items'] as $k => $v) {
-            $db2outData['items'][$k] = ApiHelper::db2OutputField($db2outData['items'][$k], $outputFieldMap);
-
-            // $db2outData['items'][$k]['created_at'] = ApiHelper::time2string($db2outData['items'][$k]['created_at']);
-            // $db2outData['items'][$k]['updated_at'] = ApiHelper::time2string($db2outData['items'][$k]['updated_at']);
-        }
+        // $db2outData['created_at'] = ApiHelper::time2string($db2outData['created_at']);
+        // $db2outData['updated_at'] = ApiHelper::time2string($db2outData['updated_at']);
 
         return $db2outData;
     }

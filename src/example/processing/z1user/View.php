@@ -5,18 +5,17 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\authenticator;
+namespace example\processing\z1user;
 
 use Yii;
-use yii\base\DynamicModel;
+use yii\db\Query;
 use yii\web\ServerErrorHttpException;
 use myzero1\restbyconf\components\rest\Helper;
 use myzero1\restbyconf\components\rest\ApiHelper;
+use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use myzero1\restbyconf\components\rest\ApiAuthenticator;
-use myzero1\restbyconf\components\rest\HandlingHelper;
-use example\processing\authenticator\io\LoginIo as Io;
+use example\processing\z1user\io\ViewIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -26,7 +25,7 @@ use example\processing\authenticator\io\LoginIo as Io;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Login implements ApiActionProcessing
+class View implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -91,8 +90,6 @@ class Login implements ApiActionProcessing
      */
     public function completeData($in2dbData)
     {
-        // $in2dbData['updated_at'] = time();
-
         $in2dbData = ApiHelper::inputFilter($in2dbData); // You should comment it, when in search action.
 
         return $in2dbData;
@@ -105,58 +102,29 @@ class Login implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $model = ApiAuthenticator::findByUsername($completedData['username']);
+        $result = (new Query())
+            ->from('z1_user t')
+            // ->groupBy(['t.id'])
+            // ->join('INNER JOIN', 'info i', 'i.user_id = t.id')
+            ->andFilterWhere([
+                'and',
+                ['=', 't.id', $completedData['id']],
+            ])
+            ->select([
+                't.id',
+            ])
+            ->one()
+            ;
 
-        if ( is_null($model) ) {
-            return [
-                'response_code' => "735461",
-                'response_msg' => '用户名或密码错误',
-                'msg' => '用户名或密码错误',
+        if(!$result){
+            $result = [
+                'code' => ApiCodeMsg::NOT_FOUND,
+                'msg' => ApiCodeMsg::NOT_FOUND_MSG,
+                'data' => new \StdClass(),
             ];
         }
 
-        if($completedData['type']==1){
-            if( !isset($completedData['captcha']) || true!==ApiHelper::checkCaptcha($completedData['username'], $completedData['captcha']) ){
-                return [
-                    'code' => "735465",
-                    'msg' => '验证码错误',
-                    'data' => '验证码错误',
-                ];
-            }
-        } else {
-            if( !isset($completedData['password']) || !$model->validatePassword($completedData['password'], $model->password_hash) ){
-                return [
-                    'code' => "735461",
-                    'msg' => '用户名或密码错误',
-                    'data' => '用户名或密码错误',
-                ];
-            }
-        }
-
-        if (!ApiAuthenticator::apiTokenIsValid($model->api_token)) {
-            $model->generateApiToken();
-        }
-
-        $trans = Yii::$app->db->beginTransaction();
-        try {
-            $flag = true;
-            if (!($flag = $model->save())) {
-                $trans->rollBack();
-                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
-            }
-
-            if ($flag) {
-                $trans->commit();
-            } else {
-                $trans->rollBack();
-                throw new ServerErrorHttpException('Failed to save commit reason.');
-            }
-
-            return $model->attributes;
-        } catch (Exception $e) {
-            $trans->rollBack();
-            throw new ServerErrorHttpException('Failed to save all models reason.');
-        }
+        return $result;
     }
 
     /**

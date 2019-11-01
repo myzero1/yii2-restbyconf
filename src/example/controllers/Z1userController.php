@@ -9,9 +9,9 @@ namespace example\controllers;
 use example\controllers\BasicController;
 
 /**
- * UserController implements the CRUDI actions for the module.
+ * Z1userController implements the CRUDI actions for the module.
  */
-class UserController extends BasicController
+class Z1userController extends BasicController
 {
     /**
      * {@inheritdoc}
@@ -23,31 +23,31 @@ class UserController extends BasicController
         $overwriteActions = [
                 'create' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\example\processing\user\Create',
+                'processingClass' => '\example\processing\z1user\Create',
             ],
             'update' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\example\processing\user\Update',
+                'processingClass' => '\example\processing\z1user\Update',
             ],
             'view' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\example\processing\user\View',
+                'processingClass' => '\example\processing\z1user\View',
             ],
             'delete' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\example\processing\user\Delete',
+                'processingClass' => '\example\processing\z1user\Delete',
             ],
             'index' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\example\processing\user\Index',
+                'processingClass' => '\example\processing\z1user\Index',
             ],
             'export' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\example\processing\user\Export',
+                'processingClass' => '\example\processing\z1user\Export',
             ],
             'status' => [
                 'class' => $this->apiActionClass,
-                'processingClass' => '\example\processing\user\Status',
+                'processingClass' => '\example\processing\z1user\Status',
             ],
         ];
 
