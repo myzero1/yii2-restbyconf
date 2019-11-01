@@ -5,7 +5,7 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\authenticator\io;
+namespace example\processing\z1user\io;
 
 use Yii;
 use yii\base\DynamicModel;
@@ -23,7 +23,7 @@ use myzero1\restbyconf\components\rest\ApiIoProcessing;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class LoginIo implements ApiIoProcessing
+class ExportIo implements ApiIoProcessing
 {
 
     /**
@@ -33,11 +33,8 @@ class LoginIo implements ApiIoProcessing
     public static function inputValidate($input)
     {
         $inputFields = [
-            'type',
-            'username',
-            'password',
-            'captcha',
             'response_code',
+            'username',
             'sort',
             'page',
             'page_size',
@@ -50,6 +47,7 @@ class LoginIo implements ApiIoProcessing
         $modelGet->addRule($inputFields, 'safe');
 
         $modelGet->addRule(['response_code'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
+        $modelGet->addRule(['username'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
 
         $modelGet->load($input['get'], '');
 
@@ -63,12 +61,6 @@ class LoginIo implements ApiIoProcessing
         $modelPost->addRule($inputFields, 'trim');
         $modelPost->addRule($inputFields, 'safe');
 
-        $modelPost->addRule(['type'], 'required');
-        $modelPost->addRule(['type'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid type']);
-        $modelPost->addRule(['username'], 'required');
-        $modelPost->addRule(['username'], 'match', ['pattern' => '/^\d{11}$/i', 'message' => '\'{attribute}\':invalid mobile phone']);
-        $modelPost->addRule(['password'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid password']);
-        $modelPost->addRule(['captcha'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid captcha']);
 
         $modelPost->load($input['post'], '');
 
@@ -88,7 +80,7 @@ class LoginIo implements ApiIoProcessing
      */
     public static function egOutputData()
     {
-        $egOutputData = 'a:3:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:2:{s:12:"mobile_phone";d:12345678901;s:9:"api_token";s:12:"123456dsfe5w";}}i:735400;a:3:{s:4:"code";i:735400;s:3:"msg";s:24:"输入参数验证错误";s:4:"data";a:0:{}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
+        $egOutputData = 'a:3:{i:735200;a:3:{s:4:"code";i:735200;s:3:"msg";s:2:"Ok";s:4:"data";a:1:{s:3:"url";s:11:"/export.xsl";}}i:735400;a:3:{s:4:"code";i:735400;s:3:"msg";s:24:"输入参数验证错误";s:4:"data";a:0:{}}i:735401;a:3:{s:4:"code";i:735401;s:3:"msg";s:12:"Unauthorized";s:4:"data";a:1:{s:3:"msg";s:12:"Unauthorized";}}}';
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }

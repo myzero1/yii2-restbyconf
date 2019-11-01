@@ -5,7 +5,7 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\user;
+namespace example\processing\z1user;
 
 use Yii;
 use yii\web\ServerErrorHttpException;
@@ -14,8 +14,8 @@ use myzero1\restbyconf\components\rest\ApiHelper;
 use myzero1\restbyconf\components\rest\HandlingHelper;
 use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
-use example\processing\user\io\ExportIo as Io;
-use example\processing\user\Index;
+use example\processing\z1user\io\ExportIo as Io;
+use example\processing\z1user\Index;
 
 /**
  * implement the ActionProcessing

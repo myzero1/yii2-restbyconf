@@ -8,9 +8,9 @@ return [
         'pluralize' => false,
         'controller' => [
             'placeholder',
-            $moduleName . '/authenticator',
-            $moduleName . '/tools',
-            $moduleName . '/user',
+            $moduleName . '/z1authenticator',
+            $moduleName . '/z1tools',
+            $moduleName . '/z1user',
         ],
         'extraPatterns' => [
             'POST,OPTIONS /join' => 'join',
@@ -24,18 +24,18 @@ return [
     ],
 
     // custom
-    'POST,OPTIONS ' . $version .'/authenticator/join' => $moduleName . '/authenticator/join',
-    'POST,OPTIONS ' . $version .'/authenticator/login' => $moduleName . '/authenticator/login',
+    'POST,OPTIONS ' . $version .'/z1authenticator/join' => $moduleName . '/z1authenticator/join',
+    'POST,OPTIONS ' . $version .'/z1authenticator/login' => $moduleName . '/z1authenticator/login',
 
-    'POST,OPTIONS ' . $version .'/tools/captcha' => $moduleName . '/tools/captcha',
-    'POST,OPTIONS ' . $version .'/tools/upload' => $moduleName . '/tools/upload',
+    'POST,OPTIONS ' . $version .'/z1tools/captcha' => $moduleName . '/z1tools/captcha',
+    'POST,OPTIONS ' . $version .'/z1tools/upload' => $moduleName . '/z1tools/upload',
 
-    'POST,OPTIONS ' . $version .'/user' => $moduleName . '/user/create',
-    'PUT,OPTIONS ' . $version .'/user/<id:\d+>' => $moduleName . '/user/update',
-    'GET,OPTIONS ' . $version .'/user/<id:\d+>' => $moduleName . '/user/view',
-    'DELETE,OPTIONS ' . $version .'/user/<id:\d+>' => $moduleName . '/user/delete',
-    'GET,OPTIONS ' . $version .'/user' => $moduleName . '/user/index',
-    'GET,OPTIONS ' . $version .'/user/export' => $moduleName . '/user/export',
-    'PATCH,OPTIONS ' . $version .'/user/<id:\d+>/status' => $moduleName . '/user/status',
+    'POST,OPTIONS ' . $version .'/z1user' => $moduleName . '/z1user/create',
+    'PUT,OPTIONS ' . $version .'/z1user/<id:\d+>' => $moduleName . '/z1user/update',
+    'GET,OPTIONS ' . $version .'/z1user/<id:\d+>' => $moduleName . '/z1user/view',
+    'DELETE,OPTIONS ' . $version .'/z1user/<id:\d+>' => $moduleName . '/z1user/delete',
+    'GET,OPTIONS ' . $version .'/z1user' => $moduleName . '/z1user/index',
+    'GET,OPTIONS ' . $version .'/z1user/export' => $moduleName . '/z1user/export',
+    'PATCH,OPTIONS ' . $version .'/z1user/<id:\d+>/status' => $moduleName . '/z1user/status',
 
 ];

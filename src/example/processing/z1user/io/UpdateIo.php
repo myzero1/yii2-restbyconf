@@ -5,7 +5,7 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\user\io;
+namespace example\processing\z1user\io;
 
 use Yii;
 use yii\base\DynamicModel;
@@ -23,7 +23,7 @@ use myzero1\restbyconf\components\rest\ApiIoProcessing;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class CreateIo implements ApiIoProcessing
+class UpdateIo implements ApiIoProcessing
 {
 
     /**
@@ -37,6 +37,7 @@ class CreateIo implements ApiIoProcessing
             'password',
             'status',
             'response_code',
+            'id',
             'sort',
             'page',
             'page_size',
@@ -49,6 +50,8 @@ class CreateIo implements ApiIoProcessing
         $modelGet->addRule($inputFields, 'safe');
 
         $modelGet->addRule(['response_code'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':Input parameter error']);
+        $modelGet->addRule(['id'], 'required');
+        $modelGet->addRule(['id'], 'match', ['pattern' => '/^\d+$/i', 'message' => '\'{attribute}\':Input parameter error']);
 
         $modelGet->load($input['get'], '');
 

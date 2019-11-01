@@ -5,7 +5,7 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\tools;
+namespace example\processing\z1tools;
 
 use Yii;
 use yii\base\DynamicModel;
@@ -16,7 +16,7 @@ use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
 use myzero1\restbyconf\components\rest\ApiAuthenticator;
 use myzero1\restbyconf\components\rest\HandlingHelper;
-use example\processing\tools\io\CaptchaIo as Io;
+use example\processing\z1tools\io\UploadIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -26,7 +26,7 @@ use example\processing\tools\io\CaptchaIo as Io;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Captcha implements ApiActionProcessing
+class Upload implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -39,6 +39,7 @@ class Captcha implements ApiActionProcessing
         // the path and query params will geted by queryParams,and the path params will rewrite the query params.
         $input['get'] = Yii::$app->request->queryParams;
         $input['post'] = Yii::$app->request->bodyParams;
+        $input['post']['file'] = 'file placeholder';
         $validatedInput = $this->inputValidate($input);
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
@@ -105,27 +106,31 @@ class Captcha implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $randStr = ApiHelper::getrandstr('1234567890', 6);
-        $smsResult = Yii::$app->smser->send($completedData['mobile_phone'],  sprintf('【玩索得】您的验证码是: %s', $randStr));
-
-        if($smsResult !== true){
+        $file = \yii\web\UploadedFile::getInstanceByName('file');
+        $newDirectory = $completedData['directory'];
+        \yii\helpers\BaseFileHelper::createDirectory($newDirectory);
+        $newName = sprintf('%s/%s-%s.%s', $newDirectory, $file->baseName, time(), $file->extension);
+        $extensions = explode(',', $completedData['extension']);
+        if(!in_array($file->extension, $extensions)){
             return [
-                'code' => "735462",
-                'msg' => '发送短信失败',
-                'data' => $smsResult,
+                'code' => '735400',
+                'msg' => '输入参数验证错误',
+                'data' => [
+                    "file" => [
+                        sprintf('只允许上传后缀为%s的文件', $completedData['extension'])
+                    ]
+                ],
             ];
         }
 
-        \Yii::$app->db->createCommand()->insert('z1_captcha', [  
-            'mobile_phone' => $completedData['mobile_phone'],  
-            'code' => $randStr,  
-            'used_times' => 0,
-            'created_at' => time(),  
-        ])->execute();
-        
+        $ignore = sprintf('%s/.gitignore', $newDirectory);
+        $host = 'http://restbyconf.test';
+
+        file_put_contents ( $ignore , "*\n!.gitignore" );
+        $file->saveAs($newName);
+
         return [
-            'code' => "735200",
-            'msg' => '发送短信成功',
+            'url' => sprintf('%s/%s', $host, $newName),
         ];
     }
 

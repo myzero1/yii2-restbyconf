@@ -5,7 +5,7 @@
  * @license https://github.com/myzero1/yii2-restbyconf/blob/master/LICENSE
  */
 
-namespace example\processing\tools;
+namespace example\processing\z1authenticator;
 
 use Yii;
 use yii\base\DynamicModel;
@@ -16,7 +16,7 @@ use myzero1\restbyconf\components\rest\ApiCodeMsg;
 use myzero1\restbyconf\components\rest\ApiActionProcessing;
 use myzero1\restbyconf\components\rest\ApiAuthenticator;
 use myzero1\restbyconf\components\rest\HandlingHelper;
-use example\processing\tools\io\UploadIo as Io;
+use example\processing\z1authenticator\io\JoinIo as Io;
 
 /**
  * implement the ActionProcessing
@@ -26,7 +26,7 @@ use example\processing\tools\io\UploadIo as Io;
  * @author Myzero1 <myzero1@sina.com>
  * @since 0.0
  */
-class Upload implements ApiActionProcessing
+class Join implements ApiActionProcessing
 {
     /**
      * @param $params mixed
@@ -39,11 +39,18 @@ class Upload implements ApiActionProcessing
         // the path and query params will geted by queryParams,and the path params will rewrite the query params.
         $input['get'] = Yii::$app->request->queryParams;
         $input['post'] = Yii::$app->request->bodyParams;
-        $input['post']['file'] = 'file placeholder';
         $validatedInput = $this->inputValidate($input);
         if (Helper::isReturning($validatedInput)) {
             return $validatedInput;
         } else {
+            if(empty($validatedInput['username']) && empty($validatedInput['email']) && empty($validatedInput['mobile_phone'])){
+                return [
+                    'code' => '73544061',
+                    'msg' => 'username,email,mobile_phone至少填写一个',
+                    'data' => 'username,email,mobile_phone至少填写一个',
+                ];
+            }
+            
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
             
@@ -106,32 +113,43 @@ class Upload implements ApiActionProcessing
      */
     public function handling($completedData)
     {
-        $file = \yii\web\UploadedFile::getInstanceByName('file');
-        $newDirectory = $completedData['directory'];
-        \yii\helpers\BaseFileHelper::createDirectory($newDirectory);
-        $newName = sprintf('%s/%s-%s.%s', $newDirectory, $file->baseName, time(), $file->extension);
-        $extensions = explode(',', $completedData['extension']);
-        if(!in_array($file->extension, $extensions)){
-            return [
-                'code' => '735400',
-                'msg' => '输入参数验证错误',
-                'data' => [
-                    "file" => [
-                        sprintf('只允许上传后缀为%s的文件', $completedData['extension'])
-                    ]
-                ],
-            ];
+        $model = new ApiAuthenticator();
+
+        $model->load($completedData, '');
+
+        // $model->generateAuthKey();
+        $model->setPassword($completedData['password']);
+
+        $trans = Yii::$app->db->beginTransaction();
+        try {
+            $flag = true;
+            if (!($flag = $model->save())) {
+                $trans->rollBack();
+                return ApiHelper::getModelError($model, ApiCodeMsg::INTERNAL_SERVER);
+            }
+
+            if( isset($completedData['mobile_phone']) && isset($completedData['captcha']) ){
+                if(true!==ApiHelper::checkCaptcha($completedData['mobile_phone'], $completedData['captcha'])){
+                    return [
+                        'code' => "735465",
+                        'msg' => '验证码错误',
+                        'data' => '验证码错误',
+                    ];
+                }
+            }
+
+            if ($flag) {
+                $trans->commit();
+            } else {
+                $trans->rollBack();
+                throw new ServerErrorHttpException('Failed to save commit reason.');
+            }
+
+            return $model->attributes;
+        } catch (Exception $e) {
+            $trans->rollBack();
+            throw new ServerErrorHttpException('Failed to save all models reason.');
         }
-
-        $ignore = sprintf('%s/.gitignore', $newDirectory);
-        $host = 'http://restbyconf.test';
-
-        file_put_contents ( $ignore , "*\n!.gitignore" );
-        $file->saveAs($newName);
-
-        return [
-            'url' => sprintf('%s/%s', $host, $newName),
-        ];
     }
 
     /**
