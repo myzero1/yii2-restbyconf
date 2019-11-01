@@ -11,7 +11,8 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "yiisoft/yii2": "~2.0"
+        "yiisoft/yii2": "~2.0",
+        "myzero1/yii2-smser": "*"
     },
     "autoload": {
         "psr-4": { "myzero1\\restbyconf\\": "src/" }
