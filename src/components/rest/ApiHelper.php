@@ -657,10 +657,10 @@ class ApiHelper
      **/
     public static function getModelError($model, $code)
     {
-        $errors = $model->errors;
+        $errors = $errorsTmp = $model->errors;
         return [
             'code' => $code,
-            'msg' => Helper::getErrorMsg($errors),
+            'msg' => explode(':', array_shift($errorsTmp)[0])[1],
             'data' => $errors,
         ];
     }
