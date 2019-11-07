@@ -166,7 +166,7 @@ EOD;
                 json_decode($this->conf, true)['json']),
                 json_decode($this->conf, true)['json']['myGroup']['currentUser']
             ),
-            ApiHelper::saveConfJsonStr($this->conf, $this->moduleID)
+            ApiHelper::saveConfJsonStr($this->conf, $this->moduleID) . "\r\n"
         );
 
         $confAarray = $this->confAarray;
@@ -261,7 +261,7 @@ EOD;
            // Yii::getAlias(sprintf('@app/modules/%s/config/apiUrlRules.php', $this->moduleID)),
             sprintf('%s/config/apiUrlRules.php', ApiHelper::getModulePath($this->moduleID, 
                 json_decode($this->conf, true)['json'])),
-            $rules
+            $rules . "\r\n"
         );
 /*
         $files[] = new CodeFile(
@@ -290,19 +290,19 @@ EOD;
 
         $files[] = new CodeFile(
             $modulePath . '/' . StringHelper::basename($this->moduleClass) . '.php',
-            $this->render("module.php")
+            $this->render("module.php") . "\r\n"
         );
         $files[] = new CodeFile(
             $modulePath . '/controllers/BasicController.php',
-            $this->render("rest/BasicController.php")
+            $this->render("rest/BasicController.php") . "\r\n"
         );
         $files[] = new CodeFile(
             $modulePath . '/controllers/DefaultController.php',
-            $this->render("controller.php")
+            $this->render("controller.php") . "\r\n"
         );
         $files[] = new CodeFile(
             $modulePath . '/views/default/index.php',
-            $this->render("view.php")
+            $this->render("view.php") . "\r\n"
         );
 
         $controllers = $this->confAarray['json']['controllers'];
@@ -338,7 +338,7 @@ EOD;
                 $this->controllerV = $controllerV;
                 $files[] = new CodeFile(
                     sprintf('%s/controllers/%sController.php', $modulePath, ucwords($controller)),
-                    $this->render('rest/ApiController.php')
+                    $this->render('rest/ApiController.php') . "\r\n"
                 );
                 $actions = array_keys($controllerV['actions']);
 
@@ -348,38 +348,38 @@ EOD;
                     if ($controller=='z1authenticator' && $action=='join') {
                         $files[] = new CodeFile(
                             sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
-                            $this->render('rest/template/ApiJoinProcessing.php')
+                            $this->render('rest/template/ApiJoinProcessing.php') . "\r\n"
                         );
                     } else if ($controller=='z1authenticator' && $action=='login') {
                         $files[] = new CodeFile(
                             sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
-                            $this->render('rest/template/ApiLoginProcessing.php')
+                            $this->render('rest/template/ApiLoginProcessing.php') . "\r\n"
                         );
                     } else if ($controller=='z1tools' && $action=='upload') {
                         $files[] = new CodeFile(
                             sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
-                            $this->render('rest/template/ApiUploadProcessing.php')
+                            $this->render('rest/template/ApiUploadProcessing.php') . "\r\n"
                         );
                     } else if ($controller=='z1tools' && $action=='captcha') {
                         $files[] = new CodeFile(
                             sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
-                            $this->render('rest/template/ApiCaptchaProcessing.php')
+                            $this->render('rest/template/ApiCaptchaProcessing.php') . "\r\n"
                         );
                     } else if (in_array($action, $template)) {
                         $files[] = new CodeFile(
                             sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
-                            $this->render(sprintf('rest/template/Api%sProcessing.php', ucfirst($action)))
+                            $this->render(sprintf('rest/template/Api%sProcessing.php', ucfirst($action))) . "\r\n"
                         );
                     } else {
                         $files[] = new CodeFile(
                             sprintf('%s/processing/%s/%s.php', $modulePath, $controller, ucwords($action)),
-                            $this->render('rest/template/ApiCustomProcessing.php')
+                            $this->render('rest/template/ApiCustomProcessing.php') . "\r\n"
                         );
                     }
 
                     $files[] = new CodeFile(
                         sprintf('%s/processing/%s/io/%sIo.php', $modulePath, $controller, ucwords($action)),
-                        $this->render('rest/ApiIoProcessing.php')
+                        $this->render('rest/ApiIoProcessing.php') . "\r\n"
                     );
                 }
             }
