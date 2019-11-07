@@ -5,6 +5,10 @@ var adjustBackground = function() {
             $(this).css({'background':'rgba(245, 245, 245, 0.8)'});
         } else if(style.indexOf('margin-left: 48px') > -1){
             $(this).css({'background':'rgba(235, 235, 235, 0.8)'});
+            $(this).click();
+            // $(this).focus();
+            // console.log($(this).find('.jsoneditor-field'))
+            $(this).find('.jsoneditor-field').click();
         } else if(style.indexOf('margin-left: 72px') > -1){
              $(this).css({'background':'rgba(225, 225, 225, 0.8)'});
         } else if(style.indexOf('margin-left: 96px') > -1){
