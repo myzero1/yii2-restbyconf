@@ -28,4 +28,4 @@ class BasicController extends ApiController
 
         return $behaviors;
     }
-}
+}<?="\n"?>

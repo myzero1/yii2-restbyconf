@@ -158,4 +158,4 @@ class <?= $templateParams['className'] ?> implements ApiIoProcessing
 
         return ApiHelper::filterEgOutputData($egOutputData);
     }
-}
+}<?="\n"?>
