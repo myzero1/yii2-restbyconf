@@ -42,4 +42,4 @@ class <?= $templateParams['className'] ?>Controller extends BasicController
 
         return $actions;
     }
-}<?="\n"?>
+}<?="\n\r"?>

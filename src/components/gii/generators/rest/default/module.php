@@ -77,4 +77,4 @@ foreach ($templateParams['restbyconfUnAuthenticateActions'] as $k => $v) {
 
         // custom initialization code goes here
     }
-}<?="\n"?>
+}<?="\n\r"?>

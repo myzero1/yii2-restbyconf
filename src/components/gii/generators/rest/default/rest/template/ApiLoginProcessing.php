@@ -217,4 +217,4 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
     {
         return Io::egOutputData(); // for demo
     }
-}<?="\n"?>
+}<?="\n\r"?>
