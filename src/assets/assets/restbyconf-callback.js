@@ -12,7 +12,7 @@ var onValidate = function onValidate(json) {
 }
 
 var onEvent = function(node, event){
-    console.log(node);
+    // console.log(node);
     // console.log(event.type);
     if (event.type == 'blur') {
         // update the validation of tag
