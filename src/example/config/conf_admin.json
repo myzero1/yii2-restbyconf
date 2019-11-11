@@ -54,35 +54,35 @@
                                     "required": false,
                                     "eg": "myzero1",
                                     "rules": "^[\\w\\d\\_]{6,20}$",
-                                    "error_msg": "invalid username"
+                                    "error_msg": "用户名为字母数字下划线6-20个字符"
                                 },
                                 "email": {
                                     "des": "email",
                                     "required": false,
                                     "eg": "myzero1@myzero1.com",
                                     "rules": "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,})$",
-                                    "error_msg": "invalid email"
+                                    "error_msg": "邮件格式错误"
                                 },
                                 "mobile_phone": {
                                     "des": "mobile phone",
                                     "required": false,
                                     "eg": 15828270858,
                                     "rules": "^0?(13|14|15|17|18|19)[0-9]{9}$",
-                                    "error_msg": "invalid mobile phone"
+                                    "error_msg": "电话号码格式错误"
                                 },
                                 "captcha": {
                                     "des": "captcha,若captcha存在就需要短信验证",
                                     "required": false,
                                     "eg": 123456,
                                     "rules": "^.{0,32}$",
-                                    "error_msg": "invalid captcha"
+                                    "error_msg": "验证码错误"
                                 },
                                 "password": {
                                     "des": "password",
                                     "required": true,
                                     "eg": "myzero1",
                                     "rules": "^.{1,32}$",
-                                    "error_msg": "invalid password"
+                                    "error_msg": "密码错误"
                                 }
                             },
                             "path_params": {},
@@ -130,28 +130,28 @@
                                     "required": true,
                                     "eg": 1,
                                     "rules": "^.{0,32}$",
-                                    "error_msg": "invalid type"
+                                    "error_msg": "类型错误"
                                 },
                                 "username": {
                                     "des": "username",
                                     "required": true,
                                     "eg": 15828270858,
                                     "rules": "^.{0,32}$",
-                                    "error_msg": "invalid mobile phone"
+                                    "error_msg": "用户名错误"
                                 },
                                 "password": {
                                     "des": "password，type为2时必填",
                                     "required": false,
                                     "eg": "myzero1",
                                     "rules": "^.{0,32}$",
-                                    "error_msg": "invalid password"
+                                    "error_msg": "密码错误"
                                 },
                                 "captcha": {
                                     "des": "captcha，type为1时必填",
                                     "required": false,
                                     "eg": 123456,
                                     "rules": "^.{0,32}$",
-                                    "error_msg": "invalid captcha"
+                                    "error_msg": "验证码错误"
                                 }
                             },
                             "path_params": {},
@@ -205,7 +205,7 @@
                                     "required": true,
                                     "eg": 15836458756,
                                     "rules": "^0?(13|14|15|17|18|19)[0-9]{9}$",
-                                    "error_msg": "invalid mobile phone"
+                                    "error_msg": "电话号码错误"
                                 }
                             },
                             "path_params": {},
@@ -256,21 +256,21 @@
                                     "required": true,
                                     "eg": "upload\/tools\/images",
                                     "rules": "^[\\w\\d\\_\\-\\\/]{1,}$",
-                                    "error_msg": "Input parameter error"
+                                    "error_msg": "目录错误"
                                 },
                                 "extension": {
                                     "des": "文件扩展名，多个用英文逗号隔开;formData_type=string",
                                     "required": true,
                                     "eg": "png,jpg",
                                     "rules": "^[\\w\\,]{1,}$",
-                                    "error_msg": "Input parameter error"
+                                    "error_msg": "扩展名错误"
                                 },
                                 "file": {
                                     "des": "图片文件，图片二进制内容,formData_type=file",
                                     "required": true,
                                     "eg": 1010000111,
                                     "rules": "safe",
-                                    "error_msg": "Input parameter error"
+                                    "error_msg": "文件内容错误"
                                 }
                             },
                             "path_params": {},

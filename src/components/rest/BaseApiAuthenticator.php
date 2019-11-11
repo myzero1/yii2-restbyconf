@@ -199,4 +199,17 @@ class BaseApiAuthenticator extends ActiveRecord implements IdentityInterface
     {
         return Yii::$app->security->validatePassword($password, $password_hash);
     }
+
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Username',
+            'email' => 'Email',
+            'mobile_phone' => 'Mobile Phone',
+        ];
+    }
 }
