@@ -160,8 +160,8 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
     public function completeResult($db2outData = [])
     {
         $result = [
-            'code' => $responseCode,
-            'msg' => $responseMsg,
+            'code' => ApiCodeMsg::SUCCESS,
+            'msg' => ApiCodeMsg::SUCCESS_MSG,
             'data' => $db2outData,
         ];
 
