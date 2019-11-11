@@ -459,4 +459,22 @@ class Helper
             return '';
         }
     }
+
+    /**
+     * @param string $output ['code'=>'735200', 'msg'=>'ok', 'data'=>[...]]
+     * @return array
+     */
+    public static function wrapReturn($output){
+        $output['data'] = isset($output['data']) ?  $output['data'] : [];
+
+        if(empty($output['data'])){
+            $output['data'] = new \stdClass();
+        } else if(!is_array($output['data'])){
+            $output['data'] = [
+                'msg' => $output['data'],
+            ];
+        }
+
+        return $output;
+    }
 }

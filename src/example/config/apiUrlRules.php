@@ -39,3 +39,4 @@ return [
     'PATCH,OPTIONS ' . $version .'/z1user/<id:\d+>/status' => $moduleName . '/z1user/status',
 
 ];
+

@@ -43,7 +43,7 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
         $input['post'] = Yii::$app->request->bodyParams;
         $validatedInput = $this->inputValidate($input);
         if (Helper::isReturning($validatedInput)) {
-            return $validatedInput;
+            return Helper::wrapReturn($validatedInput);
         } else {
             $in2dbData = $this->mappingInput2db($validatedInput);
             $completedData = $this->completeData($in2dbData);
@@ -53,7 +53,7 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
             $handledData = HandlingHelper::after($handledData);
 
             if (Helper::isReturning($handledData)) {
-                return $handledData;
+                return Helper::wrapReturn($handledData);
             }
 
             $db2outData = $this->mappingDb2output($handledData);
@@ -159,25 +159,13 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
      */
     public function completeResult($db2outData = [])
     {
-        if ( isset($db2outData['response_code']) ) {
-            $responseCode = $db2outData['response_code'];
-            unset($db2outData['response_code']);
-        } else {
-            $responseCode = 735200;
-        }
-
-        if ( isset($db2outData['response_msg']) ) {
-            $responseMsg = $db2outData['response_msg'];
-            unset($db2outData['response_msg']);
-        } else {
-            $responseMsg = ApiCodeMsg::SUCCESS_MSG;
-        }
-        
         $result = [
-            'code' => $responseCode,
-            'msg' => $responseMsg,
-            'data' => is_null($db2outData) ? new \stdClass() : $db2outData,
+            'code' => ApiCodeMsg::SUCCESS,
+            'msg' => ApiCodeMsg::SUCCESS_MSG,
+            'data' => $db2outData,
         ];
+
+        $result = Helper::wrapReturn($result);
 
         return $result;
     }
