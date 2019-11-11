@@ -47,7 +47,9 @@ class BaseApiHelper
     public static function getErrorMsg($errors)
     {
         $error = array_shift($errors);
-        return $error[0];
+        $errStr = $error[0];
+        $err = explode(':', $errStr);
+        return array_pop($err);
     }
 
     /**
@@ -666,10 +668,11 @@ class BaseApiHelper
         $errorsStr = implode(';', $errorsA);
         return [
             'code' => $code,
-            // 'msg' => Helper::getErrorMsg($errors),
-            'msg' => '输入参数验证错误',
-            // 'data' => $errors,
-            'data' => $errorsStr,
+            'msg' => self::getErrorMsg($errors),
+            'data' => [
+                'errStr' => $errorsStr,
+                'err' => $errors,
+            ],
         ];
     }
 
