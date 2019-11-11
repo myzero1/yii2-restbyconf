@@ -196,7 +196,6 @@ return [
 ### Can overwrite classes
 * myzero1\restbyconf\components\rest\Helper
 * myzero1\restbyconf\components\rest\ApiHelper
-* myzero1\restbyconf\components\rest\ApiCodeMsg
 * myzero1\restbyconf\components\rest\ApiAuthenticator
 * myzero1\restbyconf\components\rest\HandlingHelper
 
