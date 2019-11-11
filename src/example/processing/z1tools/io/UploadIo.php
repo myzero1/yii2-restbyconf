@@ -63,9 +63,9 @@ class UploadIo implements ApiIoProcessing
         $modelPost->addRule($inputFields, 'safe');
 
         $modelPost->addRule(['directory'], 'required');
-        $modelPost->addRule(['directory'], 'match', ['pattern' => '/^[\w\d\_\-\/]{1,}$/i', 'message' => '\'{attribute}\':Input parameter error']);
+        $modelPost->addRule(['directory'], 'match', ['pattern' => '/^[\w\d\_\-\/]{1,}$/i', 'message' => '\'{attribute}\':目录错误']);
         $modelPost->addRule(['extension'], 'required');
-        $modelPost->addRule(['extension'], 'match', ['pattern' => '/^[\w\,]{1,}$/i', 'message' => '\'{attribute}\':Input parameter error']);
+        $modelPost->addRule(['extension'], 'match', ['pattern' => '/^[\w\,]{1,}$/i', 'message' => '\'{attribute}\':扩展名错误']);
         $modelPost->addRule(['file'], 'required');
         $modelPost->addRule(['file'], 'safe');
 

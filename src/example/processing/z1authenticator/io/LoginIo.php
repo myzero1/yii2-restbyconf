@@ -64,11 +64,11 @@ class LoginIo implements ApiIoProcessing
         $modelPost->addRule($inputFields, 'safe');
 
         $modelPost->addRule(['type'], 'required');
-        $modelPost->addRule(['type'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid type']);
+        $modelPost->addRule(['type'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':类型错误']);
         $modelPost->addRule(['username'], 'required');
-        $modelPost->addRule(['username'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid mobile phone']);
-        $modelPost->addRule(['password'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid password']);
-        $modelPost->addRule(['captcha'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':invalid captcha']);
+        $modelPost->addRule(['username'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':用户名错误']);
+        $modelPost->addRule(['password'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':密码错误']);
+        $modelPost->addRule(['captcha'], 'match', ['pattern' => '/^.{0,32}$/i', 'message' => '\'{attribute}\':验证码错误']);
 
         $modelPost->load($input['post'], '');
 

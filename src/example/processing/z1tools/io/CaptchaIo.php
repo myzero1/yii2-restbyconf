@@ -61,7 +61,7 @@ class CaptchaIo implements ApiIoProcessing
         $modelPost->addRule($inputFields, 'safe');
 
         $modelPost->addRule(['mobile_phone'], 'required');
-        $modelPost->addRule(['mobile_phone'], 'match', ['pattern' => '/^0?(13|14|15|17|18|19)[0-9]{9}$/i', 'message' => '\'{attribute}\':invalid mobile phone']);
+        $modelPost->addRule(['mobile_phone'], 'match', ['pattern' => '/^0?(13|14|15|17|18|19)[0-9]{9}$/i', 'message' => '\'{attribute}\':电话号码错误']);
 
         $modelPost->load($input['post'], '');
 
