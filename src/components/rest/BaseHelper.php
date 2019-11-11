@@ -35,16 +35,6 @@ class BaseHelper
     }
 
     /**
-     * @param array $errors ['inputField' => 'inputValue]
-     * @return string
-     */
-    public static function getErrorMsg($errors)
-    {
-        $error = array_shift($errors);
-        return $error[0];
-    }
-
-    /**
      * @param array $input ['inputField' => 'inputValue]
      * @param array $inputFieldMap ['inputField' => 'dbField]
      * @return array ['dbField' => 'inputValue]
