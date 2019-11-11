@@ -12,7 +12,7 @@ var onValidate = function onValidate(json) {
 }
 
 var onEvent = function(node, event){
-    console.log(node);
+    // console.log(node);
     // console.log(event.type);
     if (event.type == 'blur') {
         // update the validation of tag
@@ -70,8 +70,16 @@ var onError = function(error){
 }
 
 var onClassName = function(node){
-    if(isDataLay(node.path) || isSecurityExclude(node.path) || isSecurityMember(node.path)){
-        return 'restbyconf-outputs-data';
+    if(
+        isSecurityExclude(node.path) 
+        || isSecurityMember(node.path)
+        || isController(node.path) 
+        || isActionLay(node.path) 
+        || isInputLay(node.path)
+        || isOutputLay(node.path)
+        || isDataLay(node.path)
+    ){
+        return 'restbyconf-show-contextmenu';
     }
 }
 
