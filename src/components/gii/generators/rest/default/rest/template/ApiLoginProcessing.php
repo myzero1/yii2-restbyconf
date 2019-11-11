@@ -113,8 +113,7 @@ class <?= $templateParams['className'] ?> implements ApiActionProcessing
 
         if ( is_null($model) ) {
             return [
-                'response_code' => "735461",
-                'response_msg' => '用户名或密码错误',
+                'code' => "735461",
                 'msg' => '用户名或密码错误',
             ];
         }
