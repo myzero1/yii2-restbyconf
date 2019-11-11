@@ -193,6 +193,31 @@ return [
 * you can click the `Swagger` button to use it.
 * you can click the `Markdown` button to use it.
 
+### Can overwrite classes
+* myzero1\restbyconf\components\rest\Helper
+* myzero1\restbyconf\components\rest\ApiHelper
+* myzero1\restbyconf\components\rest\ApiCodeMsg
+* myzero1\restbyconf\components\rest\ApiAuthenticator
+* myzero1\restbyconf\components\rest\HandlingHelper
+
+
+`In main.php`
+
+```php
+return [
+    ......
+    'bootstrap' => [
+        ......
+        'classMap' => function(){
+             Yii::$classMap['myzero1\restbyconf\components\rest\Helper'] = '@app/modules/v1/components/Helper.php';
+             Yii::$classMap['myzero1\restbyconf\components\rest\ApiHelper'] = 'path/to/ApiHelper.php';
+        },
+        ......
+    ],
+    ......
+];
+```
+
 ### change logs
 * Add my group
 * Carding code
