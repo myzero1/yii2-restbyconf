@@ -32,12 +32,7 @@ var adjustBackground = function() {
 }
 
 var showContextmenu = function() {
-
-    $(".jsoneditor-field[title=restbyconf-obj-controller]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    $(".jsoneditor-field[title=restbyconf-obj-action]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    $(".jsoneditor-field[title=restbyconf-obj-input]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    $(".jsoneditor-field[title=restbyconf-obj-output]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    $(".restbyconf-outputs-data").parents('tr').find('.jsoneditor-contextmenu').show();
+    $(".restbyconf-show-contextmenu").parents('tr').find('.jsoneditor-contextmenu').show();
     // (清空 object)
     $(".jsoneditor-append .jsoneditor-readonly").parents('.jsoneditor-append').find('.jsoneditor-contextmenu').show();
 }
