@@ -5,6 +5,10 @@ var adjustBackground = function() {
             $(this).css({'background':'rgba(245, 245, 245, 0.8)'});
         } else if(style.indexOf('margin-left: 48px') > -1){
             $(this).css({'background':'rgba(235, 235, 235, 0.8)'});
+            $(this).click();
+            // $(this).focus();
+            // console.log($(this).find('.jsoneditor-field'))
+            $(this).find('.jsoneditor-field').click();
         } else if(style.indexOf('margin-left: 72px') > -1){
              $(this).css({'background':'rgba(225, 225, 225, 0.8)'});
         } else if(style.indexOf('margin-left: 96px') > -1){
@@ -28,12 +32,7 @@ var adjustBackground = function() {
 }
 
 var showContextmenu = function() {
-
-    $(".jsoneditor-field[title=restbyconf-obj-controller]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    $(".jsoneditor-field[title=restbyconf-obj-action]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    $(".jsoneditor-field[title=restbyconf-obj-input]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    $(".jsoneditor-field[title=restbyconf-obj-output]").parents('.jsoneditor-expandable').find('.jsoneditor-contextmenu').show();
-    $(".restbyconf-outputs-data").parents('tr').find('.jsoneditor-contextmenu').show();
+    $(".restbyconf-show-contextmenu").parents('tr').find('.jsoneditor-contextmenu').show();
     // (清空 object)
     $(".jsoneditor-append .jsoneditor-readonly").parents('.jsoneditor-append').find('.jsoneditor-contextmenu').show();
 }
