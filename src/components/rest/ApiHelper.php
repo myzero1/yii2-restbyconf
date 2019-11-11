@@ -1012,4 +1012,21 @@ class ApiHelper
 
         return $oldCode === $code;
     }
+
+    /**
+     * @param string $mobilePhone 15828271234
+     * @param string $code '123456'
+     * @return bool
+     */
+    public static function wrapReturnData($data){
+        // is_null($db2outData) ? new \stdClass() : $db2outData,
+
+        if(empty($data)){
+            return new \stdClass();
+        } else if($is_array($data)){
+            return [
+                'msg' => $data
+            ];
+        }
+    }
 }
