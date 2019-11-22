@@ -222,3 +222,6 @@ return [
 * Carding code
 * Multiple responses
 
+### TODO
+* $modelPost->addRule(['mobile_phone'], 'required', ['message' => '\'{attribute}\':手机号不能为空']);
+
