@@ -42,7 +42,7 @@ class ApiController extends ActiveController
             'application/json' => '\yii\web\JsonParser',
             'text/json' => '\yii\web\JsonParser',
         ];
-        \Yii::$app->response->format = \Yii\web\Response::FORMAT_JSON;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
     }
 
     public function behaviors()
