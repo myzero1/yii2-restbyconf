@@ -179,11 +179,7 @@ class ApiHelper
         } else {
             $checkedSortDefault = self::checkSortInput($defaultSort);
             if ($checkedSortDefault !== false) {
-                if (in_array($checkedSortDefault['sortFiled'], $sortFiledArray)) {
-                    return self::decodeSort($checkedSortDefault);
-                } else {
-                    throw new ServerErrorHttpException('Failed to get sort for not a sort field reason.');
-                }
+                return self::decodeSort($checkedSortDefault);
             } else {
                 throw new ServerErrorHttpException('Failed to get sort for checkedSortDefault reason.');
             }
