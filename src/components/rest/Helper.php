@@ -40,8 +40,12 @@ class Helper
      */
     public static function getErrorMsg($errors)
     {
-        $error = array_shift($errors);
-        return $error[0];
+        if (is_array($errors)&&count($errors)>0) {
+            $error = array_shift($errors);
+            return $error[0];
+        }
+
+        return '';
     }
 
     /**
